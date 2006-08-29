@@ -1,0 +1,179 @@
+   ______________________________________________________________________
+
+	    - Jinzora :: Web Based Media Management System - 
+		     
+		     - Jinzora :: Free Your Media - 
+   ______________________________________________________________________
+
+
+Introduction
+
+	Jinzora is the premiere web based media management system.  It 
+	allows you to easily stream your media, both audio and video
+	from your webserver to virtualy any media player that supports
+	streaming (WMP, Winamp, Foobar, XMMS, iTunes, etc).  
+
+
+Requirements
+
+	* php 4.2.0 or later (4.3.0 or later HIGHLY recommended)
+	* MySQL 3.23.32 or later (not required but HIGHLY recommended)
+	* Apache or IIS (other webserver may work but are not supported) 
+
+
+Upgrading
+	
+	see below
+
+
+Documentation
+
+	You may view our online documentation at 
+	http://www.jinzora.com/docs.html
+	
+	...or...
+	In the files you extracted look at:
+	docs/english/index.html
+
+
+
+Installation
+
+	STANDALONE INSTALLATION
+	------------------------------------------------------------------
+	To install Jinzora follow the steps below:
+
+	1. Extract the download to you webserver, somewhere in your
+	   webserver path.
+
+	2. (in on Linux/Unix) Once extracted run "sh configure.sh" 
+	   in the directory you extracted Jinzora to (this will set
+	   the correct permissions for you - Windows users you do not
+	   need to worry about this)
+
+	3. Once extracted browse to the directory you extracted
+	   the download and access index.php in your browser - this 
+	   will take you to the Jinzora web based installer.  This 
+	   installer will guide you through the rest of the setup 
+	   and check all permissions and requirements of your system.
+
+	4. The web based installer will create the Jinzora
+	   settings files and user databases for you.  Once created
+	   you'll be able to launch Jinzora directly from the installer
+
+	5. Note on anonymous stats.  At the end of the Jinzora installer
+	   you'll be asked about submitting anonymous usage stats. These
+	   stats are truly anonymous, we do not collect any personal data
+	   of any kind.  Please see the installer for details on what we
+	   do collect.  Please consider submitting these stats to us,
+	   they are very helpful in our development of Jinzora for the
+	   future.
+
+
+	CMS INSTALLATION - PHPNuke, Postnuke, CPGNuke, MDPro 
+	(NOT MAMBO - see below)
+	------------------------------------------------------------------
+	To install Jinzora within a CMS follow the steps below:
+	
+	1. Extract the download to your webserver, making sure to place
+	   it in your "modules" directory within your CMS path.
+
+	2. Once extracted you MUST create the menu item within your CMS
+	   BEFORE you begin the web install.  This is the most common
+	   issue with CMS mode installs.
+
+	3. Once you've created the menu item in your menu block (per
+	   step 2) click on this menu block item to begin the web based
+	   installer.  YOU MUST CLICK THIS LINK!  You can NOT just hit
+	   index.php as in the standalone install.  THIS WILL NOT WORK!
+	   The url you should be hitting should look something like:
+	   /modules.php?name=jinzora (that is a PHPNuke example).
+	   If you just hit index.php the installer will work but
+	   Jinzora WILL NOT WORK after the installation.
+
+	4. Once you begin the web based installer it will guide you 
+	   through the rest of the setup and check all permissions and 
+	   requirements of your system.
+
+	5. Once the installer is complete it will create the Jinzora
+	   settings files and user databases for you.  Once created
+	   you'll be able to launch Jinzora directly from the installer
+
+	6. Note on anonymous stats.  At the end of the Jinzora installer
+	   you'll be asked about submitting anonymous usage stats. These
+	   stats are truly anonymous, we do not collect any personal data
+	   of any kind.  Please see the installer for details on what we
+	   do collect.  Please consider submitting these stats to us,
+	   they are very helpful in our development of Jinzora for the
+	   future.
+
+
+
+	CMS INSTALLATION - Mambo
+	------------------------------------------------------------------
+	To install Jinzora within Mambo follow the steps below:
+	
+	1. Extract the download to your local computer, NOT to the web
+	   server.  Yes, this is different than a standard Mambo install
+	   we hope to update this in the future.
+
+	2. Once extracted you MUST create the menu item within Mambo
+	   BEFORE you begin the web install.  This is the most common
+	   issue with CMS mode installs.  To do this follow these steps:
+
+	   - Click "Components - Install/Uninstall"
+	   - In "Package File:" click "Browse" and select the .zip package 
+	     that you downloaded
+	   - Click "Upload File & Install"
+	   - In the Mambo Administration page click on "Menu - Main Menu"
+	   - Click on "New" (at the top of the page)
+	   - Select "Component" and click "Next"
+	   - For "Name" name your link "Jinzora" or whatever you want
+	     For "Component" choose "Jinzora"
+	     Click "Save"
+	   - Now, you MUST extact the .zip or .tar.gz file that you downloaded 
+             and upload it manually to the server. All the contents should be 
+	     extracted to "components/com_jinzora". We realize this is odd, 
+             and are working to make this better but this is just how it is for 
+	     now, trust us when you get Jinzora working it will be worth it! 
+	     (just overwrite everything that is there...)
+
+	   - NOTE: At the end of install if you are using a very narrow theme, 
+		   like "SolarFlare" then Jinzora will most likely display funny. 
+		   This is due to the width of Jinzora and is NOT a bug. To make 
+		   Jinzora display better consider turning off some of the drop 
+		   down meune like the quick playlist generator by setting 
+		   $quick_drop = "false"; in your settings.php file.
+
+	   - Click the menu item for "Jinzora" (or whatever you called it) - 
+	     You'll now be taken through the Jinzora installer
+
+	3. Once the installer is complete it will create the Jinzora
+	   settings files and user databases for you.  Once created
+	   you'll be able to launch Jinzora directly from the installer
+
+	4. Note on anonymous stats.  At the end of the Jinzora installer
+	   you'll be asked about submitting anonymous usage stats. These
+	   stats are truly anonymous, we do not collect any personal data
+	   of any kind.  Please see the installer for details on what we
+	   do collect.  Please consider submitting these stats to us,
+	   they are very helpful in our development of Jinzora for the
+	   future.
+
+
+
+Upgrading from an older version of Jinzora
+
+	Upgrading Jinzora is generally a very simple process.  Currently upgrades
+	from Jinzora versions prior to 2.0 are not support.  If you are running a
+	Jinzora 2.x release to upgrade simply download the package and replace all
+	files in your current Jinzora installation with the new files.  When you reload
+	the Jinzora home page you will be taken through the Jinzora installer
+	if necessary and if possible you may simply upgrade your existing installation
+	rather than needing a full re-install.  The installer has logic built in to
+	know what it needs to do for you.  
+	
+	Incremental verision upgrades (2.3.2 to 2.3.3) do not require any intervention on your
+	part.  Simply replace the files and you should be all set.  Minor and major
+	version upgrades (2.2.x to 2.3.x or 2.2.x to 3.x when available) require
+	going back through the installer and choosing "Upgrade".

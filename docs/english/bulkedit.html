@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="../default.css" type="text/css"><body class="bodyBody">
+	<table width="100%" cellpadding="5" cellspacing="0" border="0">
+		<tr>
+			<td width="100%" class="bodyBody">
+				<strong>Bulk Editing Media</strong><br>
+				<br>
+				There are a couple of tools that can be used to bulk edit media within Jinzora.  These can be accessed from the
+				"Media Management" menu when logged in with admin privledeges (most of these are accessable on the "Tracks" page).  They are:
+				<br><br>
+				<table width="100%" cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td width="100%" class="bodyBody" valign="top">
+							<strong>Retag All Tracks</strong><br>
+							This tells Jinzora to dynamically rewrite the ID3 tags on the tracks based on the filesystem data.  It will also,
+							if present, write the album art directly to the ID3 tag (so when the track is streamed the album art can be viewed).
+							<br><br>
+							When writing the tags the filesystem data is used.  For example in "Genre" mode (or 3 directory mode) the following file
+							would be written the following way:
+							<br><br>
+							/Jazz/Miles Davis/Kind of Blue/07 - All Blues.mp3
+							<br><br>
+							Genre: Jazz<br>
+							Artist: Miles Davis<br>
+							Album: Kind of Blue<br>
+							Track Name: All Blues<br>
+							Track Number: 07<br>
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="100%" class="bodyBody" valign="top">
+							<strong>Renumber Tracks</strong><br>
+							This will tell Jinzora to use it's meta data retrival functions to attempt to renumber tracks for an album.
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="100%" class="bodyBody" valign="top">
+							<strong>Search & Replace</strong><br>
+							This will also you to edit the names of tracks and bulk remove information.  Say
+							each track has the artist name in it, and you'd like to clean it up by removing that.
+							<br><br>
+							<strong>Fix Filename Case</strong> - This will change a track name from:<br><br>
+							07 - all blues.mp3
+							<br><br>
+							to
+							<br><br>
+							07 - All Blues.mp3
+							<br><br>
+							So it will display prettier.
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="100%" class="bodyBody" valign="top">
+							<strong>Fix Filename Case</strong><br>
+							This will change a track name from:<br><br>
+							07 - all blues.mp3
+							<br><br>
+							to
+							<br><br>
+							07 - All Blues.mp3
+							<br><br>
+							So it will display prettier.
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="100%" class="bodyBody" valign="top">
+							<strong>Create Clips | Delete Clips</strong><br>
+							This allows you to bulk create "clip" tracks from all the tracks in an album.  This will create
+							a songname.clip.mp3 file using approximately 30 seconds of data starting 30 seconds into the track.
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="100%" class="bodyBody" valign="top">
+							<strong>Create LoFi Tracks | Delete LoFi Tracks</strong><br>
+							This allows you to create pre-resampled tracks (using lame) for streaming from Jinzora.
+							Using this tool you can pre-create these tracks to they do not have to be resampled on the fly.
+							<br><br><br><br>
+						</td>						
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>

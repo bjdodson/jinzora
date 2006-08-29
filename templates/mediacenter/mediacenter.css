@@ -1,0 +1,83 @@
+/* Basic text style */
+    .text1 {font: 20pt arial; color: #f2f2f2}
+
+/* body background */
+    body {background: #1a6fcc}
+
+/* generic TD style */
+    td {position: relative}    
+
+/* Medium-width button */
+    .button1 {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); BACKGROUND: #aaaaaa; WIDTH: 251px; HEIGHT: 51px; FONT-WEIGHT: bold; FONT-SIZE: 20pt; font-family: arial; padding-left: 10; color: #f2f2f2; padding-top: 9}
+    .button1_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); BACKGROUND: Orange; WIDTH: 251px; HEIGHT: 51px; FONT-WEIGHT: bold; FONT-SIZE: 20pt; font-family: arial; padding-left: 10; color: #f2f2f2; padding-top: 9}
+
+/* Item Buttons */
+	.itemButton        {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); position: relative; top: 0; left: 0; HEIGHT: 30px; FONT-WEIGHT: bold; FONT-SIZE: 20pt; font-family: "Segoe Media Center"; padding-left: 10; color: #f2f2f2; padding-top: 8}
+  .itemButton_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); position: relative; top: 0; left: 0; background: #05654a; HEIGHT: 30px; FONT-WEIGHT: bold; FONT-SIZE: 20pt; font-family: "Segoe Media Center"; padding-left: 10; color: #f2f2f2; padding-top: 8}
+
+/* Wide button */
+    .leftNavButtons {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); position: relative; top: 0; left: 0; background: #0a3976; WIDTH: 200px; HEIGHT: 30px; FONT-WEIGHT: bold; FONT-SIZE: 18pt; font-family: "Segoe Media Center"; padding-left: 10; color: #f2f2f2; padding-top: 8}
+    .leftNavButtons_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); position: relative; top: 0; left: 0; background: #05654a; WIDTH: 200px; HEIGHT: 30px; FONT-WEIGHT: bold; FONT-SIZE: 18pt; font-family: "Segoe Media Center"; padding-left: 10; color: #f2f2f2; padding-top: 8}
+
+/* Narrow Button*/
+    .button3 {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); position: relative; top: 0; left: 0; background: #aaaaaa; WIDTH: 185px; HEIGHT: 51px; FONT-WEIGHT: bold; FONT-SIZE: 20pt; font-family: arial; color: #f2f2f2;}
+    .button3_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); position: relative; top: 0; left: 0; background: orange; WIDTH: 185px; HEIGHT: 51px; FONT-WEIGHT: bold; FONT-SIZE: 20pt; font-family: arial; color: #f2f2f2;}
+
+/* input text boxes */
+    .inputbox {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 6 solid silver; width: 200; height: 45; font: bold 22pt arial; color: #222222}
+    .inputbox_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 6 solid orange; width: 200; height: 45; font: bold 22pt arial; color: #222222}
+    
+/* input text boxes associated with Media Center text entry control */
+    .inputboxWithControl {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 4 solid silver; width: 280; height: 45; font: bold 25pt arial; color: #222222; background: #f2f2f2}
+    .inputboxWithControl_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 4 solid orange; width: 280; height: 45; font: bold 25pt arial; color: #222222; background: #f2f2f2}
+
+/* text input ActiveX control */ 
+    .textControl {behavior:url(/jinzora2/templates/mediacenter/TextInput.htc);}
+    .textControlSpan {border: 6 solid #bbbbbb; overflow: hidden}
+    .textControlSpan_hilite {border: 6 solid orange; overflow: hidden}
+
+/*  arrows for page-up and page-down  */
+    .arrowUp {background-image: url(/jinzora2/templates/mediacenter/ArrowUp.gif); width: 29; height: 32; cursor: hand; filter: alpha(opacity=60)}
+    .arrowDown {background-image: url(/jinzora2/templates/mediacenter/ArrowDown.gif); width: 29; height: 32; cursor: hand; filter: alpha(opacity=60)}
+
+/* radio button*/
+    .radioBtn{behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); font-family: wingdings; font-size: 60px; color: #aaaaaa; width: 50;}
+    .radioBtn_hilite{behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); font-family: wingdings; font-size: 60px; color: orange; width: 50;}
+    .radioBtnWhiteDot{behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); font-family: wingdings; font-size: 31px; color: #f2f2f2}
+    
+/* Check Box */
+    .checkbox {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 4 solid #999999; background-color: #dddddd; WIDTH: 46; HEIGHT: 46;}
+    .checkbox_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 4 solid orange; background-color: #dddddd; WIDTH: 46; HEIGHT: 46;}
+    .checkbox_checked {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 4 solid #999999; background-color: #dddddd; WIDTH: 46; HEIGHT: 46; background-image: url(/jinzora2/templates/mediacenter/checkmark.gif)}
+    .checkbox_checked_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 4 solid orange; background-color: #dddddd; WIDTH: 46; HEIGHT: 46; background-image: url(/jinzora2/templates/mediacenter/checkmark.gif)}
+    
+/* iFrame for scrollable text content */
+    .ContentIFrame {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 6 solid #aaaaaa}
+    .ContentIFrame_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); ; border: 6 solid orange}
+
+/* HTML-style text link */
+    .textLink{behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); color: #00ccff; height: 18px}
+    .textLink_hilite{behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); color: #444444; background: orange; height: 18px}
+    
+/* Image with highlightable border */
+    .imageBox{behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 6 solid #999999;}
+    .imageBox_hilite{behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 6 solid orange;}
+    
+/*  Media Art (use this for box shots, photos, etc. */
+    .photoTD {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 6 solid #666666;}
+    .photoTD_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 6 solid orange;}
+    
+/* Checkbox */
+    .checkbox {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 4 solid #999999; background-color: #dddddd; WIDTH: 46; HEIGHT: 46;}
+    .checkbox_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 4 solid orange; background-color: #dddddd; WIDTH: 46; HEIGHT: 46;}
+    .checkbox_checked {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 4 solid #999999; background-color: #dddddd; WIDTH: 46; HEIGHT: 46; background-image: url(/jinzora2/templates/mediacenter/checkmark.gif)}
+    .checkbox_checked_hilite {behavior:url(/jinzora2/templates/mediacenter/Hilite.htc); border: 4 solid orange; background-color: #dddddd; WIDTH: 46; HEIGHT: 46; background-image: url(/jinzora2/templates/mediacenter/checkmark.gif)}
+
+/* Styles for "spinner" components. A spinner lets you scroll through a series of options using buttons marked + (Plus) and - (Minus).  */
+/* Text box for display of options */
+ .SpinnerBox {font: bold 30px arial; width: 500; height: 51; background: #eeeeee; color: #444444; padding-left: 10; padding-top: 6}
+
+/* Style for spinner Plus and Minus buttons */
+    .spinnerBtn {behavior:url(/jinzora2/templates/mediacenter/Spinner.htc); position: relative; top: 0; left: 0; background: #aaaaaa; WIDTH: 51px; HEIGHT: 51px; FONT-WEIGHT: bold; FONT-SIZE: 30pt; font-family: arial; color: #f2f2f2; text-align: center; border: none}
+    .spinnerBtn_hilite {behavior:url(/jinzora2/templates/mediacenter/Spinner.htc); position: relative; top: 0; left: 0; background: orange; WIDTH: 51px; HEIGHT: 51px; FONT-WEIGHT: bold; FONT-SIZE: 30pt; font-family: arial; color: #f2f2f2; text-align: center; border: none}
+

@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="../default.css" type="text/css"><body class="bodyBody">
+	<table width="100%" cellpadding="5" cellspacing="0" border="0">
+		<tr>
+			<td width="100%" class="bodyBody">
+				<strong>Request Counting</strong>
+				<br><br>
+				One of the Groupware features of Jinzora is request counting.  This allows Jinzora
+				to track how many times a track has been requested from Jinzora.
+				<br><br>
+				<table width="100%" cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td width="30%" valign="top" class="bodyBody">
+							<strong>Enabling</strong>
+						</td>
+						<td width="70%" class="bodyBody">
+							There are a few things you'll need to do to enable request counting.  You can choose the
+							"workgroup" install type during installation, which will set the proper options, or make sure 
+							that:<br><br>
+							$track_plays = "true";
+							<br><br>
+							In your settings.php file.
+							<br><br>
+							You'll also need to make sure that you've created the "data" directory (under the 
+							root directory of Jinzora) and that the webserver user has write access to this directory.
+							This directory stores all the data files that are needed for discussions.
+							<br><br>
+							You can also have Jinzora display the top 5 requested tracks on the home page by setting this
+							in settings.php:
+							<br><br>
+							$num_most_played = "5";
+							<br><br>
+							That would tell Jinzora to display the top 5 most requested tracks on the home page
+							<br><br>
+						</td>
+					</tr>
+					<tr>
+						<td width="30%" valign="top" class="bodyBody">
+							<strong>Using<br>Counting</strong>
+						</td>
+						<td width="70%" class="bodyBody">
+							Using request counting is simple, Jinzora does it for you!
+							<br><br>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>

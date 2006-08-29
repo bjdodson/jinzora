@@ -1,0 +1,15 @@
+<PUBLIC:ATTACH EVENT="onmouseover" ONEVENT="mouseOver(event.srcElement)" />
+<PUBLIC:ATTACH EVENT="onfocus" ONEVENT="hilite(event.srcElement)" />
+<PUBLIC:ATTACH EVENT="onblur"  ONEVENT="restore(event.srcElement)" />
+<PUBLIC:ATTACH EVENT="onclick"  ONEVENT="doClick(window.event.srcElement)" />
+
+<script>
+function doClick(item)
+{
+    // this function is necessary to update the oCurFocus variable, in case the mouseover fails to do that
+    // then it calls the doSelect function
+    oCurFocus = item
+    doSelect()
+}
+</script>
+<script src="Hilite.js" type="text/javascript"></script>

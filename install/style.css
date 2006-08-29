@@ -1,0 +1,414 @@
+/*
+ * $Id$
+ *
+ * Gallery - a web based photo album viewer and editor
+ * Copyright (C) 2000-2004 Bharat Mediratta
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+/*      re-define       */
+
+textarea {
+	font-size: 10px	;
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+select, input, radio {
+	font-size: 10px	;
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+.jz_radio {
+	font-size: 10px	;
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+form { 
+	display:inline; 
+}
+
+.td {
+	font-size: 11px;
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+.submit {
+	font-weight: bold;
+	color: red;
+	font-size: 12;
+    background-color: #eee;
+    border: 1px solid #333333;
+    margin: 8px 0 8px -4px;
+}
+
+body {
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+	font-size: 62.5%;
+	color: #333;
+	background-color: #eee;
+	text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Gill Sans", Verdana, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+}
+
+p {
+        font-size: 10px;
+        line-height: 1.4em;
+        margin: 1.0em 0;
+}
+
+li {
+        font-size: 10px;
+}
+
+td {
+	font-size: small;
+}
+
+tt {
+        font-family: "Courier New", Courier, Monaco, monospaced;
+}
+
+a {
+	text-decoration: none;
+}
+a:link, a:visited {
+        font-weight: bold;
+	color: #ae0000;
+}
+a:hover {
+	color: #fd6704;
+}
+
+/*      layout  */
+
+#box {
+	width: 720px;
+        text-align: left;
+	border: 1px solid #999;
+	background-color: #fff;
+        margin: 0 auto;
+        margin-top: 0;
+}
+
+#box:after {
+	content: "."; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+}
+
+/* Hides from IE-mac \*/
+* html #box { height: 1%; }
+/* End hide from IE-mac */
+
+#top {
+	float: left;
+	width: 100%;
+        border-bottom: 1px solid #ddd;
+}
+
+#header {
+	float: left;
+}
+
+#header img { margin-left: 18px; }
+
+#navbar {
+	font-family: Verdana, "Lucida Grande", Arial, sans-serif;
+        width: 160px;
+        float: left;
+	clear: both;
+	background-color: #D1E0EE;
+	border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 16px 0;
+}
+
+#help {	
+	float: right;
+	background-color: rgb(209,224,238);
+	vertical-align: bottom;
+	border: 1px solid #ddd;
+	padding: 16px;
+}
+
+#navbar h2 {
+        font-size: 1.4em;
+        margin-left: 20px;
+        margin-bottom: 0.5em;
+}
+
+#navbar ol {
+        list-style-type: none;
+        margin: 0;
+        padding: 0 0 0 16px;
+}
+
+#navbar ul {
+        list-style-type: none;
+        margin: 16px 0 0 0;
+        padding: 0 0 0 16px;
+}
+
+#navbar li {
+        display: block;
+        border-bottom: 1px solid white;
+        margin: 0 0 0 4px;
+        padding: 8px 0px;
+}
+
+.helpbox2:link {
+	 font-weight: bold;
+       color: #eee; 
+       background: #ae0000; 
+       border: 1px solid #ae0000;
+       margin: 0 3px 0 0;
+       padding: 1px 4px;
+       font-size: 9px; 
+
+}
+
+#navbar .helpBox {
+        font-weight: bold;
+        color: #eee; 
+        background: #ae0000; 
+        border: 1px solid #ae0000;
+        margin: 0 4px 0 0;
+        padding: 2px 4px; 
+}
+
+#main {
+        width: 518px;
+        float: left;
+        padding: 16px;
+        padding-right: 24px;
+}
+
+#main h1 { font-size: 1.4em; }
+#main h2 { font-size: 1.2em; margin: 0 0 0.8em 0; }
+#main h3 { font-size: 1.2em; }
+
+#bottom {
+        clear: both;
+        border-top: 1px solid #ddd;
+        padding: 8px 24px;
+}
+
+#footer {
+	width: 672px;
+        font-size: 0.9em;
+        text-align: left;
+        margin: 0 auto;
+        margin-top: 0;
+        padding: 8px 24px;
+}
+
+/*      classes */
+
+.bold {
+	font-weight: bold;
+	font-size: 1.4em;
+}
+
+.error {
+        font-weight: bold;
+        color: #ae0000;
+}
+
+.warning {
+        font-weight: bold;
+        color: #fd6704;
+}
+
+.success {
+        font-size: 1.2em;
+	font-weight: 900;
+        color: #00ae00;
+        margin-right: -0.15em;
+}
+
+.go {
+	font-weight: bold;
+	font-size: 1.2em;
+	background-color: #eee;
+	border: 1px solid #ddd;
+	margin: 8px 0 8px -4px;
+	padding: 4px;
+	text-align: right;
+}
+
+.go:after {
+	content: "."; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+}
+
+/* Hides from IE-mac \*/
+* html .go { height: 1%; }
+/* End hide from IE-mac */
+
+.goToNext { float: left; text-align: left; }
+
+.goToNextL {
+        float: left;
+        margin-left: 3.0em;
+ }
+
+.statusTable {
+        width: 100%;
+        margin: 0 0 0 -6px;
+}
+
+.statusTable h4 {
+        font-size: 0.9em;
+}
+
+.statusLine { font-size: 0.8em; }
+
+.small {
+	font-size: 69%;
+}
+
+.adminForm {
+}
+
+.adminForm tr td {
+        font-weight: bold;
+        text-align: right;
+        padding-right: 8px;
+}
+
+.adminForm input {
+        font-size: 0.9em;
+        background-color: #eee;
+        border: 1px solid #ddd;
+        padding: 2px 4px;
+}
+
+.adminForm select {
+	font-size: 0.9em;
+	background-color: #eee;
+	border: 1px solid #ddd;
+	padding: 0;
+}
+
+.navitem {
+	margin: 0;
+	padding: 0;
+	margin-left: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.navitem_sel {
+	margin: 0;
+	padding: 0;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: #EEEEEE;
+}
+
+.nav_num {
+	color: #555;
+	font-weight: 800;
+	margin: 0 0 0 3px;
+}
+
+.nav_arrow {
+	border-bottom: 1px solid #fff;
+	margin: 0px;
+	padding: 2px;
+	font-size: x-small;
+	float: left;
+}
+
+.nav_text {
+	margin: 0px;
+	padding: 2px;
+}
+
+.stack_trace { 
+        background-color: #eee;
+	border: 1px solid #999;
+	margin: 15px 15px 0px 15px;
+	padding: 5px 5px 5px 5px;
+}
+
+.debug { 
+        background-color: #eee;
+	border: 1px solid #999;
+	margin: 15px 15px 0px 15px;
+	padding: 5px 5px 5px 5px;
+}
+
+.debug pre {
+        font-size: 1.1em;
+        line-height: 1.4em;
+        margin: 1.0em 0;
+}
+
+.example { 
+        background-color: #eee;
+	border: 1px solid #999;
+	margin: 15px 15px 0px 15px;
+	padding: 5px 5px 5px 5px;
+}
+
+.example pre {
+        font-size: 1.4em;
+        line-height: 1.4em;
+        margin: 1.0em 0;
+}
+
+.modules td {
+        font-size: 1.1em;
+        line-height: 1.4em;
+        margin: 1.0em 0;
+}
+
+.systemChecks table {
+	width: 100%;
+}
+
+.systemChecks table tr td {
+	line-height: 1.4em;
+}
+
+.systemChecks table tr td.notice {
+	margin-left: 10px;
+	border: 1px solid #999;
+	padding: 5px 5px 5px 5px;
+}
+
+.showHideToggle { 
+	padding-left: .3em; 
+	padding-right: 0.3em;
+	border: solid #a6caf0;
+	border-width: 1px;
+	background: #eee
+}
+
+.manifestListing { 
+  list-style-type: none;
+}

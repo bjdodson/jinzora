@@ -1,0 +1,24 @@
+playlists.php:
+	function echoPlaylist($content, $fileExt = "m3u", $redirect = false)
+	function generateRandom($random_play_type, $random_play_genre, $random_play_number, $resample = false)
+	
+	class jzPlaylist
+		function jzPlaylist($mylist = array(), $myname = false) 
+		function getName() 
+		function getType()
+		function rename($newname) 
+		function getID() 
+		function length() 
+		function createPlaylist($purpose = "stream", $intro = true) 
+		function getAt($pos) 
+		function getList() 
+		function move($pos,$new_pos) 
+		function flatten($pos = false, $degree = -1) 
+		function shuffle() 
+		function add($element,$pos=false) 
+		function remove($pos)
+		function filter($type = "audio")
+		function truncate($size)
+		function generate($random_play_type, $random_play_genre, $random_play_number, $resample = false)
+		function stream($fileExt = "m3u", $redirect = false)
+		

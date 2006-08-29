@@ -1,0 +1,133 @@
+<link rel="stylesheet" href="../default.css" type="text/css"><body class="bodyBody">
+	<table width="100%" cellpadding="5" cellspacing="0" border="0">
+		<tr>
+			<td width="100%" class="bodyBody">
+				<strong>PHPNuke Installation</strong><br>
+				<br>
+				Installing Jinzora in standalone mode is by far the easiest installation.  We recommend
+				that even if you're going to use Jinzora integrated into a CMS, that you start with standalone
+				mode (although the integrated modes should work perfectly fine). 
+				<br><br>
+				...so if you're feeling brave continue on below!
+				<br><br>
+				<table width="100%" cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td width="40%" class="bodyBody" valign="top">
+							<li><strong>Download</strong></li>
+						</td>
+						<td width="60%" class="bodyBody">
+							Seems pretty simple, but it's worth stating.  First you've got to download Jinzora.  
+							You can get Jinzora from the following<br><br>
+							<a href="http://www.jinzora.org/modules.php?op=modload&name=Downloads&file=index" target="_blank">Jinzora Downloads Page</a>
+							<br><br>
+							We suggest that you create a "jinzora" directory to save your download to so you can extract it next
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="40%" class="bodyBody" valign="top">
+							<li><strong>Extracting</strong></li>
+						</td>
+						<td width="60%" class="bodyBody">
+							Once you've got Jinzora downloaded you'll need to extract the download to your web server.
+							<br><br>
+							<strong>Windows:</strong> On Windows we recommend using <a href="http://www.winzip.com" target="_blank">Winzip</a> to extract the 
+							downloaded .zip file (assuming that's the file you downloaded).
+							<br><br>
+							<strong>*NIX:</strong>  On *NIX you'll need to do a: tar -zxvf jinzora-X.X.tar.gz (where X.X is the version number)
+							to extract Jinzora to the current directory (note: Jinzora will create a subdirectory called "jinzora")
+							<br><br>
+							<strong>NOTE:</strong> This directory MUST be located within the /modules directory of your PHPNuke installation							
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="40%" class="bodyBody" valign="top">
+							<li><strong>Preparing</strong></li>
+						</td>
+						<td width="60%" class="bodyBody">
+							<strong>Windows Users:</strong> You MUST make sure that the Jinzora directory from above is 
+							located with in your webserver's root directory (c:\inetpub\www by default).  Virtual directories are
+							NOT currently supported (support is planned for the future).  You can have your media on a different drive
+							IF and ONLY IF you are using NTFS (see <a href="symlinking.html" target="Body">symlinking</a> in Using Jinzora)
+							<br>
+							You also need to make sure that the webserver has at least read access to the directory you've extracted
+							Jinzora too (which it should unless you've changed things...)
+							<br><br>
+							<strong>*NIX Users:</strong> To make installing Jinzora on *NIX easier (and for those that have SSH access) 
+							we've provided a script that will setup everything for Jinzora's installation.  Please simply run:<br><br>
+							sh configure.sh
+							<br><br>
+							Inside the Jinzora directory.  This will create the necessary files and setup the proper permissions so the
+							web based portion of the installation can complete (if you don't have SSH access don't worry, see <a href="ftp-only.html" target="Body">FTP Only</a>
+							installation for assistance)
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="40%" class="bodyBody" valign="top">
+							<li><strong>GD Libraries</strong></li>
+						</td>
+						<td width="60%" class="bodyBody">
+							To take advantage of the image resizing functions in Jinzora you'll need the <a href="http://www.boutell.com/gd/" target="_blank">Boutell.com GD image libraries</a>.
+							To install these (these are ROUGH guidelines)
+							<br><br>
+							<strong>Windows Users:</strong> 
+							<br>
+							1. Download the GD Library <a href="http://www.jinzora.org/modules.php?op=modload&name=Downloads&file=index&req=viewdownload&cid=4" target="_blank">from us</a> (or get it on the net...)<br><br>
+							2. Unzip it to the exact same directory where PHP is installed (c:\php)<br><br>
+							3. Edit php.ini (usually in c:\winnt or c:\windows) and edit the following line:<br>
+							   extension=php_gd2.dll (REMOVE the ; at the beginning of the line)
+							<br><br>
+							<strong>*NIX Users:</strong> This can be a bit more complicated on *NIX, so we recommend you view the installation guide
+							located at <a href="http://www.boutell.com/gd/manual2.0.15.html" target="_blank">Boutell.com</a> for assistance
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="40%" class="bodyBody" valign="top">
+							<li><strong>PHPNuke Links</strong></li>
+						</td>
+						<td width="60%" class="bodyBody">
+							Ok, now you'll need to create the links in your PHPNuke menu block so you can access Jinzora.  You don't have to do this,
+							but most users will want to.  To add the link to the standard menu block:<br><br>
+							In the PHPNuke Administration Screen<br>
+							Go to "Administration"<br>
+							Click on "Blocks"<br>
+							Click on "View Blocks"<br>
+							Click on "Edit" for the "Main Menu"<br>
+							Add the following:<br>
+							&nbsp;&nbsp;&nbsp;Title: "Jinzora"<br>
+							&nbsp;&nbsp;&nbsp;(or whatever you want to call it)<br><br>
+							&nbsp;&nbsp;&nbsp;URL: "[jinzora]"<br>
+							&nbsp;&nbsp;&nbsp;(or the name of the Jinzora directory)<br><br>
+							&nbsp;&nbsp;&nbsp;Description: "Jinzora Music"<br>
+							(&nbsp;&nbsp;&nbsp;or whatever you want)<br>
+							<br><br>
+							Click "Commit Changes"
+							<br><br>
+							That will add the item to your menu in PHPNuke
+							<br><br>
+							Click on your newly created link (and continue below)
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="40%" class="bodyBody" valign="top">
+							<li><strong>Web Installer</strong></li>
+						</td>
+						<td width="60%" class="bodyBody">
+							Now you'll be taken through the web based installer.  The web based installer is fully documented and should
+							describe each option that you'll have along the way.
+							<br><br>At the very end the installer will create two files for you. The files settings.php and users.php will be
+							generated, and if possible, be written to the server for you.  If the installer can't write these files you'll
+							be able to download them manually.  You'll need to upload these 2 files to the root directory of the Jinzora
+							installation.  Once you've uploaded these files you'll be able to go to the index page for Jinzora.
+							<br><br><br><br>
+						</td>						
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>

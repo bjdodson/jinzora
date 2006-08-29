@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="../default.css" type="text/css"><body class="bodyBody">
+	<table width="100%" cellpadding="5" cellspacing="0" border="0">
+		<tr>
+			<td width="100%" class="bodyBody">
+				<strong>Jukebox Install</strong>
+				<br><br>
+				You can use Jinzora's Jukebox mode to play media on the Jinzora server rather than
+				stream it to another computer.  This allows you to put a computer with your home stereo
+				and control meida playback to it using Jinzora.<br>
+				<br>
+				The currently supported Jukebox interfaces are:<br>
+				<li>MPD (Music Player Daemon) on *NIX platforms</li>
+				<li>Winamp (with the httpQ plugin) on Windows platforms</li>
+				<li>SlimServer by <a href="http://www.slimdevices.com" target="_blank">SlimDevices</a> - a hardware device</li>
+				<li>The Turtle Beach Audiotron - a hardware device</li>
+				<br>
+				It is assumed that the jukebox interface you are planning on using is already working before proceeding.
+				Please ensure that either MPD, Winamp (with httpQ), SlimServer, or your Audiotron can play media just fine before
+				using the guide below.
+				<br><br>
+				<strong>Setting up Jukebox Mode</strong><br>
+				<br>
+				<li>Make sure Jinzora is up and running fully before beginning</li><br>
+				<li>Edit the Jinzora settings.php file and set $jukebox = "true";</li><br>
+				<li>Refresh your Jinzora interface.  You should now have a "Jukebox bar".  You'll now
+				need to edit settings.php in the Jinzora "jukebox" directory (not the root one).<br><br>
+				<li>This file is documented internally.  Please copy the section you plan on using into the
+				section above.  Ensure that all the settings you use here match the settings for your player.<br><br>
+				<br>
+				That should do it.  Refresh Jinzora and play some media, Jinzora should now be controlling your media
+				player of choice and your Jukebox should be complete.
+				
+				
+				
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>

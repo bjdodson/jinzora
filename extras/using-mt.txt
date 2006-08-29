@@ -1,0 +1,74 @@
+******************************************************
+*                                                    *
+* 	   Jinzora Add-on for Movable Type           *
+*                                                    *
+******************************************************
+
+Initial Words
+****************************
+I, Ross Carlson (ross@jasbone.com), the author of this 
+Add-on know very little about Movable Type outside of 
+using it for my personal blog. If I've done something 
+stupid please just let me know and I'll be happy to 
+make it better.
+
+
+Support
+****************************
+This add on is not supported officially in any way.  However
+you are welcome to post in the Jinzora forums at
+http://www.jinzora.org 
+and I'll do my best to help out.  Please do not email
+me with issues related to this, rather post in our
+forums.
+
+
+Example
+****************************
+http://www.jasbone.com/blog
+
+
+Prerequisites
+****************************
+- A fully working installation of Jinzora 1.1PR2 or higher
+- A general knowledge of Movable Type and Jinzora
+- The ability to edit Movable Type templates
+- Knowledge about Jinzora, namely the username you use to 
+  log into Jinzora
+
+
+Configuring the MT Add-on
+****************************
+- Edit one of your templates and add the following code.
+  You'll add this code where you want the Jinzora
+  Add-on to display
+<?php
+   $user = "Ross";
+   $numItems = "5";
+   $img_width = "125";
+   $resample = "";
+   $allow_plays = "true";
+   $truncate = "25";
+
+   include( "http://www.jasbone.com/dev/jinzora/extras/mt.php?user=". $user. "&numItems=". $numItems. "&img_width=". $img_width. "&resample=". $resample. "&allow_plays=". $allow_plays. "&truncate=". $truncate);
+
+?>
+where
+	$user = your jinzora login username
+	$numItems = the number of pervious items you want displayed
+	$img_width = the width you'd like album art resized to
+	$allow_plays = Can the user click on the items to generate playlists ("true" or "false")
+	$truncate = The maximum length of item names to be displayed
+	include = The FULL path to where Jinzora is installed (you can get this from your admin)
+
+- You now MUST change your main template (index.html) to a PHP
+  template by renaming it to index.php (you'll also want to delete
+  the old index.html file or modify it to point at your new index.php)
+
+- If you put the above code in a sidebar or other file that is
+  included in by your index file you must also rename it to .php
+
+- Rebuild your site
+
+- That should do it!!!
+

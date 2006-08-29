@@ -1,0 +1,300 @@
+
+/* This affects just about everything... */
+body {
+	background:#FFFFFF;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	font-family: Verdana;
+	font-size: 12px;
+	color: #505366;
+}
+
+/* This is for The forms */
+form { 
+	display:inline;
+/* This is for The link color */
+a {
+	text-decoration: none;
+	font-size: 10px;
+}
+a:link { 
+	text-decoration: none;
+	color: black;
+}
+a:visited { 
+	color: black;
+}
+a:hover {
+	color: black;
+	text-decoration: underline;
+}
+}
+
+/* This is for The link color */
+a {
+
+	font-size: 10px;
+}
+a:link { 
+	color: black;
+}
+a:visited { 
+	color: black;
+}
+a:hover {
+	color: black;
+}
+
+.leftNavBody {
+	background: #E5E9FF;
+	font-family: Verdana;
+	font-size: 10px;
+	color: black;
+	text-decoration: none;
+}
+
+.topNavBody {
+	background: #C3C6D9;
+	font-family: Verdana;
+	font-size: 10px;
+	color: black;
+}
+.bodyBody {
+	font-family: Verdana;
+	font-size: 10px;
+	color: black;
+}
+
+
+
+
+
+
+
+
+/* This is The style for all checkboxes */
+.jz_checkbox {
+	border: 1px solid black;
+	background: #BFBFBF;
+	color: black;
+}
+/* This is The style for all select boxes */
+.jz_select {
+	border: 1px solid #828282;
+	background: #BFBFBF;
+	color: black;
+	font-size: 11px;
+}
+/* This is for the number drop down in the quick generate random */
+.jz_select_sm1 {
+	border: 1px solid #828282;
+	background: #BFBFBF;
+	color: black;
+	font-size: 11px;
+	width: 40px;
+}
+/* This is for the type drop down in the quick generate random */
+.jz_select_sm2 {
+	border: 1px solid #828282;
+	background: #BFBFBF;
+	color: black;
+	font-size: 11px;
+	width: 70px;
+}
+/* This is The style for all submit buttons */
+.jz_submit {
+	border: 1px solid black;
+	background: #BFBFBF;
+	color: black;
+	font-size: 11px;
+}
+/* This is The style for all input boxes */
+.jz_input {
+	font-family: "Verdana";
+	color: black;
+	background-color: #BFBFBF;
+	font-size: 11px;
+}
+
+
+
+
+
+
+
+/* This The The style for The main table in The header */
+.jz_header_table {
+	border-collapse: collapse;
+}
+/* This is The style for The header rows */
+.jz_header_table_tr {
+}
+
+.jz_header_table_outer {
+	font-size: 16px;
+	color: #000000;
+	background-color: #FECC00;
+	border: 1px solid black;
+	padding:10px;
+	margin-top:10px;
+}
+
+/* This is The style for The header columns */
+.jz_header_table_td {
+	color: #000000;
+	font-size: 11px;
+}
+/* This is The style of The links in The header */
+.jz_header_table_href:link {
+
+}
+/* This is the style for the text of the Genre/Artist/Album in the top left of the header */
+.jz_headerTitle {
+	font-size: 14px;
+	font-weight: bold;
+}
+/* This is the main table in the footer */
+.jz_footer_table {
+	text-decoration: none;
+	font-size: 11px;
+	color: #000000;
+	background-color: #FECC00;
+	border: 1px solid black;
+}
+.jz_footer_table_td {
+}
+
+
+
+
+
+
+
+/* THese are the alternating row colors */
+.jz_row1 { 
+	background-color:#E5E9FF;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+.jz_row2 { 
+	background-color:#C3C6D9; 
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+
+
+
+
+
+
+
+/* This is The main table style for The colum style pages (like Genre or Artist) */
+.jz_col_table_main {
+	font-size: 12px;
+	color: #000000;
+}
+/* This is the inter tables where the colums are actually displayed */
+.jz_col_table {
+	height: 25px;
+	border-right: 1px dotted #666666;
+}
+/* This is The table rows in The main colum style pages (like Genre or Artist) */
+.jz_col_table_tr {
+	font-size: 12px;
+	color: #000000;
+}
+/* This is The table details in The main colum style pages (like Genre or Artist) */
+.jz_col_table_td {
+
+}
+/* This is The links in The main colum style pages (like Genre or Artist) */
+.jz_col_table_href {
+
+}
+/* This is The main table style when viewing The artists page (one above The album) */
+.jz_artist_table {
+	font-size: 12px;
+	color: #000000;
+}
+/* This is The row style when viewing The artists page (one above The album) */
+.jz_artist_table_tr {
+
+}
+/* This is The table detail when viewing The artists page (one above The album) */
+.jz_artist_table_td {
+	font-size: 12px;
+	color: #000000;
+}
+/* This is The links in The main colum style pages (like Genre or Artist) */
+.jz_artist_table_href {
+
+}
+/* This is for The main table That holds The album covers */
+.jz_album_cover_table {
+}
+/* This is The rows in The table That holds The album covers */
+.jz_album_cover_table_tr {
+
+}
+/* This is The columns in The album cover table */
+.jz_album_cover_table_td {
+
+}
+/* This is The links on The names of The albums in The album cover table */
+.jz_album_cover_table_href {
+	font-size: 11px;
+	line-height: 150%;
+}
+
+
+
+
+
+
+
+/* This is The style for The table That holds all The tracks */
+.jz_track_table {
+	font-size: 12px;
+	color: black;
+	border-collapse: collapse;
+}
+/* This is The row for The table That holds all The tracks */
+.jz_track_table_tr {
+
+}
+/* This is The colum for The table That holds all The tracks */
+.jz_track_table_td {
+
+}
+/* This is The link for The items above The tracks */
+.jz_track_table_href {
+
+}
+/* These are The colums where The actual tracks are displayed */
+.jz_track_table_songs_td {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	color: black;
+}
+/* This is for The actually links on The tracks Themselves */
+a.jz_track_table_songs_href:link {
+	color: #3C3E4D;
+}
+a.jz_track_table_songs_href:visited {
+	color: #3C3E4D;
+}
+a.jz_track_table_songs_href:hover {
+	color: black;
+}
+
+.jz_track_album_table_td {
+	font-size: 12px;
+	color: black;
+	border-collapse: collapse;
+}
+
+/* This is the style around the ablum covers themselves */
+.jz_album_cover_picture {
+	border: 1px solid black;
+ }

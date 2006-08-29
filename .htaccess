@@ -1,0 +1,9 @@
+<filesmatch "\.php$">
+allow from all
+</filesmatch>
+
+#Uncomment the below to enable podcasting
+#Mod rewrite must be enabled!!!
+
+#RewriteEngine on
+#RewriteRule ^podcast\.rss podcast.php

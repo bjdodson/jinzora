@@ -1,0 +1,11 @@
+select distinct
+	jz_artists.Name, 
+	jz_genres.Name
+from 
+	jz_artists, 
+	jz_genres, 	
+	jz_genre_artist 	
+where 
+	jz_artists.ID = jz_genre_artist.ArtistID
+and
+	jz_genre_artist.GenreID = jz_genres.ID

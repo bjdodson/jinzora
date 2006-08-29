@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="../default.css" type="text/css"><body class="bodyBody">
+	<table width="100%" cellpadding="5" cellspacing="0" border="0">
+		<tr>
+			<td width="100%" class="bodyBody">
+				<strong>Album Art</strong>
+				<br><br>
+				One of the more powerful features of Jinzora is it's ability to not only display
+				but to help you obtain album art for your media.
+				<br><br>
+				<table width="100%" cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td width="1%" valign="top" class="bodyBody">
+							<nobr><strong>Displaying</strong> &nbsp; &nbsp; </nobr>
+						</td>
+						<td width="99%" class="bodyBody">
+							Jinzora can display alubm art for all the albums in your collection.
+							There are two ways in which Jinzora can read your existing art:
+							<br>
+							<ul>
+							<li>Filesystem based: Jinzora will read .jpg, .gif, or .png files
+							from your filesystem when located in an "album" folder.  When Jinzora
+							sees an image file in the directory with media it will use that as
+							the image for that album</li><br>
+							<li>ID3 Tags: </li>Jinzora can also read images that are embedded within
+							the ID3 tags of your files.  Jinzora will use this method in the tag data
+							importer, and as a fall back method when using the filesystem importer
+							</ul>
+							<br><br>
+						</td>
+					</tr>
+					<tr>
+						<td width="1%" valign="top" class="bodyBody">
+							<nobr><strong>Obtaining Art</strong> &nbsp; &nbsp; </nobr>
+						</td>
+						<td width="99%" class="bodyBody">
+							Jinzora also has several tools that are included to help you obtain art for your
+							collection.
+							<br><br>
+							<table width="100%" cellpadding="0" cellspacing="0" border="0">
+								<tr>
+									<td width="1%" valign="top" class="bodyBody">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody">
+										<strong>Specifing per album</strong>
+										<br>
+										When you are viewing an album that does not have art you can click the link
+										"Search for Album Art" in the top left hand corner of Jinzora.<br><br>
+										<strong>NOTE:</strong> You must be logged in with Admin level priveldges to see
+										this link.
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" valign="top" class="bodyBody">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody">
+										<strong>Auto Searching</strong>
+										<br>
+										If you enable it ($auto_search_art = "true"; in settings.php) Jinzora will automatically
+										search for album art for albums when you view an artist.  Jinzora will download the first 
+										match it finds for a particular album.  You can easily click the "Change Art" link below
+										the album (or on the Track page) to select a different album cover for that album
+										<br><br>
+										NOTE: When Jinzora can not find a match on art it will create a template image with the
+										name of the album dynamically generated on the image for you.
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" valign="top" class="bodyBody">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody">
+										<strong>Using the Admin Tool</strong>
+										<br>
+										If you wish, you can use the "Search for missing album art" tool on the Tools page in Jinzora
+										to go through each album in your collection, one by one.  While this can be time consuming on
+										a large collection, for smaller ones it can let you choose each album cover you want, one by one
+										in a relatively quickly fashion
+										<br><br>
+										NOTE: When Jinzora can not find a match on art it will create a template image with the
+										name of the album dynamically generated on the image for you.
+										<br><br>
+									</td>
+								</tr>
+							</table>
+							<br><br>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>

@@ -1,0 +1,315 @@
+<link rel="stylesheet" href="../default.css" type="text/css">
+<script type="text/javascript">
+	<!--//
+	function showHideCon(id,ln) {
+		var bSB = false;
+		var oContent = document.getElementById(id+"Content");
+		var oDisplay = document.getElementById(name+"Display");
+		
+		if (!oContent) return;
+		if (ln != "yes" && !oDisplay) return;
+		
+		bOn = (oContent.style.display.toLowerCase() == "none");
+		
+		if (bOn == false) {
+			oContent.style.display = "none";
+		} else {
+			oContent.style.display = "";
+		}
+	}
+	//-->
+</script>
+<table width="100%" cellpadding="0" cellspacing="3" border="0" class="leftNavBody">
+	<tr>
+		<td width="100%" class="leftNavBody">
+			<nobr>
+				<form action="search.php" method="post" target="Body">
+				<input name="searchtext" type="text" value="Search" class="jz_input" style="width:110px;"> <input type="submit" name="search" value="Go" class="jz_submit">
+				</form>
+			</nobr>
+		</td>
+	</tr>
+	<tr>
+		<td width="100%" class="leftNavBody">
+			<img src="../images/home.gif" border="0"> <a href="body.html" target="Body">Home</a><br>
+			<img src="../images/getsupport.gif" border="0"> Get Support<br>
+			<img src="../images/email.gif" border="0"> <a href="premiumsupport.html" target="Body">Premium Support</a><br>
+			<img src="../images/forums.gif" border="0"> <a href="forums.html" target="Body">Support Forums</a><br><br>
+			<img src="../images/book.gif" border="0"> Knowledge Base
+		</td>
+	</tr>
+	<tr>
+		<td width="100%" class="leftNavBody">
+			<a href="#" onclick="showHideCon('requirements','yes');"><img src="../images/plus.gif" border="0"> Requirements</a>
+			<div id=requirementsContent style="display: none;">
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+					<tr>
+						<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+						<td width="100%" class="leftNavBody">
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="unix-req.html" target="Body">*NIX Users</a><br>
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="windows-req.html" target="Body">Windows Users</a><br>
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="known-working.html" target="Body">Working Configs</a><br>
+						</td>
+					</tr>
+				</table>			
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td width="100%" class="leftNavBody">
+			
+			<a href="#" onclick="showHideCon('installing','yes');"><img src="../images/plus.gif" border="0"> Installing Jinzora</a>
+			<div id=installingContent style="display: none;">
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+					<tr>
+						<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+						<td width="100%" class="leftNavBody">
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="standalone.html" target="Body">Standalone</a><br>
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="postnuke.html" target="Body">All Nuke CMSes</a><br>
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="mambo.html" target="Body">Mambo</a><br>
+							<!--&nbsp; <img src="../images/page.gif" border="0"> <a href="ftponly.html" target="Body">FTP Only</a><br>-->
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="jukebox.html" target="Body">Jukebox Mode</a><br>
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="config-system.html" target="Body">Configuring Jinzora</a><br>
+						</td>
+					</tr>
+				</table>			
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td width="100%" class="leftNavBody">
+			
+			<a href="#" onclick="showHideCon('upgrading','yes');"><img src="../images/plus.gif" border="0"> Upgrading</a>
+			<div id=upgradingContent style="display: none;">
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+					<tr>
+						<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+						<td width="100%" class="leftNavBody">
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="unix-upgrade.html" target="Body">*NIX</a><br>
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="windows-upgrade.html" target="Body">Windows</a><br>
+						</td>
+					</tr>
+				</table>			
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td width="100%" class="leftNavBody">
+			
+			<a href="#" onclick="showHideCon('using','yes');"><img src="../images/plus.gif" border="0"> Using Jinzora</a>
+			<div id=usingContent style="display: none;">
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+					<tr>
+						<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+						<td width="100%" class="leftNavBody">
+							
+							<a href="#" onclick="showHideCon('displayIssues','yes');"><img src="../images/plus.gif" border="0"> Display Items</a>
+							<div id=displayIssuesContent style="display: none;">
+								<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+									<tr>
+										<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+										<td width="100%" class="leftNavBody">
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="album-art.html" target="Body">Album Art</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="desc-files.html" target="Body">Description Files</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="lyrics.html" target="Body">Lyrics</a><br>											
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="randomalbums.html" target="Body">Random Albums</a><br>											
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="sorting-year.html" target="Body">Sorting by Year</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="truncate.html" target="Body">Shortening Items</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="interfaces.html" target="Body">Interfaces</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="themes.html" target="Body">Themes</a><br>
+										</td>
+									</tr>
+								</table>			
+							</div>
+							
+							
+							<a href="#" onclick="showHideCon('miscStuff','yes');"><img src="../images/plus.gif" border="0"> Misc Stuff</a>
+							<div id=miscStuffContent style="display: none;">
+								<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+									<tr>
+										<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+										<td width="100%" class="leftNavBody">
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="adding-media.html" target="Body">Adding Media</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="languages.html" target="Body">Languages</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="rss.html" target="Body">RSS Newsfeed</a><br>
+										</td>
+									</tr>
+								</table>			
+							</div>
+							<br>
+							
+							<a href="#" onclick="showHideCon('tools','yes');"><img src="../images/plus.gif" border="0"> Tools</a>
+							<div id=toolsContent style="display: none;">
+								<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+									<tr>
+										<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+										<td width="100%" class="leftNavBody">
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="bulkedit.html" target="Body">Bulk Editing</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="id3tagging.html" target="Body">ID3 Tagging</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="searching.html" target="Body">Searching</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="user-access.html" target="Body">User Manager</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="uploading.html" target="Body">Upload Manager</a>
+										</td>
+									</tr>
+								</table>			
+							</div>
+							<br>
+							
+							<a href="#" onclick="showHideCon('playingMedia','yes');"><img src="../images/plus.gif" border="0"> Playing Media</a>
+							<div id=playingMediaContent style="display: none;">
+								<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+									<tr>
+										<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+										<td width="100%" class="leftNavBody">
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="embedded.html" target="Body">Embedded Player</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="lofi.html" target="Body">Lo-Fi Files</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="media-players.html" target="Body">Media Players</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="media-types.html" target="Body">Media Types</a><br>
+											<!--
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="playlists.html" target="Body">Playlists</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="shoutcasting.html" target="Body">Shoutcasting</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="video-files.html" target="Body">Video Files</a>
+											-->
+										</td>
+									</tr>
+								</table>			
+							</div>
+							
+							<!--
+							<a href="#" onclick="showHideCon('jukeboxmode','yes');"><img src="../images/plus.gif" border="0"> Jukebox Mode</a>
+							<div id=jukeboxmodeContent style="display: none;">
+								<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+									<tr>
+										<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+										<td width="100%" class="leftNavBody">
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="using-jukebox.html" target="Body">Using Jukebox</a>
+										</td>
+									</tr>
+								</table>			
+							</div>
+							-->
+							<!--
+							<a href="#" onclick="showHideCon('groupFeatures','yes');"><img src="../images/plus.gif" border="0"> Group Features</a>
+							<div id=groupFeaturesContent style="display: none;">
+								<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+									<tr>
+										<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+										<td width="100%" class="leftNavBody">
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="toptracks-embed.html" target="Body">Chart System</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="discussions.html" target="Body">Discussions</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="dwnload-counting.html" target="Body">Download Counting</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="ratings.html" target="Body">Ratings</a><br>
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="counting.html" target="Body">Play Counting</a><br>
+										</td>
+									</tr>
+								</table>			
+							</div>
+							-->
+							
+							<a href="#" onclick="showHideCon('newsFeeds','yes');"><img src="../images/plus.gif" border="0"> Newsfeeds (blocks)</a>
+							<div id=newsFeedsContent style="display: none;">
+								<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+									<tr>
+										<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+										<td width="100%" class="leftNavBody">
+											&nbsp; <img src="../images/page.gif" border="0"> <a href="rss.html" target="Body">RSS Newsfeeds</a><br>
+										</td>
+									</tr>
+								</table>			
+							</div>
+						</td>
+					</tr>
+				</table>			
+			</div>
+		</td>
+	</tr>
+	<!--
+	<tr>
+		<td width="100%" class="leftNavBody">
+			
+			<a href="#" onclick="showHideCon('slimzora','yes');"><img src="../images/plus.gif" border="0"> Slimzora</a>
+			<div id=slimzoraContent style="display: none;">
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+					<tr>
+						<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+						<td width="100%" class="leftNavBody">
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="slim-config.html" target="Body">Configuring</a><br>		
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="slim-hiding.html" target="Body">Hiding Slimzora</a><br>		
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="slim-embedding.html" target="Body">Embedding</a><br>		
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="slim-launch.html" target="Body">Launching</a><br>														
+						</td>
+					</tr>
+				</table>			
+			</div>
+		</td>
+	</tr>
+	-->
+	<tr>
+		<td width="100%" class="leftNavBody">
+			
+			<a href="#" onclick="showHideCon('faq','yes');"><img src="../images/plus.gif" border="0"> FAQ</a>
+			<div id=faqContent style="display: none;">
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+					<tr>
+						<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+						<td width="100%" class="leftNavBody">
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="faq-general.html" target="Body">Jinzora FAQ</a><br>
+						</td>
+					</tr>
+				</table>			
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td width="100%" class="leftNavBody">
+			
+			<a href="#" onclick="showHideCon('helping','yes');"><img src="../images/plus.gif" border="0"> Helping the Project</a>
+			<div id=helpingContent style="display: none;">
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+					<tr>
+						<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+						<td width="100%" class="leftNavBody">
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="developers.html" target="Body">Developers</a><br>
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="donations.html" target="Body">Donations</a><br>
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="beta-testing.html" target="Body">Beta Testing</a><br>
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="translations.html" target="Body">Translations</a><br>
+						</td>
+					</tr>
+				</table>			
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td width="100%" class="leftNavBody">
+			
+			<a href="#" onclick="showHideCon('gettingsupport','yes');"><img src="../images/plus.gif" border="0"> Getting Support</a>
+			<div id=gettingsupportContent style="display: none;">
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="leftNavBody">
+					<tr>
+						<td width="10" class="leftNavBody">&nbsp;&nbsp;</td>
+						<td width="100%" class="leftNavBody">
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="support-standard.html" target="Body">Standard</a><br>
+							&nbsp; <img src="../images/page.gif" border="0"> <a href="support-premium.html" target="Body">Premium</a><br>
+						</td>
+					</tr>
+				</table>			
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td width="100%" class="leftNavBody" height="1000">&nbsp;</td>
+	</tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+

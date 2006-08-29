@@ -1,0 +1,172 @@
+<link rel="stylesheet" href="../default.css" type="text/css"><body class="bodyBody">
+	<table width="100%" cellpadding="5" cellspacing="0" border="0">
+		<tr>
+			<td width="100%" class="bodyBody">
+				<strong>Mambo CMS Installation</strong><br>
+				<br><br>
+				<table width="100%" cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td width="30%" class="bodyBody" valign="top">
+							<li><strong>Download</strong></li>
+						</td>
+						<td width="70%" class="bodyBody">
+							You can get Jinzora from the following<br><br>
+							<a href="http://www.jinzora.com/download/" target="_blank">Jinzora Downloads Page</a>
+							<br><br><br><br>
+						</td>						
+					</tr>
+					<tr>
+						<td width="30%" class="bodyBody" valign="top">
+							<li><strong>Installing</strong></li>
+						</td>
+						<td width="70%" class="bodyBody">
+							Once you've got Jinzora extracted you 'll need to go to the Mambo Administration page
+							<br><br>
+							<table width="100%" cellpadding="0" cellspacing="0" border="0">
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										Click "Components - Install/Uninstall"
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										In "Package File:" click "Browse" and select the .zip package that you downloaded
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										Click "Upload File & Install"
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										In the Mambo Administration page click on "Menu - Main Menu"
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										Click on "New" (at the top of the page)
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										Select "Component" and click "Next"
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										For "Name" name your link "Jinzora" or whatever you want
+										<br>
+										For "Component" choose "Jinzora"
+										<br>
+										Click "Save"
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										Now, you <strong>MUST</strong> extact the .zip or .tar.gz file that you downloaded and upload it
+										manually to the server.  All the contents should be extracted to "components/com_jinzora".
+										We realize this is odd, and are working to make this better but this is just
+										how it is for now, trust us when you get Jinzora working it will be worth it!
+										(just overwrite everything that is there...)
+										<br><br>
+										<strong>NOTE</strong>: At the end of install if you are using a very narrow theme, like "SolarFlare"
+										then Jinzora will most likely display funny.  This is due to the width of Jinzora and is NOT a bug.  
+										To make Jinzora display better consider turning off some of the drop down meune like the quick
+										playlist generator by setting $quick_drop = "false"; in your settings.php file.
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										Click the menu item for "Jinzora" (or whatever you called it) - 
+										You'll now be taken through the Jinzora installer - 
+										Choose your language and click Next
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										Go through the installer, it is documented.
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										Once the installer is finished make sure to set the permissions on the
+										"data" and "temp" directories (within in the Jinzora directory)<br>
+										<strong>NOTE:</strong> This is only for non-Windows systems<br><br>
+										Doing a:<br><br>
+										chmod 777 data (and make sure to get all the subdirectories)<br>
+										chmod 777 temp (and make sure to get all the subdirectories)<br>
+										<br>
+										Should be all you have to do.
+										<br><br>
+										Now click on the new link you added to Mambo and you'll be presented with the web based
+										installer.  On the second page of the installer you'll be asked for the installation type.  Just choose
+										"Mambo" and you'll be all set.  You can of course use the "Expert" mode, but that will take much longer.
+										<br><br>
+										At the very end the installer will create two files for you. The files settings.php and users.php will be
+										generated, and if possible, be written to the server for you.  If the installer can't write these files you'll
+										be able to download them manually.  You'll need to upload these 2 files to the root directory of the Jinzora
+										installation.  Once you've uploaded these files you'll be able to go to the index page for Jinzora.
+										<br><br>
+									</td>
+								</tr>
+								<tr>
+									<td width="1%" class="bodyBody" valign="top">
+										<li>&nbsp;</li>
+									</td>
+									<td width="99%" class="bodyBody" valign="top">
+										Enjoy Jinzora on Mambo!!!
+										<br><br>
+									</td>
+								</tr>
+							</table>
+							<br><br><br><br>
+						</td>						
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>
