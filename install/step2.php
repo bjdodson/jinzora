@@ -368,7 +368,7 @@ function popuphelp(siteaccess,nodeid){
 				<td class="td" width="70%" align="left">
 					<?php
 						// Now let's check all the directories
-						$dirs = array("data/artists","data/discussions","data/downloads","data/featured","data/featured/albums","data/featured/artists","data/backend","data/backend/discussions","data/backend/featured","data/backend/nodes","data/backend/request","data/backend/tracks","data/images","data/ratings","data/tracks","data/users","data/viewed");
+						$dirs = array("data/artists","data/discussions","data/downloads","data/featured","data/featured/albums","data/featured/artists","data/backend","data/backend/discussions","data/backend/nodes","data/backend/tracks","data/images","data/ratings","data/tracks","data/users","data/viewed");
 
 						// Now let's test each dir
 						$fileError = false;
