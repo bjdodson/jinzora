@@ -1,4 +1,3 @@
-<table width="100%" cellspacing="0" cellpadding="0"><tr height="2" style="background-image: url('{$image_dir}row-spacer.gif');"><td width="100%"></td></tr></table>
 	<table width="100%" cellspacing="0" cellpadding="3">
 		<tr class="and_head1">
 			<td width="1%" valign="middle" nowrap>
@@ -18,4 +17,3 @@
 			{/if}
 		</tr>
 	</table>
-	<table width="100%" cellspacing="0" cellpadding="0"><tr height="2" style="background-image: url('{$image_dir}row-spacer.gif');"><td width="100%"></td></tr></table>
