@@ -210,6 +210,8 @@
 									echo '&nbsp;&nbsp;&nbsp; - Creating table: ' . $table . ' - <font color="red">' . $word_failed . '</font><br>';
 								}
 							}
+						} else if (false !== stristr($sql,"CREATE INDEX")) {
+								@jz_db_query($link, $sql);
 						}
 					}
 
