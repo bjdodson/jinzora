@@ -1,5 +1,5 @@
 <table width="100%" cellspacing="0" cellpadding="2">
-	<tr>
+	<tr class="and_head1">
 		<td colspan="4" class="">
 			<table width="100%" cellpadding="{$padding}" cellspacing="0">
 				<tr><nobr>
