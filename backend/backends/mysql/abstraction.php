@@ -74,6 +74,7 @@ function jz_db_query($link, $sql) {
 }
 
 
+
 function jz_db_error($link) {
 	return mysql_error($link);
 }

@@ -25,26 +25,21 @@
 	* @author Ross Carlson <ross@jinzora.org>
 	*/
 
-	@include_once($include_path. 'data/backend/db_constants.php');
-	include_once($include_path. 'backend/backends/mysql/abstraction.php');
+if (!function_exists("jz_db_object_query")) {
+	function jz_db_object_query($sql) {
+		if (!$link = jz_db_connect())
+			die ("could not connect to database.");
+				
+		$results = jz_db_query($link,$sql);
 		
-	
-	
-	// This builds all our classes.	
-	include_once($include_path. 'backend/primitives/database/header.php');
-
-	include_once($include_path. 'backend/backends/db-common.php');
-  	class jzBackend extends jzRawBackend { 
-		function jzBackend() {
-			// Set variables from parent class.
-			$this->_constructor();
-			// Overrrides here
-			$this->details = "Database-driven backend.";
-		}
+		// Now let's close out
+		jz_db_close($link);
+		
+		// Return the data
+		return resultsToArray($results);
 	}
- 
-    include_once($include_path. 'backend/backends/db-fallback.php');
- 
-
+}
+	
+	
 	
 ?>

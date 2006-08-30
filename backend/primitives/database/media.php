@@ -602,21 +602,18 @@
 
 			if ($pathString != "") { $pathString .= "/"; }
 			$pathString = jz_db_escape($pathString);
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
 
-          		if ($distance < 0) {
-                     		$op = ">";
-                     	}
-                     	else {
-                     		$op = "=";
-                     		$level = $level + $distance;
-                     	}      
-                     	if ($type != "leaves" && $hasArt !== false) {
-                     		$artString = "AND main_art != ''";
-                     	} else {
-                     		$artString = "";
-                     	}
+          	if ($distance < 0) {
+            	$op = ">";
+          	} else {
+              	$op = "=";
+                $level = $level + $distance;
+          	}      
+            if ($type != "leaves" && $hasArt !== false) {
+            	$artString = "AND main_art != ''";
+            } else {
+            	$artString = "";
+            }
 			
 			
 			// now the query.
@@ -633,9 +630,7 @@
 				if ($limit > 0) {
 					$sql .= " LIMIT $limit";
 				}
-				$results = jz_db_query($link,$sql);
-				jz_db_close($link);
-				return resultsToArray($results,'tracks');
+				return jz_db_object_query($sql);
 			} else {
 				$sql = "SELECT * FROM jz_nodes WHERE level $op $level AND hidden = 'false' ";
 				if ($pathString != "") {
@@ -654,10 +649,7 @@
 				if ($limit > 0) {
 					$sql .= " LIMIT $limit";
 				}
-				$results = jz_db_query($link,$sql);
-				jz_db_close($link);
-				// have $results.
-				return resultsToArray($results);
+				return jz_db_object_query($sql);
 			}
 		}
 	
@@ -736,9 +728,7 @@
 			if ($pathString != "") { $pathString .= "/"; }
 			
 			$level = $this->getLevel();
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
+
 			if ($distance == -1) {
 			// recursive
 				$op = ">";
@@ -762,21 +752,21 @@
 			  // Check the trackname:
 			  if ($letter == "#") {
                             if ($compare_ignores_the != "false") {
-                              $results = jz_db_query($link,"SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND (trackname $REGEXP '^[0-9]' OR trackname $REGEXP '^the [0-9]') ORDER BY trackname");
+                              $results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND (trackname $REGEXP '^[0-9]' OR trackname $REGEXP '^the [0-9]') ORDER BY trackname");
                             } else {
-			      $results = jz_db_query($link,"SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND trackname $REGEXP '^[0-9]' ORDER BY trackname");
+			      $results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND trackname $REGEXP '^[0-9]' ORDER BY trackname");
                             }
 			  } else if ($letter == "*") {
-			    jz_db_query($link,"SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' ORDER BY trackname");
+			    jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' ORDER BY trackname");
 			  } else {
                             if ($compare_ignores_the != "false") {
                               if ($letter == "t") {
-                                $results = jz_db_query($link,"SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND ((trackname $LIKE '${letter}%' AND trackname NOT $LIKE 'the %') OR (trackname $LIKE 'the t%')) ORDER BY trackname");
+                                $results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND ((trackname $LIKE '${letter}%' AND trackname NOT $LIKE 'the %') OR (trackname $LIKE 'the t%')) ORDER BY trackname");
                               } else {
-                                $results = jz_db_query($link,"SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND (trackname $LIKE '${letter}%' OR trackname $LIKE 'the ${letter}%') ORDER BY trackname");
+                                $results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND (trackname $LIKE '${letter}%' OR trackname $LIKE 'the ${letter}%') ORDER BY trackname");
                               }
                             } else {
-			      $results = jz_db_query($link,"SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND trackname $LIKE '${letter}%' ORDER BY trackname");
+			      $results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND trackname $LIKE '${letter}%' ORDER BY trackname");
                             }
 			  }
 			  
@@ -784,40 +774,39 @@
 			
 			else if ($letter == "#") {
                           if ($compare_ignores_the != "false") {
-				$results = jz_db_query($link,"SELECT * FROM jz_nodes 
+				$results = jz_db_object_query("SELECT * FROM jz_nodes 
 				  WHERE level $op $level $t AND path LIKE '${pathString}%'
 				  AND (name $REGEXP '^[0-9]' OR name $REGEXP '^the [0-9]') ORDER BY name");
                           } else {
-				$results = jz_db_query($link,"SELECT * FROM jz_nodes 
+				$results = jz_db_object_query("SELECT * FROM jz_nodes 
 				  WHERE level $op $level $t AND path LIKE '${pathString}%'
 				  AND name $REGEXP '^[0-9]' ORDER BY name");
 				  //TODO: add special characters (IE, anything not a-zA-Z)
                           } 
 			}
 			else if ($letter == "*") {
-				$results = jz_db_query($link,"SELECT * FROM jz_nodes 
+				$results = jz_db_object_query("SELECT * FROM jz_nodes 
 				  WHERE level $op $level $t AND path LIKE '${pathString}%' ORDER BY name");
 			}
 			else {
                                 if ($compare_ignores_the != "false") {
                                   if ($letter == "t") {
-                                    $results = jz_db_query($link,"SELECT * FROM jz_nodes 
+                                    $results = jz_db_object_query("SELECT * FROM jz_nodes 
 				      WHERE level $op $level $t AND path LIKE '${pathString}%'
 				      AND ((name $LIKE 't%' AND name NOT $LIKE 'the %') OR (name $LIKE 'the t%')) ORDER BY name");
                                   } else {
-                                    $results = jz_db_query($link,"SELECT * FROM jz_nodes 
+                                    $results = jz_db_object_query("SELECT * FROM jz_nodes 
 				      WHERE level $op $level $t AND path LIKE '${pathString}%'
 				      AND (name $LIKE '${letter}%' OR name $LIKE 'the ${letter}%')  ORDER BY name");
                                   }
                                 } else {
-			 	  $results = jz_db_query($link,"SELECT * FROM jz_nodes 
+			 	  $results = jz_db_object_query("SELECT * FROM jz_nodes 
 				    WHERE level $op $level $t AND path LIKE '${pathString}%'
 				    AND name $LIKE '${letter}%' ORDER BY name");
                                }
 			}
-			jz_db_close($link);
 			// have $results.
-			return resultsToArray($results);
+			return $results;
 		}
 	
 	
@@ -1214,8 +1203,6 @@
 			}
 			
 			$slash = ($this->getLevel() == 0) ? "" : "/";
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
                      		
                      	$path = jz_db_escape($this->getPath("String"));
 			if ($path != "") { $path .= "/"; }
@@ -1239,9 +1226,7 @@
 			$query = "SELECT * FROM jz_nodes WHERE path LIKE '${path}%' AND featured = 'true' $dis ORDER BY " . jz_db_rand_function();
 			$query .= " " . $lim;
 
-                     	$results = jz_db_query($link, $query);
-
-			return resultsToArray($results);
+            return jz_db_object_query($query);
 		}
 		
 		/**
@@ -1258,10 +1243,10 @@
 			if (!$link = jz_db_connect())
                 		die ("could not connect to database.");
                 		
-                	$path = jz_db_escape($this->getPath("String"));
-                	$results = jz_db_query($link, "SELECT ptype FROM jz_nodes WHERE path = '$path'");
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_query($link, "SELECT ptype FROM jz_nodes WHERE path = '$path'");
 			jz_db_close($link);
-                	return jz_db_unescape($results->data[0]['ptype']);
+            return jz_db_unescape($results->data[0]['ptype']);
 		}
 		
 		
@@ -1605,10 +1590,7 @@
 			if ($pathString != "") { $pathString .= "/"; }
 			
 			$sql = "SELECT path,leaf FROM jz_nodes";
-			
-			if (!$link = jz_db_connect())
-				die ("could not connect to database.");
-			
+						
 			if ($distance <= 0) {
 				$sql .= " WHERE level > $level";
 			} else {
@@ -1626,13 +1608,7 @@
 			
 			$sql .= " ORDER BY dlcount desc LIMIT $limit";
 
-			$results = jz_db_query($link,$sql);
-		
-			// Now let's close out
-			jz_db_close($link);
-			
-			// Now let's return the data
-			return resultsToArray($results);
+			return jz_db_object_query($sql);
 		}
 
 		/**
@@ -1657,9 +1633,6 @@
 			
 			$sql = "SELECT * FROM jz_nodes";
 			
-			if (!$link = jz_db_connect())
-				die ("could not connect to database.");
-			
 			if ($distance <= 0) {
 				$sql .= " WHERE level > $level";
 			} else {
@@ -1677,13 +1650,7 @@
 			
 			$sql .= " ORDER BY playcount desc LIMIT $limit";
 
-			$results = jz_db_query($link,$sql);
-			$retArray = resultsToArray($results);
-			// Now let's close out
-			jz_db_close($link);
-			
-			// Now let's return the data
-			return $retArray;
+			return jz_db_object_query($sql);
 		}
 
 
@@ -1708,10 +1675,7 @@
 			if ($pathString != "") { $pathString .= "/"; }
 			
 			$sql = "SELECT * FROM jz_nodes";
-			
-			if (!$link = jz_db_connect())
-				die ("could not connect to database.");
-			
+
 			if ($distance <= 0) {
 				$sql .= " WHERE level > $level";
 			} else {
@@ -1729,13 +1693,8 @@
 			
 			$sql .= " ORDER BY viewcount desc LIMIT $limit";
 
-			$results = jz_db_query($link,$sql);
-		
-			// Now let's close out
-			jz_db_close($link);
-			
-			// Now let's return the data
-			return resultsToArray($results);
+			return jz_db_object_query($sql);
+
 		}
 
 		
@@ -1761,9 +1720,6 @@
 		  
 		  $sql = "SELECT * FROM jz_nodes";
 
-		  if (!$link = jz_db_connect())
-		    die ("could not connect to database.");
-		  
 		  if ($distance <= 0) {
 		    $sql .= " WHERE level > $level";
 		  }
@@ -1780,11 +1736,7 @@
 		    $sql .= " AND leaf = 'false'";
 		  }
 		  $sql .= " ORDER BY date_added desc LIMIT $limit";
-		  $results = jz_db_query($link,$sql);
-		  jz_db_close($link);
-		  
-		  // Now let's return the data
-		  return resultsToArray($results);
+		  return jz_db_object_query($sql);
 		}
 
 		/**
@@ -1810,9 +1762,6 @@
 		  
 		  $sql = "SELECT path,leaf FROM jz_nodes";
 
-		  if (!$link = jz_db_connect())
-		    die ("could not connect to database.");
-		  
 		  if ($distance <= 0) {
 		    $sql .= " WHERE level > $level";
 		  }
@@ -1829,12 +1778,7 @@
 		    $sql .= " AND leaf = 'false'";
 		  }
 		  $sql .= " ORDER BY rating_val desc,rating_count desc LIMIT $limit";
-		  $results = jz_db_query($link,$sql);
-		  // Now let's close out
-		  jz_db_close($link);
-		  
-		  // Now let's return the data
-		  return resultsToArray($results);
+		  $results = jz_db_object_query($sql);
 		}
 
 		/**
@@ -1878,10 +1822,7 @@
 		    $sql .= " AND leaf = 'false'";
 		  }
 		  $sql .= " ORDER BY lastplayed desc LIMIT $limit";
-		  $results = jz_db_query($link,$sql);
-		  // Now let's close out
-		  jz_db_close($link);
-		  return resultsToArray($results);
+		  return jz_db_object_query($sql);
 		}
 
 
