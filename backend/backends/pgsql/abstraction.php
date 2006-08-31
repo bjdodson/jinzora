@@ -99,4 +99,17 @@ function jz_db_rand_function() {
     return "random()";
 }
 
+
+
+function jz_db_simple_query($sql) {
+	global $JZLINK;
+	if (!isset ($JZLINK)) {
+		if (!$JZLINK = jz_db_connect())
+			die("could not connect to database.");
+	}
+	$results = pg_query($JZLINK,$sql);
+	$res = @pg_fetch_array($results,0,PGSQL_BOTH);
+	return $res;
+}
+
 ?>

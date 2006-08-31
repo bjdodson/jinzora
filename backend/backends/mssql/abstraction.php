@@ -100,4 +100,16 @@ function jz_db_rand_function() {
   return "newid()";
 }
 
+
+
+function jz_db_simple_query($sql) {
+	global $JZLINK;
+	if (!isset ($JZLINK)) {
+		if (!$JZLINK = jz_db_connect())
+			die("could not connect to database.");
+	}
+	$results = mssql_query($sql, $JZLINK);
+	$res = @mssql_fetch_array($results, MSSQL_BOTH);
+	return $res;
+}
 ?>

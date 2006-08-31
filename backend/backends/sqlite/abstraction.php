@@ -90,4 +90,15 @@ function jz_db_rand_function() {
 	return "random()";
 }
 
+function jz_db_simple_query($sql) {
+	global $JZLINK;
+	if (!isset ($JZLINK)) {
+		if (!$JZLINK = jz_db_connect())
+			die("could not connect to database.");
+	}
+	$results = sqlite_query($JZLINK,$sql);
+	$res = @sqlite_fetch_array($results, SQLITE_BOTH);
+	return $res;
+}
+
 ?>
