@@ -27,19 +27,58 @@
 
 if (!function_exists("jz_db_object_query")) {
 	function jz_db_object_query($sql) {
-		if (!$link = jz_db_connect())
-			die ("could not connect to database.");
-				
-		$results = jz_db_query($link,$sql);
+		global $JZLINK;
+		if (!isset($JZLINK)) {
+			if (!$JZLINK = jz_db_connect())
+				die ("could not connect to database.");
+		}		
+		$results = jz_db_query($JZLINK,$sql);
 		
 		// Now let's close out
-		jz_db_close($link);
+		//jz_db_close($link);
 		
 		// Return the data
 		return resultsToArray($results);
 	}
 }
 	
-	
+if (!function_exists("jz_db_row_query")) {
+	function jz_db_row_query($sql) {
+		global $JZLINK;
+		if (!isset($JZLINK)) {
+			if (!$JZLINK = jz_db_connect())
+				die ("could not connect to database.");
+		}		
+		$results = jz_db_query($JZLINK,$sql);
+		
+		// Now let's close out
+		//jz_db_close($link);
+		
+		// Return the data
+		return $results;
+	}
+}	
+
+if (!function_exists("jz_db_simple_query")) {
+	function jz_db_simple_query($sql) {
+		global $JZLINK;
+		if (!isset($JZLINK)) {
+			if (!$JZLINK = jz_db_connect())
+				die ("could not connect to database.");
+		}		
+		$results = jz_db_query($JZLINK,$sql);
+		
+		// Now let's close out
+		//jz_db_close($link);
+		
+		// Return the data
+		if ($results->rows > 0) {
+			return $results->data[0];
+		} else {
+			return false;
+		}
+	}
+}
+
 	
 ?>

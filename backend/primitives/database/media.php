@@ -1954,24 +1954,20 @@
 		 *            Overrides              *
 		 * * * * * * * * * * * * * * * * * * */
 		
-		/**
-		* Returns the date the node was added.
-		* 
-		* @author Ben Dodson <bdodson@seas.upenn.edu>
-		* @version 5/14/2004
-		* @since 5/14/2004
-		*/
-		function getDateAdded() {
-			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT date_added FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
-                     	return $results->data[0]['date_added'];
-		}
+/**
+ * Returns the date the node was added.
+ * 
+ * @author Ben Dodson <bdodson@seas.upenn.edu>
+ * @version 5/14/2004
+ * @since 5/14/2004
+ */
+function getDateAdded() {
+	global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
+	               		
+    $path = jz_db_escape($this->getPath("String"));
+    $results = jz_db_simple_query("SELECT date_added FROM jz_nodes WHERE path = '$path'");
+    return $results['date_added'];
+}
 
 /**
  * Checks whether or not
@@ -2002,17 +1998,12 @@ function newSince($days = false) {
   $sql = "SELECT date_added FROM jz_nodes WHERE ";
   $sql .= "path LIKE '$pathstring' AND date_added >= $time ORDER BY date_added desc LIMIT 1";
 
+  $results = jz_db_simple_query($sql);
 
-  if (!$link = jz_db_connect())
-    die ("could not connect to database.");
-  
-  $results = jz_db_query($link, $sql);
-  jz_db_close($link);
-
-  if (sizeof($results->data) == 0) {
+  if (false === $results) {
     return false;
   } else {
-    return ceil(abs($curtime - $results->data[0]['date_added']) / (24*60*60));
+    return ceil(abs($curtime - $results['date_added']) / (24*60*60));
   }
 }
 
@@ -2028,13 +2019,9 @@ function getID() {
   if (isset($this->myid) && $this->myid !== false) {
     return $this->myid;
   } else {
-    if (!$link = jz_db_connect())
-      die ("could not connect to database.");
-    
     $path = jz_db_escape($this->getPath("String"));
-    $results = jz_db_query($link, "SELECT my_id FROM jz_nodes WHERE path = '$path'");
-    jz_db_close($link);
-    return $results->data[0]['my_id'];
+    $results = jz_db_simple_query("SELECT my_id FROM jz_nodes WHERE path = '$path'");
+    return $results['my_id'];
   }
 }
 
@@ -2047,7 +2034,6 @@ function getID() {
  * @since 3/11/05
  **/
 function setID($id) {
-
   if (!$link = jz_db_connect())
     die ("could not connect to database.");
   
@@ -2076,12 +2062,8 @@ function setID($id) {
  * @since 3/11/05
  **/
 function idToPath($id) {
-    if (!$link = jz_db_connect())
-      die ("could not connect to database.");
-    
-    $results = jz_db_query($link, "SELECT path FROM jz_nodes WHERE my_id = '$id'");
-    jz_db_close($link);
-    return $results->data[0]['path'];
+    $results = jz_db_simple_query($link, "SELECT path FROM jz_nodes WHERE my_id = '$id'");
+    return $results['path'];
 }
 
 		/**
@@ -2091,23 +2073,19 @@ function idToPath($id) {
 		* @version 5/14/2004
 		* @since 5/14/2004
 		*/
-                function getPlayCount() {
+		function getPlayCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
 			if (isset($this->playcount)) {
 			  return $this->playcount;
 			}
-
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT playcount FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
-			$this->playcount = $results->data[0]['playcount'];
-                     	return $results->data[0]['playcount'];
+	
+           	$path = jz_db_escape($this->getPath("String"));
+           	$results = jz_db_simple_query("SELECT playcount FROM jz_nodes WHERE path = '$path'");
+			$this->playcount = $results['playcount'];
+            return $results['playcount'];
 		}
-				
+		
 		
 		/**
 		* Increments the node's playcount, as well
@@ -2119,21 +2097,17 @@ function idToPath($id) {
 		*/
 		function increasePlayCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
+      		
+            $path = jz_db_escape($this->getPath("String"));
 			$sql = "UPDATE jz_nodes SET playcount = playcount+1, lastplayed = " . time();
 
-                     	jz_db_query($link, "$sql  WHERE path = '$path'");
+            jz_db_simple_query("$sql  WHERE path = '$path'");
 			                     	
-                     	if (sizeof($ar = $this->getPath()) > 0) {
-                     		array_pop($ar);
-                     		$next = &new jzMediaNode($ar);
+            if (sizeof($ar = $this->getPath()) > 0) {
+            	array_pop($ar);
+                $next = &new jzMediaNode($ar);
 				$next->increasePlayCount();
-                     	}
-			jz_db_close($link);
+            }
 		}
 	
 		/**
@@ -2146,17 +2120,16 @@ function idToPath($id) {
 		function setPlayCount($n) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET playcount = $n WHERE path = '$path'");
-			jz_db_close($link);
+			if (!(is_int($n) || is_numeric($n))) {
+				return false;
+			}
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET playcount = $n WHERE path = '$path'");
 		}
 
 
 	
-               /**
+       /**
 		* Increments the node's view count
 		*
 		* 
@@ -2167,13 +2140,8 @@ function idToPath($id) {
 		function increaseViewCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET viewcount = viewcount+1 WHERE path = '$path'");
-                     	
-			jz_db_close($link);
+			$path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET viewcount = viewcount+1 WHERE path = '$path'");
 		}
 
 
@@ -2187,16 +2155,12 @@ function idToPath($id) {
 		function getViewCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT viewcount FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
-                     	return $results->data[0]['viewcount'];
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db__simple_query("SELECT viewcount FROM jz_nodes WHERE path = '$path'");
+            return $results['viewcount'];
 		}
 
-               /**
+       /**
 		* Sets the elements viewcount
 		* 
 		* @author Ben Dodson <bdodson@seas.upenn.edu>
@@ -2205,13 +2169,12 @@ function idToPath($id) {
 		*/
 		function setViewCount($n) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET viewcount = $n WHERE path = '$path'");
-			jz_db_close($link);
+
+			if (!(is_int($n) || is_numeric($n))) {
+				return false;
+			}
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET viewcount = $n WHERE path = '$path'");
 		}
 
 		/**
@@ -2223,19 +2186,15 @@ function idToPath($id) {
 		*/
 		function getDownloadCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
+					       
 			if (isset($this->dlcount)) {
 			  return $this->dlcount;
 			}
-
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT dlcount FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
-			$this->dlcount = $results->data[0]['dlcount'];
-                     	return $results->data[0]['dlcount'];
+	
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("SELECT dlcount FROM jz_nodes WHERE path = '$path'");
+			$this->dlcount = $results['dlcount'];
+        	return $results['dlcount'];
 		}
 		
 		
@@ -2249,19 +2208,15 @@ function idToPath($id) {
 		*/
 		function increaseDownloadCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET dlcount = dlcount+1 WHERE path = '$path'");
+			 		
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET dlcount = dlcount+1 WHERE path = '$path'");
                      	
-                     	if (sizeof($ar = $this->getPath()) > 0) {
-                     		array_pop($ar);
-                     		$next = &new jzMediaNode($ar);
+            if (sizeof($ar = $this->getPath()) > 0) {
+            	array_pop($ar);
+                $next = &new jzMediaNode($ar);
 				$next->increasePlayCount();
-                     	}
-			jz_db_close($link);
+            }
 		}
 
 		/**
@@ -2274,12 +2229,11 @@ function idToPath($id) {
 		function setDownloadCount($n) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET dlcount = $n WHERE path = '$path'");
-			jz_db_close($link);
+			if (!(is_int($n) || is_numeric($n))) {
+				return false;
+			}
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET dlcount = $n WHERE path = '$path'");
 		}
 
 		/**
@@ -2289,22 +2243,16 @@ function idToPath($id) {
 		* @version 5/14/04
 		* @since 5/14/04
 		*/
-		function getMainArt($dimensions = false, $createBlank = true, $imageType = "audio") {
+		function getMainArt($dimensions = false, $createBlank = true, $imageType="audio") {
 		  global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db,$jzSERVICES;
-
-		  if (!isset($this->artpath)) {
-		    if (!$link = jz_db_connect())
-		      die ("could not connect to database.");
-		    
-		    $path = jz_db_escape($this->getPath("String"));
-		    $results = jz_db_query($link, "SELECT main_art FROM jz_nodes WHERE path = '$path'");
-		    jz_db_close($link);
-		    $this->artpath = jz_db_unescape($results->data[0]['main_art']);
-		  }
-			
-		  if ($this->artpath) {
+		  
+		  $path = jz_db_escape($this->getPath("String"));
+		  $results = jz_db_simple_query("SELECT main_art FROM jz_nodes WHERE path = '$path'");
+		  
+		  if ($results['main_art']) {
 		    // Now let's make create the resized art IF needed
-		    return parent::getMainArt($dimensions, $createBlank, $imageType);
+		    $this->artpath = jz_db_unescape($results['main_art']);
+		    return parent::getMainArt($dimensions,$createBlank, $imageType);
 		  } else if ($this->isLeaf() === false) { 
 		    // Now let's see if we can get art from the tags
 		    $tracks = $this->getSubNodes("tracks");
@@ -2312,17 +2260,17 @@ function idToPath($id) {
 		      $meta = $jzSERVICES->getTagData($tracks[0]->getDataPath());
 		      // Did we get it?
 		      if ($meta['pic_name'] <> ""){
-						if ($dimensions){
-							// Now lets check or create or image and return the resized one
-							return $jzSERVICES->resizeImage("ID3:". $tracks[0]->getDataPath(), $dimensions, false, $imageType);
-						} else {
-							return "ID3:". $tracks[0]->getDataPath();
-						}
+			if ($dimensions){
+			  // Now lets check or create or image and return the resized one
+			  return $jzSERVICES->resizeImage("ID3:". $tracks[0]->getDataPath(), $dimensions, $imageType);
+			} else {
+			  return "ID3:". $tracks[0]->getDataPath();
+			}
 		      }
 		    }
 		  }
 		  // inheritance is sweet.
-		  return parent::getMainArt($dimensions, $createBlank, $imageType);
+		  return parent::getMainArt($dimensions,$createBlank, $imageType);
 		}
 		
 		/**
@@ -2336,12 +2284,8 @@ function idToPath($id) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
 			$image = jz_db_escape($image);
-			if (!$link = jz_db_connect())
-				die ("could not connect to database.");
-				
-			$path = jz_db_escape($this->getPath("String"));
-			$results = jz_db_query($link, "UPDATE jz_nodes SET main_art = '$image' WHERE path = '$path'");
-			jz_db_close($link);
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("UPDATE jz_nodes SET main_art = '$image' WHERE path = '$path'");
 		}
 
 
@@ -2376,16 +2320,12 @@ function idToPath($id) {
 		*/
 		function getShortDescription() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT descr FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
-                     	if ($results->data[0]['descr']) {
-	                     	return jz_db_unescape($results->data[0]['descr']);
-	                } else { return false; }
+					
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("SELECT descr FROM jz_nodes WHERE path = '$path'");
+            if (isset($results['descr'])) {
+	        	return jz_db_unescape($results['descr']);
+	        } else { return false; }
 		}
 		
 		
@@ -2399,15 +2339,9 @@ function idToPath($id) {
 		function addShortDescription($text) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			$text = jz_db_escape($text);
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "UPDATE jz_nodes SET descr = '$text'
-                                                     WHERE path = '$path'");
-
-			jz_db_close($link);
+			$text = jz_db_escape($text); 		
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("UPDATE jz_nodes SET descr = '$text' WHERE path = '$path'");
 		}
 
 
@@ -2433,17 +2367,14 @@ function idToPath($id) {
 				}
 				return $desc;
 			}
-
-			if (!$link = jz_db_connect())
-				die ("could not connect to database.");
-                     		
+    		
 			$path = jz_db_escape($this->getPath("String"));
-			$results = jz_db_query($link, "SELECT longdesc FROM jz_nodes WHERE path = '$path'");
+			$results = jz_db_simple_query("SELECT longdesc FROM jz_nodes WHERE path = '$path'");
 			jz_db_close($link);
 
-			if ($results->data[0]['longdesc']) {
+			if ($results['longdesc']) {
 				
-				$desc = jz_db_unescape($results->data[0]['longdesc']);
+				$desc = jz_db_unescape($results['longdesc']);
 				while (substr($desc,0,4) == "<br>" or substr($desc,0,6) == "<br />"){
 					if (substr($desc,0,4) == "<br>"){
 						$desc = substr($desc,5);
@@ -2460,7 +2391,6 @@ function idToPath($id) {
 			}
 		}
 		
-		
 		/**
 		* Adds a description.
 		* 
@@ -2472,14 +2402,8 @@ function idToPath($id) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
 			$text = jz_db_escape($text);
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "UPDATE jz_nodes SET longdesc = '$text'
-                                                     WHERE path = '$path'");
-			jz_db_close($link);
-
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("UPDATE jz_nodes SET longdesc = '$text' WHERE path = '$path'");
 		}
 
 
@@ -2492,14 +2416,10 @@ function idToPath($id) {
 		*/
 		function getRating() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT rating_val FROM jz_nodes WHERE path = '$path'");
-                     	jz_db_close($link);
-                     	return $results->data[0]['rating_val'];
+				
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("SELECT rating_val FROM jz_nodes WHERE path = '$path'");
+            return $results['rating_val'];
 		}
 		
 		
@@ -2554,13 +2474,9 @@ function idToPath($id) {
 		function getRatingCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT rating_count FROM jz_nodes WHERE path = '$path'");
-                     	jz_db_close($link);
-                     	return $results->data[0]['rating_count'];
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("SELECT rating_count FROM jz_nodes WHERE path = '$path'");
+            return $results['rating_count'];
 		}
 
 
@@ -2622,7 +2538,7 @@ function idToPath($id) {
 
 
 		
-                /**
+        /**
 		 * Adds a full discussion,
 		 * given from $element->getDiscussion();
 		 *
@@ -2630,11 +2546,8 @@ function idToPath($id) {
 		 * @version 8/11/05
 		 * @since 8/11/05
 		 **/
-                 function addFullDiscussion($disc) {
+         function addFullDiscussion($disc) {
 		   global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-		   
-		   if (!$link = jz_db_connect())
-		     die ("could not connect to database.");
 		   
 		   $path = jz_db_escape($this->getPath("String"));
 		   foreach ($disc as $entry) {
@@ -2643,11 +2556,9 @@ function idToPath($id) {
 		     $id = $entry['id'];
 		     $date = $entry['date'];
 		     
-		     if (false === jz_db_query($link, "INSERT INTO jz_discussions(my_id,path,user,comment,date_added)
-                     	                  VALUES($id,'$path','$user','$comment',$date)")) die(jz_db_error($link));
-		   }
-
-		   jz_db_close($link);		     
+		     jz_db_simple_query("INSERT INTO jz_discussions(my_id,path,user,comment,date_added)
+                     	                  VALUES($id,'$path','$user','$comment',$date)") || die(jz_db_error($link));
+		   }	     
 		 }
 		
 
@@ -2670,29 +2581,23 @@ function idToPath($id) {
 			  return $this->year;
 			}
 
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	if ($this->isLeaf()) {
-                     		$results = jz_db_query($link, "SELECT year FROM jz_tracks WHERE path = '$path'");
-				jz_db_close($link);
-				$this->year = $results->data[0]['year'];
-	                     	return $results->data[0]['year'];
-                     	}
-                     	else { 
-	                     	$results = jz_db_query($link, "SELECT year FROM jz_tracks WHERE path LIKE '${path}/%' AND year != '-' ORDER BY path LIMIT 1");
-				jz_db_close($link);
-	                     	if ($results->rows > 0) {
-				  $this->year = $results->data[0]['year'];
-				  return $results->data[0]['year'];
-	                     	} else { 
-				  $this->year = "-";
-				  return "-"; 
+            $path = jz_db_escape($this->getPath("String"));
+            if ($this->isLeaf()) {
+            	$results = jz_db_simple_query("SELECT year FROM jz_tracks WHERE path = '$path'");
+				$this->year = $results['year'];
+	            return $results['year'];
+            } else { 
+	        	$results = jz_db_simple_query( "SELECT year FROM jz_tracks WHERE path LIKE '${path}/%' AND year != '-' ORDER BY path LIMIT 1");
+	            if (false !== $results) {
+					$this->year = $results['year'];
+					return $results['year'];
+	       		} else { 
+					$this->year = "-";
+					return "-"; 
 				}
-                     	}
+           }
 		}
-
+		
 		
 		/**
 		* Returns a string that points to the location
@@ -2707,13 +2612,9 @@ function idToPath($id) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db, $allow_filesystem_modify;
 									
 			if ($allow_filesystem_modify) {
-				if (!$link = jz_db_connect())
-                     			die ("could not connect to database.");
-                     		
-                     		$path = jz_db_escape($this->getPath("String"));
-                     		$results = jz_db_query($link, "SELECT filepath FROM jz_nodes WHERE path = '$path'");
-				jz_db_close($link);
-                     		return jz_db_unescape($results->data[0]['filepath']);
+				$path = jz_db_escape($this->getPath("String"));
+                $results = jz_db_simple_query("SELECT filepath FROM jz_nodes WHERE path = '$path'");
+                return jz_db_unescape($results['filepath']);
 			}
 			else {
 				return $this->data_dir;
@@ -2732,27 +2633,21 @@ function idToPath($id) {
 		*/
 		function getFilePath() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db, $allow_filesystem_modify;
-									
-			if (!$link = jz_db_connect())
-                   		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT filepath FROM jz_nodes WHERE path = '$path'");
-			//jz_db_close($link);
-                     	return jz_db_unescape($results->data[0]['filepath']);
+										
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("SELECT filepath FROM jz_nodes WHERE path = '$path'");
+           	return jz_db_unescape($results['filepath']);
 		}
+		
 		
 		function setFilePath($mypath) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db, $allow_filesystem_modify;
-									
-			if (!$link = jz_db_connect())
-                   		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$mypath = jz_db_escape($mypath);
-                     	$results = jz_db_query($link, "UPDATE jz_nodes SET filepath = '$mypath' WHERE path = '$path'");
-			//jz_db_close($link);
+	
+            $path = jz_db_escape($this->getPath("String"));
+            $mypath = jz_db_escape($mypath);
+            $results = jz_db_simple_query("UPDATE jz_nodes SET filepath = '$mypath' WHERE path = '$path'");
 		}
+		
 		
 		/**
 		* Marks this element as hidden.
@@ -2763,18 +2658,13 @@ function idToPath($id) {
 		*/
 		function hide() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-									
-
-			if (!$link = jz_db_connect())
-                   		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE nodes SET hidden='true' WHERE path = '$path'");
+	
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE nodes SET hidden='true' WHERE path = '$path'");
                      	
-                     	if ($this->isLeaf()) {
-                     		jz_db_query($link, "UPDATE jz_tracks SET hidden='true' WHERE path = '$path'");
-                     	}	
-			jz_db_close($link);
+            if ($this->isLeaf()) {
+            	jz_db_simple_query("UPDATE jz_tracks SET hidden='true' WHERE path = '$path'");
+            }	
 		}
 
 
@@ -2787,17 +2677,13 @@ function idToPath($id) {
 		*/
 		function unhide() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-									
-			if (!$link = jz_db_connect())
-                   		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET hidden='false' WHERE path = '$path'");
+
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET hidden='false' WHERE path = '$path'");
                      	
-                     	if ($this->isLeaf()) {
-                     		jz_db_query($link, "UPDATE jz_tracks SET hidden='false' WHERE path = '$path'");
-                     	}
-			jz_db_close($link);
+            if ($this->isLeaf()) {
+            	jz_db_simple_query("UPDATE jz_tracks SET hidden='false' WHERE path = '$path'");
+            }
 		}
 		// end global_include: overrides.php
 		
@@ -3046,24 +2932,20 @@ function idToPath($id) {
 		 *            Overrides              *
 		 * * * * * * * * * * * * * * * * * * */
 		
-		/**
-		* Returns the date the node was added.
-		* 
-		* @author Ben Dodson <bdodson@seas.upenn.edu>
-		* @version 5/14/2004
-		* @since 5/14/2004
-		*/
-		function getDateAdded() {
-			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT date_added FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
-                     	return $results->data[0]['date_added'];
-		}
+/**
+ * Returns the date the node was added.
+ * 
+ * @author Ben Dodson <bdodson@seas.upenn.edu>
+ * @version 5/14/2004
+ * @since 5/14/2004
+ */
+function getDateAdded() {
+	global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
+	               		
+    $path = jz_db_escape($this->getPath("String"));
+    $results = jz_db_simple_query("SELECT date_added FROM jz_nodes WHERE path = '$path'");
+    return $results['date_added'];
+}
 
 /**
  * Checks whether or not
@@ -3094,17 +2976,12 @@ function newSince($days = false) {
   $sql = "SELECT date_added FROM jz_nodes WHERE ";
   $sql .= "path LIKE '$pathstring' AND date_added >= $time ORDER BY date_added desc LIMIT 1";
 
+  $results = jz_db_simple_query($sql);
 
-  if (!$link = jz_db_connect())
-    die ("could not connect to database.");
-  
-  $results = jz_db_query($link, $sql);
-  jz_db_close($link);
-
-  if (sizeof($results->data) == 0) {
+  if (false === $results) {
     return false;
   } else {
-    return ceil(abs($curtime - $results->data[0]['date_added']) / (24*60*60));
+    return ceil(abs($curtime - $results['date_added']) / (24*60*60));
   }
 }
 
@@ -3120,13 +2997,9 @@ function getID() {
   if (isset($this->myid) && $this->myid !== false) {
     return $this->myid;
   } else {
-    if (!$link = jz_db_connect())
-      die ("could not connect to database.");
-    
     $path = jz_db_escape($this->getPath("String"));
-    $results = jz_db_query($link, "SELECT my_id FROM jz_nodes WHERE path = '$path'");
-    jz_db_close($link);
-    return $results->data[0]['my_id'];
+    $results = jz_db_simple_query("SELECT my_id FROM jz_nodes WHERE path = '$path'");
+    return $results['my_id'];
   }
 }
 
@@ -3139,7 +3012,6 @@ function getID() {
  * @since 3/11/05
  **/
 function setID($id) {
-
   if (!$link = jz_db_connect())
     die ("could not connect to database.");
   
@@ -3168,12 +3040,8 @@ function setID($id) {
  * @since 3/11/05
  **/
 function idToPath($id) {
-    if (!$link = jz_db_connect())
-      die ("could not connect to database.");
-    
-    $results = jz_db_query($link, "SELECT path FROM jz_nodes WHERE my_id = '$id'");
-    jz_db_close($link);
-    return $results->data[0]['path'];
+    $results = jz_db_simple_query($link, "SELECT path FROM jz_nodes WHERE my_id = '$id'");
+    return $results['path'];
 }
 
 		/**
@@ -3183,23 +3051,19 @@ function idToPath($id) {
 		* @version 5/14/2004
 		* @since 5/14/2004
 		*/
-                function getPlayCount() {
+		function getPlayCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
 			if (isset($this->playcount)) {
 			  return $this->playcount;
 			}
-
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT playcount FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
-			$this->playcount = $results->data[0]['playcount'];
-                     	return $results->data[0]['playcount'];
-		} 
-				
+	
+           	$path = jz_db_escape($this->getPath("String"));
+           	$results = jz_db_simple_query("SELECT playcount FROM jz_nodes WHERE path = '$path'");
+			$this->playcount = $results['playcount'];
+            return $results['playcount'];
+		}
+		
 		
 		/**
 		* Increments the node's playcount, as well
@@ -3211,21 +3075,17 @@ function idToPath($id) {
 		*/
 		function increasePlayCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
+      		
+            $path = jz_db_escape($this->getPath("String"));
 			$sql = "UPDATE jz_nodes SET playcount = playcount+1, lastplayed = " . time();
 
-                     	jz_db_query($link, "$sql  WHERE path = '$path'");
+            jz_db_simple_query("$sql  WHERE path = '$path'");
 			                     	
-                     	if (sizeof($ar = $this->getPath()) > 0) {
-                     		array_pop($ar);
-                     		$next = &new jzMediaNode($ar);
+            if (sizeof($ar = $this->getPath()) > 0) {
+            	array_pop($ar);
+                $next = &new jzMediaNode($ar);
 				$next->increasePlayCount();
-                     	}
-			jz_db_close($link);
+            }
 		}
 	
 		/**
@@ -3238,17 +3098,16 @@ function idToPath($id) {
 		function setPlayCount($n) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET playcount = $n WHERE path = '$path'");
-			jz_db_close($link);
+			if (!(is_int($n) || is_numeric($n))) {
+				return false;
+			}
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET playcount = $n WHERE path = '$path'");
 		}
 
 
 	
-               /**
+       /**
 		* Increments the node's view count
 		*
 		* 
@@ -3259,13 +3118,8 @@ function idToPath($id) {
 		function increaseViewCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET viewcount = viewcount+1 WHERE path = '$path'");
-                     	
-			jz_db_close($link);
+			$path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET viewcount = viewcount+1 WHERE path = '$path'");
 		}
 
 
@@ -3279,16 +3133,12 @@ function idToPath($id) {
 		function getViewCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT viewcount FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
-                     	return $results->data[0]['viewcount'];
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db__simple_query("SELECT viewcount FROM jz_nodes WHERE path = '$path'");
+            return $results['viewcount'];
 		}
 
-               /**
+       /**
 		* Sets the elements viewcount
 		* 
 		* @author Ben Dodson <bdodson@seas.upenn.edu>
@@ -3297,13 +3147,12 @@ function idToPath($id) {
 		*/
 		function setViewCount($n) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET viewcount = $n WHERE path = '$path'");
-			jz_db_close($link);
+
+			if (!(is_int($n) || is_numeric($n))) {
+				return false;
+			}
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET viewcount = $n WHERE path = '$path'");
 		}
 
 		/**
@@ -3315,19 +3164,15 @@ function idToPath($id) {
 		*/
 		function getDownloadCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
+					       
 			if (isset($this->dlcount)) {
 			  return $this->dlcount;
 			}
-
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT dlcount FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
-			$this->dlcount = $results->data[0]['dlcount'];
-                     	return $results->data[0]['dlcount'];
+	
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("SELECT dlcount FROM jz_nodes WHERE path = '$path'");
+			$this->dlcount = $results['dlcount'];
+        	return $results['dlcount'];
 		}
 		
 		
@@ -3341,19 +3186,15 @@ function idToPath($id) {
 		*/
 		function increaseDownloadCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET dlcount = dlcount+1 WHERE path = '$path'");
+			 		
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET dlcount = dlcount+1 WHERE path = '$path'");
                      	
-                     	if (sizeof($ar = $this->getPath()) > 0) {
-                     		array_pop($ar);
-                     		$next = &new jzMediaNode($ar);
+            if (sizeof($ar = $this->getPath()) > 0) {
+            	array_pop($ar);
+                $next = &new jzMediaNode($ar);
 				$next->increasePlayCount();
-                     	}
-			jz_db_close($link);
+            }
 		}
 
 		/**
@@ -3366,12 +3207,11 @@ function idToPath($id) {
 		function setDownloadCount($n) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			if (!$link = jz_db_connect())
-				die ("could not connect to database.");
-				
-			$path = jz_db_escape($this->getPath("String"));
-			jz_db_query($link, "UPDATE jz_nodes SET dlcount = $n WHERE path = '$path'");
-			jz_db_close($link);
+			if (!(is_int($n) || is_numeric($n))) {
+				return false;
+			}
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET dlcount = $n WHERE path = '$path'");
 		}
 
 		/**
@@ -3381,19 +3221,15 @@ function idToPath($id) {
 		* @version 5/14/04
 		* @since 5/14/04
 		*/
-		function getMainArt($dimensions = false, $createBlank = true, $imageType = "audio") {
+		function getMainArt($dimensions = false, $createBlank = true, $imageType="audio") {
 		  global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db,$jzSERVICES;
 		  
-		  if (!$link = jz_db_connect())
-		    die ("could not connect to database.");
-		  
 		  $path = jz_db_escape($this->getPath("String"));
-		  $results = jz_db_query($link, "SELECT main_art FROM jz_nodes WHERE path = '$path'");
-		  jz_db_close($link);
+		  $results = jz_db_simple_query("SELECT main_art FROM jz_nodes WHERE path = '$path'");
 		  
-		  if ($results->data[0]['main_art']) {
+		  if ($results['main_art']) {
 		    // Now let's make create the resized art IF needed
-		    $this->artpath = jz_db_unescape($results->data[0]['main_art']);
+		    $this->artpath = jz_db_unescape($results['main_art']);
 		    return parent::getMainArt($dimensions,$createBlank, $imageType);
 		  } else if ($this->isLeaf() === false) { 
 		    // Now let's see if we can get art from the tags
@@ -3404,7 +3240,7 @@ function idToPath($id) {
 		      if ($meta['pic_name'] <> ""){
 			if ($dimensions){
 			  // Now lets check or create or image and return the resized one
-			  return $jzSERVICES->resizeImage("ID3:". $tracks[0]->getDataPath(), $dimensions);
+			  return $jzSERVICES->resizeImage("ID3:". $tracks[0]->getDataPath(), $dimensions, $imageType);
 			} else {
 			  return "ID3:". $tracks[0]->getDataPath();
 			}
@@ -3426,12 +3262,8 @@ function idToPath($id) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
 			$image = jz_db_escape($image);
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "UPDATE jz_nodes SET main_art = '$image' WHERE path = '$path'");
-			jz_db_close($link);
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("UPDATE jz_nodes SET main_art = '$image' WHERE path = '$path'");
 		}
 
 
@@ -3466,16 +3298,12 @@ function idToPath($id) {
 		*/
 		function getShortDescription() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT descr FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
-                     	if ($results->data[0]['descr']) {
-	                     	return jz_db_unescape($results->data[0]['descr']);
-	                } else { return false; }
+					
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("SELECT descr FROM jz_nodes WHERE path = '$path'");
+            if (isset($results['descr'])) {
+	        	return jz_db_unescape($results['descr']);
+	        } else { return false; }
 		}
 		
 		
@@ -3489,15 +3317,9 @@ function idToPath($id) {
 		function addShortDescription($text) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			$text = jz_db_escape($text);
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "UPDATE jz_nodes SET descr = '$text'
-                                                     WHERE path = '$path'");
-
-			jz_db_close($link);
+			$text = jz_db_escape($text); 		
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("UPDATE jz_nodes SET descr = '$text' WHERE path = '$path'");
 		}
 
 
@@ -3512,24 +3334,40 @@ function idToPath($id) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
 			if (isset($this->longdesc)) {
-			  return $this->longdesc;
+			  $desc = $this->longdesc;
+				while (substr($desc,0,4) == "<br>" or substr($desc,0,6) == "<br />"){
+					if (substr($desc,0,4) == "<br>"){
+						$desc = substr($desc,5);
+					}
+					if (substr($desc,0,6) == "<br />"){
+						$desc = substr($desc,7);
+					}
+				}
+				return $desc;
 			}
-
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT longdesc FROM jz_nodes WHERE path = '$path'");
+    		
+			$path = jz_db_escape($this->getPath("String"));
+			$results = jz_db_simple_query("SELECT longdesc FROM jz_nodes WHERE path = '$path'");
 			jz_db_close($link);
-                     	if ($results->data[0]['longdesc']) {
-			  $this->longdesc = jz_db_unescape($results->data[0]['longdesc']);
-			  return jz_db_unescape($results->data[0]['longdesc']);
-	                } else { 
-			  $this->longdesc = false;
-			  return false; 
+
+			if ($results['longdesc']) {
+				
+				$desc = jz_db_unescape($results['longdesc']);
+				while (substr($desc,0,4) == "<br>" or substr($desc,0,6) == "<br />"){
+					if (substr($desc,0,4) == "<br>"){
+						$desc = substr($desc,5);
+					}
+					if (substr($desc,0,6) == "<br />"){
+						$desc = substr($desc,7);
+					}
+				}
+				$this->longdesc = $desc;
+				return $desc;
+			} else { 
+				$this->longdesc = false;
+				return false; 
 			}
 		}
-		
 		
 		/**
 		* Adds a description.
@@ -3542,14 +3380,8 @@ function idToPath($id) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
 			$text = jz_db_escape($text);
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "UPDATE jz_nodes SET longdesc = '$text'
-                                                     WHERE path = '$path'");
-			jz_db_close($link);
-
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("UPDATE jz_nodes SET longdesc = '$text' WHERE path = '$path'");
 		}
 
 
@@ -3562,14 +3394,10 @@ function idToPath($id) {
 		*/
 		function getRating() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT rating_val FROM jz_nodes WHERE path = '$path'");
-                     	jz_db_close($link);
-                     	return $results->data[0]['rating_val'];
+				
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("SELECT rating_val FROM jz_nodes WHERE path = '$path'");
+            return $results['rating_val'];
 		}
 		
 		
@@ -3624,13 +3452,9 @@ function idToPath($id) {
 		function getRatingCount() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
 			
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT rating_count FROM jz_nodes WHERE path = '$path'");
-                     	jz_db_close($link);
-                     	return $results->data[0]['rating_count'];
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("SELECT rating_count FROM jz_nodes WHERE path = '$path'");
+            return $results['rating_count'];
 		}
 
 
@@ -3692,7 +3516,7 @@ function idToPath($id) {
 
 
 		
-                /**
+        /**
 		 * Adds a full discussion,
 		 * given from $element->getDiscussion();
 		 *
@@ -3700,11 +3524,8 @@ function idToPath($id) {
 		 * @version 8/11/05
 		 * @since 8/11/05
 		 **/
-                 function addFullDiscussion($disc) {
+         function addFullDiscussion($disc) {
 		   global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-		   
-		   if (!$link = jz_db_connect())
-		     die ("could not connect to database.");
 		   
 		   $path = jz_db_escape($this->getPath("String"));
 		   foreach ($disc as $entry) {
@@ -3713,11 +3534,9 @@ function idToPath($id) {
 		     $id = $entry['id'];
 		     $date = $entry['date'];
 		     
-		     if (false === jz_db_query($link, "INSERT INTO jz_discussions(my_id,path,user,comment,date_added)
-                     	                  VALUES($id,'$path','$user','$comment',$date)")) die(jz_db_error($link));
-		   }
-
-		   jz_db_close($link);		     
+		     jz_db_simple_query("INSERT INTO jz_discussions(my_id,path,user,comment,date_added)
+                     	                  VALUES($id,'$path','$user','$comment',$date)") || die(jz_db_error($link));
+		   }	     
 		 }
 		
 
@@ -3740,27 +3559,21 @@ function idToPath($id) {
 			  return $this->year;
 			}
 
-			if (!$link = jz_db_connect())
-                     		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	if ($this->isLeaf()) {
-                     		$results = jz_db_query($link, "SELECT year FROM jz_tracks WHERE path = '$path'");
-				jz_db_close($link);
-				$this->year = $results->data[0]['year'];
-	                     	return $results->data[0]['year'];
-                     	}
-                     	else { 
-	                     	$results = jz_db_query($link, "SELECT year FROM jz_tracks WHERE path LIKE '${path}/%' AND year != '-' ORDER BY path LIMIT 1");
-				jz_db_close($link);
-	                     	if ($results->rows > 0) {
-				  $this->year = $results->data[0]['year'];
-				  return $results->data[0]['year'];
-	                     	} else { 
-				  $this->year = "-";
-				  return "-"; 
+            $path = jz_db_escape($this->getPath("String"));
+            if ($this->isLeaf()) {
+            	$results = jz_db_simple_query("SELECT year FROM jz_tracks WHERE path = '$path'");
+				$this->year = $results['year'];
+	            return $results['year'];
+            } else { 
+	        	$results = jz_db_simple_query( "SELECT year FROM jz_tracks WHERE path LIKE '${path}/%' AND year != '-' ORDER BY path LIMIT 1");
+	            if (false !== $results) {
+					$this->year = $results['year'];
+					return $results['year'];
+	       		} else { 
+					$this->year = "-";
+					return "-"; 
 				}
-                     	}
+           }
 		}
 		
 		
@@ -3777,13 +3590,9 @@ function idToPath($id) {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db, $allow_filesystem_modify;
 									
 			if ($allow_filesystem_modify) {
-				if (!$link = jz_db_connect())
-                     			die ("could not connect to database.");
-                     		
-                     		$path = jz_db_escape($this->getPath("String"));
-                     		$results = jz_db_query($link, "SELECT filepath FROM jz_nodes WHERE path = '$path'");
-				jz_db_close($link);
-                     		return jz_db_unescape($results->data[0]['filepath']);
+				$path = jz_db_escape($this->getPath("String"));
+                $results = jz_db_simple_query("SELECT filepath FROM jz_nodes WHERE path = '$path'");
+                return jz_db_unescape($results['filepath']);
 			}
 			else {
 				return $this->data_dir;
@@ -3802,15 +3611,21 @@ function idToPath($id) {
 		*/
 		function getFilePath() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db, $allow_filesystem_modify;
-									
-			if (!$link = jz_db_connect())
-                   		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	$results = jz_db_query($link, "SELECT filepath FROM jz_nodes WHERE path = '$path'");
-			//jz_db_close($link);
-                     	return jz_db_unescape($results->data[0]['filepath']);
+										
+            $path = jz_db_escape($this->getPath("String"));
+            $results = jz_db_simple_query("SELECT filepath FROM jz_nodes WHERE path = '$path'");
+           	return jz_db_unescape($results['filepath']);
 		}
+		
+		
+		function setFilePath($mypath) {
+			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db, $allow_filesystem_modify;
+	
+            $path = jz_db_escape($this->getPath("String"));
+            $mypath = jz_db_escape($mypath);
+            $results = jz_db_simple_query("UPDATE jz_nodes SET filepath = '$mypath' WHERE path = '$path'");
+		}
+		
 		
 		/**
 		* Marks this element as hidden.
@@ -3821,18 +3636,13 @@ function idToPath($id) {
 		*/
 		function hide() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-									
-
-			if (!$link = jz_db_connect())
-                   		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE nodes SET hidden='true' WHERE path = '$path'");
+	
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE nodes SET hidden='true' WHERE path = '$path'");
                      	
-                     	if ($this->isLeaf()) {
-                     		jz_db_query($link, "UPDATE jz_tracks SET hidden='true' WHERE path = '$path'");
-                     	}	
-			jz_db_close($link);
+            if ($this->isLeaf()) {
+            	jz_db_simple_query("UPDATE jz_tracks SET hidden='true' WHERE path = '$path'");
+            }	
 		}
 
 
@@ -3845,17 +3655,13 @@ function idToPath($id) {
 		*/
 		function unhide() {
 			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
-									
-			if (!$link = jz_db_connect())
-                   		die ("could not connect to database.");
-                     		
-                     	$path = jz_db_escape($this->getPath("String"));
-                     	jz_db_query($link, "UPDATE jz_nodes SET hidden='false' WHERE path = '$path'");
+
+            $path = jz_db_escape($this->getPath("String"));
+            jz_db_simple_query("UPDATE jz_nodes SET hidden='false' WHERE path = '$path'");
                      	
-                     	if ($this->isLeaf()) {
-                     		jz_db_query($link, "UPDATE jz_tracks SET hidden='false' WHERE path = '$path'");
-                     	}
-			jz_db_close($link);
+            if ($this->isLeaf()) {
+            	jz_db_simple_query("UPDATE jz_tracks SET hidden='false' WHERE path = '$path'");
+            }
 		}
 		// end global_include: overrides.php
 	}
