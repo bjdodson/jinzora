@@ -38,7 +38,6 @@ function jz_db_connect() {
 	return $link;
 }
 
-
 function jz_db_drop() {
 	global $sql_pw, $sql_socket, $sql_db, $sql_usr;
 
@@ -49,9 +48,8 @@ function jz_db_drop() {
 	return;
 }
 
-
 function jz_db_create() {
-	global  $sql_pw, $sql_socket, $sql_db, $sql_usr;
+	global $sql_pw, $sql_socket, $sql_db, $sql_usr;
 
 	$link = @ mysql_connect($sql_socket, $sql_usr, $sql_pw);
 	if (!$link)
@@ -73,12 +71,9 @@ function jz_db_query($link, $sql) {
 	return $res;
 }
 
-
-
 function jz_db_error($link) {
 	return mysql_error($link);
 }
-
 
 function jz_db_close($link) {
 	// Hack by Ross to fix things for Postnuke
@@ -87,18 +82,28 @@ function jz_db_close($link) {
 	return mysql_close($link);
 }
 
-
 function jz_db_escape($string) {
 	return mysql_escape_string($string);
 }
-
 
 function jz_db_unescape($string) {
 	return stripSlashes($string);
 }
 
-
 function jz_db_rand_function() {
 	return "rand()";
+}
+
+
+
+function jz_db_simple_query($sql) {
+	global $JZLINK;
+	if (!isset ($JZLINK)) {
+		if (!$JZLINK = jz_db_connect())
+			die("could not connect to database.");
+	}
+	$results = mysql_query($sql, $JZLINK);
+	$res = @mysql_fetch_array($results, MYSQL_BOTH);
+	return $res;
 }
 ?>

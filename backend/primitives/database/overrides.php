@@ -110,7 +110,8 @@ function setID($id) {
  * @since 3/11/05
  **/
 function idToPath($id) {
-    $results = jz_db_simple_query($link, "SELECT path FROM jz_nodes WHERE my_id = '$id'");
+	$id = jz_db_escape($id);
+    $results = jz_db_simple_query("SELECT path FROM jz_nodes WHERE my_id = '$id'");
     return $results['path'];
 }
 
@@ -418,7 +419,6 @@ function idToPath($id) {
     		
 			$path = jz_db_escape($this->getPath("String"));
 			$results = jz_db_simple_query("SELECT longdesc FROM jz_nodes WHERE path = '$path'");
-			jz_db_close($link);
 
 			if ($results['longdesc']) {
 				
@@ -605,7 +605,7 @@ function idToPath($id) {
 		     $date = $entry['date'];
 		     
 		     jz_db_simple_query("INSERT INTO jz_discussions(my_id,path,user,comment,date_added)
-                     	                  VALUES($id,'$path','$user','$comment',$date)") || die(jz_db_error($link));
+                     	                  VALUES($id,'$path','$user','$comment',$date)");
 		   }	     
 		 }
 		
