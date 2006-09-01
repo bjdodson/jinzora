@@ -28,7 +28,7 @@
 if (!function_exists("jz_db_object_query")) {
 	function jz_db_object_query($sql) {
 		global $JZLINK;
-		echo $sql;
+		
 		if (!isset($JZLINK)) {
 			if (!$JZLINK = jz_db_connect())
 				die ("could not connect to database.");
