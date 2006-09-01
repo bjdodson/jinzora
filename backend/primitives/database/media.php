@@ -458,7 +458,7 @@
 		* @since 5/14/2004
 		*/
 		function getSubNodeCount($type='both', $distance=false) {
-			global $sql_type, $sql_pw, $sql_socket, $sql_db, $sql_usr,$backend;
+			global $sql_type, $sql_pw, $sql_socket, $sql_db, $sql_usr,$backend,$default_importer;
 			
 			if ($distance === false) {
 				$distance = $this->getNaturalDepth();	
@@ -479,8 +479,8 @@
 			  return $this->nodecount + $this->leafcount;
 			}
 
-			// HACK for now (8/11/05)
-			if ($backend == "id3-database") {
+			
+			if ($default_importer == "id3tags") {
 			  //return sizeof($this->getSubNodes($type,$distance,true,0));
 			  
 				$pathArray = $this->getPath();
