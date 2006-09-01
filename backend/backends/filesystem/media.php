@@ -171,7 +171,7 @@
 				$distance = $this->getNaturalDepth();	
 			}
 
-			if (true) { // (0 <= $distance && $distance <= 1) { // Handle it.
+			if (0 <= $distance && $distance <= 1) { // Handle it.
 				$arr = array();
 				
 				if ($distance == 0) {
