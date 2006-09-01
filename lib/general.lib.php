@@ -227,6 +227,19 @@
 	}
 	
 	
+	/*
+	 * Fallback function for stripos
+	 * 
+	 * @author Ben Dodson, from PHP.net
+	 * @since 8/31/06
+	 */
+	if (!function_exists("stripos")) {
+  		function stripos($str,$needle,$offset=0) {
+     		return strpos(strtolower($str),strtolower($needle),$offset);
+  		}
+	}
+	
+	
 	
 	/** 
 	* Allows you to write 1 setting to a settings file

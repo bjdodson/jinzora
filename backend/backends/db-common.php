@@ -39,7 +39,26 @@ class sqlTable {
 	}
 }
 	
-	
+function jz_db_cache($type, $sql, $val = false) {
+	global $enable_query_cache;
+	static $jz_query_cache = array();
+
+	if ($enable_query_cache != "true") {
+		return false;
+	}
+
+	if ($val === false) {
+		if (isset($jz_query_cache[$type][$sql])) {
+			return $jz_query_cache[$type][$sql];
+		} else {
+			return false;
+		}
+	} else {
+		if ( (false !== stripos($sql,"select")) && (false === stripos($sql,jz_db_rand_function()))) {
+			$jz_query_cache[$type][$sql] = $val; 
+		}
+	}
+}
 
 function resultsToArray(& $results, $type = false) {
 	global $backend;

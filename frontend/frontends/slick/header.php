@@ -43,7 +43,7 @@
 		}
 		
 		function footer(){
-		  global $jinzora_url, $this_pgm, $version, $root_dir, $show_page_load_time, $skin, $show_jinzora_footer, $jzSERVICES, $cms_mode,$QUERY_TIME,$QUERIES;
+		  global $jinzora_url, $this_pgm, $version, $root_dir, $show_page_load_time, $skin, $show_jinzora_footer, $jzSERVICES, $cms_mode;
 
 			// First let's make sure they didn't turn the footer off
 			if ($show_jinzora_footer){
@@ -57,9 +57,6 @@
 				if ($show_page_load_time == "true" and $_SESSION['jz_load_time'] <> ""){
 					// Ok, let's get the difference
 					$diff = round(microtime_diff($_SESSION['jz_load_time'],microtime()),3);
-					$f  = fopen("QUERIES",'w');
-					fwrite($f,"total time: " . round($QUERY_TIME,3) . "/" . $diff . "\n\n" . print_r($QUERIES,true));
-					fclose($f);
 					if ($cms_mode == "false"){
 						$page_load = '<span class="jz_artistDesc">';
 					}

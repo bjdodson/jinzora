@@ -42,7 +42,8 @@ $content .= '     $enable_favorites = "'. $enable_favorites. '";' . "\n";
 $content .= '     $enable_page_caching = "'. $enable_page_caching. '";' . "\n";		
 $content .= '     $cache_age_days = "'. $cache_age_days. '";' . "\n";		
 $content .= '     $gzip_page_cache = "'. $gzip_page_cache. '";' . "\n";				
-$content .= '     $security_key = "'. $security_key. '";' . "\n";		
+$content .= '     $security_key = "'. $security_key. '";' . "\n";
+$content .= '     $enable_query_cache = "'. $enable_query_cache. '";' . "\n";		
 $content .= "\n";
 
 $content .= '     // Playlist Settings' . "\n";

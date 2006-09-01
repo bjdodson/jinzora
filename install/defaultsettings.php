@@ -35,6 +35,7 @@ $enable_page_caching = "false";
 $cache_age_days = "5";		
 $gzip_page_cache = "false";				
 $security_key = md5(uniqid("ji") . uniqid("nz") . uniqid("ora"));
+$enable_query_cache = "false";
 		
 // Playlist Settings
 $enable_playlist = "true";

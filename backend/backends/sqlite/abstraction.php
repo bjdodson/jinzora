@@ -53,12 +53,18 @@ function jz_db_create() {
 function jz_db_query($link, $sql) {
   global $sql_type, $sql_pw, $sql_socket, $sql_db, $sql_usr;
 
+  if (false !== ($res = jz_db_cache('query',$sql))) {
+    return $res;
+  }
+
 	$results = @sqlite_query($link,$sql);
       if (!$results) { return false; }
       $res = sqlite_fetch_all($results,SQLITE_BOTH);
       $ret = &new sqlTable();
       $ret->data = $res;
       $ret->rows = sizeof($res);
+      
+      jz_db_cache('query',$sql,$res);
       return $ret;
 }
 
@@ -92,12 +98,19 @@ function jz_db_rand_function() {
 
 function jz_db_simple_query($sql) {
 	global $JZLINK;
+	
+	if (false !== ($res = jz_db_cache('simple',$sql))) {
+		return $res;
+	}
+	
 	if (!isset ($JZLINK)) {
 		if (!$JZLINK = jz_db_connect())
 			die("could not connect to database.");
 	}
 	$results = sqlite_query($JZLINK,$sql);
 	$res = @sqlite_fetch_array($results, SQLITE_BOTH);
+	
+	jz_db_cache('simple',$sql,$res);
 	return $res;
 }
 

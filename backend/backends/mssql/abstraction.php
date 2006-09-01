@@ -60,6 +60,10 @@ function jz_db_create() {
 function jz_db_query($link, $sql) {
   global $sql_type, $sql_pw, $sql_socket, $sql_db, $sql_usr;
 
+  if (false !== ($res = jz_db_cache('query',$sql))) {
+    return $res;
+  }
+
   $results = @mssql_query($sql, $link);
   if (!$results) return false;
   $res = &new sqlTable();
@@ -67,6 +71,7 @@ function jz_db_query($link, $sql) {
   	$res->add($row);
   }
   
+  jz_db_cache('query',$sql,$res);
   return $res;
 }
 
@@ -104,12 +109,19 @@ function jz_db_rand_function() {
 
 function jz_db_simple_query($sql) {
 	global $JZLINK;
+	
+	if (false !== ($res = jz_db_cache('simple',$sql))) {
+		return $res;
+	}
+	
 	if (!isset ($JZLINK)) {
 		if (!$JZLINK = jz_db_connect())
 			die("could not connect to database.");
 	}
 	$results = mssql_query($sql, $JZLINK);
 	$res = @mssql_fetch_array($results, MSSQL_BOTH);
+	
+	jz_db_cache('simple',$sql,$res);
 	return $res;
 }
 ?>
