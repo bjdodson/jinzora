@@ -162,7 +162,7 @@
 		function updateCacheHelper(&$be, &$link, $recursive, $root, $showStatus, $force = false, $readTags = true) {
 		  global $sql_usr, $sql_type, $sql_pw, $sql_socket, $sql_db,
 		    $audio_types, $video_types, $ext_graphic, $default_art,
-		    $track_num_seperator, $hierarchy;
+		    $track_num_seperator, $hierarchy,$backend;
 
 
 		  // The database adaptor builds itself based on the filesystem.
@@ -205,11 +205,8 @@
 		  if (!jz_db_query($link, $sql)) {
 		    // the node was already in the database.
 		    $sql = "UPDATE jz_nodes SET valid = 'true' ";
-		    if ($sql_type == "DBX_MYSQL") {
-		      $sql .= "WHERE path LIKE BINARY '$slashedNodePath'";
-		    } else {
-		      $sql .= "WHERE path LIKE '$slashedNodePath'";
-		    }
+		    $sql .= "WHERE path " . jz_db_case_sensitive() . " '$slashedNodePath'";
+		    
 		    jz_db_query($link, $sql);
 		  }
 		  writeLogData('importer',"Importing node: ". $mySlashedName. " - ". $fullSlashedNodePath);
@@ -250,7 +247,7 @@
 			
 			$spt = findPType($next);
 
-			if ($sql_type == "DBX_MYSQL") {
+			if ($backend == "mysql") {
 			  $n1 = jz_db_query($link,"SELECT COUNT(*) FROM jz_nodes WHERE path LIKE '$slashedFilePath'");
 			  $n2 = jz_db_query($link,"SELECT COUNT(*) FROM jz_nodes WHERE path LIKE BINARY '$slashedFilePath'");
 			  if ($n1->data[0][0] - $n2->data[0][0] > 0) {
@@ -263,12 +260,8 @@
 			$sqln .= " VALUES('$slashedFileName','$slashedFilePath','$slashedNextFile','$spt',$level+1,'$sdate','".uniqid("T")."')";
 
 			$sqlu = "UPDATE jz_nodes SET valid = 'true' ";
-			if ($sql_type == "DBX_MYSQL") {
-			  $sqlu .= "WHERE path LIKE BINARY '$slashedFilePath'";
-			} else {
-			  $sqlu .= "WHERE path LIKE '$slashedFilePath'";
-			}
-			
+			$sqlu .= "WHERE path " . jz_db_case_sensitive() . " '$slashedFilePath'";
+						
 			jz_db_query($link, $sqln) || jz_db_query($link,$sqlu);
 		      }
 		      $nodecount++;
@@ -313,11 +306,8 @@
 			$mid = uniqid("T");
 			$sql = "INSERT INTO jz_nodes(name,path,filepath,ptype,level,date_added,leaf,my_id) ";
 			$sql .= "VALUES('$slashedFileName','$slashedFilePath','$fullSlashedFilePath','track',$level+1,'$mdate','true','".$mid."') ";
-			if ($sql_type == "DBX_MYSQL") {
-			  $updatesql = "UPDATE jz_nodes SET valid = 'true' WHERE path LIKE BINARY '$slashedFilePath'";
-			} else {
-			  $updatesql = "UPDATE jz_nodes SET valid = 'true' WHERE path LIKE '$slashedFilePath'";
-			}
+			$updatesql = "UPDATE jz_nodes SET valid = 'true' WHERE path " . jz_db_case_sensitive() . " '$slashedFilePath'";
+			
 			jz_db_query($link,$sql) || jz_db_query($link,$updatesql);
 			
 			// Now, did they want to force this?
@@ -399,20 +389,12 @@
 					album = '$album',
 					number = '$track',
 					extension = '$fileExt'";
-			  if ($sql_type == "DBX_MYSQL") {
-			    $updatesql .= " WHERE path LIKE BINARY '$slashedFilePath'";
-			  } else {
-			    $updatesql .= " WHERE path LIKE '$slashedFilePath'";
-			  }
-
-	
+			  
+			  $updatesql .= " WHERE path " . jz_db_case_sensitive() . " '$slashedFilePath'";
+			  	
 			  jz_db_query($link,$sql) || jz_db_query($link,$updatesql);
 			} else {
-			  if ($sql_type == "DBX_MYSQL") {
-			    $sql = "UPDATE jz_tracks SET valid = 'true' WHERE path LIKE BINARY '$slashedFilePath'";
-			  } else {
-			    $sql = "UPDATE jz_tracks SET valid = 'true' WHERE path LIKE '$slashedFilePath'";
-			  }
+			  $sql = "UPDATE jz_tracks SET valid = 'true' WHERE path " . jz_db_case_sensitive() . " '$slashedFilePath'";
 			  jz_db_query($link,$sql);
 			}
 			
@@ -428,11 +410,8 @@
 			if (isset($long_description)) {
 			  $sql .= ", longdesc = '$long_description'";
 			}
-			if ($sql_type == "DBX_MYSQL") {
-			  jz_db_query($link,"UPDATE jz_nodes SET $sql WHERE path LIKE BINARY '$slashedFilePath'");
-			} else {
-			  jz_db_query($link,"UPDATE jz_nodes SET $sql WHERE path LIKE '$slashedFilePath'");
-			}
+			jz_db_query($link,"UPDATE jz_nodes SET $sql WHERE path " . jz_db_case_sensitive() . " '$slashedFilePath'");
+			
 		      }
 		    }
 		  }
@@ -741,13 +720,11 @@
 			if ($type == "nodes") {
 				$t = "AND leaf = 'false'";
 			}
-			if ($sql_type == "DBX_PGSQL") {
-			  $REGEXP = "~";
-			  $LIKE = "ILIKE";
-			} else {
-			  $REGEXP = "REGEXP";
-			  $LIKE = "LIKE";
-			}
+			
+			$REGEXP = jz_db_regexp();
+			$LIKE = jz_db_case_insensitive();
+
+
 			if ($type == "tracks" || $type == "leaves") {
 			  // Check the trackname:
 			  if ($letter == "#") {
@@ -918,11 +895,8 @@
 			$excludeArray = $tmp;
 
 			// INSENSITIVE OPERATION:
-			if ($sql_type == "DBX_PGSQL") {
-			  $INSOP = "ILIKE";
-			} else {
-			  $INSOP = "LIKE";
-			}
+			$INSOP = jz_db_case_insensitive();
+			
 			// SEARCH:
 			$constraints = array();
 		

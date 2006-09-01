@@ -131,4 +131,18 @@ function jz_db_rand_function() {
   }
 }
 
+function jz_db_regexp() {
+	global $sql_type;
+	return "REGEXP";
+}
+
+function jz_db_case_sensitive() {
+	global $sql_type;
+	return "LIKE";
+}
+
+function jz_db_case_insensitive() {
+	global $sql_type;
+	return "LIKE";
+}
 ?>

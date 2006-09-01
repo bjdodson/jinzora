@@ -96,6 +96,20 @@ function jz_db_rand_function() {
 	return "random()";
 }
 
+function jz_db_regexp() {
+	return "REGEXP";
+}
+
+function jz_db_case_sensitive() {
+	return "LIKE";
+}
+
+function jz_db_case_insensitive() {
+	return "LIKE";
+}
+
+
+
 function jz_db_simple_query($sql) {
 	global $JZLINK;
 	
