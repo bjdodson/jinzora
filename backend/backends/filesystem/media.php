@@ -27,7 +27,7 @@
 	// Most classes should be included from header.php
 	
 	
-	// The music root is $media_dir.
+	// The music root is $media_dirs, (but should only be one directory).
 	class jzMediaNode extends jzRawMediaNode {
 
 		/**
@@ -61,6 +61,12 @@
 				return $this->data_dir; // THIS IS NOT RIGHT. WHERE SHOULD IT GO? /backend/data? /data?
 			}
 		}
+		
+		function getFilePath() {
+			global $media_dirs;
+			return $media_dirs . '/' . $this->getPath("String");
+		}
+		
 		/**
 		* Counts the number of subnodes $distance steps down.
 		* $distance = -1 does a recursive count.
@@ -71,13 +77,17 @@
 		*/
 		function getSubNodeCount($type='both', $distance=false) {
 		
-			global $web_root, $root_dir, $media_dir, 
+			global $web_root, $root_dir, $media_dirs, 
 				$audio_types, $video_types;
 			
-			$fullpath = $web_root . $root_dir . $media_dir;
+			$fullpath = $media_dirs;
 			$mypath = $this->getPath("String");
 			$fullpath .= "/" . $mypath;
 			$sum = 0;
+			
+			if ($type == "tracks") {
+				$type = "leaves";
+			}
 			
 			if ($distance === false) {
 				$distance = $this->getNaturalDepth();	
@@ -148,19 +158,23 @@
 		* @since 5/14/2004
 		*/
 		function getSubNodes($type='nodes', $distance=false, $random=false, $limit=0) {
-			global $web_root, $root_dir, $media_dir, $audio_types, $video_types;
-			$fullpath = $web_root . $root_dir . $media_dir;
+			global $web_root, $root_dir, $media_dirs, $audio_types, $video_types;
+			$fullpath = $media_dirs;
 			$mypath = $this->getPath("String");
 			$fullpath .= "/" . $mypath;
-
+			
+			if ($type == "tracks") {
+				$type = "leaves";
+			}
+			
 			if ($distance === false) {
 				$distance = $this->getNaturalDepth();	
 			}
 
-			if (0 <= $distance && $distance <= 1) { // Handle it.
+			if (true) { // (0 <= $distance && $distance <= 1) { // Handle it.
 				$arr = array();
 				
-				if ($distance == 0 || $distance == -1) {
+				if ($distance == 0) {
 					return array($this);
 				}
 				else {
@@ -184,7 +198,7 @@
 							    || preg_match("/\.($video_types)$/i", $file)) {
 								if ($type == "leaves" || $type == "both") {
 									if ($distance == 1 || $distance == -1) {
-										$arr[] = jzMediaTrack($newpath);
+										$arr[] = new jzMediaTrack($newpath);
 									}
 								}
 							}
@@ -224,13 +238,13 @@
 		* @since 5/14/2004
 		*/	
 		function getAlphabetical($letter, $distance = false) {
-			global $web_root, $root_dir, $media_dir, $audio_types, $video_types;
+			global $web_root, $root_dir, $media_dirs, $audio_types, $video_types;
 			
 			if ($distance === false) {
 				$distance = $this->getNaturalDepth();	
 			}
 			
-			$fullpath = $web_root . $root_dir . $media_dir;
+			$fullpath = $media_dirs;
 			$mypath = $this->getPath("String");
 			$fullpath .= "/" . $mypath;
 			$name = strtolower($this->getName());

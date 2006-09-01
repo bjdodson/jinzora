@@ -25,7 +25,11 @@
 	* @author Ross Carlson <ross@jinzora.org>
 	*/
 
-
+	class jzUser extends jzRawUser {
+  		function jzUser($login = true, $uid = false) {
+    		$this->_constructor($login,$uid);
+  		}
+	}
 
 
 ?>
