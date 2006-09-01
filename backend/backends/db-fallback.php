@@ -28,6 +28,7 @@
 if (!function_exists("jz_db_object_query")) {
 	function jz_db_object_query($sql) {
 		global $JZLINK;
+		echo $sql;
 		if (!isset($JZLINK)) {
 			if (!$JZLINK = jz_db_connect())
 				die ("could not connect to database.");
@@ -80,5 +81,22 @@ if (!function_exists("jz_db_simple_query")) {
 	}
 }
 
+function jz_db_leading_digit($var) {
+	global $compare_ignores_the;
+	
+	$LEADING_DIGIT  =     "$var LIKE '0%' OR $var LIKE '1%' OR $var LIKE '2%'";
+	$LEADING_DIGIT .= " OR $var LIKE '3%' OR $var LIKE '4%' OR $var LIKE '5%'";
+	$LEADING_DIGIT .= " OR $var LIKE '6%' OR $var LIKE '7%' OR $var LIKE '8%'";
+	$LEADING_DIGIT .= " OR $var LIKE '9%'";
+
+	if ($compare_ignores_the != "false") {
+		$LIKE = jz_db_case_insensitive();
+		$LEADING_DIGIT .= " OR $var $LIKE 'the 0%' OR $var $LIKE 'the 1%' OR $var $LIKE 'the 2%'";
+		$LEADING_DIGIT .= " OR $var $LIKE 'the 3%' OR $var $LIKE 'the 4%' OR $var $LIKE 'the 5%'";
+		$LEADING_DIGIT .= " OR $var $LIKE 'the 6%' OR $var $LIKE 'the 7%' OR $var $LIKE 'the 8%'";
+		$LEADING_DIGIT .= " OR $var $LIKE 'the 9%'";
+	}
+	return $LEADING_DIGIT;
+}
 	
 ?>

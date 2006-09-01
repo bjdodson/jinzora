@@ -721,18 +721,12 @@
 				$t = "AND leaf = 'false'";
 			}
 			
-			$REGEXP = jz_db_regexp();
 			$LIKE = jz_db_case_insensitive();
-
 
 			if ($type == "tracks" || $type == "leaves") {
 			  // Check the trackname:
 			  if ($letter == "#") {
-                            if ($compare_ignores_the != "false") {
-                              $results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND (trackname $REGEXP '^[0-9]' OR trackname $REGEXP '^the [0-9]') ORDER BY trackname");
-                            } else {
-			      $results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND trackname $REGEXP '^[0-9]' ORDER BY trackname");
-                            }
+              	$results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND (" . jz_db_leading_digit('trackname') . ") ORDER BY trackname");
 			  } else if ($letter == "*") {
 			    jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' ORDER BY trackname");
 			  } else {
@@ -743,23 +737,15 @@
                                 $results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND (trackname $LIKE '${letter}%' OR trackname $LIKE 'the ${letter}%') ORDER BY trackname");
                               }
                             } else {
-			      $results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND trackname $LIKE '${letter}%' ORDER BY trackname");
+			      				$results = jz_db_object_query("SELECT path FROM jz_tracks WHERE path LIKE '${pathString}%' AND trackname $LIKE '${letter}%' ORDER BY trackname");
                             }
 			  }
 			  
 			}
 			
 			else if ($letter == "#") {
-                          if ($compare_ignores_the != "false") {
-				$results = jz_db_object_query("SELECT * FROM jz_nodes 
-				  WHERE level $op $level $t AND path LIKE '${pathString}%'
-				  AND (name $REGEXP '^[0-9]' OR name $REGEXP '^the [0-9]') ORDER BY name");
-                          } else {
-				$results = jz_db_object_query("SELECT * FROM jz_nodes 
-				  WHERE level $op $level $t AND path LIKE '${pathString}%'
-				  AND name $REGEXP '^[0-9]' ORDER BY name");
+                $results = jz_db_object_query("SELECT * FROM jz_nodes WHERE level $op $level $t AND path LIKE '${pathString}%' AND (" . jz_db_leading_digit('name') . ") ORDER BY name");
 				  //TODO: add special characters (IE, anything not a-zA-Z)
-                          } 
 			}
 			else if ($letter == "*") {
 				$results = jz_db_object_query("SELECT * FROM jz_nodes 
