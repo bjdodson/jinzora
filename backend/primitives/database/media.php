@@ -481,7 +481,49 @@
 
 			// HACK for now (8/11/05)
 			if ($backend == "id3-database") {
-			  return sizeof($this->getSubNodes($type,$distance,true,0));
+			  //return sizeof($this->getSubNodes($type,$distance,true,0));
+			  
+				$pathArray = $this->getPath();
+				$level = $this->getLevel();
+				$pathString = jz_db_escape($this->getPath("String"));
+
+				$pathArray2 = $pathArray;
+				for ($i = 0; $i < sizeof($pathArray2) - 1; $i++) {
+			    	$pathArray2[$i] = '%';
+			  	}
+				$pathString = implode('/',$pathArray2);
+
+				if ($pathString != "") { $pathString .= "/"; }
+				$pathString = jz_db_escape($pathString);
+
+          		if ($distance < 0) {
+            		$op = ">";
+          		} else {
+              		$op = "=";
+                	$level = $level + $distance;
+          		}      
+			
+			
+				// now the query.
+				if ($type == "leaves") {
+					$sql = "SELECT COUNT(*) FROM jz_tracks WHERE level $op $level AND hidden = 'false' AND path LIKE '${pathString}%'";
+					
+					$res = jz_db_simple_query($sql);
+					return $res[0];
+				} else {
+					$sql = "SELECT COUNT(*) FROM jz_nodes WHERE level $op $level AND hidden = 'false' ";
+					if ($pathString != "") {
+				  		$sql .= "AND path LIKE '${pathString}%' ";
+					}
+					$sql .= "$artString";
+					if ($type == "nodes") {
+						$sql .= " AND leaf = 'false'";
+					}
+
+					$res = jz_db_simple_query($sql);
+					return $res[0];
+				}
+			  
 			}
 
 			if ($distance == 1) {
