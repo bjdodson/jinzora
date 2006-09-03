@@ -934,7 +934,7 @@
 			
 			$smarty->assign('resample_rates',explode("|",$resampleRates));
 			
-			includeTemplate($smarty, 'block-resample');
+			jzTemplate($smarty, 'block-resample');
 			
 			if ($return) {
 			  $var = ob_get_contents();
