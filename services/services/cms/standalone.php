@@ -106,6 +106,6 @@
 	* @since 6/26/06
 	**/
 	function SERVICE_CMSDEFAULTDB_standalone() {
-		return "jinzora2";
+		return "jinzora3";
 	}
 ?>

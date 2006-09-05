@@ -46,7 +46,7 @@ define("ALL_MEDIA_GROUP","ALL_MEDIA");
 //**************//
 if ($backend == "id3-database" || $backend == "id3-cache") {
 	$default_importer = "id3tags";
-} else {
+} else if (!isset($default_importer)){
 	$default_importer = "filesystem";
 }
 
@@ -1611,6 +1611,7 @@ function updateNodeCache($node, $recursive = false, $showStatus = false, $force 
 	$flags['recursive'] = $recursive;
 
 	$importer = $default_importer;
+	
 	// TODO: more dynamic choice of importer.
 	if (false !== stristr($importer,"id3tags")) {
 		// id3tag importer doesn't care about your hierarchy.

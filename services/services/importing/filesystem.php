@@ -68,6 +68,10 @@ function SERVICE_IMPORTMEDIA_filesystem($node, $root_path = false, $flags = arra
 	if (isset($flags['showstatus']) && is_string($flags['showstatus']) && $flags['showstatus'] == "cli") {
 	 		echo word("Scanning: %s", $folder) . "\n";
 	}
+	
+	$track_paths = array();
+	$track_filenames = array();
+	$track_metas = array();
 	while ($file = readdir($handle)) {
 		if ($file == "." || $file == "..") {
 			continue;
@@ -122,10 +126,13 @@ function SERVICE_IMPORTMEDIA_filesystem($node, $root_path = false, $flags = arra
 				} else {
 					$meta = false;
 				}
-				$node->inject($mypath,$fullpath,$meta);
+				$track_paths[] = $mypath;
+				$track_filenames[] = $fullpath;
+				$track_metas[] = $meta;
 			}
 		}
 	}
+	$node->bulkInject($track_paths,$track_filenames,$track_metas);
 	
 	if ($bestImage != "") {
 		$parent->addMainArt($bestImage);

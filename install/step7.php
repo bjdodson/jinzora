@@ -192,6 +192,7 @@ function skipImport(){
 							// Now let's setup the backend
 							$backend = $_POST['backend'];
 							$hierarchy = $_POST['hierarchy'];
+							$default_importer = $_POST['importer'];
 							require_once($include_path. 'backend/backend.php');
 							$jzUSER = new jzUser();
 							$root = &new jzMediaNode();

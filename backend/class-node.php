@@ -1246,6 +1246,19 @@
 			return $res;
 		}
 	
+		/*
+		 * Adds tracks in bulk to Jinzora.
+		 * 
+		 * @author Ben Dodson
+		 * @since 9/5/04
+		 */
+		 function bulkInject($paths,$filenames,$metas) {
+		 	$results = array();
+		 	for ($i = 0; $i < sizeof($paths); $i++) {
+		 		$results[] = $this->inject($paths[$i],$filenames[$i],$metas[$i]);
+		 	}
+		 	return $results;
+		 }
 	
 		/**
 		* Injects a leaf or a node into $this.

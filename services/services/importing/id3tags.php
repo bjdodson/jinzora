@@ -78,9 +78,13 @@ function SERVICE_IMPORTMEDIA_id3tags($node, $root_path = false, $flags = array()
 	 	$bestImage = "";
 	 	$albums = array();
 	 	
+	 	$track_paths = array();
+		$track_filenames = array();
+		$track_metas = array();
+	 	
 	 	if (!($handle = opendir($cur_dir))) 
 			continue; //die("Could not access directory $dir");
-			
+					
 			while ($file = readdir($handle)) {
 				if ($file == "." || $file == "..") {
 					continue;
@@ -174,16 +178,30 @@ function SERVICE_IMPORTMEDIA_id3tags($node, $root_path = false, $flags = array()
 							$arr['track'] = $meta['filename'];
 						}
 						
-						if (($child = $root->inject($arr,$fullpath,$meta)) !== false) {
-							$album = $child->getAncestor("album");
-							if ($album !== false) {
-								$albums[$album->getPath("String")] = true;
-						    }
-						}
+						$track_paths[] = $arr;
+						$track_filenames[] = $fullpath;
+						$track_metas[] = $meta;
+						
 					}
 				}
 			} // while reading dir
 			
+			if ($bestImage != "") {
+				$need_albums = true;
+			}
+			
+			if ($need_albums && sizeof($track_paths) > 0) {
+				$results = $root->bulkInject($track_paths,$track_filenames,$track_metas);
+				for ($i = 0; $i < sizeof($results); $i++) {
+					if ($results[$i] !== false) {
+						$album = $results[$i]->getAncestor("album");
+						if ($album !== false) {
+							$albums[$album->getPath("String")] = true;
+						}
+					}
+				}
+			}			
+						
 			if ($bestImage != "") {
 				foreach ($albums as $ap => $true) {
 			    	$album = new jzMediaNode($ap);
