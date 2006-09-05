@@ -599,7 +599,7 @@
 		* @since 5/14/2004
 		*/
 		function getSubNodes($type="nodes", $distance=false, $random=false, $limit=0, $hasArt = false) {
-			global $sql_type, $sql_pw, $sql_socket, $sql_db, $sql_usr,$backend;
+			global $sql_type, $sql_pw, $sql_socket, $sql_db, $sql_usr,$backend,$default_importer;
 			
 			if ($distance === false) {
 				$distance = $this->getNaturalDepth();	
@@ -613,7 +613,7 @@
 			$level = $this->getLevel();
 			$pathString = jz_db_escape($this->getPath("String"));
 
-			if ($backend == "id3-database") {
+			if ($default_importer == "id3tags") {
 			  $pathArray2 = $pathArray;
 			  for ($i = 0; $i < sizeof($pathArray2) - 1; $i++) {
 			    $pathArray2[$i] = '%';
@@ -1118,7 +1118,7 @@
 				} else {
 				  $me = &new jzMediaNode(jz_db_unescape($results->data[$i]['path']));
 				}
-				if ($backend == "id3-database") {
+				if ($default_importer == "id3tags") {
 				  if (!isset($hash[pathize(strtolower($me->getName()))])) {
 				    $return[] = $me;
 				    $hash[pathize(strtolower($me->getName()))] = true;
