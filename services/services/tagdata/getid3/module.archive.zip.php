@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -202,7 +202,7 @@ class getid3_zip
 			$ZIPlocalFileHeader .= fread($fd, $FilenameExtrafieldLength);
 
 			if ($LocalFileHeader['raw']['filename_length'] > 0) {
-				$LocalFileHeader['filename']                    = substr($ZIPlocalFileHeader, 30, $LocalFileHeader['raw']['filename_length']);
+				$LocalFileHeader['filename']                = substr($ZIPlocalFileHeader, 30, $LocalFileHeader['raw']['filename_length']);
 			}
 			if ($LocalFileHeader['raw']['extra_field_length'] > 0) {
 				$LocalFileHeader['raw']['extra_field_data'] = substr($ZIPlocalFileHeader, 30 + $LocalFileHeader['raw']['filename_length'], $LocalFileHeader['raw']['extra_field_length']);
@@ -406,7 +406,7 @@ class getid3_zip
 		$UNIXminute = (($DOStime & 0x07E0) >> 5);
 		$UNIXhour   = (($DOStime & 0xF800) >> 11);
 
-		return mktime($UNIXhour, $UNIXminute, $UNIXsecond, $UNIXmonth, $UNIXday, $UNIXyear);
+		return gmmktime($UNIXhour, $UNIXminute, $UNIXsecond, $UNIXmonth, $UNIXday, $UNIXyear);
 	}
 
 }

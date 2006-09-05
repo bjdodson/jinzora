@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -48,7 +48,7 @@ class getid3_jpg
 
 				} else {
 
-					$ThisFileInfo['warning'][] = 'EXIF parsing only available when compiled with --enable-exif (or php_exif.dll enabled for Windows).';
+					$ThisFileInfo['warning'][] = 'EXIF parsing only available when '.(GETID3_OS_ISWINDOWS ? 'php_exif.dll enabled' : 'compiled with --enable-exif');
 
 				}
 

@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -113,27 +113,27 @@ class getid3_midi
 					}
 					$MIDIevents[$tracknumber][$eventid]['eventid']   = $LastIssuedMIDIcommand;
 					$MIDIevents[$tracknumber][$eventid]['channel']   = $LastIssuedMIDIchannel;
-					if ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0x8) { // Note off (key is released)
+					if ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0x08) { // Note off (key is released)
 
 						$notenumber = ord(substr($trackdata, $eventsoffset++, 1));
 						$velocity   = ord(substr($trackdata, $eventsoffset++, 1));
 
-					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0x9) { // Note on (key is pressed)
+					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0x09) { // Note on (key is pressed)
 
 						$notenumber = ord(substr($trackdata, $eventsoffset++, 1));
 						$velocity   = ord(substr($trackdata, $eventsoffset++, 1));
 
-					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0xA) { // Key after-touch
+					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0x0A) { // Key after-touch
 
 						$notenumber = ord(substr($trackdata, $eventsoffset++, 1));
 						$velocity   = ord(substr($trackdata, $eventsoffset++, 1));
 
-					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0xB) { // Control Change
+					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0x0B) { // Control Change
 
 						$controllernum = ord(substr($trackdata, $eventsoffset++, 1));
 						$newvalue      = ord(substr($trackdata, $eventsoffset++, 1));
 
-					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0xC) { // Program (patch) change
+					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0x0C) { // Program (patch) change
 
 						$newprogramnum = ord(substr($trackdata, $eventsoffset++, 1));
 
@@ -144,17 +144,17 @@ class getid3_midi
 							$thisfile_midi_raw['track'][$tracknumber]['instrument'] = $this->GeneralMIDIinstrumentLookup($newprogramnum);
 						}
 
-					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0xD) { // Channel after-touch
+					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0x0D) { // Channel after-touch
 
 						$channelnumber = ord(substr($trackdata, $eventsoffset++, 1));
 
-					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0xE) { // Pitch wheel change (2000H is normal or no change)
+					} elseif ($MIDIevents[$tracknumber][$eventid]['eventid'] == 0x0E) { // Pitch wheel change (2000H is normal or no change)
 
 						$changeLSB = ord(substr($trackdata, $eventsoffset++, 1));
 						$changeMSB = ord(substr($trackdata, $eventsoffset++, 1));
 						$pitchwheelchange = (($changeMSB & 0x7F) << 7) & ($changeLSB & 0x7F);
 
-					} elseif (($MIDIevents[$tracknumber][$eventid]['eventid'] == 0xF) && ($MIDIevents[$tracknumber][$eventid]['channel'] == 0xF)) {
+					} elseif (($MIDIevents[$tracknumber][$eventid]['eventid'] == 0x0F) && ($MIDIevents[$tracknumber][$eventid]['channel'] == 0x0F)) {
 
 						$METAeventCommand = ord(substr($trackdata, $eventsoffset++, 1));
 						$METAeventLength  = ord(substr($trackdata, $eventsoffset++, 1));
@@ -263,7 +263,7 @@ class getid3_midi
 
 					} else {
 
-						$ThisFileInfo['warning'][] = 'Unhandled MIDI Event ID: '.$MIDIevents[$tracknumber][$eventid]['eventid'];
+						$ThisFileInfo['warning'][] = 'Unhandled MIDI Event ID: '.$MIDIevents[$tracknumber][$eventid]['eventid'].' + Channel ID: '.$MIDIevents[$tracknumber][$eventid]['channel'];
 
 					}
 				}
@@ -273,6 +273,7 @@ class getid3_midi
 			}
 			$previoustickoffset = null;
 
+			ksort($MicroSecondsPerQuarterNoteAfter);
 			foreach ($MicroSecondsPerQuarterNoteAfter as $tickoffset => $microsecondsperbeat) {
 				if (is_null($previoustickoffset)) {
 					$prevmicrosecondsperbeat = $microsecondsperbeat;

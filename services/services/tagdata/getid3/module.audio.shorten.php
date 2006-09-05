@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -124,6 +124,7 @@ class getid3_shorten
 				}
 			}
 			$commandline = GETID3_HELPERAPPSDIR.'shorten.exe -x "'.$ThisFileInfo['filenamepath'].'" - | '.GETID3_HELPERAPPSDIR.'head.exe -c 44';
+			$commandline = str_replace('/', '\\', $commandline);
 
 		} else {
 
@@ -135,7 +136,7 @@ class getid3_shorten
                 $ThisFileInfo['error'][] = 'shorten binary was not found in path or /usr/local/bin';
                 return false;
             }
-            $commandline = (file_exists('/usr/local/bin/shorten') ? '/usr/local/bin/' : '' ) . 'shorten -x "'.$ThisFileInfo['filenamepath'].'" - | head -c 44';
+            $commandline = (file_exists('/usr/local/bin/shorten') ? '/usr/local/bin/' : '' ) . 'shorten -x '.escapeshellarg($ThisFileInfo['filenamepath']).' - | head -c 44';
 
 		}
 

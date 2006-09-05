@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -49,6 +49,7 @@ class getid3_write_id3v2
 			$this->paddedlength = max(@$OldThisFileInfo['id3v2']['headerlength'], $this->paddedlength);
 
 			if ($NewID3v2Tag = $this->GenerateID3v2Tag()) {
+
 				if (file_exists($this->filename) && is_writeable($this->filename) && isset($OldThisFileInfo['id3v2']['headerlength']) && ($OldThisFileInfo['id3v2']['headerlength'] == strlen($NewID3v2Tag))) {
 
 					// best and fastest method - insert-overwrite existing tag (padded to length of old tag if neccesary)
@@ -100,6 +101,7 @@ class getid3_write_id3v2
 								fclose($fp_source);
 								copy($tempfilename, $this->filename);
 								unlink($tempfilename);
+								ob_end_clean();
 								return true;
 
 							} else {
@@ -340,7 +342,9 @@ class getid3_write_id3v2
 					if (!$this->ID3v2IsValidTextEncoding($source_data_array['encodingid'], $this->majorversion)) {
 						$this->errors[] = 'Invalid Text Encoding in '.$frame_name.' ('.$source_data_array['encodingid'].') for ID3v2.'.$this->majorversion;
 					} elseif (!isset($source_data_array['data']) || !$this->IsValidURL($source_data_array['data'], false, false)) {
-						$this->errors[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
+						//$this->errors[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
+						// probably should be an error, need to rewrite IsValidURL() to handle other encodings
+						$this->warnings[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
 					} else {
 						$framedata .= chr($source_data_array['encodingid']);
 						$framedata .= $source_data_array['description'].getid3_id3v2::TextEncodingTerminatorLookup($source_data_array['encodingid']);
@@ -752,7 +756,9 @@ class getid3_write_id3v2
 					} elseif (($this->majorversion >= 3) && (!$this->ID3v2IsValidAPICimageformat($source_data_array['mime']))) {
 						$this->errors[] = 'Invalid MIME Type in '.$frame_name.' ('.$source_data_array['mime'].') for ID3v2.'.$this->majorversion;
 					} elseif (($source_data_array['mime'] == '-->') && (!$this->IsValidURL($source_data_array['data'], false, false))) {
-						$this->errors[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
+						//$this->errors[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
+						// probably should be an error, need to rewrite IsValidURL() to handle other encodings
+						$this->warnings[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
 					} else {
 						$framedata .= chr($source_data_array['encodingid']);
 						$framedata .= str_replace("\x00", '', $source_data_array['mime'])."\x00";
@@ -855,7 +861,9 @@ class getid3_write_id3v2
 					if (!getid3_id3v2::IsValidID3v2FrameName($source_data_array['frameid'], $this->majorversion)) {
 						$this->errors[] = 'Invalid Frame Identifier in '.$frame_name.' ('.$source_data_array['frameid'].')';
 					} elseif (!$this->IsValidURL($source_data_array['data'], true, false)) {
-						$this->errors[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
+						//$this->errors[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
+						// probably should be an error, need to rewrite IsValidURL() to handle other encodings
+						$this->warnings[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
 					} elseif ((($source_data_array['frameid'] == 'AENC') || ($source_data_array['frameid'] == 'APIC') || ($source_data_array['frameid'] == 'GEOB') || ($source_data_array['frameid'] == 'TXXX')) && ($source_data_array['additionaldata'] == '')) {
 						$this->errors[] = 'Content Descriptor must be specified as additional data for Frame Identifier of '.$source_data_array['frameid'].' in '.$frame_name;
 					} elseif (($source_data_array['frameid'] == 'USER') && (getid3_id3v2::LanguageLookup($source_data_array['additionaldata'], true) == '')) {
@@ -1139,7 +1147,9 @@ class getid3_write_id3v2
 						// 4.3. W???  URL link frames
 						// URL              <text string>
 						if (!$this->IsValidURL($source_data_array['data'], false, false)) {
-							$this->errors[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
+							//$this->errors[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
+							// probably should be an error, need to rewrite IsValidURL() to handle other encodings
+							$this->warnings[] = 'Invalid URL in '.$frame_name.' ('.$source_data_array['data'].')';
 						} else {
 							$framedata .= $source_data_array['data'];
 						}
@@ -1699,7 +1709,6 @@ class getid3_write_id3v2
 	}
 
 	function ID3v2IsValidAPICimageformat($imageformat) {
-
 		if ($imageformat == '-->') {
 			return true;
 		} elseif ($this->majorversion == 2) {

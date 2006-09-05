@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -47,7 +47,7 @@ class getid3_flac
 			$METAdataBlockLength          = getid3_lib::BigEndian2Int(substr($METAdataBlockHeader, 1, 3));
 			$METAdataBlockTypeText        = getid3_flac::FLACmetaBlockTypeLookup($METAdataBlockType);
 
-			if ($METAdataBlockLength <= 0) {
+			if ($METAdataBlockLength < 0) {
 				$ThisFileInfo['error'][] = 'corrupt or invalid METADATA_BLOCK_HEADER.BLOCK_TYPE ('.$METAdataBlockType.') at offset '.$METAdataBlockOffset;
 				break;
 			}
@@ -60,7 +60,7 @@ class getid3_flac
 			$ThisFileInfo_flac_METAdataBlockTypeText_raw['block_type']      = $METAdataBlockType;
 			$ThisFileInfo_flac_METAdataBlockTypeText_raw['block_type_text'] = $METAdataBlockTypeText;
 			$ThisFileInfo_flac_METAdataBlockTypeText_raw['block_length']    = $METAdataBlockLength;
-			$ThisFileInfo_flac_METAdataBlockTypeText_raw['block_data']      = fread($fd, $METAdataBlockLength);
+			$ThisFileInfo_flac_METAdataBlockTypeText_raw['block_data']      = @fread($fd, $METAdataBlockLength);
 			$ThisFileInfo['avdataoffset'] = ftell($fd);
 
 			switch ($METAdataBlockTypeText) {

@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -83,6 +83,7 @@ class getid3_writetags
 			return false;
 		}
 
+		$TagFormatsToRemove = array();
 		if (filesize($this->filename) == 0) {
 
 			// empty file special case - allow any tag format, don't check existing format
@@ -101,6 +102,7 @@ class getid3_writetags
 				case 'mp3':
 				case 'mp2':
 				case 'mp1':
+				case 'riff': // maybe not officially, but people do it anyway
 					$AllowedTagFormats = array('id3v1', 'id3v2.2', 'id3v2.3', 'id3v2.4', 'ape', 'lyrics3');
 					break;
 
@@ -150,7 +152,6 @@ class getid3_writetags
 			}
 
 			// List of other tag formats, removed if requested
-			$TagFormatsToRemove = array();
 			if ($this->remove_other_tags) {
 				foreach ($AllowedTagFormats as $AllowedTagFormat) {
 					switch ($AllowedTagFormat) {
@@ -280,7 +281,7 @@ class getid3_writetags
 				case 'id3v2.3':
 				case 'id3v2.4':
 					$id3v2_writer = new getid3_write_id3v2;
-					$id3v2_writer->majorversion = (int) substr($tagformat, -1);
+					$id3v2_writer->majorversion = intval(substr($tagformat, -1));
 					$id3v2_writer->paddedlength = $this->id3v2_paddedlength;
 					if (($id3v2_writer->tag_data = $this->FormatDataForID3v2($id3v2_writer->majorversion)) !== false) {
 						$id3v2_writer->filename = $this->filename;
@@ -300,7 +301,7 @@ class getid3_writetags
 							$this->errors[] = 'WriteVorbisComment() failed with message(s):<PRE><UL><LI>'.trim(implode('</LI><LI>', $vorbiscomment_writer->errors)).'</LI></UL></PRE>';
 						}
 					} else {
-						$this->errors[] = 'WriteVorbisComment() failed';
+						$this->errors[] = 'FormatDataForVorbisComment() failed';
 					}
 					break;
 
@@ -391,6 +392,14 @@ class getid3_writetags
 					$lyrics3_writer->filename = $this->filename;
 					if (($success = $lyrics3_writer->DeleteLyrics3()) === false) {
 						$this->errors[] = 'DeleteLyrics3() failed with message(s):<PRE><UL><LI>'.trim(implode('</LI><LI>', $lyrics3_writer->errors)).'</LI></UL></PRE>';
+					}
+					break;
+
+				case 'real':
+					$real_writer = new getid3_write_real;
+					$real_writer->filename = $this->filename;
+					if (($success = $real_writer->RemoveReal()) === false) {
+						$this->errors[] = 'RemoveReal() failed with message(s):<PRE><UL><LI>'.trim(implode('</LI><LI>', $real_writer->errors)).'</LI></UL></PRE>';
 					}
 					break;
 
@@ -514,6 +523,7 @@ class getid3_writetags
 								// convert data from other encoding to UTF-16
 								$tag_data_id3v2[$ID3v2_framename][$key]['encodingid'] = 1;
 								$tag_data_id3v2[$ID3v2_framename][$key]['data']       = getid3_lib::iconv_fallback($this->tag_encoding, 'UTF-16', $value);
+
 							} else {
 								// convert data from other encoding to UTF-8
 								$tag_data_id3v2[$ID3v2_framename][$key]['encodingid'] = 3;

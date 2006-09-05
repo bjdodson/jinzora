@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -299,7 +299,7 @@ class getid3_aac
 		}
 
 		// used to calculate bitrate below
-		static $BitrateCache = array();
+		$BitrateCache = array();
 
 
 		while (true) {

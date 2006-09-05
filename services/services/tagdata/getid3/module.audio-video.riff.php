@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -111,8 +111,8 @@ class getid3_riff
 
 					$ThisFileInfo['playtime_seconds'] = (float) ((($thisfile_avdataend - $thisfile_avdataoffset) * 8) / $thisfile_audio['bitrate']);
 
+					$thisfile_audio['lossless'] = false;
 					if (isset($thisfile_riff_WAVE['data'][0]['offset']) && isset($thisfile_riff_raw['fmt ']['wFormatTag'])) {
-						$thisfile_audio['lossless'] = false;
 						switch ($thisfile_riff_raw['fmt ']['wFormatTag']) {
 
 							case 0x0001:  // PCM
@@ -201,7 +201,7 @@ class getid3_riff
 					$thisfile_riff_WAVE_bext_0['reserved']       = getid3_lib::LittleEndian2Int(substr($thisfile_riff_WAVE_bext_0['data'], 347, 254));
 					$thisfile_riff_WAVE_bext_0['coding_history'] =         explode("\r\n", trim(substr($thisfile_riff_WAVE_bext_0['data'], 601)));
 
-					$thisfile_riff_WAVE_bext_0['origin_date_unix'] = mktime(
+					$thisfile_riff_WAVE_bext_0['origin_date_unix'] = gmmktime(
 																				substr($thisfile_riff_WAVE_bext_0['origin_time'], 0, 2),
 																				substr($thisfile_riff_WAVE_bext_0['origin_time'], 3, 2),
 																				substr($thisfile_riff_WAVE_bext_0['origin_time'], 6, 2),
@@ -1064,16 +1064,16 @@ class getid3_riff
 		$maxoffset = min($maxoffset, $ThisFileInfo['avdataend']);
 
 		$RIFFchunk = false;
-		
+
 		fseek($fd, $startoffset, SEEK_SET);
-		
+
 		while (ftell($fd) < $maxoffset) {
 			$chunkname = fread($fd, 4);
 			if (strlen($chunkname) < 4) {
 				$ThisFileInfo['error'][] = 'Expecting chunk name at offset '.(ftell($fd) - 4).' but found nothing. Aborting RIFF parsing.';
 				break;
 			}
-			
+
 			$chunksize = getid3_riff::EitherEndian2Int($ThisFileInfo, fread($fd, 4));
 			if ($chunksize == 0) {
 				$ThisFileInfo['error'][] = 'Chunk size at offset '.(ftell($fd) - 4).' is zero. Aborting RIFF parsing.';
@@ -1309,7 +1309,7 @@ class getid3_riff
 
 	function ParseRIFFdata(&$RIFFdata, &$ThisFileInfo) {
 		if ($RIFFdata) {
-		
+
 		    $tempfile = tempnam('*', 'getID3');
             $fp_temp  = fopen($tempfile, "wb");
 			$RIFFdataLength = strlen($RIFFdata);
@@ -1319,7 +1319,7 @@ class getid3_riff
 			}
 			fwrite($fp_temp, $RIFFdata);
 			fclose($fp_temp);
-			
+
 			$fp_temp  = fopen($tempfile, "rb");
 			$dummy = array('filesize'=>$RIFFdataLength, 'filenamepath'=>$ThisFileInfo['filenamepath'], 'tags'=>$ThisFileInfo['tags'], 'avdataoffset'=>0, 'avdataend'=>$RIFFdataLength, 'warning'=>$ThisFileInfo['warning'], 'error'=>$ThisFileInfo['error'], 'comments'=>$ThisFileInfo['comments'], 'audio'=>(isset($ThisFileInfo['audio']) ? $ThisFileInfo['audio'] : array()), 'video'=>(isset($ThisFileInfo['video']) ? $ThisFileInfo['video'] : array()));
 			$riff = new getid3_riff($fp_temp, $dummy);
@@ -1953,8 +1953,6 @@ class getid3_riff
 			XMPG	Xing MPEG (I-Frame only)
 			XVID	XviD MPEG-4 (www.xvid.org)
 			XXAN	?XXAN?
-			Y422	ADS Technologies Copy of UYVY used in Pyro WebCam firewire camera
-			Y800	Simple, single Y plane for monochrome images
 			YU92	Intel YUV (YU92)
 			YUNV	Nvidia Uncompressed YUV 4:2:2
 			YUVP	Extended PAL format YUV palette (www.riff.org)
@@ -1965,6 +1963,8 @@ class getid3_riff
 			Y41T	Brooktree PC1 YUV 4:1:1 with transparency
 			Y42B	Weitek YUV 4:2:2 Planar
 			Y42T	Brooktree UYUV 4:2:2 with transparency
+			Y422	ADS Technologies Copy of UYVY used in Pyro WebCam firewire camera
+			Y800	Simple, single Y plane for monochrome images
 			Y8  	Grayscale video
 			YC12	Intel YUV 12 codec
 			YUV8	Winnov Caviar YUV8

@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -212,7 +212,8 @@ class getid3_bmp
 			$ThisFileInfo['video']['codec']           = $thisfile_bmp_header['compression'].' '.$thisfile_bmp_header_raw['bits_per_pixel'].'-bit';
 			$ThisFileInfo['video']['bits_per_sample'] = $thisfile_bmp_header_raw['bits_per_pixel'];
 
-			if ($thisfile_bmp['type_version'] >= 4) {
+			if (($thisfile_bmp['type_version'] >= 4) || ($thisfile_bmp_header_raw['compression'] == 3)) {
+				// should only be v4+, but BMPs with type_version==1 and BI_BITFIELDS compression have been seen
 				$BMPheader .= fread($fd, 44);
 
 				// BITMAPV4HEADER - [44 bytes] - http://msdn.microsoft.com/library/en-us/gdi/bitmaps_2k1e.asp
@@ -322,7 +323,7 @@ class getid3_bmp
 						case 1:
 							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
 								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col = $col) {
-									$paletteindexbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+									$paletteindexbyte = ord($BMPpixelData{$pixeldataoffset++});
 									for ($i = 7; $i >= 0; $i--) {
 										$paletteindex = ($paletteindexbyte & (0x01 << $i)) >> $i;
 										$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
@@ -339,7 +340,7 @@ class getid3_bmp
 						case 4:
 							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
 								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col = $col) {
-									$paletteindexbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+									$paletteindexbyte = ord($BMPpixelData{$pixeldataoffset++});
 									for ($i = 1; $i >= 0; $i--) {
 										$paletteindex = ($paletteindexbyte & (0x0F << (4 * $i))) >> (4 * $i);
 										$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
@@ -356,7 +357,7 @@ class getid3_bmp
 						case 8:
 							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
 								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
-									$paletteindex = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+									$paletteindex = ord($BMPpixelData{$pixeldataoffset++});
 									$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
 								}
 								while (($pixeldataoffset % 4) != 0) {
@@ -367,16 +368,23 @@ class getid3_bmp
 							break;
 
 						case 24:
+							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
+									$thisfile_bmp['data'][$row][$col] = (ord($BMPpixelData{$pixeldataoffset+2}) << 16) | (ord($BMPpixelData{$pixeldataoffset+1}) << 8) | ord($BMPpixelData{$pixeldataoffset});
+									$pixeldataoffset += 3;
+								}
+								while (($pixeldataoffset % 4) != 0) {
+									// lines are padded to nearest DWORD
+									$pixeldataoffset++;
+								}
+							}
+							break;
+
 						case 32:
 							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
 								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
-									$blue  = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-									$green = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-									$red   = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-									if ($thisfile_bmp_header_raw['bits_per_pixel'] == 32) {
-										$paletteoffset++; // filler byte
-									}
-									$thisfile_bmp['data'][$row][$col] = (($red << 16) | ($green << 8) | ($blue));
+									$thisfile_bmp['data'][$row][$col] = (ord($BMPpixelData{$pixeldataoffset+3}) << 24) | (ord($BMPpixelData{$pixeldataoffset+2}) << 16) | (ord($BMPpixelData{$pixeldataoffset+1}) << 8) | ord($BMPpixelData{$pixeldataoffset});
+									$pixeldataoffset += 4;
 								}
 								while (($pixeldataoffset % 4) != 0) {
 									// lines are padded to nearest DWORD
@@ -386,6 +394,8 @@ class getid3_bmp
 							break;
 
 						case 16:
+							// ?
+							break;
 
 						default:
 							$ThisFileInfo['error'][] = 'Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data';

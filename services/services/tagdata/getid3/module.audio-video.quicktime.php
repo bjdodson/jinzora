@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -21,6 +21,7 @@ class getid3_quicktime
 	function getid3_quicktime(&$fd, &$ThisFileInfo, $ReturnAtomData=true, $ParseAllPossibleAtoms=false) {
 
 		$ThisFileInfo['fileformat'] = 'quicktime';
+		$ThisFileInfo['quicktime']['hinting'] = false;
 
 		fseek($fd, $ThisFileInfo['avdataoffset'], SEEK_SET);
 
@@ -519,7 +520,7 @@ class getid3_quicktime
 						$atomstructure['time_to_sample_table'][$i]['sample_duration'] = getid3_lib::BigEndian2Int(substr($atomdata, $sttsEntriesDataOffset, 4));
 						$sttsEntriesDataOffset += 4;
 
-						if (!empty($ThisFileInfo['quicktime']['time_scale'])) {
+						if (!empty($ThisFileInfo['quicktime']['time_scale']) && (@$atomstructure['time_to_sample_table'][$i]['sample_duration'] > 0)) {
 							$stts_new_framerate = $ThisFileInfo['quicktime']['time_scale'] / $atomstructure['time_to_sample_table'][$i]['sample_duration'];
 							if ($stts_new_framerate <= 60) {
 								// some atoms have durations of "1" giving a very large framerate, which probably is not right
@@ -789,12 +790,12 @@ class getid3_quicktime
 				$atomstructure['reserved']           =                             substr($atomdata, 26, 10);
 				$atomstructure['matrix_a']           = getid3_lib::FixedPoint16_16(substr($atomdata, 36, 4));
 				$atomstructure['matrix_b']           = getid3_lib::FixedPoint16_16(substr($atomdata, 40, 4));
-				$atomstructure['matrix_u']           = getid3_lib::FixedPoint16_16(substr($atomdata, 44, 4));
+				$atomstructure['matrix_u']           =  getid3_lib::FixedPoint2_30(substr($atomdata, 44, 4));
 				$atomstructure['matrix_c']           = getid3_lib::FixedPoint16_16(substr($atomdata, 48, 4));
-				$atomstructure['matrix_v']           = getid3_lib::FixedPoint16_16(substr($atomdata, 52, 4));
-				$atomstructure['matrix_d']           = getid3_lib::FixedPoint16_16(substr($atomdata, 56, 4));
-				$atomstructure['matrix_x']           =  getid3_lib::FixedPoint2_30(substr($atomdata, 60, 4));
-				$atomstructure['matrix_y']           =  getid3_lib::FixedPoint2_30(substr($atomdata, 64, 4));
+				$atomstructure['matrix_d']           = getid3_lib::FixedPoint16_16(substr($atomdata, 52, 4));
+				$atomstructure['matrix_v']           =  getid3_lib::FixedPoint2_30(substr($atomdata, 56, 4));
+				$atomstructure['matrix_x']           = getid3_lib::FixedPoint16_16(substr($atomdata, 60, 4));
+				$atomstructure['matrix_y']           = getid3_lib::FixedPoint16_16(substr($atomdata, 64, 4));
 				$atomstructure['matrix_w']           =  getid3_lib::FixedPoint2_30(substr($atomdata, 68, 4));
 				$atomstructure['preview_time']       =   getid3_lib::BigEndian2Int(substr($atomdata, 72, 4));
 				$atomstructure['preview_duration']   =   getid3_lib::BigEndian2Int(substr($atomdata, 76, 4));
@@ -852,8 +853,10 @@ class getid3_quicktime
 					$ThisFileInfo['video']['resolution_x'] = $atomstructure['width'];
 					$ThisFileInfo['video']['resolution_y'] = $atomstructure['height'];
 				}
-				$ThisFileInfo['video']['resolution_x'] = max($ThisFileInfo['video']['resolution_x'], $atomstructure['width']);
-				$ThisFileInfo['video']['resolution_y'] = max($ThisFileInfo['video']['resolution_y'], $atomstructure['height']);
+				if ($atomstructure['flags']['enabled'] == 1) {
+					$ThisFileInfo['video']['resolution_x'] = max($ThisFileInfo['video']['resolution_x'], $atomstructure['width']);
+					$ThisFileInfo['video']['resolution_y'] = max($ThisFileInfo['video']['resolution_y'], $atomstructure['height']);
+				}
 				if (!empty($ThisFileInfo['video']['resolution_x']) && !empty($ThisFileInfo['video']['resolution_y'])) {
 					$ThisFileInfo['quicktime']['video']['resolution_x'] = $ThisFileInfo['video']['resolution_x'];
 					$ThisFileInfo['quicktime']['video']['resolution_y'] = $ThisFileInfo['video']['resolution_y'];
@@ -925,6 +928,13 @@ class getid3_quicktime
 
 			case 'pano': // PANOrama track (seen on QTVR)
 				$atomstructure['pano'] = getid3_lib::BigEndian2Int(substr($atomdata,  0, 4));
+				break;
+
+			case 'hint': // HINT track
+			case 'hinf': //
+			case 'hinv': //
+			case 'hnti': //
+				$ThisFileInfo['quicktime']['hinting'] = true;
 				break;
 
 			case 'imgt': // IMaGe Track reference (kQTVRImageTrackRefType) (seen on QTVR)

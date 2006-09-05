@@ -1,4 +1,4 @@
-<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+<?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -338,7 +338,7 @@ class getid3_iso
 		if (!$UNIXyear) {
 			return false;
 		}
-		return mktime($UNIXhour, $UNIXminute, $UNIXsecond, $UNIXmonth, $UNIXday, $UNIXyear);
+		return gmmktime($UNIXhour, $UNIXminute, $UNIXsecond, $UNIXmonth, $UNIXday, $UNIXyear);
 	}
 
 	function ISOtime2UNIXtime($ISOtime) {
@@ -359,7 +359,7 @@ class getid3_iso
 		$UNIXsecond = ord($ISOtime{5});
 		$GMToffset  = $this->TwosCompliment2Decimal(ord($ISOtime{5}));
 
-		return mktime($UNIXhour, $UNIXminute, $UNIXsecond, $UNIXmonth, $UNIXday, $UNIXyear);
+		return gmmktime($UNIXhour, $UNIXminute, $UNIXsecond, $UNIXmonth, $UNIXday, $UNIXyear);
 	}
 
 	function TwosCompliment2Decimal($BinaryValue) {
