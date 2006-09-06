@@ -130,7 +130,6 @@ CREATE TABLE
 			path varchar(255) NOT NULL default '/',
 			filepath varchar(255) default NULL,
 			name varchar(255) default NULL,
-			level int default 0,
 			hidden varchar(10) default 'false',
 			trackname varchar(255) default NULL,
 			number char(3) default '-',
@@ -166,7 +165,7 @@ CREATE TABLE
 	jz_genres
 		(
 			my_id varchar(20) NOT NULL default '',
-			name varchar(255) default NULL,
+			name varchar(100) default NULL,
 			leaf varchar(5) default 'false',
 			lastplayed int default 0,
 			playcount int default 0,
@@ -179,16 +178,13 @@ CREATE TABLE
 			main_art varchar(255) default NULL,
 			valid varchar(5) default 'true',
 			path varchar(255) NOT NULL default '/',
-			ptype varchar(20) default NULL,
 			hidden varchar(10) default 'false',
 			filepath varchar(255) default '/',
-			level int default 0,
 			descr varchar(255) default NULL,
 			longdesc text,
 			date_added int default NULL,
 			leafcount int default 0,
 			nodecount int default 0,
-			featured varchar(5) default 'false',
 			PRIMARY KEY  (my_id),
 		);
 
@@ -196,7 +192,7 @@ CREATE TABLE
 	jz_subgenres
 		(
 			my_id varchar(20) NOT NULL default '',
-			name varchar(255) default NULL,
+			name varchar(100) default NULL,
 			leaf varchar(5) default 'false',
 			lastplayed int default 0,
 			playcount int default 0,
@@ -209,16 +205,13 @@ CREATE TABLE
 			main_art varchar(255) default NULL,
 			valid varchar(5) default 'true',
 			path varchar(255) NOT NULL default '/',
-			ptype varchar(20) default NULL,
 			hidden varchar(10) default 'false',
 			filepath varchar(255) default '/',
-			level int default 0,
 			descr varchar(255) default NULL,
 			longdesc text,
 			date_added int default NULL,
 			leafcount int default 0,
 			nodecount int default 0,
-			featured varchar(5) default 'false',
 			PRIMARY KEY  (my_id)
 		);
 
@@ -226,7 +219,7 @@ CREATE TABLE
 	jz_artists
 		(
 			my_id varchar(20) NOT NULL default '',
-			name varchar(255) default NULL,
+			name varchar(100) default NULL,
 			leaf varchar(5) default 'false',
 			lastplayed int default 0,
 			playcount int default 0,
@@ -239,16 +232,13 @@ CREATE TABLE
 			main_art varchar(255) default NULL,
 			valid varchar(5) default 'true',
 			path varchar(255) NOT NULL default '/',
-			ptype varchar(20) default NULL,
 			hidden varchar(10) default 'false',
 			filepath varchar(255) default '/',
-			level int default 0,
 			descr varchar(255) default NULL,
 			longdesc text,
 			date_added int default NULL,
 			leafcount int default 0,
 			nodecount int default 0,
-			featured varchar(5) default 'false',
 			PRIMARY KEY  (my_id)
 		);
 
@@ -256,7 +246,7 @@ CREATE TABLE
 	jz_albums
 		(
 			my_id varchar(20) NOT NULL default '',
-			name varchar(255) default NULL,
+			name varchar(100) default NULL,
 			leaf varchar(5) default 'false',
 			lastplayed int default 0,
 			playcount int default 0,
@@ -269,16 +259,13 @@ CREATE TABLE
 			main_art varchar(255) default NULL,
 			valid varchar(5) default 'true',
 			path varchar(255) NOT NULL default '/',
-			ptype varchar(20) default NULL,
 			hidden varchar(10) default 'false',
 			filepath varchar(255) default '/',
-			level int default 0,
 			descr varchar(255) default NULL,
 			longdesc text,
 			date_added int default NULL,
 			leafcount int default 0,
 			nodecount int default 0,
-			featured varchar(5) default 'false',
 			compilation varchar(1) default 'N',
 			PRIMARY KEY  (my_id)
 		);
@@ -288,7 +275,7 @@ CREATE TABLE
 		(
 		track_id varchar(20) NOT NULL,
 		album_id varchar(20) NOT NULL,
-		diskname varchar(255) DEFAULT NULL,
+		diskname varchar(100) DEFAULT NULL,
 		artist_id varchar(20) NOT NULL,
 		subgenre_id varchar(20) NOT NULL,
 		genre_id varchar(20) NOT NULL,
