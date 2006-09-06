@@ -123,7 +123,6 @@ CREATE TABLE
 -- 
 -- Table structure for table `jz_tracks`
 -- 
-
 CREATE TABLE 
 	jz_tracks
 		(
@@ -154,6 +153,182 @@ CREATE TABLE
 		);
 
 
+
+
+-- NEW FOR 3.0. EXPERIMENTAL.
+-- You can comment in the forums, but do not take
+-- anything in here as final.
+
+-- In Jinzora, we can use a table key (gr = genre) and the media ID
+-- as a fully qualified element path.
+
+CREATE TABLE 
+	jz_genres
+		(
+			my_id varchar(20) NOT NULL default '',
+			name varchar(255) default NULL,
+			leaf varchar(5) default 'false',
+			lastplayed int default 0,
+			playcount int default 0,
+			directplaycount int default 0,
+			dlcount int default 0,
+			viewcount int default 0,
+			rating float default 0,
+			rating_count float default 0,
+			rating_val float default 0,
+			main_art varchar(255) default NULL,
+			valid varchar(5) default 'true',
+			path varchar(255) NOT NULL default '/',
+			ptype varchar(20) default NULL,
+			hidden varchar(10) default 'false',
+			filepath varchar(255) default '/',
+			level int default 0,
+			descr varchar(255) default NULL,
+			longdesc text,
+			date_added int default NULL,
+			leafcount int default 0,
+			nodecount int default 0,
+			featured varchar(5) default 'false',
+			PRIMARY KEY  (my_id),
+		);
+
+CREATE TABLE 
+	jz_subgenres
+		(
+			my_id varchar(20) NOT NULL default '',
+			name varchar(255) default NULL,
+			leaf varchar(5) default 'false',
+			lastplayed int default 0,
+			playcount int default 0,
+			directplaycount int default 0,
+			dlcount int default 0,
+			viewcount int default 0,
+			rating float default 0,
+			rating_count float default 0,
+			rating_val float default 0,
+			main_art varchar(255) default NULL,
+			valid varchar(5) default 'true',
+			path varchar(255) NOT NULL default '/',
+			ptype varchar(20) default NULL,
+			hidden varchar(10) default 'false',
+			filepath varchar(255) default '/',
+			level int default 0,
+			descr varchar(255) default NULL,
+			longdesc text,
+			date_added int default NULL,
+			leafcount int default 0,
+			nodecount int default 0,
+			featured varchar(5) default 'false',
+			PRIMARY KEY  (my_id)
+		);
+
+CREATE TABLE 
+	jz_artists
+		(
+			my_id varchar(20) NOT NULL default '',
+			name varchar(255) default NULL,
+			leaf varchar(5) default 'false',
+			lastplayed int default 0,
+			playcount int default 0,
+			directplaycount int default 0,
+			dlcount int default 0,
+			viewcount int default 0,
+			rating float default 0,
+			rating_count float default 0,
+			rating_val float default 0,
+			main_art varchar(255) default NULL,
+			valid varchar(5) default 'true',
+			path varchar(255) NOT NULL default '/',
+			ptype varchar(20) default NULL,
+			hidden varchar(10) default 'false',
+			filepath varchar(255) default '/',
+			level int default 0,
+			descr varchar(255) default NULL,
+			longdesc text,
+			date_added int default NULL,
+			leafcount int default 0,
+			nodecount int default 0,
+			featured varchar(5) default 'false',
+			PRIMARY KEY  (my_id)
+		);
+
+CREATE TABLE 
+	jz_albums
+		(
+			my_id varchar(20) NOT NULL default '',
+			name varchar(255) default NULL,
+			leaf varchar(5) default 'false',
+			lastplayed int default 0,
+			playcount int default 0,
+			directplaycount int default 0,
+			dlcount int default 0,
+			viewcount int default 0,
+			rating float default 0,
+			rating_count float default 0,
+			rating_val float default 0,
+			main_art varchar(255) default NULL,
+			valid varchar(5) default 'true',
+			path varchar(255) NOT NULL default '/',
+			ptype varchar(20) default NULL,
+			hidden varchar(10) default 'false',
+			filepath varchar(255) default '/',
+			level int default 0,
+			descr varchar(255) default NULL,
+			longdesc text,
+			date_added int default NULL,
+			leafcount int default 0,
+			nodecount int default 0,
+			featured varchar(5) default 'false',
+			compilation varchar(1) default 'N',
+			PRIMARY KEY  (my_id)
+		);
+
+CREATE TABLE 
+	jz_track_map
+		(
+		track_id varchar(20) NOT NULL,
+		album_id varchar(20) NOT NULL,
+		diskname varchar(255) DEFAULT NULL,
+		artist_id varchar(20) NOT NULL,
+		subgenre_id varchar(20) NOT NULL,
+		genre_id varchar(20) NOT NULL,
+		);
+		
+CREATE TABLE 
+	jz_album_map
+		(
+		album_id varchar(20) NOT NULL,
+		artist_id varchar(20) NOT NULL,
+		subgenre_id varchar(20) NOT NULL,
+		genre_id varchar(20) NOT NULL,
+		);
+		
+CREATE TABLE 
+	jz_artist_map
+		(
+		artist_id varchar(20) NOT NULL,
+		subgenre_id varchar(20) NOT NULL,
+		genre_id varchar(20) NOT NULL,
+		);
+
+CREATE TABLE 
+	jz_subgenre_map
+		(
+		subgenre_id varchar(20) NOT NULL,
+		genre_id varchar(20) NOT NULL,
+		);
+		
+		
+CREATE TABLE
+	jz_featured
+		(
+		media_type varchar(10) NOT NULL,
+		media_id varchar(20) NOT NULL
+		);
+
+
+
+--ADD INDEXES
 -- index our nodes:
 CREATE INDEX node_level on jz_nodes(level);
 CREATE INDEX node_hidden on jz_nodes(hidden);
@@ -174,3 +349,25 @@ CREATE INDEX node_rating on jz_nodes(rating_val desc);
 
 -- not sure if this does anything; could help for random art
 CREATE INDEX node_art on jz_nodes(main_art);
+
+
+
+	
+--GETTING ALL INFO FOR A TRACK:
+--SELECT jz_genres.name as genre, 
+--       jz_subgenres.name as subgenre,
+--       jz_artists.name as artist,
+--       jz_albums.name as album,
+--       jz_track_map.diskname as disk,
+--       jz_tracks.name as track
+--
+--FROM jz_genres,jz_subgenres,jz_artists,jz_albums,jz_tracks,
+--     jz_gr_sg, jz_sg_ar, jz_ar_al
+--WHERE
+--     jz_tracks.my_id    = #VALUE#
+--AND  jz_tracks.my_id    = jz_track_map.track_id
+--AND  jz_album.my_id     = jz_track_map.album_id
+--AND  jz_artists.my_id   = jz_track_map.artist_id
+--AND  jz_subgenres.my_id = jz_track_map.subgenre_id
+--AND  jz_genres.my_id    = jz_track_map.genre_id
+--ORDER BY jz_track_map.is_primary DESC;
