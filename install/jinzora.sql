@@ -1,16 +1,5 @@
--- phpMyAdmin SQL Dump
--- version 2.6.0-pl3
--- http://www.phpmyadmin.net
+-- Database: `jinzora3`
 -- 
--- Host: localhost
--- Generation Time: Apr 26, 2005 at 06:45 PM
--- Server version: 4.0.20
--- PHP Version: 4.3.10
--- 
--- Database: `jinzora2`
--- 
-
--- --------------------------------------------------------
 
 -- 
 -- Table structure for table `jz_discussions`
@@ -28,13 +17,6 @@ CREATE TABLE
 		);
 
 -- 
--- Dumping data for table `jz_discussions`
--- 
-
-
--- --------------------------------------------------------
-
--- 
 -- Table structure for table `jz_links`
 -- 
 
@@ -47,13 +29,6 @@ CREATE TABLE
 			  type varchar(5) NOT NULL default '',
 			  PRIMARY KEY  (my_id)
 		);
-
--- 
--- Dumping data for table `jz_links`
--- 
-
-
--- --------------------------------------------------------
 
 -- 
 -- Table structure for table `jz_nodes`
@@ -91,13 +66,6 @@ CREATE TABLE
 		);
 
 -- 
--- Dumping data for table `jz_nodes`
--- 
-
-
--- --------------------------------------------------------
-
--- 
 -- Table structure for table `jz_requests`
 -- 
 
@@ -112,13 +80,6 @@ CREATE TABLE
 			path varchar(255) default NULL,
 			PRIMARY KEY  (my_id)
 		);
-
--- 
--- Dumping data for table `jz_requests`
--- 
-
-
--- --------------------------------------------------------
 
 -- 
 -- Table structure for table `jz_tracks`
@@ -161,6 +122,10 @@ CREATE TABLE
 -- In Jinzora, we can use a table key (gr = genre) and the media ID
 -- as a fully qualified element path.
 
+-- 
+-- Table structure for table `jz_genres`
+-- 
+
 CREATE TABLE 
 	jz_genres
 		(
@@ -186,6 +151,10 @@ CREATE TABLE
 			PRIMARY KEY  (my_id),
 		);
 
+
+-- 
+-- Table structure for table `jz_subgenres`
+-- 
 CREATE TABLE 
 	jz_subgenres
 		(
@@ -211,6 +180,9 @@ CREATE TABLE
 			PRIMARY KEY  (my_id)
 		);
 
+-- 
+-- Table structure for table `jz_artists`
+-- 
 CREATE TABLE 
 	jz_artists
 		(
@@ -236,6 +208,9 @@ CREATE TABLE
 			PRIMARY KEY  (my_id)
 		);
 
+-- 
+-- Table structure for table `jz_albums`
+-- 
 CREATE TABLE 
 	jz_albums
 		(
@@ -262,6 +237,9 @@ CREATE TABLE
 			PRIMARY KEY  (my_id)
 		);
 
+-- 
+-- Table structure for table `jz_track_map`
+-- 
 CREATE TABLE 
 	jz_track_map
 		(
@@ -270,34 +248,45 @@ CREATE TABLE
 		diskname varchar(100) DEFAULT NULL,
 		artist_id varchar(20) NOT NULL,
 		subgenre_id varchar(20) NOT NULL,
-		genre_id varchar(20) NOT NULL,
+		genre_id varchar(20) NOT NULL
 		);
-		
+
+-- 
+-- Table structure for table `jz_album_map`
+-- 		
 CREATE TABLE 
 	jz_album_map
 		(
 		album_id varchar(20) NOT NULL,
 		artist_id varchar(20) NOT NULL,
 		subgenre_id varchar(20) NOT NULL,
-		genre_id varchar(20) NOT NULL,
+		genre_id varchar(20) NOT NULL
 		);
-		
+
+-- 
+-- Table structure for table `jz_artist_map`
+-- 				
 CREATE TABLE 
 	jz_artist_map
 		(
 		artist_id varchar(20) NOT NULL,
 		subgenre_id varchar(20) NOT NULL,
-		genre_id varchar(20) NOT NULL,
+		genre_id varchar(20) NOT NULL
 		);
 
+-- 
+-- Table structure for table `jz_subgenre_map`
+-- 		
 CREATE TABLE 
 	jz_subgenre_map
 		(
 		subgenre_id varchar(20) NOT NULL,
-		genre_id varchar(20) NOT NULL,
+		genre_id varchar(20) NOT NULL
 		);
 		
-		
+-- 
+-- Table structure for table `jz_featured`
+-- 				
 CREATE TABLE
 	jz_featured
 		(
