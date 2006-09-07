@@ -89,6 +89,26 @@
 						$_POST['default_access'] = $_POST['default_cms_access'];
  					}
 					// install completed. Add our users to the table.
+					// A default user class:
+					$be = new jzBackend();
+					$classes = array();
+					
+					$settings = array();
+					$settings['ratingweight'] = 1;
+					$settings['stream'] = "true";
+					$settings['view'] = "true";
+					$settings['lofi'] = "true";
+					$settings['download'] = "true";
+					$settings['discuss'] = "true";
+					$settings['powersearch'] = "true";
+					$settings['edit_prefs'] = "true";
+					$settings['frontend'] = $_POST['frontend'];
+					$settings['theme'] = $_POST['style'];
+					$settings['language'] = $_POST['jz_lang_file'];
+					
+					$classes[word('Standard')] = $settings;
+					$be->storeData('userclasses',$classes);
+					
 					$jzUSER = new jzUser(false);
 					$ausr = stripSlashes($_POST['admin_user']);
 					$apass = stripSlashes($_POST['admin_pass']);

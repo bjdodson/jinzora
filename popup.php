@@ -6145,7 +6145,7 @@
 								if (isset($set['template'])) {
 									$t = $set['template'];
 								} else {
-									$t = false;
+									$t = $keys[0];
 								}
 								foreach ($keys as $key) {
 									echo "<option value=\"$key\"";
