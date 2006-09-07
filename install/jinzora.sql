@@ -148,7 +148,7 @@ CREATE TABLE
 			date_added int default NULL,
 			leafcount int default 0,
 			nodecount int default 0,
-			PRIMARY KEY  (my_id),
+			PRIMARY KEY  (my_id)
 		);
 
 
