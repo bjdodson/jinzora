@@ -92,6 +92,7 @@ CREATE TABLE
 			filepath varchar(255) default NULL,
 			name varchar(255) default NULL,
 			hidden varchar(10) default 'false',
+			level int default 0,
 			trackname varchar(255) default NULL,
 			number char(3) default '-',
 			valid varchar(5) default 'true',
