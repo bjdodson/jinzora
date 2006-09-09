@@ -1536,6 +1536,7 @@
 		<!--
 		window.opener.document.getElementById("NowStreamingFrame").src = "<?php echo urlize($url); ?>";
 		window.opener.document.getElementById("WhoIsWhereFrame").src = "<?php echo urlize($url); ?>";
+		-->
 		</script>
 		<?php
 		
