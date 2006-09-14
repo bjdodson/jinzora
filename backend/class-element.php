@@ -66,7 +66,9 @@
 
 			$this->data_dir = $include_path. "data/${backend}";
 			
-			if ($mode != "path") {
+			if ($mode == "filename") {
+			  $arg = $this->filenameToPath($arg);
+			} else if ($mode != "path") {
 			  $arg = $this->idToPath($arg);
 			}
 			
@@ -208,6 +210,15 @@
 		 **/
 		function idToPath($id) {
 		  return $id;
+		}
+
+		function filenameToPath($fp) {
+			$be = new jzBackend();
+			$reg = $be->lookupFile($fp);
+			if (false !== $reg) {
+				return $reg['path'];
+			}
+			return false;
 		}
 
 		/**

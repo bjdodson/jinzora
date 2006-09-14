@@ -2068,6 +2068,19 @@ function idToPath($id) {
     return $results['path'];
 }
 
+/**
+ * Converts a filename to a path
+ *
+ * @author Ben Dodson
+ * @version 3/11/05
+ * @since 3/11/05
+ **/
+function filenameToPath($fp) {
+	$fp = jz_db_escape($fp);
+    $results = jz_db_simple_query("SELECT path FROM jz_nodes WHERE filepath = '$fp'");
+    return $results['path'];
+}
+
 		/**
 		* Returns the number of times the node has been played.
 		* 
@@ -3042,6 +3055,19 @@ function setID($id) {
  **/
 function idToPath($id) {
     $results = jz_db_simple_query("SELECT path FROM jz_nodes WHERE my_id = '$id'");
+    return $results['path'];
+}
+
+/**
+ * Converts an filename to a path
+ *
+ * @author Ben Dodson
+ * @version 3/11/05
+ * @since 3/11/05
+ **/
+function filenameToPath($fp) {
+	$fp = jz_db_escape($fp);
+    $results = jz_db_simple_query("SELECT path FROM jz_nodes WHERE filepath = '$fp'");
     return $results['path'];
 }
 

@@ -1645,61 +1645,43 @@ class jzBlockClass {
 							}
 							// Now we need to return the path to the track that is playing so we can get the art and description for it
 							$filePath = $jb->getCurrentTrackPath();
-							// Now let's create a node from that
-							// First we have to get rid of the filename
-							if (stristr($filePath,"\\")){
-								$pArray = explode("\\",$filePath);
-							} else {
-								$pArray = explode("/",$filePath);
-							}
-							$trackName = $pArray[count($pArray)-1];
-							// Now let's fix the track name
-							$tArr = explode(".",$trackName);
-							unset($tArr[count($tArr)-1]);
-							$trackName = implode("/",$tArr);
-							
-							unset($pArray[count($pArray)-1]);
-							$path = implode("/",$pArray);
-
-							$mA = explode("|",$media_dirs);
-							foreach ($mA as $mItem){
-								$path = str_replace(strtolower($mItem),"",strtolower($path));
-							}
+							$track = new jzMediaNode($filePath,"filename");
 							
 							// Now let's make sure we are looking at a track for real
-							if ($path <> ""){		
-								// Now we need to remove the $media_dir from this
-								$mArray = explode("|",$media_dirs);
-								for ($i=0; $i < count($mArray); $i++){
-									$path = str_replace($mArray[$i],"",$path);
-								}
-								$node = new jzMediaNode($path);
+							if (false !== $track && $track->getPath() != ""){		
 								
-								// Now let's set what we'll need
-								$album = ucwords($node->getName());
-								$parent = $node->getAncestor("artist");
-								$artist = ucwords($parent->getName());
-														
-								// Now let's display the art
-								if (($art = $node->getMainArt("130x130")) == false) {
-									$art = "style/images/default.jpg";
-								}
-								$display->link($parent, $artist, $artist, false, false, false, false, false, "_top");
-								echo " - ";
-								$display->link($node, $album, $album, false, false, false, false, false, "_top");
-								echo "<br>";
-								echo $display->returnImage($art,$node->getName(),"130","130","fit",false,false,"left","5","5");
+								$node = $track->getAncestor("album");
 								
-								// Now let's get the review
-								$desc = $node->getDescription();
-								$desc_truncate = 375;
-								echo $display->returnShortName($desc,$desc_truncate);
-								if (strlen($desc) > $desc_truncate){
-									$url_array = array();
-									$url_array['jz_path'] = $node->getPath("String");
-									$url_array['action'] = "popup";
-									$url_array['ptype'] = "readmore";
-									echo ' <a href="'. urlize($url_array). '" onclick="openPopup(this, 450, 450); return false;">...read more</a>';
+								if ($node) {
+									// Now let's set what we'll need
+									$album = ucwords($node->getName());
+									$parent = $node->getAncestor("artist");
+									if ($parent) {
+										$artist = ucwords($parent->getName());
+									} else {
+										$artist = "";
+									}
+									// Now let's display the art
+									if (($art = $node->getMainArt("130x130")) == false) {
+										$art = "style/images/default.jpg";
+									}
+									$display->link($parent, $artist, $artist, false, false, false, false, false, "_top");
+									echo " - ";
+									$display->link($node, $album, $album, false, false, false, false, false, "_top");
+									echo "<br>";
+									echo $display->returnImage($art,$node->getName(),"130","130","fit",false,false,"left","5","5");
+								
+									// Now let's get the review
+									$desc = $node->getDescription();
+									$desc_truncate = 375;
+									echo $display->returnShortName($desc,$desc_truncate);
+									if (strlen($desc) > $desc_truncate){
+										$url_array = array();
+										$url_array['jz_path'] = $node->getPath("String");
+										$url_array['action'] = "popup";
+										$url_array['ptype'] = "readmore";
+										echo ' <a href="'. urlize($url_array). '" onclick="openPopup(this, 450, 450); return false;">...read more</a>';
+									}
 								}
 							}
 					?>

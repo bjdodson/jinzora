@@ -287,13 +287,18 @@
 	* @param return Returns the currently playling track's path
 	*/
 	function getCurTrackPath(){
-		global $jbArr;
+		global $jbArr,$media_dirs;
 		
 		$myMpd = _mpdConnection();
 		
 		$num = getCurPlayingTrack();
 		$pArray = $myMpd->GetPlaylist();
-		return $pArray[$num]['file'];
+		if (false === stristr($media_dirs,"|")) {
+			$base = $media_dirs . "/";
+		} else {
+			$base = "";
+		}
+		return $base . $pArray[$num]['file'];
 	}
 	
 	/**
