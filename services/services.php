@@ -172,7 +172,7 @@ function seperateSimilar($array) {
 			
 			// Ok, now can we write to the filesystem?
 			if ($allow_filesystem_modify == "false" or stristr($backend,"id3")){
-				$imgFile = $include_path. "data/images/". str_replace("/","--",$node->getPath("String")). "--". $node->getName(). ".jpg";
+				$imgFile = $include_path. "data/images/". pathize(str_replace("/","--",$node->getPath("String")),''). "--". pathize($node->getName(),''). ".jpg";
 			} else {
 				$imgFile = $node->getFilePath(). "/". $node->getName(). ".jpg";
 			}

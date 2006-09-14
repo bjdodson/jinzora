@@ -1155,8 +1155,8 @@ function sortElements(&$list, $param = "name") {
  * @version 6/9/04
  * @since 6/9/04
  */
-function pathize($str) {
-  $str = preg_replace("/[^a-z|A-Z|0-9| |,|'|\"|(|)|.|-|_|+|=]/","_",$str);
+function pathize($str, $char = '_') {
+  $str = preg_replace("/[^a-z|A-Z|0-9| |,|'|\"|(|)|.|-|_|+|=]/",$char,$str);
 
   if ($str == "" || $str == "-") {
     $str = word("Unknown");
