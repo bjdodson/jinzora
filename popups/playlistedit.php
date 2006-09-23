@@ -1,4 +1,4 @@
-<?php
+<?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
 global $jzUSER, $row_colors, $raw_img_play_clear, $random_play_amounts, $default_random_count, $jzSERVICES;
 // First we need to know if they deleted a list or not
 if (isset ($_POST['deletePlaylist'])) {
