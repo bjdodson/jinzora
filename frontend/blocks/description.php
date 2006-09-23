@@ -19,5 +19,5 @@
 		$url_array['ptype'] = "readmore";
 		$smarty->assign('read_more', '<a href="'. urlize($url_array). '" onclick="openPopup(this, 450, 450); return false;">...read more</a>');
 	}	
-	jzTemplate('description');
+	jzTemplate($smarty,'description');
 ?>
