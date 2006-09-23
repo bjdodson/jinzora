@@ -64,6 +64,25 @@
 	}
 
 	
+	
+	/**
+	 * Handles the code for a popup function. Similar to
+	 * the block-handling function.
+	 * 
+	 * @author Ben Dodson
+	 * @ since 8/21/2006
+	 */
+	function jzPopup($block) {
+		global $include_path;
+		if (false !== strstr($block,'..') || 
+		    false !== strstr($block,'/') ||
+		    false !== strstr($block,'\\')) {
+			die("Security breach detected (jzBlock)");
+		}
+		
+	  	return $include_path.'popups/'.$block.'.php';
+	}
+	
 	class jzDisplay {
 	
 		/**
