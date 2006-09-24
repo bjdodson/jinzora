@@ -218,6 +218,7 @@
 										<strong><?php echo $headerTitle; ?></strong>
 									</font>
 								</td>
+								<td align="right"><a href="javascript:window.close();"><?php echo word('Close'); ?></a></td>
 							</tr>
 						</table>
 					</td>

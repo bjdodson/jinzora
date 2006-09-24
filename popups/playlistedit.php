@@ -45,29 +45,8 @@ if (isset ($_GET['createpl'])) {
 	}
 }
 
-$title = "";
-$title .= '<table cellspacing="0" border="0" width="100%"><tr><td align="left">';
-$title .= word("Playlist Editor") . " &nbsp; - &nbsp; ";
-$title .= '<form action="' . urlize($arr) . '" method="POST">';
-$title .= ' <select onChange="submit()" style="width:150;" name="plToEdit" class="jz_select">';
-// Now we need to get all the lists
-$lists = $jzUSER->listPlaylists("all");
-$title .= '<option value= "session">' . word(" - Session Playlist - ") . '</option>' . "\n";
-foreach ($lists as $id => $pname) {
-	$title .= '<option value="' . $id . '"';
-	if ($_SESSION['jz_playlist'] == $id) {
-		$title .= ' selected';
-	}
-	$title .= '>' . $pname . '</option>' . "\n";
-}
-$title .= '</select></form>';
-$title .= '&nbsp;&nbsp;&nbsp;';
+$title = word("Playlist Editor");
 
-$title .= '</td><td align="right">';
-$arr['createpl'] = "true";
-$title .= '<a href="' . urlize($arr) . '">' . word('Create Playlist') . '</a>';
-$title .= "</td></tr></table>";
-unset ($arr['createpl']);
 if (isset ($_SESSION['jz_playlist'])) {
 	// Ok, let's show them the playlist dropdown
 
@@ -80,6 +59,30 @@ if (isset ($_SESSION['jz_playlist'])) {
 
 $this->displayPageTop("", $title, false);
 $this->openBlock();
+
+
+echo  '<table cellspacing="0" border="0" width="100%"><tr><td align="left">';
+echo  '<form action="' . urlize($arr) . '" method="POST">';
+echo  ' <select onChange="submit()" style="width:150;" name="plToEdit" class="jz_select">';
+// Now we need to get all the lists
+$lists = $jzUSER->listPlaylists("all");
+echo  '<option value= "session">' . word(" - Session Playlist - ") . '</option>' . "\n";
+foreach ($lists as $id => $pname) {
+	echo  '<option value="' . $id . '"';
+	if ($_SESSION['jz_playlist'] == $id) {
+		echo  ' selected';
+	}
+	echo  '>' . $pname . '</option>' . "\n";
+}
+echo  '</select></form>';
+echo  '&nbsp;&nbsp;&nbsp;';
+
+echo  '</td><td align="right">';
+$arr['createpl'] = "true";
+echo  '<a href="' . urlize($arr) . '">' . word('Create Playlist') . '</a>';
+echo "</td></tr></table><br/>";
+unset ($arr['createpl']);
+
 
 // * * * * * * * * *
 // NEW PLAYLIST:
@@ -272,9 +275,9 @@ if (getListType($_SESSION['jz_playlist']) == "dynamic") {
 
 // Now let's get the list into an array
 $plist = $jzUSER->loadPlaylist($_SESSION['jz_playlist']);
-if ($plist == "") {
+/*if ($plist == "") {
 	exit ();
-}
+}*/
 
 $plist->flatten();
 $list = $plist->getList();
