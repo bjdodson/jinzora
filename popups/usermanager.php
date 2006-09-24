@@ -104,7 +104,7 @@ if ($_GET['subaction'] == "handleuser" && ($_POST['templatetype'] == "customize"
 	}
 	$post = $_POST;
 	unset ($post['handleUser']);
-	$this->userManSettings("custom", $settings, 'handleuser', $post);
+	userManSettings("custom", $settings, 'handleuser', $post);
 	return;
 }
 
@@ -154,7 +154,7 @@ if ($_GET['subaction'] == "handleuser") {
 			// CUSTOMIZE
 		} else
 			if ($_POST['templatetype'] == "customize") {
-				$settings = $this->userPullSettings();
+				$settings = userPullSettings();
 				$settings['template'] = "";
 			} else {
 				echo "Sorry, I don't know how to manage the user.";
@@ -175,7 +175,7 @@ if ($_GET['subaction'] == "handleuser") {
 
 } else
 	if ($_GET['subaction'] == "handleclass") {
-		$settings = $this->userPullSettings();
+		$settings = userPullSettings();
 		$classes = $be->loadData("userclasses");
 		if (!is_array($classes)) {
 			$classes = array ();
@@ -254,14 +254,14 @@ if ($_GET['subaction'] == "editclasses") {
 					$settings['theme'] = $jinzora_skin;
 					$settings['language'] = "english";
 					$settings['playlist_type'] = "m3u";
-					$this->userManSettings("new", $settings);
+					userManSettings("new", $settings);
 				} else {
 					$classes = $be->loadData('userclasses');
 					if (!isset ($classes[$_POST['classname']])) {
 						die("Invalid user template.");
 					}
 					$settings = $classes[$_POST['classname']];
-					$this->userManSettings("update", $settings);
+					userManSettings("update", $settings);
 				}
 
 			} else
@@ -573,4 +573,429 @@ if (is_array($classes)) {
 
 echo '</form>';
 $this->closeBlock();
+
+
+ /*
+   * Pulls the user settings from POST to a settings array.
+   * @author Ben Dodson
+   * @since 12/7/05
+   * @version 12/7/05
+   **/
+  function userPullSettings() {
+    $settings = array();
+    
+    $settings['language'] = $_POST['usr_language'];		 
+    $settings['theme'] = $_POST['usr_theme'];
+    $settings['frontend'] = $_POST['usr_interface'];      
+    $settings['home_dir'] = $_POST['home_dir'];
+    if (isset($_POST['home_read'])) {
+      $settings['home_read'] = true;
+    } else {
+      $settings['home_read'] = false;
+    }
+    if (isset($_POST['home_admin'])) {
+      $settings['home_admin'] = true;
+    } else {
+      $settings['home_admin'] = false;
+    }
+    if (isset($_POST['home_upload'])) {
+      $settings['home_upload'] = true;
+    } else {
+      $settings['home_upload'] = false;
+    }
+    
+    $settings['cap_limit'] = $_POST['cap_limit'];
+    $settings['cap_duration'] = $_POST['cap_duration'];
+    $settings['cap_method'] = $_POST['cap_method'];
+    
+    $settings['player'] = $_POST['player'];
+    
+    $settings['resample_rate'] = $_POST['resample'];
+    
+    if (isset($_POST['lockresample'])) {
+      $settings['resample_lock'] = true;
+    } else {
+      $settings['resample_lock'] = false;
+    }
+
+    if (isset($_POST['view'])) {
+      $settings['view'] = true;
+    } else {
+      $settings['view'] = false;
+    }
+    
+    if (isset($_POST['stream'])) {
+      $settings['stream'] = true;
+    } else {
+      $settings['stream'] = false;
+    }
+    
+    if (isset($_POST['download'])) {
+      $settings['download'] = true;
+    } else {
+      $settings['download'] = false;
+    }
+    
+    if (isset($_POST['lofi'])) {
+      $settings['lofi'] = true;
+    } else {
+      $settings['lofi'] = false;
+    }
+    
+    if (isset($_POST['jukebox_admin'])) {
+      $settings['jukebox_admin'] = true;
+      $settings['jukebox'] = true;
+    } else {
+      $settings['jukebox_admin'] = false;
+    }
+    
+    if (isset($_POST['jukebox_queue'])) {
+      $settings['jukebox_queue'] = true;
+      $settings['jukebox'] = true;
+    } else {
+      $settings['jukebox_queue'] = false;
+    }
+    
+    
+    if (isset($_POST['powersearch'])) {
+      $settings['powersearch'] = true;
+    } else {
+      $settings['powersearch'] = false;
+    }
+    
+    if (isset($_POST['admin'])) {
+      $settings['admin'] = true;
+    } else {
+      $settings['admin'] = false;
+    }
+    
+    if (isset($_POST['edit_prefs'])) {
+      $settings['edit_prefs'] = true;
+    } else {
+      $settings['edit_prefs'] = false;
+    }
+    $settings['playlist_type'] = $_POST['pltype'];
+
+		if (isset($_POST['fullname'])) {
+      $settings['fullname'] = $_POST['fullname'];
+    }
+    
+    if (isset($_POST['email'])) {
+      $settings['email'] = $_POST['email'];
+    }
+
+    return $settings;
+  }
+
+
+
+  /*
+   * Displays the user/template settings page
+   * @param purpose: Why the function is being called:
+   * One of: new|update|custom
+   * @param settings: the preloaded settings
+   * @author Ben Dodson
+   **/
+
+  function userManSettings($purpose, $settings = false, $subaction = false, $post = false) {
+    global $jzSERVICES,$resampleRates,$include_path;
+    $be = new jzBackend();
+    $display = new jzDisplay();
+    $url_array = array();
+    $url_array['action'] = "popup";
+    $url_array['ptype'] = "usermanager";
+    if ($subaction === false) {
+      $url_array['subaction'] = "handleclass";
+    } else {
+      $url_array['subaction'] = $subaction;
+    }
+
+    // Why PHP pisses me off.
+    foreach ($settings as $k=>$v) {
+      if ($v == "true") {
+	$settings[$k] = true;
+      } else if ($v == "false") {
+	$settings[$k] = false;
+      } else {
+	$settings[$k] = $v;
+      }
+    }
+      ?>
+      <form method="POST" action="<?php echo urlize($url_array); ?>">
+	 <input type="hidden" name="update_settings" value="true">
+	 <?php 
+	 if (is_array($post)) {
+	   foreach ($post as $p => $v) {
+	     echo '<input type="hidden" name="'.$p.'" value="'.$v.'">';
+	   }
+	 }
+	?>
+	 <table>
+	 <?php if ($purpose != "custom") { ?>
+	 <tr><td width="30%" valign="top" align="right">
+	 <?php echo word("Template:"); ?>
+	 </td><td width="70%">
+	     <?php
+	     if ($purpose == "new") {
+	       ?>
+	       <input name="classname" class="jz_input">
+	       <?php
+	     } else if ($purpose == "update") {
+	       echo '<input type="hidden" name="classname" class="jz_input" value="'.$_POST['classname'].'">';
+	       echo $_POST['classname'];
+	     }
+	   ?>
+	     </td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+					   <?php } ?>
+							<tr>
+							<td width="30%" valign="top" align="right">
+							<?php echo word("Interface"); ?>:
+	       </td>
+		   <td width="70%">
+		   <?php
+		   $overCode = $display->returnToolTip(word("INTERFACE_NOTE"), word("Default Interface"));
+		 ?>
+		   <select <?php echo $overCode; ?> name="usr_interface" class="jz_select" style="width:135px;">
+			 <?php
+			 // Let's get all the interfaces
+			 $retArray = readDirInfo($include_path. "frontend/frontends","dir");
+		    sort($retArray);
+		    for($i=0;$i<count($retArray);$i++){
+		      echo '<option ';
+		      if ($settings['frontend'] == $retArray[$i]) { echo 'selected '; }
+		      echo 'value="'. $retArray[$i]. '">'. $retArray[$i]. '</option>'. "\n";
+		    }
+		      ?>
+			</select>
+			</td>
+			</tr>
+			<tr>
+			<td width="30%" valign="top" align="right">
+			<?php echo word("Theme"); ?>:
+			</td>
+			<td width="70%">
+			<?php
+			$overCode = $display->returnToolTip(word("THEME_NOTE"), word("Default Theme"));
+			 ?>
+			<select <?php echo $overCode; ?> name="usr_theme" class="jz_select" style="width:135px;">
+			<?php
+			// Let's get all the interfaces
+			$retArray = readDirInfo($include_path. "style","dir");
+		    sort($retArray);
+		    for($i=0;$i<count($retArray);$i++){
+		      if ($retArray[$i] == "images"){continue;}
+		      echo '<option ';
+		      if ($settings['theme'] == $retArray[$i]) { echo 'selected '; }
+		      echo 'value="'. $retArray[$i]. '">'. $retArray[$i]. '</option>'. "\n";
+		    }
+		      ?>
+			</select>
+			</td>
+			</tr>
+			<tr>
+			<td width="30%" valign="top" align="right">
+			<?php echo word("Language"); ?>:
+			</td>
+			<td width="70%">
+			<?php
+				$overCode = $display->returnToolTip(word("LANGUAGE_NOTE"), word("Default Language"));
+			 ?>
+			<select <?php echo $overCode; ?> name="usr_language" class="jz_select" style="width:135px;">
+			<?php
+			// Let's get all the interfaces
+			$languages = getLanguageList();
+		    for($i=0;$i<count($languages);$i++){
+		      echo '<option ';
+		      if ($languages[$i] == $settings['language']){echo ' selected '; }
+		      echo 'value="'.$languages[$i]. '">'.$languages[$i]. '</option>'. "\n";
+		    }
+		      ?>
+							</select>
+							    </td>
+							    </tr>
+							    <tr>
+							    <td width="30%" valign="top" align="right">
+							    <?php echo word("Home Directory"); ?>:
+							  </td>
+							    <td width="70%">
+								<?php
+								$overCode = $display->returnToolTip(word("HOMEDIR_NOTE"), word("User Home Directory"));
+								 ?>
+							    <input <?php echo $overCode; ?> type="input" name="home_dir" class="jz_input" value="<?php echo $settings['home_dir']; ?>">
+							    </td>
+							    </tr>
+							    <tr>
+							    <td width="30%" valign="middle" align="right">
+							    <?php echo word("Home Permissions"); ?>:
+							  </td>
+							    <td width="70%">
+							    <br>
+								<?php
+									$overCode = $display->returnToolTip(word("HOMEREAD_NOTE"), word("Read Home Directory"));
+									$overCode2 = $display->returnToolTip(word("HOMEADMIN_NOTE"), word("Admin Home Directory"));
+									$overCode3 = $display->returnToolTip(word("HOMEUPLOAD_NOTE"), word("Home Directory Upload"));
+								 ?>
+							    <input <?php echo $overCode; ?> type="checkbox" name="home_read" class="jz_input" <?php if ($settings['home_read'] == true) { echo 'CHECKED'; } ?>> Read only from home directory<br>
+							    <input <?php echo $overCode2; ?> type="checkbox" name="home_admin" class="jz_input" <?php if ($settings['home_admin'] == true) { echo 'CHECKED'; } ?>> Home directory admin<br>
+							    <input <?php echo $overCode3; ?> type="checkbox" name="home_upload" class="jz_input" <?php if ($settings['home_upload'] == true) { echo 'CHECKED'; } ?>> Upload to home directory
+							    <br><br>
+							    </td>
+							    </tr>
+							    
+							    <tr>
+							    <td width="30%" valign="middle" align="right">
+							    <?php echo word("User Rights"); ?>:
+							  </td>
+							    <td width="70%">
+								<?php
+									$overCode = $display->returnToolTip(word("VIEW_NOTE"), word("User can view media"));
+									$overCode2 = $display->returnToolTip(word("STREAM_NOTE"), word("User can stream media"));
+									$overCode3 = $display->returnToolTip(word("LOFI_NOTE"), word("User can access lo-fi tracks"));
+									$overCode4 = $display->returnToolTip(word("DOWNLOAD_NOTE"), word("User can download"));
+									$overCode5 = $display->returnToolTip(word("POWERSEARCH_NOTE"), word("User can power search"));
+									$overCode6 = $display->returnToolTip(word("JUKEBOXQ_NOTE"), word("User can queue jukebox"));
+									$overCode7 = $display->returnToolTip(word("JUKEBOXADMIN_NOTE"), word("User can admin jukebox"));
+									$overCode8 = $display->returnToolTip(word("SITE_NOTE"), word("Site Admin"));
+									$overCode9 = $display->returnToolTip(word("EDIT_NOTE"), word("Edit Preferences"));
+								 ?>
+							    <input <?php echo $overCode; ?> type="checkbox" name="view" class="jz_input" <?php if ($settings['view'] == true) { echo 'CHECKED'; } ?>> View
+							    <input <?php echo $overCode2; ?> type="checkbox" name="stream" class="jz_input" <?php if ($settings['stream'] == true) { echo 'CHECKED'; } ?>> Stream
+							    <input <?php echo $overCode3; ?> type="checkbox" name="lofi" class="jz_input" <?php if ($settings['lofi'] == true) { echo 'CHECKED'; } ?>> Lo-Fi<br>
+							    <input <?php echo $overCode4; ?> type="checkbox" name="download" class="jz_input" <?php if ($settings['download'] == true) { echo 'CHECKED'; } ?>> Download
+							    <input <?php echo $overCode5; ?> type="checkbox" name="powersearch" class="jz_input" <?php if ($settings['powersearch'] == true) { echo 'CHECKED'; } ?>> Power Search<br>
+							    <input <?php echo $overCode6; ?> type="checkbox" name="jukebox_queue" class="jz_input" <?php if ($settings['jukebox_queue'] == true) { echo 'CHECKED'; } ?>> Jukebox Queue
+							    <input <?php echo $overCode7; ?> type="checkbox" name="jukebox_admin" class="jz_input" <?php if ($settings['jukebox_admin'] == true) { echo 'CHECKED'; } ?>> Jukebox Admin<br>
+							    <input <?php echo $overCode8; ?> type="checkbox" name="admin" class="jz_input" <?php if ($settings['admin'] == true) { echo 'CHECKED'; } ?>> Site Admin
+						        <input <?php echo $overCode9; ?> type="checkbox" name="edit_prefs" class="jz_input" <?php if ($settings['edit_prefs'] == true) { echo 'CHECKED'; } ?>> Edit Prefs
+							    <br><br>
+							    </td>
+							    </tr>
+							    <tr>
+								<td width="30%" valign="top" align="right">
+							    <?php echo word("Playlist Type"); ?>:
+								</td><td width="70%">
+								<?php
+								$overCode = $display->returnToolTip(word("PLAYLIST_NOTE"), word("Playlist Type"));
+								 ?>
+								<select <?php echo $overCode; ?> name="pltype" class="jz_select" style="width:135px;">
+							 <?php
+						 $list = $jzSERVICES->getPLTypes();
+						foreach ($list as $p=>$desc) {
+						  echo '<option value="' . $p . '"';
+						  if ($p == $settings['playlist_type']) {
+						    echo ' selected';
+						  }
+						  echo '>' . $desc . '</option>';
+						} ?>
+				    </select></td></tr>
+
+							    <tr>
+							    <td width="30%" valign="top" align="right">
+							    <?php echo word("Resample Rate"); ?>:
+							  </td>
+					<td width="70%">
+					<?php
+						$overCode = $display->returnToolTip(word("RESAMPLE_NOTE"), word("Resample Rate"));
+						$overCode2 = $display->returnToolTip(word("LOCK_NOTE"), word("Resample Rate Lock"));
+					 ?>
+						<select <?php echo $overCode; ?> name="resample" class="jz_select" style="width:50px;">
+							<option value="">-</option>
+							<?php
+								// Now let's create all the items based on their settings
+								$reArr = explode("|",$resampleRates);
+								for ($i=0; $i < count($reArr); $i++){
+									echo '<option value="'. $reArr[$i]. '"';
+									if ($settings['resample_rate'] == $reArr[$i]) {
+									  echo ' selected';
+									}
+									echo '>'. $reArr[$i]. '</option>'. "\n";
+								}
+							?>
+						</select> 
+						    <input <?php echo $overCode2; ?> type="checkbox" name="lockresample" class="jz_input" <?php if ($settings['resample_lock'] == true) { echo 'CHECKED'; } ?>> <?php echo word('Locked'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td width="30%" valign="top" align="right">
+						<?php echo word("External Player"); ?>:
+					</td>
+					<td width="70%">
+						<?php
+						 $overCode = $display->returnToolTip(word("PLAYER_NOTE"), word("External Player"));
+						?>
+						<select <?php echo $overCode; ?> name="player" class="jz_select" style="width:135px;">
+							<option value=""> - </option>
+							<?php
+								// Let's get all the interfaces
+								$retArray = readDirInfo($include_path. "services/services/players","file");
+								sort($retArray);
+								for($i=0;$i<count($retArray);$i++){
+									if (!stristr($retArray[$i],".php") and !stristr($retArray[$i],"qt.")){continue;}
+									$val = substr($retArray[$i],0,-4);
+									echo '<option value="'. $val. '"';
+									if ($settings['player'] == $val) {
+									  echo ' selected';
+									}
+									echo '>'. $val. '</option>'. "\n";
+								}
+							?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td width="30%" valign="top" align="right">
+						<?php echo word("Playback Limit"); ?>:
+					</td>
+					<td width="70%"><td></tr><tr><td></td><td>
+					    <table><tr><td>
+					    
+						<?php
+					    echo word("Limit:"); 
+								echo '</td><td>';
+					                        $overCode = $display->returnToolTip(word("Sets a streaming limit for users based on the size or number of songs played."), word("Playback Limit"));
+								$cap_limit = $settings['cap_limit'];
+								if (isNothing($cap_limit)) { $cap_limit = 0; }
+						?>
+					        <input <?php echo $overCode; ?> name="cap_limit" class="jz_select" style="width:35px;" value="<?php echo $cap_limit; ?>">
+					</td></tr>
+                                        <tr><td>					    
+						<?php
+					    echo word("Method:"); 
+								echo '</td><td>';
+					                        $overCode = $display->returnToolTip(word("Sets the method for limiting playback"), word("Limiting method"));
+								$cap_method = $settings['cap_method'];
+						?>
+					        <select name="cap_method" class="jz_select" <?php echo $overCode; ?>>
+					       <option value="size"<?php if ($cap_method == "size") { echo ' selected'; } ?>><?php echo word('Size (MB)');?></option>
+					       <option value="number"<?php if ($cap_method == "number") { echo ' selected'; } ?>><?php echo word('Number');?></option>
+					</td></tr>
+                                        <tr><td>
+					    
+						<?php
+					    echo word("Duration:"); 
+								echo '</td><td>';
+					                        $overCode = $display->returnToolTip(word("How long the limit lasts, in days."), word("Limit duration"));
+								$cap_duration = $settings['cap_duration'];
+								if (isNothing($cap_duration)) { $cap_duration = 30; }
+						?>
+					        <input <?php echo $overCode; ?> name="cap_duration" class="jz_select" style="width:35px;" value="<?php echo $cap_duration; ?>">
+					</td></tr>
+										  </table>
+				</tr>
+								
+				
+				<tr>
+					<td width="30%" valign="top">
+					</td>
+					<td width="70%">
+					<input type="submit" name="handlUpdate" value="<?php echo word("Save"); ?>" class="jz_submit">
+					</td>
+				</tr>
+						    </table>
+<?php
+  }
+	
+
+
+
 ?>
