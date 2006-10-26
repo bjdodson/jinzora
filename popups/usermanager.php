@@ -121,7 +121,11 @@ if ($_GET['subaction'] == "handleuser") {
 			if ($name == $_POST['username']) {
 				$myid = $id;
 			}
-		}
+		} if (!isset($myid)) {
+        	// okay, yes,  this is the worst piece of code in Jinzora.
+            $myid = $jzUSER->lookupUID(NOBODY);
+        }
+		
 		if ($_POST['field1'] != "jznoupd") {
 			// update password
 			$jzUSER->changePassword($_POST['field1'], $jzUSER->lookupName($myid));
