@@ -255,6 +255,21 @@
 		}
 
 		/**
+		* Updates the database, if required by the jukebox.
+		* 
+		* @author Ben Dodson
+		* @version 12/08/06
+		* @since 12/08/06
+		* 
+		*/
+		function updateDB($node, $recursive, $root_path){
+			if (function_exists("updateJukeboxDB")) {
+				return updateJukeboxDB($node, $recursive, $root_path);
+			}
+			return false;
+		}
+
+		/**
 		* Gets a setting for the jukebox from jbArr.
 		* 
 		* @author Ben Dodson

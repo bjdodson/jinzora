@@ -636,7 +636,21 @@
 		return $myMpd->current_track_position;
 	}
 	
-	
+   /**
+	* Updates the database
+	* 
+	* @author Ben Dodson
+	* @version 12/08/06
+	* @since 12/08/06
+	*/
+	function updateJukeboxDB($node, $recursive, $root_path){
+		global $jbArr;
+		
+		// Let's create our object
+		$myMpd = _mpdConnection();
+
+		$myMpd->DBRefresh();
+	}
 	
 	
 	//

@@ -1608,7 +1608,7 @@ function stringize_size($size) {
  * @author Ben Dodson
  */
 function updateNodeCache($node, $recursive = false, $showStatus = false, $force = false, $readTags = true, $root_path = false) {
-  global $media_dirs,$live_update,$jzSERVICES,$hierarchy,$backend,$default_importer;
+  global $media_dirs,$live_update,$jzSERVICES,$hierarchy,$backend,$default_importer,$jukebox,$include_path;
 
 	$flags = array();
 	$flags['showstatus'] = $showStatus;
@@ -1673,6 +1673,12 @@ function updateNodeCache($node, $recursive = false, $showStatus = false, $force 
       $flags['recursive'] = true;
       $jzSERVICES->importMedia($node, $root_path, $flags);
     }
+  }
+  
+  if ($jukebox == "true") {
+  	include_once($include_path. "jukebox/class.php");
+  	$jb = new jzJukebox();
+	$jb->updateDB($node, $recursive, $root_path);
   }
 }
 
