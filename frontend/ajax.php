@@ -204,7 +204,7 @@
 	*
 	**/
 	function returnWhoisWhere(){
-		global $jzUSER, $img_tiny_play, $img_tiny_play_dis, $user_tracking_age, $css, $include_path, $root_dir, $who_is_where_height; 
+		global $jzUSER, $img_tiny_play, $img_tiny_play_dis, $user_tracking_age, $css, $include_path, $root_dir, $who_is_where_height,$jzSERVICES; 
 
 		$define_only=true;
 		
@@ -273,7 +273,7 @@
 						if ($jzUSER->getSetting('stream')){
 							$retVal .= ' <a href="'. urlize($arr). '"';
 							if (checkPlayback() == "embedded") {
-								$jzSERVICES = new jzServices();
+								//$jzSERVICES = new jzServices();
 								$jzSERVICES->loadService("players",$jzUSER->getSetting("player"));
 								$retVal .= ' ' . $jzSERVICES->returnPlayerHref();
 							}
@@ -317,7 +317,7 @@
 	*
 	**/
 	function returnNowStreaming(){
-		global $jzUSER, $img_tiny_play, $img_tiny_play_dis, $css, $img_tiny_info, $skin, $root_dir, $include_path; 
+		global $jzUSER, $img_tiny_play, $im_tiny_play_dis, $css, $img_tiny_info, $skin, $root_dir, $include_path,$jzSERVICES; 
 		
 		$define_only = true;
 		//include_once($include_path. $css);
@@ -392,7 +392,7 @@
 				if ($jzUSER->getSetting('stream')){
 					$retVal .= ' <a href="'. str_replace("ajax_request.php","index.php",urlize($url_array)). '"';
 					if (checkPlayback() == "embedded") {
-						$jzSERVICES = new jzServices();
+						//$jzSERVICES = new jzServices();
 						$jzSERVICES->loadUserServices();
 						$retVal .= ' ' . $jzSERVICES->returnPlayerHref();
 					}

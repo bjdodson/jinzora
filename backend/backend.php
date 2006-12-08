@@ -361,7 +361,7 @@ function getMediaDir($element) {
 }
 
 function handleUserInit() {
-  global $jzUSER,$jz_language,$node,$skin,$include_path,$css,$image_dir,$my_frontend,$fe,$jz_path,$web_path;
+  global $jzSERVICES,$jzUSER,$jz_language,$node,$skin,$include_path,$css,$image_dir,$my_frontend,$fe,$jz_path,$web_path;
   writeLogData("messages","Index: Testing the language file for security and including");
   handleSetLanguage();
   handleSetFrontend();
@@ -401,7 +401,7 @@ function handleUserInit() {
  * @version 4/29/05
  **/
 function handleSetFrontend($build_fe = true) {
-	global $my_frontend, $jzUSER, $jinzora_skin,$fe,$skin;
+	global $jzSERVICES,$my_frontend, $jzUSER, $jinzora_skin,$fe,$skin;
 	
 	// Now use them.
 	if (isset($_GET['frontend'])) {
@@ -710,6 +710,10 @@ function checkPlayback($check_streammode = false) {
   
   if (!$check_streammode && $jukebox == "true" && $_SESSION['jb_playwhere'] != "stream") {
     return "jukebox";
+  }
+
+  if (defined('JZ_FORCE_EMBEDDED_PLAYER')) {
+  	return "embedded";
   }
 
   if (checkPermission($jzUSER,"embedded_player") || (!isNothing($embedded_player) && $embedded_player != "false")) {

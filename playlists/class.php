@@ -1035,7 +1035,7 @@
 		* @since 11/12/04
 		*/
 		function stream($fileExt = false, $redirect = false) {
-			global $web_root, $root_dir, $media_dir, $audio_mimes, $playlist_ext,$jzUSER, $this_site;
+			global $web_root, $root_dir, $media_dir, $audio_mimes, $playlist_ext,$jzUSER, $this_site,$jzSERVICES;
 
 			if ($fileExt === false || $fileExt == "") {
 			    $fileExt = $jzUSER->getSetting('playlist_type');
@@ -1043,8 +1043,7 @@
 					$fileExt = "m3u";
 				}
 			}
-			// Ok, now we need to load up the playlist service that's appropriate to this playlist type
-			$jzSERVICES = new jzServices();
+			
 			// Now let's look at the list and IF it's a single track let's possibly change the list type
 			if (isset($_GET['type']) && $_GET['type'] == "track"){
 				// Ok, now we need to know the file extension of what's being played
