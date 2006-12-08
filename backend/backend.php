@@ -674,6 +674,8 @@ function checkPermission($user, $setting, $path = false) {
     else return false;
     break;
   case "embedded_player":
+    if (defined ('JZ_FORCE_EMBEDDED_PLAYER'))
+      return true;
     if ($user->getSetting('player') != "" || ($embedded_player != "" && $embedded_player != "false"))
       return true;
     else return false;
