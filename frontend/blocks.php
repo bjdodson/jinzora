@@ -1588,8 +1588,13 @@ class jzBlockClass {
 								<?php
 									for ($i=0; $i < count($fullList); $i++){
 										echo '<option value="'. $i. '"';
-										if ($curTrackNum == $i){ echo " selected "; }
-										echo '>'. $fullList[$i]. '</option>';
+										if ($curTrackNum == $i) { 
+											echo " style=\"font-weight:bold;\" ";
+											echo '> * '. $fullList[$i]. '</option>'; 		
+										} else {
+											echo '>'. $fullList[$i]. '</option>';
+										}
+										
 									}
 								?>
 							</select>
