@@ -103,7 +103,7 @@
 	    $_POST['jbvol'] = $arg;
 	  } else if ($command == "addwhere") {
 	    $_POST['addplat'] = $arg;
-	  } else if ($command == "jumpto") {
+	  } else {
 	    $_POST['jbjumpto'] = $arg;
 	  }
 	 

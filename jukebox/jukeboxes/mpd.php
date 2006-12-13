@@ -224,6 +224,7 @@
 		$retArray['shufflebutton'] = true;
 		$retArray['clearbutton'] = true;
 		$retArray['repeatbutton'] = true;
+		$retArray['delonebutton'] = true;
 		$retArray['status'] = true;
 		$retArray['progress'] = true;
 		$retArray['volume'] = true;
@@ -508,6 +509,9 @@
 			case "clear":
 				$myMpd->Stop();
 				$myMpd->PLClear();
+			break;
+			case "delone":
+				$myMpd->PLRemove($_POST['jbjumpto']);
 			break;
 		        case "repeat":
 		                $myMpd->setRepeat(1);

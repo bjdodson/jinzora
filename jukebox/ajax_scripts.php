@@ -64,10 +64,10 @@ function sendJukeboxAddType() {
   }
 }
 
-function sendJukeboxJumpTo() {
+function sendJukeboxForm() {
   obj = document.getElementById("jukeboxJumpToSelect");
   if (obj != false) {
-    x_ajaxJukeboxRequest('jumpto',obj.options[obj.selectedIndex].value,sendJukeboxRequest_cb);
+    x_ajaxJukeboxRequest(document.getElementById('jbPlaylistForm').elements['command'].value, obj.options[obj.selectedIndex].value,sendJukeboxRequest_cb);
   }
 }
 
