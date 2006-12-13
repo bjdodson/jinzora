@@ -1584,7 +1584,7 @@ class jzBlockClass {
 						<input type="hidden" name="action" value="jukebox">
 						<input type="hidden" name="subaction" value="jukebox-command">
 						<input type="hidden" name="command" value="jumpto">
-							<select name="jbjumpto" id="jukeboxJumpToSelect" class="jz_select" size="6" style="width:275px;"<?php if ($func['jump']){ echo 'onChange="sendJukeboxJumpTo(); return false;"'; }?>>
+							<select name="jbjumpto" id="jukeboxJumpToSelect" class="jz_select" size="6" style="width:275px;"<?php if ($func['jump']){ echo 'ondblclick="sendJukeboxJumpTo(); return false;"'; }?>>
 								<?php
 									for ($i=0; $i < count($fullList); $i++){
 										echo '<option value="'. $i. '"';
