@@ -1,1 +1,4 @@
-[this is the flash player.]
+{php}
+global $jzSERVICES;
+$jzSERVICES->displayPlayer();
+{/php}

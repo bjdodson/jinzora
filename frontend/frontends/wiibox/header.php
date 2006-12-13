@@ -37,11 +37,10 @@
 	
 	class jzFrontend extends jzFrontendClass {
 		function jzFrontend() {
-			global $jzSERVICES;
+			global $jzSERVICES,$this_page;
 			// force the embedded player
 			define('JZ_FORCE_EMBEDDED_PLAYER','true');
 			$jzSERVICES->loadService('players','xspf');
-			
 			
 			parent::_constructor();
 		}		
@@ -55,12 +54,53 @@
 			
 			$smarty = smartySetup();
    
-			// Now let's get the sub nodes to where we are
+   			$itemArray = getCurNodeList();
+			$smarty->assign("nodes",$itemArray);
+			
+			// Now are there any tracks?
+			// Probably handle this differently:
+			// change getCurNodeList to getCurMediaList.
+			$tracks = $node->getSubNodes("tracks");
+			if (count($tracks) <> 0){
+				
+				$smary->assign("tracks",array());
+			}
+			
+			$smarty->assign("playerURL",urlize(array("frame" => "player")));
+			$smarty->assign("bodyURL",urlize(array("frame" => "body")));
+			
+			// OUTPUT HTML
+			
+			// Is this our first pageview?
+			if ((!isset($_GET['refview']) || $_GET['refview'] != $this->name) && !isset($_GET['frame'])) {
+				$display->preheader();
+				$smarty->assign("playerHeight", $jzSERVICES->returnPlayerHeight());
+				jzTemplate($smarty,"page");
+			} else if (isset($_GET['frame']) && $_GET['frame'] == "player"){
+				$display->preheader();
+				jzTemplate($smarty,"player");
+			} else {
+				$display->preheader();
+				jzTemplate($smarty,"body");
+			}
+			
+		}
+	}
+
+		// auxilary functions
+		function getCurNodeList() {
+			global $sort_by_year,$node;
+			
+			$display = &new jzDisplay();
 			if (isset($_GET['jz_letter'])) {
 				$root = new jzMediaNode();
 				$nodes = $root->getAlphabetical($_GET['jz_letter'],"nodes",distanceTo("artist"));
 			} else {
-			  $nodes = $node->getSubNodes("nodes");
+				if (isset($_SESSION['JZ_CURRENT_MEDIA_LIST'])) {
+					// Removed while coding
+					//return $_SESSION['JZ_CURRENT_MEDIA_LIST'];
+				}
+				$nodes = $node->getSubNodes("nodes");
 			}
 			if ($sort_by_year == "true"){
 				sortElements($nodes,"year");
@@ -77,32 +117,9 @@
                                      "playlink" => $display->playLink($item,"PLAY",false,false,true)
                                      );
 			}
-			$smarty->assign("nodes",$itemArray);
-			
-			// Now are there any tracks?
-			$tracks = $node->getSubNodes("tracks");
-			if (count($tracks) <> 0){
-				
-				$smary->assign("tracks",array());
-			}
-			
-			$smarty->assign("playerURL",urlize(array("frame" => "player")));
-			$smarty->assign("bodyURL",urlize(array("frame" => "body")));
-			
-			// OUTPUT HTML
-			
-			// Is this our first pageview?
-			if (!isset($_GET['frame'])) {
-				$display->preheader();
-				jzTemplate($smarty,"page");
-			} else if ($_GET['frame'] == "player"){
-				$display->preheader();
-				jzTemplate($smarty,"player");
-			} else {
-				$display->preheader();
-				jzTemplate($smarty,"body");
-			}
-			
+			$_SESSION['JZ_CURRENT_MEDIA_LIST'] = $itemArray;
+			return $itemArray;
 		}
-	}
+
+
 ?>

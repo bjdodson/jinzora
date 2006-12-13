@@ -33,7 +33,7 @@
 	* @since 8/23/05
 	*/
 	function SERVICE_RETURN_PLAYER_WIDTH_xspf(){
-	  return 300;
+	  return 445;
 	}
 
 	/**
@@ -44,7 +44,7 @@
 	* @since 8/23/05
 	*/
 	function SERVICE_RETURN_PLAYER_HEIGHT_xspf(){
-	  return 150;
+	  return 250;
 	}
 
 	
@@ -82,7 +82,7 @@
 	* @param $list an array containing the tracks to be played
 	*/
 	function SERVICE_DISPLAY_PLAYER_xspf($width, $height){
-		global $root_dir, $this_site, $css;
+		global $root_dir, $this_site, $css,$jzUSER;
 		
 		?>
 		<SCRIPT LANGUAGE=JAVASCRIPT TYPE="TEXT/JAVASCRIPT"><!--\
@@ -133,7 +133,7 @@
 	* @param $list an array containing the tracks to be played
 	*/
 	function SERVICE_OPEN_PLAYER_xspf($list){
-		global $include_path, $root_dir, $this_site;
+		global $include_path, $root_dir, $this_site,$jzUSER;
 	
 		$display = new jzDisplay();
 

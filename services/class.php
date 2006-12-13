@@ -223,7 +223,7 @@ class jzServices {
   
   function displayPlayer(){
     $func = "SERVICE_DISPLAY_PLAYER_" . $this->loaded['players'];
-    return $func();
+    return $func($this->returnPlayerWidth(),$this->returnPlayerHeight());
   }
   
   function openPlayer($list){

@@ -858,7 +858,6 @@ function sendID3Image($path,$name,$id3) {
 		
 		return($status);
 	}
-
 	
 	/**
 	 * Converts an associative array to a link.
@@ -874,7 +873,7 @@ function sendID3Image($path,$name,$id3) {
 	 */
 	function urlize($arr1 = array(), $arr2 = array()) {
 	  global $this_page, $root_dir, $link_root, $include_path, $ssl_stream, $secure_urls;
-	  
+	  		
 	  $this_page = setThisPage();
 	  $arr = $arr1 + $arr2;
 	  
@@ -1348,7 +1347,7 @@ function sendID3Image($path,$name,$id3) {
 	}
 	 
 	function setThisPage() {
-	  global $link_root, $cms_type, $cms_mode;	
+	  global $link_root, $cms_type, $cms_mode, $fe;	
 
 	  if (defined('JZ_URL_OVERRIDE')) {
 	    $link = JZ_URL_OVERRIDE . '?';
@@ -1403,7 +1402,11 @@ function sendID3Image($path,$name,$id3) {
 	    $this_page .= urlencode(jz_encode("language")) . "=" . urlencode(jz_encode($_GET['language'])) . "&";
 	  }
 	  
-
+	  // referring view
+	  if (isset($fe)) {
+	  	$this_page .= urlencode(jz_encode("refview")) . "=" . urlencode($fe->name) . "&";
+	  }
+	  
 	  return $this_page;
 	}
 
