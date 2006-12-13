@@ -1299,7 +1299,7 @@ class jzBlockClass {
 	* @since 12/22/04
 	*/
 	function jukeboxBlock(){
-		global $this_page, $media_dirs, $jbArr, $root_dir,$include_path,$jzUSER;
+		global $this_page, $media_dirs, $jbArr, $root_dir,$include_path,$jzUSER,$img_delete, $img_jb_clear;
 
 		$display = new jzDisplay();
 		include_once($include_path. "jukebox/class.php");
@@ -1578,13 +1578,17 @@ class jzBlockClass {
 							$arr = array();
 							$arr['action'] = "jukebox";
 							$arr['subaction'] = "jukebox-command";
-							$arr['command'] = "jumpto";
 						?>
-						<form action="<?php echo urlize($arr); ?>" method="post">
+						<script name="javascript">
+							function setJbFormCommand(cmd) {
+								document.getElementById('jbPlaylistForm').elements['command'].value = cmd;
+							}
+						</script>
+						<form action="<?php echo urlize($arr); ?>" method="post" name="jbPlaylistForm" id="jbPlaylistForm">
 						<input type="hidden" name="action" value="jukebox">
 						<input type="hidden" name="subaction" value="jukebox-command">
-						<input type="hidden" name="command" value="jumpto">
-							<select name="jbjumpto" id="jukeboxJumpToSelect" class="jz_select" size="6" style="width:275px;"<?php if ($func['jump']){ echo 'ondblclick="sendJukeboxJumpTo(); return false;"'; }?>>
+						<input type="hidden" id="jbCommand" name="command" value="jumpto">
+							<select name="jbjumpto" id="jukeboxJumpToSelect" class="jz_select" size="6" style="width:275px;"<?php if ($func['jump']){ echo 'ondblclick="setJbFormCommand(\'jumpto\'); sendJukeboxForm(); return false;"'; }?>>
 								<?php
 									for ($i=0; $i < count($fullList); $i++){
 										echo '<option value="'. $i. '"';
@@ -1598,6 +1602,18 @@ class jzBlockClass {
 									}
 								?>
 							</select>
+							<div id="jbPlaylistButtons" style="text-align:right;">
+							<?php
+							if ($func['delonebutton']){
+								?>
+								<a href="#" 
+                            	   onclick="setJbFormCommand('delone'); sendJukeboxForm(); return false;">
+                            		<?php echo $img_jb_clear; ?>
+                                </a>
+								<?php
+							}
+							?>
+                                </div>
 						</form>
 					<?php
 						}
