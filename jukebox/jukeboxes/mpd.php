@@ -511,8 +511,8 @@
 				$myMpd->PLClear();
 			break;
 			case "delone":
-				for ( $i = sizeof($_POST['jbSelectedItem']) - 1; $i  >= 0; $i--) {
-					$myMpd->PLRemove($_POST['jbSelectedItem'][$i]);
+				for ( $i = sizeof($_POST['jbSelectedItems']) - 1; $i  >= 0; $i--) {
+					$myMpd->PLRemove($_POST['jbSelectedItems'][$i]);
 				}
 			break;
 		        case "repeat":
