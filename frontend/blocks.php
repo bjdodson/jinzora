@@ -1587,6 +1587,7 @@ class jzBlockClass {
 						<?php
 						if (isset($_SESSION['jbSelectedItems'])) {
 							$selected = $_SESSION['jbSelectedItems'];
+							unset($_SESSION['jbSelectedItems']);
 						} else {
 							$selected = array();
 						}
