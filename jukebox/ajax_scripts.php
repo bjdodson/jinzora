@@ -131,11 +131,12 @@ function sendJukeboxForm() {
       shift = 0;
       curdex = 0;
       for (i = 0; i+shift < obj.options.length; i++) {
-        if (curdex < total && selectedItems[curdex] == i) {
+        if (curdex < total && selectedItems[curdex] == i+shift) {
           shift++; curdex++;
         }
         if (i+shift < obj.options.length) {
           obj.options[i].text = obj.options[i+shift].text;
+	  obj.options[i].selected = false;
         }
       }
       for (i = 0; i < shift; i++) {
