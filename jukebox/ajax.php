@@ -103,8 +103,16 @@
 	    $_POST['jbvol'] = $arg;
 	  } else if ($command == "addwhere") {
 	    $_POST['addplat'] = $arg;
+	  } else if ($command == "jumpto"){
+	  	if (false !== stristr($arg,',')) {
+	  		$arg = explode(',',$arg);
+	    	$_POST['jbjumpto'] = $arg[0]; // first in list
+	  	} else {
+	  		$arg = explode(',',$arg);
+	  		$_POST['jbjumpto'] = $arg;
+	  	}
 	  } else {
-	    $_POST['jbjumpto'] = $arg;
+	  	$_POST['jbSelectedItems'] = $arg;
 	  }
 	 
 	  $jb->passCommand($command); 

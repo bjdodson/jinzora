@@ -71,7 +71,14 @@ function sendJukeboxAddType() {
 function sendJukeboxForm() {
   obj = document.getElementById("jukeboxJumpToSelect");
   if (obj != false) {
-    x_ajaxJukeboxRequest(document.getElementById('jbPlaylistForm').elements['command'].value, obj.options[obj.selectedIndex].value,sendJukeboxRequest_cb);
+  	selectedItems = new Array();
+  	total = 0;
+  	for (i = 0; i < obj.length; i++) {
+  		if (obj.options[i].selected) {
+  			selectedItems[total++] = obj.options[i].value;
+  		}
+  	}
+    x_ajaxJukeboxRequest(document.getElementById('jbPlaylistForm').elements['command'].value, selectedItems,sendJukeboxRequest_cb);
   }
 }
 

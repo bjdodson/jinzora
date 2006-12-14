@@ -511,7 +511,9 @@
 				$myMpd->PLClear();
 			break;
 			case "delone":
-				$myMpd->PLRemove($_POST['jbjumpto']);
+				foreach ($_POST['jbSelectedItems'] as $index) {
+					$myMpd->PLRemove($index);
+				}
 			break;
 		        case "repeat":
 		                $myMpd->setRepeat(1);

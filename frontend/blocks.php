@@ -1299,7 +1299,8 @@ class jzBlockClass {
 	* @since 12/22/04
 	*/
 	function jukeboxBlock(){
-		global $this_page, $media_dirs, $jbArr, $root_dir,$include_path,$jzUSER,$img_delete, $img_jb_clear;
+		global  $this_page, $media_dirs, $jbArr, $root_dir,$include_path,$jzUSER,
+				$img_delete, $img_jb_clear,$img_arrow_up,$img_arrow_down;
 
 		$display = new jzDisplay();
 		include_once($include_path. "jukebox/class.php");
@@ -1583,7 +1584,7 @@ class jzBlockClass {
 						<input type="hidden" name="action" value="jukebox">
 						<input type="hidden" name="subaction" value="jukebox-command">
 						<input type="hidden" id="jbCommand" name="command" value="jumpto">
-							<select name="jbjumpto" id="jukeboxJumpToSelect" class="jz_select" size="6" style="width:275px;"<?php if ($func['jump']){ echo 'ondblclick="setJbFormCommand(\'jumpto\'); sendJukeboxForm(); return false;"'; }?>>
+							<select multiple name="jbjumpto[]" id="jukeboxJumpToSelect" class="jz_select" size="6" style="width:275px;"<?php if ($func['jump']){ echo 'ondblclick="setJbFormCommand(\'jumpto\'); sendJukeboxForm(); return false;"'; }?>>
 								<?php
 									for ($i=0; $i < count($fullList); $i++){
 										echo '<option value="'. $i. '"';
@@ -1607,6 +1608,19 @@ class jzBlockClass {
                                 </a>
 								<?php
 							}
+							if ($func['move']){
+								?>
+								<a href="#" 
+                            	   onclick="setJbFormCommand('moveup'); sendJukeboxForm(); return false;">
+                            		<?php echo $img_arrow_up; ?>
+                                </a>
+                                <a href="#" 
+                            	   onclick="setJbFormCommand('movedown'); sendJukeboxForm(); return false;">
+                            		<?php echo $img_arrow_down; ?>
+                                </a>
+								<?php
+							}
+							
 							?>
                                 </div>
 						</form>
