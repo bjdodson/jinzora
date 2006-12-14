@@ -1579,11 +1579,6 @@ class jzBlockClass {
 							$arr['action'] = "jukebox";
 							$arr['subaction'] = "jukebox-command";
 						?>
-						<script name="javascript">
-							function setJbFormCommand(cmd) {
-								document.getElementById('jbPlaylistForm').elements['command'].value = cmd;
-							}
-						</script>
 						<form action="<?php echo urlize($arr); ?>" method="post" name="jbPlaylistForm" id="jbPlaylistForm">
 						<input type="hidden" name="action" value="jukebox">
 						<input type="hidden" name="subaction" value="jukebox-command">

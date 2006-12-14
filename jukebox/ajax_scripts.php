@@ -1,6 +1,10 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.'); ?>
 
 <script>
+function setJbFormCommand(cmd) {
+	document.getElementById('jbPlaylistForm').elements['command'].value = cmd;
+}
+
 function setPlayback(obj) {
   playback = obj.options[obj.selectedIndex].value;
   if (playback != "stream") {
