@@ -75,7 +75,8 @@ function sendJukeboxForm() {
   	total = 0;
   	for (i = 0; i < obj.length; i++) {
   		if (obj.options[i].selected) {
-  			selectedItems[total++] = obj.options[i].value;
+  			selectedItems[total] = obj.options[i].value;
+  			total++;
   		}
   	}
     x_ajaxJukeboxRequest(document.getElementById('jbPlaylistForm').elements['command'].value, selectedItems,sendJukeboxRequest_cb);
