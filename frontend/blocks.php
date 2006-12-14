@@ -1600,14 +1600,6 @@ class jzBlockClass {
 							</select>
 							<div id="jbPlaylistButtons" style="text-align:right;">
 							<?php
-							if ($func['delonebutton']){
-								?>
-								<a href="#" 
-                            	   onclick="setJbFormCommand('delone'); sendJukeboxForm(); return false;">
-                            		<?php echo $img_jb_clear; ?>
-                                </a>
-								<?php
-							}
 							if ($func['move']){
 								?>
 								<a href="#" 
@@ -1620,7 +1612,14 @@ class jzBlockClass {
                                 </a>
 								<?php
 							}
-							
+							if ($func['delonebutton']){
+								?>
+								<a href="#" 
+                            	   onclick="setJbFormCommand('delone'); sendJukeboxForm(); return false;">
+                            		<?php echo $img_jb_clear; ?>
+                                </a>
+								<?php
+							}
 							?>
                                 </div>
 						</form>
