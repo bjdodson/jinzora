@@ -1584,10 +1584,20 @@ class jzBlockClass {
 						<input type="hidden" name="action" value="jukebox">
 						<input type="hidden" name="subaction" value="jukebox-command">
 						<input type="hidden" id="jbCommand" name="command" value="jumpto">
+						<?php
+						if (isset($_SESSION['jbSelectedItems'])) {
+							$selected = $_SESSION['jbSelectedItems'];
+						} else {
+							$selected = array();
+						}
+						?>
 							<select multiple name="jbjumpto[]" id="jukeboxJumpToSelect" class="jz_select" size="6" style="width:275px;"<?php if ($func['jump']){ echo 'ondblclick="setJbFormCommand(\'jumpto\'); sendJukeboxForm(); return false;"'; }?>>
 								<?php
 									for ($i=0; $i < count($fullList); $i++){
 										echo '<option value="'. $i. '"';
+										if (false !== array_search($i,$selected)) {
+											echo " selected ";
+										}
 										if ($curTrackNum == $i) { 
 											echo " style=\"font-weight:bold;\" ";
 											echo '> * '. $fullList[$i]. '</option>'; 		

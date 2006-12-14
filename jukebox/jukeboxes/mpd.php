@@ -506,6 +506,7 @@
 			case "jumpto":
 				// We need to add 1 so we don't start at 0
 				$myMpd->SkipTo($_POST['jbjumpto']);
+				$_SESSION['jbSelectedItems'] = array($_POST['jbjumpto']);
 			break;
 			case "clear":
 				$myMpd->Stop();
@@ -515,6 +516,7 @@
 				for ( $i = sizeof($_POST['jbSelectedItems']) - 1; $i  >= 0; $i--) {
 					$myMpd->PLRemove($_POST['jbSelectedItems'][$i]);
 				}
+				$_SESSION['jbSelectedItems'] = array();
 			break;
 		        case "repeat":
 		                $myMpd->setRepeat(1);
@@ -546,7 +548,7 @@
 					// update for displaying the list:
 					$items[$i] = $items[$i]-1;
 				}
-				$_POST['jbSelectedItems'] = $items;
+				$_SESSION['jbSelectedItems'] = $items;
 			break;
 			case "movedown":
 				$items = $_POST['jbSelectedItems'];
@@ -562,7 +564,7 @@
 					// update for displaying the list:
 					$items[$i] = $items[$i]+1;
 				}
-				$_POST['jbSelectedItems'] = $items;
+				$_SESSION['jbSelectedItems'] = $items;
 			break;
 		}
 		if (defined('NO_AJAX_JUKEBOX')) {
