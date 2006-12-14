@@ -75,11 +75,58 @@ function sendJukeboxForm() {
   	total = 0;
   	for (i = 0; i < obj.length; i++) {
   		if (obj.options[i].selected) {
-  			selectedItems[total] = obj.options[i].value;
+  			selectedItems[total] = obj.options[i].index;
   			total++;
   		}
   	}
-    x_ajaxJukeboxRequest(document.getElementById('jbPlaylistForm').elements['command'].value, selectedItems,sendJukeboxRequest_cb);
+    if (total == 0) { return false; }
+
+    cmd = document.getElementById('jbPlaylistForm').elements['command'].value;
+
+    if (cmd == "moveup" || cmd == "movedown") {
+      cb_func = nothing;
+    } else {
+      cb_func = sendJukeboxRequest_cb;
+    }
+
+    x_ajaxJukeboxRequest(cmd, selectedItems,cb_func);
+    
+    // same logic as in the server-side jukebox code.
+    // the sync is a little funny.
+    if (cmd == "moveup") {
+      i = 0;
+      while (i < total && selectedItems[i] == i) {
+        i++;
+      }
+      while (i < total) {
+        swap = obj.options[selectedItems[i]-1].text;
+
+        obj.options[selectedItems[i]-1].selected = true;
+        obj.options[selectedItems[i]-1].text = obj.options[selectedItems[i]].text;
+
+        obj.options[selectedItems[i]].selected = false;
+        obj.options[selectedItems[i]].text = swap;
+
+	i++;
+      }
+    } else if (cmd == "movedown") {
+      i = total-1;
+      j = obj.options.length-1;
+      while (i >= 0 && selectedItems[i] == j) {
+        i--; j--;
+      }
+      while (i >= 0) {
+        swap = obj.options[selectedItems[i]+1].text;
+
+        obj.options[selectedItems[i]+1].selected = true;
+        obj.options[selectedItems[i]+1].text = obj.options[selectedItems[i]].text;
+
+        obj.options[selectedItems[i]].selected = false;
+        obj.options[selectedItems[i]].text = swap;
+
+	i--;
+      }
+    }
   }
 }
 
