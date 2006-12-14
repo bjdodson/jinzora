@@ -83,7 +83,8 @@ function sendJukeboxForm() {
 
     cmd = document.getElementById('jbPlaylistForm').elements['command'].value;
 
-    if (cmd == "moveup" || cmd == "movedown") {
+    // don't worry about a serverside update for these:
+    if (cmd == "moveup" || cmd == "movedown" || cmd == "delone") {
       cb_func = nothing;
     } else {
       cb_func = sendJukeboxRequest_cb;
@@ -125,6 +126,20 @@ function sendJukeboxForm() {
         obj.options[selectedItems[i]].text = swap;
 
 	i--;
+      }
+    } else if (cmd == "delone") {
+      shift = 0;
+      curdex = 0;
+      for (i = 0; i+shift < obj.options.length; i++) {
+        if (curdex < total && selectedItems[curdex] == i) {
+          shift++; curdex++;
+        }
+        if (i+shift < obj.options.length) {
+          obj.options[i].text = obj.options[i+shift].text;
+        }
+      }
+      for (i = 0; i < shift; i++) {
+        obj.remove(obj.options.length-1);
       }
     }
   }
