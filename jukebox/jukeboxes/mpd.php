@@ -235,7 +235,8 @@
 		$retArray['refreshtime'] = true;
 		$retArray['jump'] = true;
 		$retArray['stats'] = false;
-		
+		$retArray['move'] = true;
+
 		return $retArray;
 	}
 	
@@ -531,6 +532,37 @@
 			break;
 			case "addwhere":
 				$_SESSION['jb-addtype'] = $_POST['addplat'];
+			break;
+			case "moveup":
+				$items = $_POST['jbSelectedItems'];
+				sort($items);
+				$i = 0;
+				// find first moveable.
+				while ($i < sizeof($items) && $items[$i] == $i) {
+					$i++;
+				}
+				for ($i; $i < sizeof($items); $i++) {
+					$myMpd->PLMoveTrack($items[$i],$items[$i]-1);
+					// update for displaying the list:
+					$items[$i] = $items[$i]-1;
+				}
+				$_POST['jbSelectedItems'] = $items;
+			break;
+			case "movedown":
+				$items = $_POST['jbSelectedItems'];
+				sort($items);
+				$i = sizeof($items) - 1;
+				$j = sizeof($myMpd->GetPlaylist()) - 1;
+				// find first moveable.
+				while ($i >= 0 && $items[$i] == $j) {
+					$i--; $j--;
+				}
+				for ($i; $i >= 0; $i--) {
+					$myMpd->PLMoveTrack($items[$i],$items[$i]+1);
+					// update for displaying the list:
+					$items[$i] = $items[$i]+1;
+				}
+				$_POST['jbSelectedItems'] = $items;
 			break;
 		}
 		if (defined('NO_AJAX_JUKEBOX')) {
