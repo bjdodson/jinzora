@@ -65,6 +65,9 @@
 	$img_jb_repeat = '<img src="'. $image_dir. 'jb_repeat.gif" border=0 alt="'. word("Repeat"). '" title="'. word("Repeat"). '">';
 	$img_jb_no_repeat = '<img src="'. $image_dir. 'jb_no_repeat.gif" border=0 alt="'. word("No Repeat"). '" title="'. word("No Repeat"). '">';
 
+	$img_arrow_up = '<img src="'. $image_dir. 'arrow-up.gif" border=0 alt="'. word("Move Up"). '" title="'. word("Move Up"). '">';
+	$img_arrow_down = '<img src="'. $image_dir. 'arrow-down.gif" border=0 alt="'. word("Move Down"). '" title="'. word("Move Down"). '">';
+
 	// Set up some raw images:
 	$raw_img_play = $image_dir.'play.gif';
 	$raw_img_random_play = $image_dir.'random.gif';
