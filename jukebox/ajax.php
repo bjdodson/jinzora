@@ -104,15 +104,10 @@
 	  } else if ($command == "addwhere") {
 	    $_POST['addplat'] = $arg;
 	  } else if ($command == "jumpto"){
-	  	if (false !== stristr($arg,',')) {
-	  		$arg = explode(',',$arg);
-	    	$_POST['jbjumpto'] = $arg[0]; // first in list
-	  	} else {
-	  		$arg = explode(',',$arg);
-	  		$_POST['jbjumpto'] = $arg;
-	  	}
+	  	$arg = explode(',',$arg);
+	  	$_POST['jbjumpto'] = $arg[0];
 	  } else {
-	  	$_POST['jbSelectedItems'] = $arg;
+	  	$_POST['jbSelectedItems'] = explode(',',$arg);
 	  }
 	 
 	  $jb->passCommand($command); 
