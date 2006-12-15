@@ -1,4 +1,4 @@
-<div id="slickLeftNav">
+<div id="slickLeftNav" style="width:150px;">
 {php}
 	$blocks = new jzBlocks();
 	$node = new jzMediaNode($_GET['jz_path']);
