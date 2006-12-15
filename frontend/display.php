@@ -1460,8 +1460,8 @@
 			    $linkText .= $jzSERVICES->returnPlayerHref();
 			  }
 			} else {
-			  $linkText = '<a href="javascript:;"';
-			  $linkText .= " onClick=\"playbackLink('".urlize($arr)."'); return false;\"";
+			  $linkText = '<a href="'. htmlentities(urlize($arr)) . '"';
+			  $linkText .= " onClick=\"playbackLink('".htmlentities(urlize($arr))."'); return false;\"";
 			}
 			
 
