@@ -88,7 +88,6 @@ if ($cms_type != "xoops") {
 
 $_SESSION['jz_load_time'] = microtime();
 
-define('JZ_FORCE_EMBEDDED_PLAYER','true');
  	$web_path = $include_path;
 	$install_complete = "no";
 
