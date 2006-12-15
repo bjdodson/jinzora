@@ -801,6 +801,7 @@
 		      break;
 		    case "recentlyadded":
 		      $temp = $source->getRecentlyAdded($type,$distance,$count);
+		      break;
 		    case "similar":
 		      if ($source->getPType() == "artist") {
 			$mainArray = $source->getSubNodes($type,$distance,true,$count);
