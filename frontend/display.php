@@ -1929,8 +1929,8 @@
 			    $retVal .= $jzSERVICES->returnPlayerHref();
 			  }
 			} else {
-			  $retVal .= '<a href="javascript:;"';
-			  $retVal .= " onClick=\"playbackLink('".urlize($arr)."'); return false;\"";
+			  $retVal .= '<a href="'. htmlentities(urlize($arr))  . '"';
+			  $retVal .= " onClick=\"playbackLink('".htmlentities(urlize($arr))."'); return false;\"";
 			}
 			$retVal .= '>';			
 			if ($text === false) {
