@@ -88,6 +88,7 @@ if ($cms_type != "xoops") {
 
 $_SESSION['jz_load_time'] = microtime();
 
+
  	$web_path = $include_path;
 	$install_complete = "no";
 
@@ -684,6 +685,9 @@ $_SESSION['jz_load_time'] = microtime();
 				}
 				if ($jzUSER->getSetting('stream') === false && $jzUSER->getSetting('lofi') === false) {
 					exit();
+				}
+				if (isset($_POST['playplaylist']) && $_POST['playplaylist'] == "random") {
+					$pl->shuffle();
 				}
 				$pl->play();
 			}
