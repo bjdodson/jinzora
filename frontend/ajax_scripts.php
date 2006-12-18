@@ -35,9 +35,11 @@ function updatePlaylist_cb(a) {
 
 function submitPlaybackForm(button,url) {  
   form = button.form;
+  document.pressedVal = null;
 
   if (button.type == "button" || button.type == "submit" || button.type == "image") {
     document.pressed = button.name;
+    document.pressedVal = button.value;
   } else {
     document.pressed = null;
   }

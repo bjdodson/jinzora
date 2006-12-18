@@ -230,7 +230,12 @@ function getFormValues(fobj)
     }
   }
   if (document.pressed != null) {
-    str += escape(document.pressed) + "=t&"
+    
+    if (null != document.pressedVal) {
+      str += escape(document.pressed) + "=" + escape(document.pressedVal) + "&";
+    } else {
+      str += escape(document.pressed) + "=t&";
+    }
   }
   str = str.substr(0,(str.length - 1));
   return str;  
