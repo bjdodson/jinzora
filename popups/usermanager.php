@@ -116,12 +116,17 @@ if ($_GET['subaction'] == "handleuser") {
 			return;
 		}
 	} else {
-		$list = $jzUSER->listUsers();
-		foreach ($list as $id => $name) {
-			if ($name == $_POST['username']) {
-				$myid = $id;
-			}
-		} if (!isset($myid)) {
+		if (isset($_POST['user_to_edit'])) {
+		    $myid = $_POST['user_to_edit'];
+		} else {
+			$list = $jzUSER->listUsers();
+			foreach ($list as $id => $name) {
+				if ($name == $_POST['username']) {
+					$myid = $id;
+				}
+			} 
+		}
+		if (!isset($myid)) {
         	// okay, yes,  this is the worst piece of code in Jinzora.
             $myid = $jzUSER->lookupUID(NOBODY);
         }
