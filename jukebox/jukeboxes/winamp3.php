@@ -202,6 +202,7 @@
 		$retArray['shufflebutton'] = true;
 		$retArray['clearbutton'] = true;
 		$retArray['repeatbutton'] = false;
+		$retArray['delonebutton'] = true;
 		$retArray['status'] = true;
 		$retArray['progress'] = true;
 		$retArray['volume'] = true;
@@ -519,6 +520,14 @@
 					</script>
 					<?php
 				}
+			break;
+			case "delone":
+				$arr = array();
+				for ( $i = sizeof($_POST['jbSelectedItems']) - 1; $i  >= 0; $i--) {
+		    		$arr['index'] = $_POST['jbSelectedItems'][$i];
+		   			httpqRequest("deletepos",$arr);
+				}
+				$_SESSION['jbSelectedItems'] = array();
 			break;
 			case "random_play":
 				// Ok, now we have to get the whole list, then shuffle it
