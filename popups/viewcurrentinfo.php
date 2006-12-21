@@ -1,5 +1,8 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die('Security breach detected.');
 global $status_blocks_refresh, $mysid;
+if (!isset($mysid) && isset($_GET['session'])) {
+	$mysid = $_GET['session'];
+}
 $this->displayPageTop("", word("Current Information"));
 $this->openBlock();
 echo '<span id="currentInfo">&nbsp;</span>';

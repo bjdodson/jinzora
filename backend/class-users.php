@@ -814,7 +814,33 @@
 
 		  @unlink($dp);
 		}
-
+		
+		/*
+		 * Returns the track object the user
+		 * is currently playing.
+		 * If no track is streaming, returns false.
+		 * 
+		 * @author Ben Dodson
+		 * @since 12/21/06
+		 */
+		function getCurrentlyPlayingTrack($mysid = false) {
+			if ($mysid === false) {
+				if (isset($_SESSION['sid'])) {
+					$mysid = $_SESSION['sid'];
+				} else {
+					return false;
+				}
+			}
+			$be = new jzBackend();
+			$tracks = $be->getPlaying();
+	 		 foreach($tracks as $sid => $song){
+	    		if ($mysid == $sid) {
+	      			$track = new jzMediaTrack($song['path']);
+	      			return $track;
+	    		}
+	 		 }
+	 		 return false;
+		}
 	}
 	
 ?>

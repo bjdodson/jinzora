@@ -48,10 +48,8 @@
 
 	  $be = new jzBackend();
 	  $display = new jzDisplay();
-	  $tracks = $be->getPlaying();
-	  foreach($tracks as $sid => $song){
-	    if ($mysid == $sid) {
-	      $track = new jzMediaTrack($song['path']);
+	  $track = $jzUSER->getCurrentlyPlayingTrack($mysid);
+	  if (is_object($track)) {
 	      $album = $track->getAncestor("album");
 	      $artist = $track->getAncestor("artist");
 	      if ($update != "false") {
@@ -128,7 +126,6 @@
 				echo '</td></tr></table>';
 	      return;
 	    }
-	  }
 	  
 	  echo word("No track information found.");
 	}
