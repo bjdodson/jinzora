@@ -1011,8 +1011,11 @@ function compareNumber($a,$b) {
 	$adArtist = $a->getAncestor("artist");
 	$bdArtist = $b->getAncestor("artist");
 
-	if( strtoupper($ad->getName()) != strtoupper($bd->getName()) ||
-			strtoupper($adArtist->getName()) != strtoupper($bdArtist->getName())) {
+	if(   
+		( $ad !== false && $bd !== false && strtoupper($ad->getName()) != strtoupper($bd->getName()))
+		 ||
+	    ( $adArtist !== false && $bdArtist !== false && strtoupper($adArtist->getName()) != strtoupper($bdArtist->getName())) 
+	   ) {
     if ($ad === false || $bd === false) {
       return compareNodes($a,$b);
     } 
