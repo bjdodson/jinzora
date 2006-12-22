@@ -443,8 +443,8 @@
 		}
 		if ($restart_playback) {
 		  control("jumpto");
+		  control("play");
 		}
-		control("play");
 
 		if (defined('NO_AJAX_JUKEBOX')) {
 		?>
