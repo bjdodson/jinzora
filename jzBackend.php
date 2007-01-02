@@ -33,7 +33,7 @@
 	//define("JZ_URL_OVERRIDE",'/jinzora/index.php');
 	
 	// This page is intended to be a one-include file to create a full Jinzora backend.
-	if (!isset($include_path)) {
+	if (isset($_REQUEST['include_path']) || !isset($include_path)) {
 		$include_path = "";
 	}
 	

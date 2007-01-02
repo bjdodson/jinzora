@@ -24,6 +24,7 @@
 	* @since 02.17.04 
 	* @author Ross Carlson <ross@jinzora.org>
 	*/
+	$include_path = '';
 	include_once('jzBackend.php');
 	$_GET = unurlize($_GET);
 	$_POST = unpostize($_POST);

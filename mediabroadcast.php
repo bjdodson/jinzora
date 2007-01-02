@@ -27,7 +27,7 @@
 	* @author Chris Hescott
 	*/
 	
-	
+	$include_path = '';
 	/* Session name separate from one used in index.php 
 	* This one is embedded in the URL sent in the playlist
 	*/	

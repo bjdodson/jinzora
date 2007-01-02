@@ -25,7 +25,7 @@
 	* @since 02.02.04 
 	* @author Laurent Perrin <laurent@la-base.org>
 	*/
-        $jz_lang_file = "";
+    $jz_lang_file = ""; $include_path = "";
 	include ('lib/general.lib.php');
         include_once('system.php');
 	include ('system.php');
