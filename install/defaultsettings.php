@@ -42,6 +42,7 @@ $enable_playlist = "true";
 $playlist_ext = "m3u";
 $use_ext_playlists = "true";
 $asx_file_types = "avi|mpeg|mpg|asf|wmv";
+$asx_show_trackdetail = "true";
 $max_playlist_length = "250";
 $random_play_amounts = "1|5|10|25|50|100";
 $default_random_count = "25";

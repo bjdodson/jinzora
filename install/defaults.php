@@ -51,6 +51,7 @@ $content .= '     $enable_playlist = "'. $enable_playlist. '";' . "\n";
 $content .= '     $playlist_ext = "'. $playlist_ext. '";' . "\n";
 $content .= '     $use_ext_playlists = "'. $use_ext_playlists. '";' . "\n";
 $content .= '     $asx_file_types = "'. $asx_file_types. '";' . "\n";
+$content .= '     $asx_show_trackdetail = "'. $asx_show_trackdetail . '";' . "\n";
 $content .= '     $max_playlist_length = "'. $max_playlist_length. '";' . "\n";
 $content .= '     $random_play_amounts = "'. $random_play_amounts. '";' . "\n";
 $content .= '     $default_random_count = "'. $default_random_count. '";' . "\n";

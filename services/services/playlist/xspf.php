@@ -19,37 +19,58 @@
 	* Please see http://www.jinzora.org/team.html
 	* 
 	* - Code Purpose -
-	* - Creates an ASX compliant playlist
+	* - Creates an XSPF (http://www.xspf.org/) compliant playlist
 	*
-	* @since 02.17.05
+	* @since 01.2.07
+	* @author Kevin Ingolfsland <kevin.ingolfsland@gmail.com>
 	* @author Ben Dodson <ben@jinzora.org>
 	* @author Ross Carlson <ross@jinzora.org>
 	*/
 
 	/**
+	* Encodes a string in XML format
+    *
+    * @author Kevin Ingolfsland
+    * @version 1/2/07
+    * @since 1/2/07
+	* @param $rawtext The string to encode
+    * @param $return Returns the proplery formatted string
+    */
+	function xmlEncode($rawtext){
+
+		$xmltext = str_replace('&', '&amp;', $rawtext);
+		$xmltext = str_replace('<', '&lt;', $xmltext);
+		$xmltext = str_replace('>', '&gt;', $xmltext);
+		$xmltext = str_replace('\'', '&apos;', $xmltext);
+		$xmltext = str_replace('\"', '&quot;', $xmltext);
+
+		return $xmltext;
+	}
+
+	/**
 	* Returns the mime type for this playlist
 	* 
-	* @author Ross Carlson
-	* @version 2/24/05
-	* @since 2/24/05
+	* @author Kevin Ingolfsland
+	* @version 1/2/07
+	* @since 1/2/07
 	* @param $return Returns the playlist mime type
 	*/
-	function SERVICE_RETURN_MIME_ASX(){
-		return "video/x-ms-asx";
+	function SERVICE_RETURN_MIME_XSPF(){
+		return "application/xspf+xml";
 	}
 	
 	/**
-	* Creates an ASX compliant playlist and returns it for playing
+	* Creates an XSPF compliant playlist and returns it for playing
 	* 
-	* @author Ross Carlson
-	* @version 2/24/05
-	* @since 2/24/05
+	* @author Kevin Ingolfsland
+	* @version 1/2/07
+	* @since 1/2/07
 	* @param $list The list of tracks to use when making the playlist
 	* @param $return Returns the porperly formated list
 	*/
-	function SERVICE_CREATE_PLAYLIST_ASX($list){
-		global $allow_resample, $this_site, $root_dir, $web_root, $asx_show_trackdetail;
-		
+	function SERVICE_CREATE_PLAYLIST_XSPF($list){
+		global $allow_resample, $this_site, $root_dir, $web_root;
+	
 		// Let's setup Smarty
 		$smarty = smartySetup();
 		
@@ -78,16 +99,16 @@
 			if (!stristr($trackn,"mediabroadcast.php")) {
 			  $track->increasePlayCount();
 			}
-			$tArr[$i]['link'] = $trackn;
+			$tArr[$i]['link'] = xmlEncode($trackn);
 			if ($meta['artist'] <> "" and $meta['artist'] <> "-"){
-				$tArr[$i]['artist'] = $meta['artist']. " - ";
+				$tArr[$i]['artist'] = xmlEncode($meta['artist']). " - ";
 			} else {
 				$tArr[$i]['artist'] = "";
 			}
-			$tArr[$i]['album'] = $meta['album'];
-			$tArr[$i]['genre'] = $meta['genre'];
-			$tArr[$i]['track'] = $meta['title'];
-			$tArr[$i]['length'] = $meta['length'];
+			$tArr[$i]['album'] = xmlEncode($meta['album']);
+			$tArr[$i]['genre'] = xmlEncode($meta['genre']);
+			$tArr[$i]['track'] = xmlEncode($meta['title']);
+			$tArr[$i]['length'] = xmlEncode($meta['length']);
 			$tArr[$i]['path'] = rawurlencode($track->getPath("String"));
 			$tArr[$i]['url'] = $this_site. $root_dir;
 			$i++;
@@ -97,12 +118,9 @@
 		$smarty->assign('root_dir', $root_dir);
 		$smarty->assign('tracks', $tArr);
 		$smarty->assign('totalTracks', $i);
-		if (!isset($asx_show_trackdetail)) {
-			$asx_show_trackdetail = "true";
-		}
-		$smarty->assign('asx_show_trackdetail', $asx_show_trackdetail);
+
 				
 		// Now let's include the template
-		$smarty->display(SMARTY_ROOT. 'templates/playlists/asx.tpl');
+		$smarty->display(SMARTY_ROOT. 'templates/playlists/xspf.tpl');
 	}
 ?>

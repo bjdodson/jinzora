@@ -14,7 +14,10 @@
 		<ENTRY>
 			<TITLE>{$tracks[track].artist}{$tracks[track].track}</TITLE>
 			<REF HREF="{$tracks[track].link}"/>
+
+			{if $asx_show_trackdetail == "true"} 			
 			<PARAM name="HTMLView" value="{$tracks[track].url}/popup.php?action=popup&ptype=wmptrack&jz_path={$tracks[track].path}&totalTracks={$totalTracks}"/>
+			{/if}
 		</ENTRY>
 	{/section}
 </ASX>		

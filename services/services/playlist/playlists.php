@@ -79,7 +79,8 @@
 		$playlist_types['pls'] = "PLS (Winamp - Linux Players)"; 
 	  $playlist_types['asx'] = "ASX (Windows Media Player)";
 	  $playlist_types['ram'] = "RAM (Real Player)";
-	
+	  $playlist_types['xspf'] = "XSPF (Spiff)";
+	  
 	  return $playlist_types;
 	}
 
