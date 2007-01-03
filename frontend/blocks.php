@@ -846,10 +846,19 @@ class jzBlockClass {
 									// Now let's create our links
 									if ($distance == "track") {
 									  $artnode = $item->getAncestor("album");
-									  $albumArr['jz_path'] = $artnode->getPath("String");
-									  $gp = $item->getAncestor("artist");
-									  $artistArr['jz_path'] = $gp->getPath("String");
-									} else {
+									  if (is_object($artnode)) {
+									    $albumArr['jz_path'] = $artnode->getPath("String");
+									    $gp = $item->getAncestor("artist");
+									    if (is_object($gp)) {
+									      $artistArr['jz_path'] = $gp->getPath("String");
+									    } else {
+									      $artistArr['jz_path'] = '';
+									    }
+									  } else {
+									    $albumArr['jz_path'] = '';
+									    $artistArr['jz_path'] = '';
+									  }
+									} else { 
 									  $albumArr['jz_path'] = $item->getPath("String");
 									  if ($parent !== false) {
 									    $artistArr['jz_path'] = $parent->getPath("String");
