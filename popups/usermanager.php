@@ -4,7 +4,9 @@ global $resampleRates, $frontend, $jinzora_skin, $include_path, $jzUSER, $jzSERV
 $display = new jzDisplay();
 $be = new jzBackend();
 // First let's display the top of the page and open the main block
-$this->displayPageTop("", word("User Manager"));
+$ucount = sizeof($jzUSER->listUsers());
+
+$this->displayPageTop("", word("User Manager (%s users)", $ucount));
 $this->openBlock();
 
 if ($jzUSER->getSetting('admin') === false) {
@@ -23,7 +25,6 @@ $MENU_BUTTON .= '</form>';
 
 // Different features:
 if (!isset ($_GET['subaction'])) {
-	$ucount = sizeof($jzUSER->listUsers());
 	echo '<table>';
 
 	echo '<tr><td>';
