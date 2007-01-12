@@ -363,6 +363,8 @@ function getMediaDir($element) {
 function handleUserInit() {
   global $jzSERVICES,$jzUSER,$jz_language,$node,$skin,$include_path,$css,$image_dir,$my_frontend,$fe,$jz_path,$web_path;
   writeLogData("messages","Index: Testing the language file for security and including");
+  
+  checkUserAgent();
   handleSetLanguage();
   handleSetFrontend();
   writeLogData("messages","Index: Testing the theme file for security and including");
@@ -393,6 +395,18 @@ function handleUserInit() {
   }
 }
 
+/**
+ * Changes Jinzora settings for specific devices.
+ * 
+ * @author Ben Dodson
+ * @since 1/12/07
+ * @version 1/12/07
+ */
+ function checkUserAgent() {
+ 	global $include_path;
+ 	// let's do it in a more accessible file
+ 	include($include_path.'frontend/useragent.php');
+ }
 
 /**
  * Sets up the frontend variable.
