@@ -400,7 +400,7 @@
 		 * @author Ben Dodson
 		 *
 		 */
-		function login($user, $password, $remember = false) {	
+		function login($user, $password, $remember = false, $prehashed = false) {	
                         global $cms_mode,$cms_type;
 
                         if ($cms_mode != "false") {
@@ -408,6 +408,10 @@
                         } else {
                             $cms = false;
                         }
+
+			if (!$prehashed) {
+			  $password = jz_password($password);
+			}
 
 			$dp = $this->data_dir . "/" . "users";
 			$users = unserialize(file_get_contents($dp));
@@ -435,7 +439,7 @@
 			    $this->addUser($user,"cms-user");
                             // TODO: LOAD PERMISSIONS FOR CMS-DEFAULTS HERE!
 			    // now just re-login.
-			    return $this->login($user,$password,$remember,$cms);
+			    return $this->login($user,$password,$remember,true);
 			  }
 			  else {
 			    if ($users[$user]['password'] != jz_password("cms-user")) { // double user. bad move.
@@ -458,7 +462,7 @@
 			  return false;
 			}
 			// NO CMS; standard way.
-			if (isset($users[$user]) && $users[$user]['password'] == jz_password($password)) {
+			if (isset($users[$user]) && $users[$user]['password'] == $password) {
 				$this->id = $users[$user]['id'];
 				if ($remember) {
 					setcookie('jzUserID',jz_cookie_encode($this->id),time()+60*60*24*30);

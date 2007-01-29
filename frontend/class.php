@@ -157,7 +157,7 @@
 			$display = &new jzDisplay();
 			//$display->preHeader('Login',$this->width,$this->align);
 			
-			echo '<body onLoad="loginform.field1.focus();"></body>';
+			echo '<body onLoad="document.getElementById(\'loginform\').field1.focus();"></body>';
 			
 			$urla = array();			
 			$urla['jz_path'] = isset($_GET['jz_path']) ? $_GET['jz_path'] : '';
@@ -196,6 +196,28 @@
 						border-width: 1px;
 					}
 				</style>
+				    <script language="javascript" src="lib/md5.js"></script>
+				    <script language="javascript">
+				    function submitLogin() {
+				      if (document.getElementById("loginform").doregister.value == 'true') {
+					return true;
+				      } else {
+					// submit the other form
+					// so we can submit a non-cleartext PW without changing browser's stored PW.
+					document.getElementById("loginSecureForm").field1.value = 
+					         document.getElementById("loginform").field1.value;
+
+					document.getElementById("loginSecureForm").field2.value = 
+					hex_md5(document.getElementById("loginform").field2.value);
+
+					document.getElementById("loginSecureForm").remember.value =
+					document.getElementById("loginform").remember.value;
+
+					document.getElementById("loginSecureForm").submit();
+					return false;
+				      }
+				    }
+				    </script>
 				<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
 					<tr>
 						<td background="style/images/login-background.gif" height="363" width="49%" style="border-bottom:1px solid #474747; border-left:1px solid #474747; border-top:1px solid #474747;">&nbsp;</td>
@@ -205,7 +227,13 @@
 									echo "<center><strong><font color=white>Incorrect password</font></strong></center>";
 								}
 							?>
-							<form name="loginform" method="POST" action="<?php echo urlize($urla); ?>">
+																										    <form name="loginSecureForm" id="loginSecureForm" method="POST" action="<?php echo urlize($urla); ?>">
+							<input type="hidden" name="field1" value="">
+							<input type="hidden" name="field2" value="">
+                                                        <input type="hidden" name="remember" value="">
+							<input type="hidden" name="<?php echo jz_encode('action'); ?>" value="<?php echo jz_encode('login'); ?>">
+                                                        </form>
+							<form name="loginform" id="loginform" method="POST" action="<?php echo urlize($urla); ?>" onsubmit="return submitLogin()">
 								<input type="hidden" name="<?php echo jz_encode('action'); ?>" value="<?php echo jz_encode('login'); ?>">
 								<br><br><br><br><br><br>
 								<br><br><br><br><br><br>
@@ -224,11 +252,12 @@
 								<input type="checkbox" class="jz_checkbox" name="remember"> <?php echo word("Remember me"); ?>
 								<br><br>
 								<input class="jz_submit" type="submit" name="<?php echo jz_encode('submit_login'); ?>" value="<?php echo word("Login"); ?>">
+								   <input type="hidden" name="doregister" value="false" />
 								<?php $be = new jzBackend();
 									$data = $be->loadData('registration');
 									if ($data['allow_registration'] == "true") {
 									?>
-										&nbsp;<input class="jz_submit" type="submit" name="<?php echo jz_encode('self_register'); ?>" value="<?php echo word("Register"); ?>">
+										&nbsp;<input class="jz_submit" type="submit" name="<?php echo jz_encode('self_register'); ?>" value="<?php echo word("Register"); ?>" onclick="document.getElementById('loginform').doregister.value='true'">
 									<?php 
 									} 
 									?>
