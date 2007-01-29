@@ -57,10 +57,10 @@
 								if ($c == 0){echo '<tr>';}
 								
 								echo '<td class="jz_nj_block_body">';
-								$display->playButton($genre); 
-								echo " ";
-								$display->randomPlayButton($genre);
-								echo " ";
+								//$display->playButton($genre); 
+								//echo " ";
+								//$display->randomPlayButton($genre);
+								//echo " ";
 								$display->link($genre, $genre->getName(), word("Browse: "). $genre->getName());						
 								echo " (". $genre->getSubNodeCount("nodes"). ")";
 								echo '</td>';
