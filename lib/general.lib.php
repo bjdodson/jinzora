@@ -981,7 +981,9 @@ function sendID3Image($path,$name,$id3) {
 	  $link = $link . substr($vars,1);
 	
 	  if (!isNothing($extension)) {
-			$link .= "&ext=." . $extension;
+			$link .= "&ext." . $extension;
+	  } else {
+	  	$link .= "&ext.html";
 	  }
 
 	  return $link;
@@ -1404,11 +1406,7 @@ function sendID3Image($path,$name,$id3) {
 	  } else if (isset($_GET['language'])) {
 	    $this_page .= urlencode(jz_encode("language")) . "=" . urlencode(jz_encode($_GET['language'])) . "&";
 	  }
-	  
-	  // referring view
-	  if (isset($fe)) {
-	  	$this_page .= urlencode(jz_encode("refview")) . "=" . urlencode($fe->name) . "&";
-	  }
+
 	  
 	  return $this_page;
 	}
