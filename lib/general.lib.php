@@ -858,6 +858,7 @@ function sendID3Image($path,$name,$id3) {
 		
 		return($status);
 	}
+
 	
 	/**
 	 * Converts an associative array to a link.
@@ -872,8 +873,8 @@ function sendID3Image($path,$name,$id3) {
 	 * @since 11/5/04
 	 */
 	function urlize($arr1 = array(), $arr2 = array()) {
-	  global $this_page, $root_dir, $link_root, $include_path, $ssl_stream, $secure_urls;
-	  		
+	  global $this_page, $root_dir, $link_root, $include_path, $ssl_stream, $secure_urls,$jzUSER;
+	  
 	  $this_page = setThisPage();
 	  $arr = $arr1 + $arr2;
 	  
@@ -883,7 +884,7 @@ function sendID3Image($path,$name,$id3) {
 	    $action = $arr['action'];
 	  }
 	   
-	  if (!isset($arr['jz_path']) || $arr['jz_path'] == "") {
+	  if (isset($arr['jz_path']) && $arr['jz_path'] == "") {
 	    unset($arr['jz_path']);
 	  }
  
@@ -957,7 +958,9 @@ function sendID3Image($path,$name,$id3) {
 	    $ENC_FUNC = "jz_encode";
 	    $extension = false;
 	  }
-	 
+	  if ($action == "playlist") {
+	  	$extension = $jzUSER->getSetting('playlist_type');
+	  }
 	  
 	  //$jz_secure = "true"; // for now.
 	  $vars="";
