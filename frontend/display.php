@@ -1461,7 +1461,7 @@
 			  }
 			} else {
 			  $linkText = '<a href="'. htmlentities(urlize($arr)) . '"';
-			  $linkText .= " onClick=\"playbackLink('".htmlentities(urlize($arr))."'); return false;\"";
+			  $linkText .= " onClick=\"return playbackLink('".htmlentities(urlize($arr))."')\"";
 			}
 			
 
@@ -1759,7 +1759,7 @@
 			}
 			if (!defined('NO_AJAX_JUKEBOX') && $jukebox != "false") {
 			  $retVal .= '<a href="'. htmlentities(urlize($arr)) . '"';
-			  $retVal .= " onClick=\"playbackLink('".htmlentities(urlize($arr))."'); return false;\"";
+			  $retVal .= " onClick=\"return playbackLink('".htmlentities(urlize($arr))."')\"";
 			} else {
 			  $retVal .= '<a href="' . urlize($arr) . '"';
 			  if ($onclick){
@@ -1930,7 +1930,7 @@
 			  }
 			} else {
 			  $retVal .= '<a href="'. htmlentities(urlize($arr))  . '"';
-			  $retVal .= " onClick=\"playbackLink('".htmlentities(urlize($arr))."'); return false;\"";
+			  $retVal .= " onClick=\"return playbackLink('".htmlentities(urlize($arr))."')\"";
 			}
 			$retVal .= '>';			
 			if ($text === false) {

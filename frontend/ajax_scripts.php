@@ -10,7 +10,8 @@ var playback = '<?php echo checkPlayback(); ?>';
 var streamto = '<?php echo checkPlayback(true); ?>';
 function playbackLink(url) {  
   if (playback == 'stream') {
-    window.open(url,'_self');
+  	return true;
+    //window.open(url,'_self');
   } else if (playback == 'jukebox') {
     <?php if (!defined('NO_AJAX_JUKEBOX')) { ?>
     ajax_direct_call(url,sendJukeboxRequest_cb);
@@ -23,6 +24,7 @@ function playbackLink(url) {
     win = openMediaPlayer(url,<?php echo $jzSERVICES->returnPlayerWidth(); ?>,<?php echo $jzSERVICES->returnPlayerHeight(); ?>);
   }
   <?php } ?>
+  return false;
 }
 
 function updatePlaylist_cb(a) {
