@@ -397,12 +397,10 @@ $_SESSION['jz_load_time'] = microtime();
 		  }
 			if (isset($_GET['subaction']) or isset($_POST['subaction'])){
 				// Now let's pass our command
-				if (isset($_GET['command'])){
-					$command = $_GET['command'];
+				if (isset($_REQUEST['command'])){
+					$command = $_REQUEST['command'];
 				}
-				if (isset($_POST['command'])){
-					$command = $_POST['command'];
-				}
+				
 				// Let's include the Jukebox classes
 				writeLogData("messages","Index: Passing command: ". $command. " to the jukebox");
 				include_once($include_path. "jukebox/class.php");
@@ -739,7 +737,14 @@ $_SESSION['jz_load_time'] = microtime();
 		$smarty->display(SMARTY_ROOT. 'templates/slick/security-warning.tpl');
 		exit();
 	}
-				
+	
+	if (isset($_SESSION['current_interface'])) {
+		$_SESSION['ref_interface'] = $_SESSION['current_interface'];
+	} else {
+		$_SESSION['ref_interface'] = "";
+	}
+	$_SESSION['current_interface'] = $fe->name;
+	
 	$_SESSION['jz_purge_file_cache'] = "false";			
 	$fe->standardPage($node,$maindiv);
 ?>
