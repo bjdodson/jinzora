@@ -50,6 +50,24 @@
    }
 	
 	
+/* 
+ * Gets a global variable without
+ * having to declare global.
+ * Useful for settings.
+ * 
+ * @author Ben Dodson
+ * @since 1/30/07
+ */
+  function conf($name) {
+  	global $$name;
+  	if (isset($$name)) {
+	    return $$name;
+  	} else {
+    	return null;
+  	}
+  }
+	
+	
 	/** 
 	* Verifies that a directory exists and if not creates it
 	*
