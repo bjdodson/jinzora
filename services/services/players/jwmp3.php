@@ -92,22 +92,29 @@
 		<?php	
 		
 		// Let's setup the page
+		echo '<script type="text/javascript" src="';echo $this_site. $root_dir; echo'/services/services/players/ufo.js"></script>';
 		echo '<title>Jinzora jwmp3 Media Player</title>';
-		echo '<body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" bgcolor="#ffffff"><center>';
-
-		$playlist = $this_site. $root_dir. "/temp/playlist.jwmp3?". time();
+		echo '<body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" bgcolor="#000000"><center>';
+		echo '<div id="flashbanner">this text will be replaced by the SWF.</div>';
+		
+		$playlist = $this_site. $root_dir. "/temp/playlist.xspf?". time();
 		$height = $height - 45;
 		?>
-		<object type="application/x-shockwave-flash" data="<?php echo $this_site. $root_dir; ?>/services/services/players/mp3player.swf?playlist=<?php echo $this_site. $root_dir; ?>/temp/jwmp3.xml" width="280" height="280" wmode="transparent">
-		  <param name="movie" value="<?php echo $this_site. $root_dir; ?>/services/services/players/mp3player.swf" />
-		  <param name="wmode" value="transparent" />
-		</object>
-		
+
+		<script type="text/javascript">
+		var FO = { 
+		  movie:"<?php echo $this_site. $root_dir; ?>/services/services/players/mp3player.swf", 
+		  width:"280",height:"280",majorversion:"7",build:"0",
+		  flashvars:"file=<?php echo $this_site. $root_dir; ?>/temp/playlist.xspf&autostart=true&thumbsinplaylist=true&showeq=true&showdigits=true&repeat=false&shuffle=false&lightcolor=0x1414E9&backcolor=0x1e1e1e&frontcolor=0xCCCCCC"
+		};
+		UFO.create(FO, "flashbanner");
+		</script>	
 		
 		
 		<?php
 		exit();
 	}
+
 	
 	/**
 	* Processes data for the jlGui embedded player
@@ -129,7 +136,8 @@
 		$list->flatten();
 
 		$output_content = '<?xml version="1.0" encoding="UTF-8"?>'. "\n";
-		$output_content .= '<player showDisplay="yes" showPlaylist="yes" autoStart="yes">'. "\n";
+		$output_content .= '<playlist version="1" xmlns = "http://www.jinzora.org">'. "\n";
+		$output_content .= '  <trackList>'. "\n";
 		
 		// Now let's loop throught the items to create the list
 		foreach ($list->getList() as $track) {
@@ -149,22 +157,28 @@
 				$image = $this_site. $root_dir. "/style/images/default.jpg";
 			}
 			
-			$output_content .= '    <song path="'. $track->getFileName("user"). '" title="'. $meta['artist']. " - ". $meta['title']. '" />'. "\n";
+			$output_content .= '    <track>'. "\n";
+			$output_content .= '      <location>'. $track->getFileName("user"). '</location>'. "\n";
+			$output_content .= '      <image>'. $image. '</image>'. "\n";
+			$output_content .= '      <title>'. $meta['artist']. " - ". $meta['title']. '</title>'. "\n";
+		//	$output_content .= '      <title>'. $meta['title']. '</title>'. "\n";
+			$output_content .= '    </track>'. "\n";
 		}
 
 		// Now let's finish up the content
-		$output_content .= '</player>';
+		$output_content .= '  </trackList>'. "\n";
+		$output_content .= '</playlist>';
 		
 		// Now that we've got the playlist, let's write it out to the disk
-		$plFile = $include_path. "temp/jwmp3.xml";
+		$plFile = $include_path. "temp/playlist.xspf";
 		@unlink($plFile);
 		$handle = fopen ($plFile, "w");
 		fwrite($handle,$output_content);				
 		fclose($handle);
 			
 		// Now let's display
-		$width = "300";
-		$height = "330";
+		$width = "315";
+		$height = "300";
 		SERVICE_DISPLAY_PLAYER_jwmp3($width, $height);
 	}	
 ?>
