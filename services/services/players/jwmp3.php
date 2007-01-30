@@ -82,8 +82,12 @@
 	* @param $list an array containing the tracks to be played
 	*/
 	function SERVICE_DISPLAY_PLAYER_jwmp3($width, $height){
-		global $root_dir, $this_site, $css;
+		global $root_dir, $this_site, $css,$JWMP3_OPTS;
 		
+		if (!isset($JWMP3_OPTS)) {
+		  $JWMP3_OPTS = "autostart=true&thumbsinplaylist=true&showeq=true&showdigits=true&repeat=false&shuffle=false&lightcolor=0x1414E9&backcolor=0x1e1e1e&frontcolor=0xCCCCCC";
+		}
+		$local_jwmp3_vars = "file=${this_site}${root_dir}/temp/playlist.xspf&" . $JWMP3_OPTS;
 		?>
 		<SCRIPT LANGUAGE=JAVASCRIPT TYPE="TEXT/JAVASCRIPT"><!--\
 			window.resizeTo(<?php echo $width; ?>,<?php echo $height; ?>)
@@ -105,7 +109,7 @@
 		var FO = { 
 		  movie:"<?php echo $this_site. $root_dir; ?>/services/services/players/mp3player.swf", 
 		  width:"280",height:"280",majorversion:"7",build:"0",
-		  flashvars:"file=<?php echo $this_site. $root_dir; ?>/temp/playlist.xspf&autostart=true&thumbsinplaylist=true&showeq=true&showdigits=true&repeat=false&shuffle=false&lightcolor=0x1414E9&backcolor=0x1e1e1e&frontcolor=0xCCCCCC"
+		  flashvars:"<?php echo $local_jwmp3_vars;?>"
 		};
 		UFO.create(FO, "flashbanner");
 		</script>	
