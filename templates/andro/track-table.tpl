@@ -1,3 +1,7 @@
+{if $purpose == "search"}
+Matching Tracks:
+<br/><br/>
+{/if}
 <form name="albumForm" action="{$this_page}" method="POST">
 <input type="hidden" name="{$form_action}" value="{$form_action_val}">
 <input type="hidden" name="{$form_path}" value="{$form_path_val}">

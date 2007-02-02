@@ -15,7 +15,8 @@
 	$smarty->assign('form_path_val', htmlentities(jz_encode($node->getPath("String"))));
 	$smarty->assign('form_list_type', jz_encode("jz_list_type"));
 	$smarty->assign('form_list_type_val', jz_encode("tracks"));
-	
+	$smarty->assign('purpose',$purpose);
+
 	$i=0;$c=0;
 	// Now let's loop through the track nodes
 	foreach($tracks as $track){
