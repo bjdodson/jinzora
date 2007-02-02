@@ -603,10 +603,14 @@
 		 * @author Ben Dodson
 		 * @param $settingsArray an associative array of keys/values
 		 */
-		function setSettings($settingsArray, $id = false) {
+		function setSettings($settingsArray, $id = false, $wipe = false) {
 			if ($id === false) $id = $this->id;
 		
-			$oldsettings = $this->loadSettings($id);
+			if (!$wipe) {
+				$oldsettings = $this->loadSettings($id);
+			} else {
+				$oldsettings = array();
+			}
 			$dp = $this->data_dir . "/user_settings";
 
 			$usersettings = unserialize(file_get_contents($dp));

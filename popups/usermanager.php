@@ -141,6 +141,7 @@ if ($_GET['subaction'] == "handleuser") {
 			$jzUSER->changeName($_POST['username'], $oldname);
 		}
 	}
+	$wipe = false;
 	// DETACH
 	if ($_POST['templatetype'] == "detach") {
 		if ($_POST['userclass'] == "jznewtemplate") {
@@ -150,6 +151,7 @@ if ($_GET['subaction'] == "handleuser") {
 			$classes = $be->loadData('userclasses');
 			$settings = $classes[$_POST['userclass']];
 			$settings['template'] = "";
+			$wipe = true;
 		}
 		// STICKY
 	} else
@@ -160,6 +162,7 @@ if ($_GET['subaction'] == "handleuser") {
 			} else {
 				$settings = array ();
 				$settings['template'] = $_POST['userclass'];
+				$wipe = true;
 			}
 			// CUSTOMIZE
 		} else
@@ -171,10 +174,13 @@ if ($_GET['subaction'] == "handleuser") {
 				return;
 			}
 
-	$jzUSER->setSettings($settings, $myid);
 	$un = ($_POST['username'] != "") ? $_POST['username'] : word('anonymous');
+	if (isset($settings['home_dir'])) {
+		$settings['home_dir'] = str_replace('USERNAME', $un, $settings['home_dir']);
+	}
 
-	$settings['home_dir'] = str_replace('USERNAME', $un, $settings['home_dir']);
+	$jzUSER->setSettings($settings, $myid, $wipe);
+	
 
 	echo word("User") . ": " . $un . " " . word("updated");
 	echo "<br><br><center>";
