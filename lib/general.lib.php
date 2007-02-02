@@ -906,7 +906,7 @@ function sendID3Image($path,$name,$id3) {
 	    unset($arr['jz_path']);
 	  }
  
-	  if ($action != "play") {
+	  if ($action != "play" && $action != "playlist") {
 		  if (isset($_GET['frontend']) && !isset($arr['frontend'])) {
 		    $arr['frontend'] = $_GET['frontend'];
 		  } else if (isset($_POST['frontend']) && !isset($arr['frontend'])) {
@@ -1184,6 +1184,8 @@ function sendID3Image($path,$name,$id3) {
 	  case "jza":
 	  case "view":
 	  case "style":
+	  case "user":
+	  case "pass":
 		//case "file":
 		return true;
 	  }
@@ -1438,7 +1440,6 @@ function sendID3Image($path,$name,$id3) {
 	 * @link        http://php.net/function.ob_flush
 	 * @author      Aidan Lister <aidan@php.net>
 	 * @author      Thiemo M�ttig (http://maettig.com/)
-	 * @version     $Revision$
 	 * @since       PHP 4.2.0
 	 * @require     PHP 4.0.1 (trigger_error)
 	
