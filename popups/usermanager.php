@@ -599,19 +599,19 @@ $this->closeBlock();
     $settings['frontend'] = $_POST['usr_interface'];      
     $settings['home_dir'] = $_POST['home_dir'];
     if (isset($_POST['home_read'])) {
-      $settings['home_read'] = true;
+      $settings['home_read'] = "true";
     } else {
-      $settings['home_read'] = false;
+      $settings['home_read'] = "false";
     }
     if (isset($_POST['home_admin'])) {
-      $settings['home_admin'] = true;
+      $settings['home_admin'] = "true";
     } else {
-      $settings['home_admin'] = false;
+      $settings['home_admin'] = "false";
     }
     if (isset($_POST['home_upload'])) {
-      $settings['home_upload'] = true;
+      $settings['home_upload'] = "true";
     } else {
-      $settings['home_upload'] = false;
+      $settings['home_upload'] = "false";
     }
     
     $settings['cap_limit'] = $_POST['cap_limit'];
@@ -623,66 +623,66 @@ $this->closeBlock();
     $settings['resample_rate'] = $_POST['resample'];
     
     if (isset($_POST['lockresample'])) {
-      $settings['resample_lock'] = true;
+      $settings['resample_lock'] = "true";
     } else {
-      $settings['resample_lock'] = false;
+      $settings['resample_lock'] = "false";
     }
 
     if (isset($_POST['view'])) {
-      $settings['view'] = true;
+      $settings['view'] = "true";
     } else {
-      $settings['view'] = false;
+      $settings['view'] = "false";
     }
     
     if (isset($_POST['stream'])) {
-      $settings['stream'] = true;
+      $settings['stream'] = "true";
     } else {
-      $settings['stream'] = false;
+      $settings['stream'] = "false";
     }
     
     if (isset($_POST['download'])) {
-      $settings['download'] = true;
+      $settings['download'] = "true";
     } else {
-      $settings['download'] = false;
+      $settings['download'] = "false";
     }
     
     if (isset($_POST['lofi'])) {
-      $settings['lofi'] = true;
+      $settings['lofi'] = "true";
     } else {
-      $settings['lofi'] = false;
+      $settings['lofi'] = "false";
     }
     
     if (isset($_POST['jukebox_admin'])) {
-      $settings['jukebox_admin'] = true;
-      $settings['jukebox'] = true;
+      $settings['jukebox_admin'] = "true";
+      $settings['jukebox'] = "true";
     } else {
-      $settings['jukebox_admin'] = false;
+      $settings['jukebox_admin'] = "false";
     }
     
     if (isset($_POST['jukebox_queue'])) {
-      $settings['jukebox_queue'] = true;
-      $settings['jukebox'] = true;
+      $settings['jukebox_queue'] = "true";
+      $settings['jukebox'] = "true";
     } else {
-      $settings['jukebox_queue'] = false;
+      $settings['jukebox_queue'] = "false";
     }
     
     
     if (isset($_POST['powersearch'])) {
-      $settings['powersearch'] = true;
+      $settings['powersearch'] = "true";
     } else {
-      $settings['powersearch'] = false;
+      $settings['powersearch'] = "false";
     }
     
     if (isset($_POST['admin'])) {
-      $settings['admin'] = true;
+      $settings['admin'] = "true";
     } else {
-      $settings['admin'] = false;
+      $settings['admin'] = "false";
     }
     
     if (isset($_POST['edit_prefs'])) {
-      $settings['edit_prefs'] = true;
+      $settings['edit_prefs'] = "true";
     } else {
-      $settings['edit_prefs'] = false;
+      $settings['edit_prefs'] = "false";
     }
     $settings['playlist_type'] = $_POST['pltype'];
 
