@@ -1,3 +1,5 @@
 <?php
-	include(jzBlock('block-spacer'));
+	$display = new jzDisplay();
+	$smarty = smartySetup();
+        jzTemplate($smarty, "block-spacer");
 ?>
