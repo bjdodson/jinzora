@@ -92,7 +92,7 @@
 								$this->blockHeader("Jukebox"); // - ". $link);
 								$this->blockBodyOpen();
 								echo '<div id="jukebox">';
-								$this->jukeboxBlock();
+								include(jzBlock('jukebox'));
 								echo '</div>';
 								$this->blockBodyClose();
 							?>
