@@ -44,9 +44,14 @@ function jz_db_drop() {
 function jz_db_create() {
   global $sql_db;
   
-	$link = sqlite_open($sql_db);
-    sqlite_close($link);
-    return true;
+  $sqliteerror = null;
+  $link = sqlite_open($sql_db, 0666, $sqliteerror);
+  if (!$link) {
+  	echo $sqliteerror;
+  	return false;
+  }
+  sqlite_close($link);
+  return true;
 }
 
 
