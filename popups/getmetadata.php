@@ -8,7 +8,7 @@
 * @since 01/18/05
 * @param $node The node we are looking at
 */
-global $jzSERVICES, $row_colors, $allow_id3_modify, $include_path, $allow_filesystem_modify;
+global $jzSERVICES, $row_colors, $allow_id3_modify, $include_path, $allow_filesystem_modify, $node;
 
 set_time_limit(0);
 
