@@ -614,9 +614,10 @@ class jzBlockClass {
 	* topratedalbum, topratedartist, topviewartist, topplaytrack
 	* @param $numItems The number of items we want to return (defaults to 5)
 	* @param $format Should we format this or return raw data (defaults to true)
+	* @param $opts an array of extra options (transitioning to new parameter scheme)
 	* 
 	*/
-	function showCharts($node,$types=false, $numItems=false, $format=true, $vertAlign = false){
+	function showCharts($node,$types=false, $numItems=false, $format=true, $vertAlign = false, $opts = false){
 	  global $album_name_truncate, $img_tiny_play, $img_tiny_play_dis, $jzUSER, $img_rss, $root_dir,$advanced_tooltips,$rss_in_charts,$num_items_in_charts,$chart_timeout_days,$chart_types; 
 		$be = new jzBackend();
 		if ($be->hasFeature('charts') === false) {
@@ -625,6 +626,15 @@ class jzBlockClass {
 		// Let's setup our objects
 		$blocks = new jzBlocks();
 		$display = new jzDisplay();
+
+		$nobr = true;
+		if ($opts !== false) {
+		  if (isset($opts['allow_breaks'])) {
+		    $nobr = false;
+		  } else {
+		    $nobr = true;
+		  }
+		}
 		
 		// Now let's do a loop creating all our blocks
 		if ($types === false || $types == "") {
@@ -811,7 +821,7 @@ class jzBlockClass {
 				<table width="95%" cellpadding="0" cellspacing="0" border="0">
 					<tr>
 						<td width="100%" valign="middle">
-							<nobr>
+				   <?php if ($nobr) echo '<nobr>'; ?>
 							<?php
 								if ($format){
 									// Now let's display the link to the FULL top played list
@@ -870,7 +880,7 @@ class jzBlockClass {
 									$albumTitle = returnItemShortName($album,$album_name_truncate);													
 									
 									// Now let's display it
-									echo "<nobr>";
+									if ($nobr) echo "<nobr>";
 									if (!$jzUSER->getSetting('stream')){
 										echo $img_tiny_play_dis;
 									} else {
@@ -928,10 +938,10 @@ class jzBlockClass {
 										echo ' ('. $albumDLCount. ')';
 									} 
 									echo "</a><br>";
-									echo "</nobr>";
-								}
-							?>
-							</nobr>
+									if ($nobr) echo "</nobr>";
+								}							
+								if ($nobr) echo '</nobr>';
+								?>
 						</td>
 					</tr>
 				</table>
@@ -1299,6 +1309,7 @@ class jzBlockClass {
 		</table>
 		<?php
 	}
+  
 
 	  function trackTable($tracks, $purpose = false){
 	    global $media_dir, $jinzora_skin, $hierarchy, $album_name_truncate, $row_colors, 
