@@ -227,7 +227,7 @@
 			  $meta = $jzSERVICES->getTagData($file);
 			  if ($meta['bitrate'] <= $resample) {
 			    header("Content-Type: audio/x-mp3");
-			    streamFile($file,$meta['artist'] . $meta['title']);
+			    streamFile($file,$meta['artist'] . $meta['title'], $resample);
 			    exit();
 			  } else {
 			    $command = $path_to_lame. " --mp3input -S --silent --quiet --lowpass 12.0 --resample 22.05 -m j -b ". $resample. ' - < "'.  $file. '" -';
