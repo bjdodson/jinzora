@@ -85,8 +85,17 @@
 		global $root_dir, $this_site, $css,$JWMP3_OPTS;
 		
 		if (!isset($JWMP3_OPTS)) {
-		  $JWMP3_OPTS = "autostart=true&thumbsinplaylist=true&showeq=true&showdigits=true&repeat=false&shuffle=false&lightcolor=0x1414E9&backcolor=0x1e1e1e&frontcolor=0xCCCCCC";
-		}
+        	$JWMP3_OPTS = "autostart=true&thumbsinplaylist=true&showeq=true&showdigits=true&repeat=false&shuffle=false&lightcolor=0x1414E9&backcol\
+or=0x1e1e1e&frontcolor=0xCCCCCC";
+        }
+        $useragent = $_SERVER['HTTP_USER_AGENT'];
+        if (false === stristr($useragent, 'Nintendo Wii')) {
+        	$this_player_name = 'mp3player_flash7.swf';
+        } else {
+        	$this_player_name = 'mp3player.swf';
+        }
+                
+                
 		$local_jwmp3_vars = "file=${this_site}${root_dir}/temp/playlist.xspf&" . $JWMP3_OPTS;
 		?>
 		<SCRIPT LANGUAGE=JAVASCRIPT TYPE="TEXT/JAVASCRIPT"><!--\
@@ -107,7 +116,7 @@
 
 		<script type="text/javascript">
 		var FO = { 
-		  movie:"<?php echo $this_site. $root_dir; ?>/services/services/players/mp3player.swf", 
+		  movie:"<?php echo $this_site. $root_dir; ?>/services/services/players/<?php echo $this_player_name; ?>", 
 		  width:"280",height:"280",majorversion:"7",build:"0",
 		  flashvars:"<?php echo $local_jwmp3_vars;?>"
 		};
