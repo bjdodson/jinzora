@@ -38,7 +38,7 @@
 	include_once('frontend/ajax.php');
 	@include_once("frontend/frontends/${my_frontend}/ajax.php");
 	
-	writeLogData("messages","AJAXRequest: Creating jzUSER object");
+	//writeLogData("messages","AJAXRequest: Creating jzUSER object");
 	$jzUSER = new jzUser();
 	
 	for ($i = 0; $i < sizeof($ajax_list); $i++) {
