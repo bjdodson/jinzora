@@ -419,9 +419,14 @@
 				$mArr = explode("|",$media_dirs);
 				$track = trim($pArray[$i]);
 				for ($e=0; $e < count($mArr); $e++){
-					$track = str_replace('//','/',$track);
-					$track = trim(str_replace($mArr[$e]. "/","",$track));
+					if (false !== strpos($track,$mArr[$e])) {
+						$track = trim(str_replace($mArr[$e]. "/","",$track));
+						if ($track[0] == '/') {
+                			$track = substr($track,1);
+                		}
+					}
 				}
+				
 				$myMpd->PLAdd($track);
 			}
 		}
