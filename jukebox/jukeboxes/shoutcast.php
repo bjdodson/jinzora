@@ -149,7 +149,7 @@
 		$arr['subaction'] = "jukebox-command";
 		$arr['command'] = "startsc";
 		$arr['ptype'] = "jukebox";
-		echo ' - <a href="javascript:void(0)" onClick="sendJukeboxRequest(\'startsc\')">'.word('Start Shoutcast').'</a>';
+		return ' - <a href="javascript:void(0)" onClick="sendJukeboxRequest(\'startsc\')">'.word('Start Shoutcast').'</a>';
 	}
 	
 	/**
