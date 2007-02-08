@@ -28,7 +28,7 @@
 	$web_path = implode("/",$var) . "/";
 
 	require_once('lib/general.lib.php');
-	writeLogData("messages","AJAXRequest: Starting up");
+	//writeLogData("messages","AJAXRequest: Starting up");
 	require_once('jzBackend.php');
 	require_once('lib/Sajax.php');
 	
