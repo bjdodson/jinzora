@@ -9,7 +9,7 @@
 	$useragent = $_SERVER['HTTP_USER_AGENT'];
 	
 	if (false !== stristr($useragent, 'Nintendo Wii')) {
-		define('JZ_FRONTEND_OVERRIDE','wiibox');
+		define('JZ_FRONTEND_OVERRIDE','wiijay');
 	}
 	
 ?>
