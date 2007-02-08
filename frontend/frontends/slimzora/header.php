@@ -92,6 +92,10 @@
 				sortElements($nodes,"name");
 			}
 			
+			if ($item_truncate == ""){
+				$item_truncate = "25";
+			}
+			
 			// Now let's setup the big table to display everything
 			$i=0;
 			?>
