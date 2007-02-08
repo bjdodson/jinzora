@@ -302,7 +302,7 @@ if ($func['fullplaylist']) {
 						<?php
 
 	// Did they need any addon tools
-	$jb->getAddOnTools();
+	echo $jb->getAddOnTools();
 ?>
 						<br>
 						<?php

@@ -276,7 +276,7 @@
 		$arr['command'] = "refreshdb";
 		$arr['ptype'] = "jukebox";
 						
-		echo ' - <a href="#" onClick="sendJukeboxRequest(\'refreshdb\')">refresh MPD</a>';
+		return ' - <a href="#" onClick="sendJukeboxRequest(\'refreshdb\')">refresh MPD</a>';
 	}
 	
 	
@@ -419,6 +419,7 @@
 				$mArr = explode("|",$media_dirs);
 				$track = trim($pArray[$i]);
 				for ($e=0; $e < count($mArr); $e++){
+					$track = str_replace('//','/',$track);
 					$track = trim(str_replace($mArr[$e]. "/","",$track));
 				}
 				$myMpd->PLAdd($track);
