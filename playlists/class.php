@@ -1218,20 +1218,22 @@
 				$oldPath = $path;
 			}
 		  }
-		  // Now should we add art?
-		  if ($onepath){
-		  	// Ok, let's create the node so we can get the art
-			$artNode = new jzMediaNode($oldPath);
-			if (($art = $artNode->getMainArt()) !== false) {
-				$i++;
-				$files[$i] = $artNode->getMainArt();
-			}
-		  }
-
+		  
 		  $name = $this->getName();
 		  if ($name === false || $name == "") {
 		    $name = "Playlist";
 		  }
+		  
+		  // Now should we add art?
+		  if ($onepath){
+		  	// Ok, let's create the node so we can get the art
+			$artNode = new jzMediaNode($oldPath);
+			if ($artNode->getMainArt() <> ""){
+				$i++;
+				$files[$i] = $artNode->getMainArt();
+			}
+		  }
+		 
 		  // Silly to send a 1 element playlist
 		  if (sizeof($files) > 1) {
 		  	// Now let's write that to the temp dir
