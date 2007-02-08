@@ -216,7 +216,7 @@ a {
   font-size:24px;
 }
 </style>
-    <?
+    <?php
 }
 
 ?>
