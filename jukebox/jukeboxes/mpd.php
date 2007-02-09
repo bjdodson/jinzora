@@ -43,7 +43,7 @@
 	$jbArr[1]['description'] = "MPD Player";
 	$jbArr[1]['password'] = "PASS";
 	$jbArr[1]['type'] = "mpd";
-	
+	// $jbArr[1]['prefix'] = "http"; // send weblinks to MPD.
 	*/	
 	
 	
@@ -337,7 +337,17 @@
 				if ($path){
 					$retArray[] = $entry['file'];
 				} else {
-					$retArray[] = $entry['Artist']." - ".$entry['Title'];				
+				  if (isset($jbArr[$_SESSION['jb_id']]['prefix']) && $jbArr[$_SESSION['jb_id']]['prefix'] == "http") {
+				    if (false !== ($id = getTrackIdFromURL($entry['file']))) {
+				      $track = new jzMediaTrack($id,'id');
+				      $meta = $track->getMeta();
+				      $retArray[] = $meta['artist'] . ' - ' . $meta['title'];
+				    } else {
+				      $retArray[] = word('Unknown');
+				    }
+				  } else {
+				    $retArray[] = $entry['Artist']." - ".$entry['Title'];				
+				  }
 				}
 			}
 		}		
@@ -355,7 +365,15 @@
 	function playlist($playlist){
 		global $include_path, $jbArr, $media_dirs,$jzSERVICES;
 		
-		$playlist = $jzSERVICES->createPlaylist($playlist,"jukebox");
+		if (isset($jbArr[$_SESSION['jb_id']]['prefix']) && $jbArr[$_SESSION['jb_id']]['prefix'] == "http") {
+		  $content = "";
+		  foreach ($playlist->getList() as $track) {
+		    $content .= $track->getFileName("user")."\n";
+		  }
+		  $playlist = $content;
+		} else {
+		  $playlist = $jzSERVICES->createPlaylist($playlist,"jukebox");
+		}
 		$myMpd = _mpdConnection();
 		
 		// Now let's get our current playlist and current position
@@ -627,7 +645,18 @@
 		
 		$myMpd = _mpdConnection();
 		if ($myMpd->current_track_id == -1) return false;
-		return $myMpd->playlist[$myMpd->current_track_id]['Artist']." - ".$myMpd->playlist[$myMpd->current_track_id]['Title'];
+		if (isset($jbArr[$_SESSION['jb_id']]['prefix']) && $jbArr[$_SESSION['jb_id']]['prefix'] == "http") {
+		  $id = getTrackIdFromURL($myMpd->playlist[$myMpd->current_track_id]['file']);
+		  if (false !== $id) {
+		    $track = new jzMediaTrack($id,'id');
+		    $meta = $track->getMeta();
+		    return $meta['artist'] . ' - ' . $meta['title'];
+		  } else {
+		    return 'Unknown';
+		  }
+		} else {
+		  return $myMpd->playlist[$myMpd->current_track_id]['Artist']." - ".$myMpd->playlist[$myMpd->current_track_id]['Title'];
+		}
 	}
 	
 	/**
@@ -805,7 +834,7 @@ class mpd {
 	function mpd($srv,$port,$pwd = NULL) {
 		$this->host = $srv;
 		$this->port = $port;
-        $this->password = $pwd;
+		$this->password = $pwd;
 
 		$resp = $this->Connect();
 		if ( is_null($resp) ) {
