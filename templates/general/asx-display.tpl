@@ -1,14 +1,14 @@
 {literal}
 <style>
 	td{ 
-		background-color: #366ab3;
+		background-color: #000000;
 		font-family: Verdana;
 		font-size: 10px;
 		color: #FFFFFF;
 	}
 	body, textarea{
 		margin: 5px;
-		background-color: #366ab3;
+		background-color: #000000;
 		color: #FFFFFF;
 		font-family: Verdana;
 		font-size: 10px;
