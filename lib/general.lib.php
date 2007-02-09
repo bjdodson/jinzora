@@ -420,8 +420,15 @@
 	 * @author Ben Dodson
 	 * 
 	 **/
-	function sendFileBundle($files, $name) {
+	function sendFileBundle($myfiles, $name) {
 	  global $multiple_download_mode, $download_speed;
+	
+		$files = array();
+		foreach ($myfiles as $file) {
+			if ($file != '' && is_file($file)) {
+				$files[] = $file;
+			}
+		}
 	
 	  if ($files == array()) {
 		exit();
@@ -1346,8 +1353,30 @@ function sendID3Image($path,$name,$id3) {
 	  }
 	  return $ret;
 	}
-	
-	
+
+        function getTrackIdFromURL($url) {
+	  global $secure_urls;
+
+	  if ($secure_urls == "true") {
+	    $decoded_label = jz_track_encode('jz_path');
+	  } else {
+	    $decoded_label = 'jz_path';
+	  }
+
+	  $args = substr($url,strpos($url,'?')+1);
+	  $args = explode('&',$args);
+	  foreach ($args as $arg) {
+	    $parts = explode('=',$arg);
+	    if ($parts[0] == $decoded_label) {
+	      if ($secure_urls == "true") {
+		return jz_track_decode($parts[1]);
+	      } else {
+		return $parts[1];
+	      }
+	    }
+	  }
+	  return false;
+	}
 	
 	/**
 	 * Scrambles a string for the cookie
@@ -1440,6 +1469,7 @@ function sendID3Image($path,$name,$id3) {
 	 * @link        http://php.net/function.ob_flush
 	 * @author      Aidan Lister <aidan@php.net>
 	 * @author      Thiemo M�ttig (http://maettig.com/)
+	 * @version     $Revision$
 	 * @since       PHP 4.2.0
 	 * @require     PHP 4.0.1 (trigger_error)
 	
