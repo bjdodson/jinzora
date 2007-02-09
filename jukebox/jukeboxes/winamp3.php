@@ -42,7 +42,8 @@
 	$jbArr[0]['port'] = "4800";
 	$jbArr[0]['password'] = "jinzora";
 	$jbArr[0]['description'] = "Living Room";
-	$jbArr[0]['type'] = "winamp"; // VERY IMPORTANT
+	$jbArr[0]['type'] = "winamp3"; // VERY IMPORTANT
+     // $jbArr[0]['prefix'] = "http"; // use weblinks instead of paths
 	
 	*/	
 	
@@ -298,8 +299,36 @@
 	function getCurPlaylist(){
 		global $jbArr;
 		
-		$val = explode(";;;",@file_get_contents("http://". $jbArr[$_SESSION['jb_id']]['server']. ":". $jbArr[$_SESSION['jb_id']]['port']. "/getplaylisttitle?p=". $jbArr[$_SESSION['jb_id']]['password']. "&delim=;;;"));
-		
+		$val = array();
+		if (isset($jbArr[$_SESSION['jb_id']]['prefix']) && $jbArr[$_SESSION['jb_id']]['prefix'] == "http") {
+			$arr = httpqRequest('getplaylistfile',array('delim' => ';;;'));
+			$arr = explode(';;;',$arr);
+			foreach ($arr as $i => $url) {
+				if (false != ($id = getTrackIdFromURL($url))) {
+					$track = new jzMediaTrack($id,'id');
+					$meta = $track->getMeta();
+					$title = '';
+					if (!isNothing($meta['artist'])) {
+						$title .= $meta['artist'];
+					}
+					if (!isNothing($meta['title'])) {
+						if (!isNothing($title)) {
+							$title .= ' - ';
+						}
+						$title .= $meta['title'];
+					}
+					if (isNothing($title)) {
+						$title = $track->getName();
+					}
+					$val[] = $title;
+				} else {
+					// $val[] = $url; // faster
+					$val[] = httpqRequest('getplaylisttitle',array('index'=>$i)); // better
+				}
+			}
+		} else {
+			$val = explode(";;;",@file_get_contents("http://". $jbArr[$_SESSION['jb_id']]['server']. ":". $jbArr[$_SESSION['jb_id']]['port']. "/getplaylisttitle?p=". $jbArr[$_SESSION['jb_id']]['password']. "&delim=;;;"));
+		}
 		writeLogData("messages","Winamp3: Returning the current playlist");
 		
 		return $val;
