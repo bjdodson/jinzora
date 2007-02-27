@@ -90,7 +90,8 @@ or=0x1e1e1e&frontcolor=0xCCCCCC";
         }
         $useragent = $_SERVER['HTTP_USER_AGENT'];
         if (false === stristr($useragent, 'Nintendo Wii')) {
-        	$this_player_name = 'mp3player_flash7.swf';
+        	//$this_player_name = 'mp3player_flash7.swf';
+        	$this_player_name = 'mp3player.swf';
         } else {
         	$this_player_name = 'mp3player.swf';
         }
