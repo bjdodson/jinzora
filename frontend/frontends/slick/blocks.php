@@ -85,7 +85,7 @@
 			// Ok, now let's put in the Jukebox block if they are in jukebox mode
 			if (checkPermission($jzUSER,"jukebox_queue") && $jukebox_display != "small" && $jukebox_display != "off" and $cms_mode == "false"){
 				?>
-					<table width="100%" cellpadding="3">
+					<table width="100%" cellpadding="1">
 						<tr>
 							<td valign="top" width="100%">
 						 <?php
@@ -100,7 +100,7 @@
 					</tr>
 				</table>
 				<?php	
-				$this->blockSpacer();
+				//$this->blockSpacer();
 			}
 		}
 		
