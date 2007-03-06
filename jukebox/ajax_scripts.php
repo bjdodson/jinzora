@@ -21,7 +21,7 @@ function jukeboxUpdater() {
 
 function updateJukebox(direct_call) {
   obj = document.getElementById("jukeboxSelect");
-  if (obj != false) {
+  if (obj != null && obj != false) {
     setPlayback(obj);
     x_ajaxJukebox(obj.options[obj.selectedIndex].value, direct_call, updateJukebox_cb);
   } else {
@@ -40,7 +40,7 @@ function updateJukebox_cb(a) {
 
 function updateSmallJukebox() {
   obj = document.getElementById("smallJukeboxSelect");  
-  if (obj != false) {
+  if (obj != null && obj != false) {
     setPlayback(obj);
     x_ajaxSmallJukebox(obj.options[obj.selectedIndex].value, sm_text, sm_buttons, sm_linebreaks, updateSmallJukebox_cb);
   }
@@ -56,21 +56,21 @@ function sendJukeboxRequest(cmd) {
 
 function sendJukeboxVol() {
   obj = document.getElementById("jukeboxVolumeSelect");
-  if (obj != false) {
+  if (obj != null && obj != false) {
     x_ajaxJukeboxRequest('volume',obj.options[obj.selectedIndex].value,sendJukeboxRequest_cb);
   }
 }
 
 function sendJukeboxAddType() {
   obj = document.getElementById("jukeboxAddTypeSelect");
-  if (obj != false) {
+  if (obj != null && obj != false) {
     x_ajaxJukeboxRequest('addwhere',obj.options[obj.selectedIndex].value,sendJukeboxRequest_cb);
   }
 }
 
 function sendJukeboxForm() {
   obj = document.getElementById("jukeboxJumpToSelect");
-  if (obj != false) {
+  if (obj != null && obj != false) {
   	selectedItems = new Array();
   	total = 0;
   	for (i = 0; i < obj.length; i++) {
@@ -94,19 +94,25 @@ function sendJukeboxForm() {
     
     // same logic as in the server-side jukebox code.
     // the sync is a little funny.
+    scrollTop = obj.scrollTop;
     if (cmd == "moveup") {
       i = 0;
       while (i < total && selectedItems[i] == i) {
         i++;
       }
+      
       while (i < total) {
         swap = obj.options[selectedItems[i]-1].text;
+        swapFontWeight = obj.options[selectedItems[i]-1].style.fontWeight;
 
         obj.options[selectedItems[i]-1].selected = true;
         obj.options[selectedItems[i]-1].text = obj.options[selectedItems[i]].text;
+        obj.options[selectedItems[i]-1].style.fontWeight = obj.options[selectedItems[i]].style.fontWeight;
 
         obj.options[selectedItems[i]].selected = false;
         obj.options[selectedItems[i]].text = swap;
+        obj.options[selectedItems[i]].style.fontWeight = swapFontWeight;
+
 
 	i++;
       }
@@ -118,31 +124,27 @@ function sendJukeboxForm() {
       }
       while (i >= 0) {
         swap = obj.options[selectedItems[i]+1].text;
+        swapFontWeight = obj.options[selectedItems[i]+1].style.fontWeight;
 
         obj.options[selectedItems[i]+1].selected = true;
         obj.options[selectedItems[i]+1].text = obj.options[selectedItems[i]].text;
+        obj.options[selectedItems[i]+1].style.fontWeight = obj.options[selectedItems[i]].style.fontWeight;
 
         obj.options[selectedItems[i]].selected = false;
         obj.options[selectedItems[i]].text = swap;
+        obj.options[selectedItems[i]].style.fontWeight = swapFontWeight;
 
 	i--;
       }
     } else if (cmd == "delone") {
-      shift = 0;
-      curdex = 0;
-      for (i = 0; i+shift < obj.options.length; i++) {
-        if (curdex < total && selectedItems[curdex] == i+shift) {
-          shift++; curdex++;
+      for (i = obj.options.length-1; i >= 0; i--) {
+        if (selectedItems[selectedItems.length-1] == i) {
+          selectedItems.pop();
+          obj.remove(i);
         }
-        if (i+shift < obj.options.length) {
-          obj.options[i].text = obj.options[i+shift].text;
-	  obj.options[i].selected = false;
-        }
-      }
-      for (i = 0; i < shift; i++) {
-        obj.remove(obj.options.length-1);
-      }
+      } 
     }
+    obj.scrollTop = scrollTop;
   }
 }
 
@@ -167,12 +169,12 @@ function sendJukeboxRequest_cb(a) {
 
 
   obj = document.getElementById("jukeboxNowPlaying");
-  if (obj != false) {
+  if (obj != null && obj != false) {
     x_ajaxJukeboxNowPlaying(updateJukeboxNowPlaying_cb);
   }
 
   obj = document.getElementById("jukeboxNextTrack");
-  if (obj != false) {
+  if (obj != null && obj != false) {
     x_ajaxJukeboxNextTrack(updateJukeboxNextTrack_cb);
   }
 
@@ -184,19 +186,19 @@ function sendJukeboxRequest_cb(a) {
 
 function updateJukeboxNowPlaying_cb(a) {
   obj = document.getElementById("jukeboxNowPlaying");
-  if (obj != false) {
+  if (obj != null && obj != false) {
     obj.innerHTML = a;
   }
 
   obj = document.getElementById("jukeboxNextTrack");
-  if (obj != false) {
+  if (obj != null && obj != false) {
     obj.innerHTML = a;
   }
 }
 
 function updateJukeboxNextTrack_cb(a) {
   obj = document.getElementById("jukeboxNextTrack");
-  if (obj != false) {
+  if (obj != null && obj != false) {
     obj.innerHTML = a;
   }
 }
