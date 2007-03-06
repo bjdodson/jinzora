@@ -59,7 +59,7 @@
 	$backend = $skin = $my_frontend = $jz_language = $jz_lang_file = "";
 	// Let's set some other system wide variables
 	$this_pgm = "Jinzora";
-	$version = "2.7.5";
+	$version = "3.0alpha1";
 	$jinzora_url = "http://www.jinzora.com";
 	$show_jinzora_footer = true;
 	$hide_pgm_name = false;
