@@ -209,8 +209,19 @@
 		  $dp = $this->data_dir . "/user_settings";
 		  
 		  $usersettings = unserialize(file_get_contents($dp));
-		  return $usersettings[$id]['name'];
-		  		  
+		  if (isset($usersettings[$id]) && isset($usersettings[$id]['name'])) {
+		    return $usersettings[$id]['name'];
+		  } else {
+		    // fix for a break in 2.7.5.
+		    $dp = $this->data_dir . "/users";
+		    $users = unserialize(file_get_contents($dp));
+		    foreach ($users as $name => $data) {
+		      if ($id == $data['id']) {
+			return $name;
+		      }
+		    }
+		  }
+		  return false;
 		}
 
 		/* Looks up the GID for a given username
@@ -609,7 +620,11 @@
 			if (!$wipe) {
 				$oldsettings = $this->loadSettings($id);
 			} else {
-				$oldsettings = array();
+			  $temp = $this->loadSettings($id);
+			  $oldsettings = array();
+			  if (isset($temp['name'])) {
+			    $oldsettings['name'] = $temp['name'];
+			  }
 			}
 			$dp = $this->data_dir . "/user_settings";
 
