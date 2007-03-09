@@ -11,9 +11,8 @@
 */
 
 global $row_colors, $jzSERVICES, $jzUSER, $lame_opts, $root_dir, $allow_filesystem_modify, $allow_id3_modify, $backend, $short_date;
-if (is_string($track)) {
-	$track = new jzMediaTrack($track);
-}
+
+$track = new jzMediaTrack($_GET['jz_path']);
 
 // Ok, now we need to see if they did something with this form
 if (isset ($_POST['justclose'])) {
