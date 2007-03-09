@@ -201,10 +201,12 @@
 			if (is_object($node)){
 				$name = md5($node->getName());
 			}
-			
+			if (0 == strlen($name)) {
+				return;
+			}
 			$d = @dir($include_path . "temp/cache");
 			if ($d !== false) {
-			  while ($entry = $d->read()) {
+			  while (false !== ($entry = $d->read())) {
 			    if (stristr($entry,$name)){
 			      @unlink($include_path."temp/cache/". $entry);
 			    }
