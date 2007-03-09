@@ -1238,7 +1238,7 @@
 			if (is_object($res) and $res->isLeaf()) {
 				$be = new jzBackend();
 				$be->registerFile($filename, $mpath);
-				if (false !== $meta) {
+				if (is_array($meta) && sizeof($meta) > 0) {
 					$res->setMeta($meta,"cache");
 					$res->playpath =  $filename;
 				}
