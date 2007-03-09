@@ -88,7 +88,6 @@ if ($cms_type != "xoops") {
 
 $_SESSION['jz_load_time'] = microtime();
 
-
  	$web_path = $include_path;
 	$install_complete = "no";
 
@@ -221,6 +220,15 @@ $_SESSION['jz_load_time'] = microtime();
 
 	writeLogData("messages","Index: Loading user services");
 
+
+     if (isset($_GET['user']) && isset($_GET['pass'])) {
+       $prehashed = false;
+       $_POST['action'] = "login";
+       $_POST['field1'] = $_GET['user'];
+       $_POST['field2'] = $_GET['pass'];
+     } else {
+       $prehashed = true;
+     }
 	$jzSERVICES->loadUserServices();	
 	if (!isset($_POST['action']) || $_POST['action'] != "login") {
 	  handleUserInit();
@@ -388,6 +396,19 @@ $_SESSION['jz_load_time'] = microtime();
 			}
 			exit();
 			break;
+		case "setplayback":
+		  // Stupid code. Should just use the id as the variable.
+		  // but if it ain't broke...
+		  $_SESSION['jb_playwhere'] = $_REQUEST['player'];
+		  // Now let's figure out it's ID                                                                        
+		  for ($i=0; $i < count($jbArr); $i++){
+		    if ($jbArr[$i]['description'] == $_SESSION['jb_playwhere']){
+		      $_SESSION['jb_id'] = $i;
+		    }
+		  }
+
+		  exit();
+		  break;
 		case "jukebox":
 			// Do we need to use the standard jukebox or not?
 			// Now did they have a subcommand?
@@ -518,7 +539,7 @@ $_SESSION['jz_load_time'] = microtime();
 			if ($_POST['field2'] == "cms-user") {
 			  die("Security breach detected.");
 			}
-			if (($jzUSER->login($_POST['field1'],$_POST['field2'], $remember)) === false) {
+			if (($jzUSER->login($_POST['field1'],$_POST['field2'], $remember, $prehashed)) === false) {
 				writeLogData("messages","Index: Displaying the login page");
 				include_once($include_path. "frontend/class.php");
 				$fe = new jzFrontendClass();
