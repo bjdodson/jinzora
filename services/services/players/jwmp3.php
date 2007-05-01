@@ -165,10 +165,10 @@ or=0x1e1e1e&frontcolor=0xCCCCCC";
 			
 			// Let's get the art
 			$parent = $track->getParent();
-			if (($art = $parent->getMainArt()) !== false) {
-				$image = jzCreateLink($art,"image");
+			if (($art = $parent->getMainArt("150x150")) !== false) {
+			  $image = jzCreateLink($art,"image");
 			} else {
-				$image = $this_site. $root_dir. "/style/images/default.jpg";
+			  $image = $this_site. $root_dir. "/style/images/default.jpg";
 			}
 			
 			$output_content .= '    <track>'. "\n";

@@ -33,7 +33,7 @@
 	* @since 8/23/05
 	*/
 	function SERVICE_RETURN_PLAYER_WIDTH_xspf(){
-	  return 445;
+	  return 300;
 	}
 
 	/**
@@ -44,7 +44,7 @@
 	* @since 8/23/05
 	*/
 	function SERVICE_RETURN_PLAYER_HEIGHT_xspf(){
-	  return 250;
+	  return 150;
 	}
 
 	
@@ -82,7 +82,7 @@
 	* @param $list an array containing the tracks to be played
 	*/
 	function SERVICE_DISPLAY_PLAYER_xspf($width, $height){
-		global $root_dir, $this_site, $css,$jzUSER;
+		global $root_dir, $this_site, $css;
 		
 		?>
 		<SCRIPT LANGUAGE=JAVASCRIPT TYPE="TEXT/JAVASCRIPT"><!--\
@@ -133,7 +133,7 @@
 	* @param $list an array containing the tracks to be played
 	*/
 	function SERVICE_OPEN_PLAYER_xspf($list){
-		global $include_path, $root_dir, $this_site,$jzUSER;
+		global $include_path, $root_dir, $this_site;
 	
 		$display = new jzDisplay();
 
@@ -159,10 +159,10 @@
 			
 			// Let's get the art
 			$parent = $track->getParent();
-			if (($art = $parent->getMainArt()) !== false) {
-				$image = jzCreateLink($art,"image");
+			if (($art = $parent->getMainArt("150x150")) !== false) {
+			  $image = jzCreateLink($art,"image");
 			} else {
-				$image = $this_site. $root_dir. "/style/images/default.jpg";
+			  $image = $this_site. $root_dir. "/style/images/default.jpg";
 			}
 			
 			$output_content .= '    <track>'. "\n";

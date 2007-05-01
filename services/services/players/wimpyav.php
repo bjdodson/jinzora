@@ -153,11 +153,12 @@
 			
 			// Let's get the art
 			$parent = $track->getParent();
-			if (($art = $parent->getMainArt()) !== false) {
-				$image = jzCreateLink($art,"image");
+			if (($art = $parent->getMainArt("150x150")) !== false) {
+			  $image = jzCreateLink($art,"image");
 			} else {
-				$image = "";
+			  $image = $this_site. $root_dir. "/style/images/default.jpg";
 			}
+			
 			// Now let's fix the track URL & image
 			$tUrl = urlencode($track->getFileName("user"));
 			$tUrl = str_replace("http%3A%2F%2F","http://",$tUrl);
