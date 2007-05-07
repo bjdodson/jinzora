@@ -39,51 +39,8 @@ define("ALL_MEDIA_GID",0);
 define("NOBODY","NOBODY");
 define("ALL_MEDIA_GROUP","ALL_MEDIA");
 
-// And our backend:
 
-//**************//
-// TRANSITIONAL //
-//**************//
-if ($backend == "id3-database" || $backend == "id3-cache") {
-	$default_importer = "id3tags";
-} else if (!isset($default_importer)){
-	$default_importer = "filesystem";
-}
-
-if ($backend == "id3-database" || $backend == "database") {
-	@include_once($include_path. 'data/'.$backend.'/constants.php');	
-	// TRANSITION TO 3.0: Which backend do we want?
-	$backend = false;
-	switch ($sql_type) {
-		case "DBX_MYSQL":
-			if  (function_exists("mysql_query")) {
-				$backend = "mysql";
-			}
-			break;
-  		case "DBX_MSSQL":
-  			if (function_exists('mssql_query')) {
-    			$backend = 'mssql';
-  			}
-    		break;
-  		case "DBX_SQLITE":
-  			if (function_exists('sqlite_query')) {
-    			$backend = 'sqlite';
-  			}
-    		break;
-    	case "DBX_PGSQL":
-    		if (function_exists("pg_query")) {
-    			$backend = 'pgsql';
-    		}
-    		break;
-  	}
-  	if ($backend === false) { 
-  		$backend = 'dbx'; 	
-  	}
-} else if ($backend == "id3-cache"){
-	$backend = 'cache';	
-}
-
-require_once($include_path. "backend/backends/${backend}/header.php");
+require_once(dirname(__FILE__) . "/backends/${backend}/header.php");
 
 
 // Now we can build library functions.
