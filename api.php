@@ -90,17 +90,18 @@
 	$blocks = new jzBlocks();
 	$display = new jzDisplay();
 	$jz_path = $_GET['jz_path'];
+	$limit = isset($_GET['limit']) ? $_GET['limit'] : 0;
 	
 	// Now let's see what they want
 	switch($_GET['request']){
 		case "genres":
-			return listAllGenres();
+			return listAllGenres($limit);
 		break;
 		case "artists":
-			return listAllSubNode("artist");
+			return listAllSubNode("artist",$limit);
 		break;
 		case "albums":
-			return listAllSubNode("album");
+			return listAllSubNode("album",$limit);
 		break;
 		case "curtrack":
 			return getCurrentTrack();
@@ -553,7 +554,7 @@
 	* @return Returns a XML formatted list of all genres
 	* 
 	**/
-	function listAllGenres(){
+	function listAllGenres($limit){
 		global $this_site, $root_dir;
 		
 		// Let's setup the display object
@@ -566,7 +567,7 @@
 		$node = new jzMediaNode();
 		
 		// Now let's get each genre
-		$nodes = $node->getSubNodes("nodes");
+		$nodes = $node->getSubNodes("nodes",false,false,$limit);
 		foreach ($nodes as $item){
 			echo '  <genre name="'. xmlUrlClean($item->getName()). '">'. "\n";
 			echo '    <link>'. $this_site. $root_dir. "/". xmlUrlClean($display->link($item,false,false,false,true,true)). '</link>'. "\n";
@@ -586,7 +587,7 @@
 	* @return Returns a XML formatted list of all genres
 	* 
 	**/
-	function listAllSubNode($type){
+	function listAllSubNode($type,$limit){
 		global $this_site, $root_dir, $jzSERVICES;
 		
 		// Let's setup the display object
@@ -599,7 +600,7 @@
 		$node = new jzMediaNode();
 		
 		// Now let's get each genre
-		$nodes = $node->getSubNodes("nodes",distanceTo($type));
+		$nodes = $node->getSubNodes("nodes",distanceTo($type),false,$limit);
 		sortElements($nodes,"name");
 		foreach ($nodes as $item){
 			echo '  <'. $type. ' name="'. xmlUrlClean($item->getName()). '">'. "\n";
