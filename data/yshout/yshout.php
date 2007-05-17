@@ -6,7 +6,7 @@
 //
 // Thanks to: Travis Roman for hours of help and testing.
 
-include_once "php/json.php";
+include_once "../../lib/json.php";
 
 $prefs = array (
 	'adminPassword' => 'jinzora',
