@@ -26,7 +26,6 @@
 	* @author Ross Carlson <ross@jinzora.org>
 	* @author Ben Dodson <ben@jinzora.org>
 	*/
-	
 	// Let's set the error reporting level
 	//@error_reporting(E_ERROR);
 	
@@ -34,7 +33,9 @@
 	// Now we'll need to figure out the path stuff for our includes
 	// This is critical for CMS modes
 	$include_path = ""; $link_root = ""; $cms_type = ""; $cms_mode = "false";
-  $backend = ""; $jz_lang_file = ""; $skin = ""; $my_frontend = "";
+    $backend = ""; $jz_lang_file = ""; $skin = ""; $my_frontend = "";
+	
+	define('NO_AJAX_LINKS','true');
 	
 	include_once('system.php');		
 	include_once('settings.php');	
@@ -92,16 +93,21 @@
 	$jz_path = $_GET['jz_path'];
 	$limit = isset($_GET['limit']) ? $_GET['limit'] : 0;
 	
+	$params = array();
+	$params['limit'] = $limit;
+	
+	
 	// Now let's see what they want
 	switch($_GET['request']){
 		case "genres":
-			return listAllGenres($limit);
+			//return listAllGenres($limit); // why??? :(
+			return listAllSubNode("genre",$params);
 		break;
 		case "artists":
-			return listAllSubNode("artist",$limit);
+			return listAllSubNode("artist",$params);
 		break;
 		case "albums":
-			return listAllSubNode("album",$limit);
+			return listAllSubNode("album",$params);
 		break;
 		case "curtrack":
 			return getCurrentTrack();
@@ -587,8 +593,10 @@
 	* @return Returns a XML formatted list of all genres
 	* 
 	**/
-	function listAllSubNode($type,$limit){
+	function listAllSubNode($type,$params){
 		global $this_site, $root_dir, $jzSERVICES;
+		
+		$limit = $params['limit'];
 		
 		// Let's setup the display object
 		$display = new jzDisplay();
@@ -606,7 +614,7 @@
 			echo '  <'. $type. ' name="'. xmlUrlClean($item->getName()). '">'. "\n";
 			echo '    <link>'. $this_site. $root_dir. "/". xmlUrlClean($display->link($item,false,false,false,true,true)). '</link>'. "\n";
 			// Now did they want full details?
-			if ($_GET['full'] == "true"){
+			if (isset($_GET['full']) && $_GET['full'] == "true"){
 				if (($art = $item->getMainArt()) !== false){
 					$image = xmlUrlClean($display->returnImage($art,false,false,false,"limit",false,false,false,false,false,"0",false,true));
 				} else {
