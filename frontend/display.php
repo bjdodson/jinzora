@@ -2963,11 +2963,19 @@
 	* @return returns HTML code for the javascript includes
 	*/
 	function returnJavascript(){
-		global $root_dir;
+		global $root_dir, $enable_ratings;
 		
-		return '<script type="text/javascript" src="'. $root_dir. '/lib/jinzora.js"></script>'.
+		$js = '<script type="text/javascript" src="'. $root_dir. '/lib/jinzora.js"></script>'.
 			   '<script type="text/javascript" src="'. $root_dir. '/lib/overlib.js"></script>'.
 			   '<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>';
+			   
+		if ($enable_ratings == "true") {
+			$js .= 	'<script type="text/javascript" src="'. $root_dir. '/lib/jquery/jquery.js"></script>'.
+				    '<script type="text/javascript" src="'. $root_dir. '/lib/jquery/rating.js"></script>'.
+				    '<link rel="stylesheet" type="text/css" href=""'. $root_dir. '/lib/jquery/rating/rating.css.php" />';
+		}
+		
+		return $js;
 	}
 		
 	/**
