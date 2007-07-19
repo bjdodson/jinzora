@@ -20,9 +20,7 @@
 		{/if}
 	</head>	
 	
-	<script type="text/javascript" src="{$root_dir}/lib/jinzora.js"></script>
-	<script type="text/javascript" src="{$root_dir}/lib/overlib.js"></script>
-	
+	{php} $display = new jzDisplay(); echo returnJavascript(); {/php}
 	<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 	
 	<link rel="stylesheet" title="{$skin}" type="text/css" media="screen" href="{$css}">
