@@ -142,7 +142,7 @@
 		}
 		if (isset($meta['number'])){
 			$data['track'][] = $meta['number'];
-		} else {
+		} else if (!isset($meta['track'])){ // handle 'track' later
 			if (!empty($fileInfo['comments']['comment'][0])) {
 				$data['track'][] = $fileInfo['comments']['track'][0];
 			} else {
@@ -205,15 +205,15 @@
 				$data['genre'][] = "";
 			}		
 		}
-		if (isset($meta['track'])){
-			$data['track'][] = $meta['track'];
-		} else {
-			if (!empty($fileInfo['comments']['track'][0])) {
-				$data['track'][] = $fileInfo['comments']['track'][0];
-			} else {
-				$data['track'][] = "";
-			}		
-		}
+		if (!isset($meta['number']) && isset($meta['track'])){
+        	$data['track'][] = $meta['track'];
+        } else if (!isset($meta['number'])) {
+        	if (!empty($fileInfo['comments']['track'][0])) {
+            	$data['track'][] = $fileInfo['comments']['track'][0];
+            } else {
+            	$data['track'][] = "";
+            }
+        }
 
 		// Now let's write
 		$tagwriter->tag_data = $data;
