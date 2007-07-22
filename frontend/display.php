@@ -2971,8 +2971,8 @@
 			   
 		if ($enable_ratings == "true") {
 			$js .= 	'<script type="text/javascript" src="'. $root_dir. '/lib/jquery/jquery.js"></script>'.
-				    '<script type="text/javascript" src="'. $root_dir. '/lib/jquery/rating.js"></script>'.
-				    '<link rel="stylesheet" type="text/css" href="'. $root_dir. '/lib/jquery/rating/rating.css.php" />';
+				    '<script type="text/javascript" src="'. $root_dir. '/lib/jquery/rater.js"></script>'.
+				    '<link rel="stylesheet" type="text/css" href="'. $root_dir. '/lib/jquery/rater/rater.css.php" />';
 		}
 		
 		return $js;
