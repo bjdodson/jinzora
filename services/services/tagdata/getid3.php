@@ -371,16 +371,18 @@
 		
 		// Now let's see if the name needs the file number stripped off of it (thus giving us the track number)
 		if (is_numeric(substr($name,0,2))){
+			$pos = 2;
 			// Ok, we found numbers so let's fix it up!
 			// Now let's figure out the new track names...
 			if ($meta['number'] == "-") {
 				if (is_numeric(substr($meta['filename'],03))){
 					$meta['number'] = substr($meta['filename'],0,3);
+					$pos = 3;
 				} else {
 					$meta['number'] = substr($name,0,2);
 				}
 			}
-			$name1 = substr($name,2,strlen($name));
+			$name1 = substr($name,$pos,strlen($name));
 			
 			if ($name1 == "") {
 				$name = $name1;
