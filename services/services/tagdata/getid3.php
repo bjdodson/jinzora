@@ -352,9 +352,14 @@
 		$name = $temp[sizeof($temp)-1];
 		
 		// Now let's see if the track name has the number
-		if (is_numeric(substr($meta['filename'],0,2))){
+		if (is_numeric(substr($meta['filename'],0,3))){
+			$meta['number'] = substr($meta['filename'],0,3);
+		} else if (is_numeric(substr($meta['filename'],0,2))){
 			$meta['number'] = substr($meta['filename'],0,2);
+		} else if (is_numeric(substr($meta['filename'],0,1))){
+			$meta['number'] = substr($meta['filename'],0,1);
 		}
+
 		
 		if ($meta['title'] == "-" or $meta['title'] == "Tconv"){
 			$name = str_replace(".". $meta['type'], "", $name);
@@ -369,7 +374,11 @@
 			// Ok, we found numbers so let's fix it up!
 			// Now let's figure out the new track names...
 			if ($meta['number'] == "-") {
-				$meta['number'] = substr($name,0,2);
+				if (is_numeric(substr($meta['filename'],03))){
+					$meta['number'] = substr($meta['filename'],0,3);
+				} else {
+					$meta['number'] = substr($name,0,2);
+				}
 			}
 			$name1 = substr($name,2,strlen($name));
 			
@@ -394,7 +403,11 @@
 			if (!isset($meta['number'])){$meta['number']="-";}
 			if (!isset($file)){$file="";}
 			if ($meta['number'] == "-" && is_numeric(substr($file,0,2))) {
-				$meta['number'] = substr($fname,0,2);
+				 if (is_numeric(substr($meta['filename'],0,3))){
+					$meta['number'] = substr($meta['filename'],0,3);
+				} else { 
+					$meta['number'] = substr($fname,0,2); 
+				}
 			}
 		}
 		
