@@ -305,6 +305,6 @@
 				</li>
 				</ol>
 				<ul>
-					<li><span class="helpBox">?</span><a href="docs/<?php echo $lang; ?>/index.html" target="_blank"><?php echo $word_installer_help; ?></a></li>
+					<li><span class="helpBox">?</span><a href="http://www.jinzorahelp.com/wiki/Web_Based_Installer" target="_blank"><?php echo $word_installer_help; ?></a></li>
 				</ul>
 			</div>
