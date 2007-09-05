@@ -27,23 +27,18 @@
 			exit();
 		}
 	?>
-	<div class="go">
-		<span class="goToNext">
-			Jinzora <?php echo $version; ?> Changelog - <a href="http://www.jinzora.com/pages.php?pn=developers&sub=changelog" target="_blank">Full Change Log</a>
-		</span>
-	</div>
 	<?php
 		// Let's reset our tracking session variables just in case the user restarts the install
 		unset($_SESSION['all_media_paths']);
 
 		// Now let's read the news from the Jinzora site IF we can
 		$contents = "";
-		$url = "http://www.jinzora.com/pages/changelog.php";
+		$url = "http://wbi.jinzora.com/included-changelog.html";
 		$url_parsed = parse_url($url);
 		$host = $url_parsed["host"];
 		$path = $url_parsed["path"];
 		$out = "GET $path HTTP/1.0\r\nHost: $host\r\n\r\n";
-		$fp = @fsockopen($host, 80, $errno, $errstr, 5);
+		$fp = @fsockopen($host, 80, $errno, $errstr, 30);
 		if ($fp){
 			fwrite($fp, $out);
 			$body = false;
@@ -64,7 +59,7 @@
 
 			// Ok, now let's get the build number
 			$build="";
-			$url = "http://www.jinzora.com/current-build.txt";
+			$url = "http://wbi.jinzora.com/current-build.txt";
 			$url_parsed = parse_url($url);
 			$host = $url_parsed["host"];
 			$path = $url_parsed["path"];
@@ -85,35 +80,32 @@
 
 			// Now let's make sure they are using the current build
 			if ($version < $build){
-				echo "<strong>WARNING!</strong> You are NOT using the current released version of Jinzora&trade;<br><br>";
-				echo "You are running version: ". $version. ", the current version is: ". $build. "<br>";
-				echo 'Please visit <a href="http://www.jinzora.com/download">Jinzora&trade; Downloads</a> to obtain the current version';
-				echo "<br><br><br>";
+				echo "<br><strong>WARNING: You are not using the latest Jinzora Release!</strong><br><br>";
+				echo "You are using version <strong>". $version. "</strong>. The current Jinzora Release is <strong>". $build. "</strong>.<br><br>";
+				echo 'It is highly recommended to abort this installation and to <a href="http://www.jinzora.com/download/release">download</a> the latest version!<br>';
 			}
 			echo $contents;
 		} else {
-			echo "Sorry, we couldn't contact www.jinzora.com for the latest news about Jinzora.  Please make sure you are".
+			echo "<br>Sorry, we couldn't contact www.jinzora.com for the latest news about Jinzora.  Please make sure you are".
 			   	 " installing the latest version of Jinzora by visiting <a href=http://www.jinzora.com>www.jinzora.com</a><br><br>";
 		}
 	?>
 	<br />
+
 	<div class="go">
 		<span class="goToNext">
-			Full Changelog
+			Jinzora <?php echo $version; ?> Changelog - <a href="http://en.jinzora.com/development/changelog" target="_blank">SVN Changelog</a>
 		</span>
 	</div>
-	<iframe src="http://www.jinzora.com/pages/changelog.php?installer=true" height="150px" width="460px" frameborder="0"></iframe>
-	<br />
-	
-	
-	<br>
+	<iframe src="http://wbi.jinzora.com/included-changelog.html" height="150px" width="510px" frameborder="0"></iframe>
+	<br><br>
 	<div class="go">
 		<span class="goToNext">
 			Language
 		</span>
 	</div>
 	<form action="<?php echo $form_action; ?>" name="setup2" method="post">
-		Before proceeding you'll need to choose what language you'd like to use first.
+		Please select a language to use during installation. You can change to another language once the installer is finished.
 		<br><br>
 		<table width="100%" cellspacing="0" cellpadding="3" border="0">
 			<tr>

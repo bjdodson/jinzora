@@ -49,7 +49,6 @@ function popuphelp(siteaccess,nodeid){
 		<div class="go">
 			<span class="goToNext">
 				<?php echo $word_checking_requirements; ?>
-				<!-- <a href="javascript:void(0)" onClick="popuphelp('<?php echo $siteaccess; ?>', '239'); return false;" onmouseover="return overlib('<?php echo 'Mouse' ?>', FGCOLOR, '#eeeeeee');" onmouseout="return nd();" class="helpbox2" >?</a> -->
 			</span>
 		</div>
 		<table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -222,7 +221,7 @@ function popuphelp(siteaccess,nodeid){
 					<?php
 						// Now let's check for GD support
 						if (ini_get('register_globals') == "1"){
-							echo '<font color="red">On - Possible Security Risk</font>';
+							echo '<font color="red">On - <strong>HUGE Possible Security Risk</strong></font>';
 							?>
 							&nbsp; <a class="helpbox2" href="javascript:void(0);" onmouseover="return overlib('<?php echo $word_reg_global_error; ?>');" onmouseout="return nd();">?</a>
 							<?php
@@ -368,7 +367,7 @@ function popuphelp(siteaccess,nodeid){
 				<td class="td" width="70%" align="left">
 					<?php
 						// Now let's check all the directories
-						$dirs = array("data/artists","data/discussions","data/downloads","data/featured","data/featured/albums","data/featured/artists","data/backend","data/backend/discussions","data/backend/nodes","data/backend/tracks","data/images","data/ratings","data/tracks","data/users","data/viewed");
+						$dirs = array("data/artists","data/cache","data/cache/discussions","data/cache/featured","data/cache/nodes","data/cache/request","data/cache/tracks","data/counter","data/database","data/database/discussions","data/discussions","data/downloads","data/featured","data/featured/albums","data/featured/artists","data/id3-cache","data/id3-cache/discussions","data/id3-cache/featured","data/id3-cache/nodes","data/id3-cache/request","data/id3-cache/tracks","data/id3-database","data/images","data/ratings","data/tracks","data/users","data/viewed");
 
 						// Now let's test each dir
 						$fileError = false;
