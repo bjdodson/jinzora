@@ -33,7 +33,7 @@
 
 		// Now let's read the news from the Jinzora site IF we can
 		$contents = "";
-		$url = "http://wbi.jinzora.com/included-changelog.html";
+		$url = "http://wbi.jinzora.com/changelogs/3alpha1.html";
 		$url_parsed = parse_url($url);
 		$host = $url_parsed["host"];
 		$path = $url_parsed["path"];
@@ -97,7 +97,7 @@
 			Jinzora <?php echo $version; ?> Changelog - <a href="http://en.jinzora.com/development/changelog" target="_blank">SVN Changelog</a>
 		</span>
 	</div>
-	<iframe src="http://wbi.jinzora.com/included-changelog.html" height="150px" width="510px" frameborder="0"></iframe>
+	<iframe src="http://wbi.jinzora.com/changelogs/3alpha1.html" height="150px" width="510px" frameborder="0"></iframe>
 	<br><br>
 	<div class="go">
 		<span class="goToNext">
