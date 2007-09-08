@@ -2,7 +2,7 @@
 	// Let's figure out the path stuff so we'll know how/where to include from
 	$form_action = setThisPage() . "install=step2";
 
-	// Now let's include the left
+	// Now let's include the left TEST
 	include_once($include_path. 'install/leftnav.php');
 
 	// Let's set a session variable so we can test for session support
