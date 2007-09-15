@@ -30,7 +30,6 @@
 	NOTES FOR THIS JUKEBOX
 	
 	This Jukebox requires the following settings:
-	
 	server
 	port
 	password
