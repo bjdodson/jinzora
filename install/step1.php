@@ -13,8 +13,7 @@
 	<a href="http://www.jinzora.com" target="_blank"><img src="<?php echo $include_path; ?>install/logo.gif" border="0" align="right" vspace="5" hspace="0"></a>
 	<h1>Welcome to Jinzora <?php echo $version; ?>!</h1>
 	<p>
-	Welcome to the Jinzora installer. This installer will guide you through the process of installing Jinzora on your webserver.
-	The installer is documented throughout the entire process.
+	The Web Based Installer (WBI) will guide you through the process of installing Jinzora on your server. The WBI is <a href="http://en.jinzorahelp.com/wiki/Web_Based_Installer" target="_blank">documented</a> in our Wiki at Jinzorahelp.com.
 	<br>
 	<?php
 		// Now let's check to see if the install has begun
