@@ -1769,7 +1769,6 @@ function handleSearch($search_string = false, $search_type = false) {
     $distance = distanceTo("genre");
     break;
   case "artists":
-    $locations++;
     $stype = "nodes";
     $distance = distanceTo("artist");
     break;
@@ -1778,7 +1777,6 @@ function handleSearch($search_string = false, $search_type = false) {
     $distance = distanceTo("album");
     break;
   case "tracks":
-    $locations++;
     $stype = "tracks";
     $distance = -1;
     break;
