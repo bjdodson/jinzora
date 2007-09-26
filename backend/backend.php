@@ -1727,18 +1727,22 @@ function handleSearch($search_string = false, $search_type = false) {
   $string = $string_array['search'];
 
   if (isset($keywords['genres'])) {
+    $locations[sizeof($locations)] = 'genre';
     $search_type = "genres";
   }
 
   if (isset($keywords['artists'])) {
+    $locations[sizeof($locations)] = 'artist';
     $search_type = "artists";
   }
 
   if (isset($keywords['albums'])) {
+    $locations[sizeof($locations)] = 'album';
     $search_type = "albums";
   }
 
   if (isset($keywords['tracks'])) {
+    $locations[sizeof($locations)] = 'track';
     $search_type = "tracks";
   }
 
@@ -1765,6 +1769,7 @@ function handleSearch($search_string = false, $search_type = false) {
     $distance = distanceTo("genre");
     break;
   case "artists":
+    $locations++;
     $stype = "nodes";
     $distance = distanceTo("artist");
     break;
@@ -1773,6 +1778,7 @@ function handleSearch($search_string = false, $search_type = false) {
     $distance = distanceTo("album");
     break;
   case "tracks":
+    $locations++;
     $stype = "tracks";
     $distance = -1;
     break;
@@ -1794,8 +1800,35 @@ function handleSearch($search_string = false, $search_type = false) {
     // case they set @genre and @id (or whatever).
   }
   
+  /* if we have 2 locations,
+     the closest to the root is our anchor
+     and the further is our return type.
+  */
+
+  if (sizeof($locations) > 1) {
+    if ($locations[1] == 'track') {
+      $r = 'tracks';
+    } else {
+      $r = 'nodes';
+    }
+    $limit = 1;
+    if (isset($keywords['limit'])) {
+      $limit = $keywords['limit'];
+    }
+
+    $results = $root->search($string,"nodes",distanceTo($locations[0]),1,'exact');
+    if (sizeof($results) > 0) {
+      $results = $results[0]->getSubNodes($r,distanceTo($locations[1],$results[0]),true,$limit);
+    } else {
+      $results = $root->search($string,"nodes",distanceTo($locations[0]),1);
+      if (sizeof($results) > 0) {
+	$results = $results[0]->getSubNodes($r,distanceTo($locations[1],$results[0]),true,$limit);
+      }
+    }
+  }
+
   // Exact matches if using keywords:
-  if (isset($keywords['play']) || isset($keywords['radio'])) {
+  else if (isset($keywords['play']) || isset($keywords['radio'])) {
     $results = $root->search($string,$stype,$distance,1,'exact');
     if (sizeof($results) == 0) {
       $results = $root->search($string,$stype,$distance,1); // better to limit 1 or $max_res?
