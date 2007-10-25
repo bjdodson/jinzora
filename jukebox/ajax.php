@@ -148,7 +148,7 @@
 	  $label = "jb-" . $_SESSION['jb_id'] . "curtrack";
 	  if ($direct_call == "false") { $direct_call = false; }
 	  if (!$direct_call && isset($_SESSION[$label]) && $_SESSION[$label] == $value) {
-	    //return; // BEN REMOVEME
+	    return;
 	  } else {
 	    $_SESSION[$label] = $value;
 	  }	

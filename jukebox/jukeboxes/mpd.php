@@ -292,6 +292,13 @@
 		
 		$myMpd = _mpdConnection();
 		
+		if (isset($jbArr[$_SESSION['jb_id']]['prefix']) && $jbArr[$_SESSION['jb_id']]['prefix'] == "http") {
+                  $id = getTrackIdFromURL($myMpd->playlist[$myMpd->current_track_id]['file']);
+		  $track = new jzMediaTrack($id,"id");
+
+		  return $track->getFilename("server");
+		}
+
 		$num = getCurPlayingTrack();
 		$pArray = $myMpd->GetPlaylist();
 		if (false === stristr($media_dirs,"|")) {
