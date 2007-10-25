@@ -55,12 +55,12 @@
 			$blocks = new jzBlocks();
 			$smarty = smartySetup();
 			
-			include(jzBlock('page-header'));
-			include(jzBlock('jukebox'));
-			include(jzBlock('site-news'));
-			include(jzBlock('album-info-block'));
-			include(jzBlock('browse-bar'));
-			include(jzBlock('breadcrumbs'));
+			jzBlock('page-header');
+			jzBlock('jukebox');
+			jzBlock('site-news');
+			jzBlock('album-info-block');
+			jzBlock('browse-bar');
+			jzBlock('breadcrumbs');
 
 			if ($show_artist_alpha == "true") {
 				$blocks->alphabeticalList($node,"artist",0);
@@ -75,7 +75,7 @@
 			$smarty = smartySetup();
 			$display = new jzDisplay();
 			
-			include(jzBlock('footer'));
+			jzBlock('footer');
 		}
 		
 		function standardPage(&$node) {
@@ -90,7 +90,7 @@
 			// Let's display the header
 			$this->pageTop($node);
                   
-			include(jzBlock('standard-page'));
+			jzBlock('standard-page');
 
 
 			// Now are there any tracks?
@@ -104,7 +104,7 @@
 				$blocks->trackTable($tracks);
 			}
 			
-			include(jzBlock('playlist-bar'));
+			jzBlock('playlist-bar');
 			
 			// Now let's close out
 			$this->footer($node);

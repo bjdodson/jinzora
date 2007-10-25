@@ -338,7 +338,7 @@
 								<tr>
 									<td align="center" class="jz_block_td">
 										<div id="jukebox">
-							                        <?php include(jzBlock('jukebox')); ?>
+							                        <?php jzBlock('jukebox'); ?>
 							                        </div>
 									</td>
 								</tr>

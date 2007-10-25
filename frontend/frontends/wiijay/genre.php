@@ -103,7 +103,7 @@
 							 
 							 echo '</tr>';
 							 echo '<tr><td colspan="2">';
-							 include(jzBlock('randomAlbums'));
+							 jzBlock('randomAlbums');
 							 echo '</td></tr>';
 							 return;
 						       }

@@ -26,13 +26,13 @@
 
 	/**
 	 * Pulls the correct PHP code for a given block.
-	 * Attempte to use the given frontend,
+	 * Attempts to use the given frontend,
 	 * but falls back to code in frontend/blocks.
 	 * 
 	 * @author Ben Dodson
 	 * @ since 8/21/2006
 	 */
-	function jzBlock($block) {
+	function jzBlockFile($block) {
 		global $fe;
 		if (false !== strstr($block,'..') || 
 		    false !== strstr($block,'/') ||
@@ -43,8 +43,24 @@
 		if (file_exists($file = dirname(__FILE__).'/frontends/'.$fe->name.'/blocks/'.$block.'.php')) {
 	  	return $file;
 		} else {
-	  	return dirname(__FILE__).'/blocks/'.$block.'.php';
+		  return dirname(__FILE__).'/blocks/'.$block.'.php';
 		}
+	}
+
+        function jzBlock($block) {
+	  global $fe;
+	  if (false !== strstr($block,'..') ||
+	      false !== strstr($block,'/') ||
+	      false !== strstr($block,'\\')) {
+	    die("Security breach detected (jzBlock)");
+	  }
+
+	  if (file_exists($file = dirname(__FILE__).'/frontends/'.$fe->name.'/blocks/'.$block.'.php')) {
+	    include($file);
+	  } else {
+	    include(dirname(__FILE__).'/blocks/'.$block.'.php');
+	  }
+
 	}
 
 	
