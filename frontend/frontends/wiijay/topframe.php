@@ -3,7 +3,7 @@ $display = new jzDisplay();
 $display->preheader();
 if (checkPlayback() == "jukebox") {
   echo '<div id="jukebox">';
-  jzBlock('jukebox');
+  include(jzBlock('jukebox'));
   echo '</div>';
 }
 ?>

@@ -29,10 +29,14 @@
 	 * Attempts to use the given frontend,
 	 * but falls back to code in frontend/blocks.
 	 * 
+	 * The usual call is: include(jzBlock("name"));
+	 * We do this because doing the include inside this function
+	 * can mess with variables required by the block code.
+	 *
 	 * @author Ben Dodson
 	 * @ since 8/21/2006
 	 */
-	function jzBlockFile($block) {
+	function jzBlock($block) {
 		global $fe;
 		if (false !== strstr($block,'..') || 
 		    false !== strstr($block,'/') ||
@@ -46,23 +50,6 @@
 		  return dirname(__FILE__).'/blocks/'.$block.'.php';
 		}
 	}
-
-        function jzBlock($block) {
-	  global $fe;
-	  if (false !== strstr($block,'..') ||
-	      false !== strstr($block,'/') ||
-	      false !== strstr($block,'\\')) {
-	    die("Security breach detected (jzBlock)");
-	  }
-
-	  if (file_exists($file = dirname(__FILE__).'/frontends/'.$fe->name.'/blocks/'.$block.'.php')) {
-	    include($file);
-	  } else {
-	    include(dirname(__FILE__).'/blocks/'.$block.'.php');
-	  }
-
-	}
-
 	
 	function jzTemplate($smarty, $template) {	
 		global $fe;

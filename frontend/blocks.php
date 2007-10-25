@@ -1315,7 +1315,7 @@ class jzBlockClass {
 	 *
 	 **/
 	function jukeboxBlock() {
-	  jzBlock("jukebox");
+	  include(jzBlock("jukebox"));
 	}
 
 
