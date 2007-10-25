@@ -1,4 +1,5 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+global $node;
 	// Now do we have art or image or desc at the album level
 	if ($node->getPType() == "album"){
 		if (($art = $node->getMainArt($image_size. "x". $image_size)) <> false or (($desc = $node->getDescription()) <> "")) {	
