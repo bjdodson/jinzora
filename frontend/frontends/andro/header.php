@@ -58,7 +58,7 @@
 			include(jzBlock('page-header'));
 			include(jzBlock('jukebox'));
 			include(jzBlock('site-news'));
-			include(zBlock('album-info-block'));
+			include(jzBlock('album-info-block'));
 			include(jzBlock('browse-bar'));
 			include(jzBlock('breadcrumbs'));
 
