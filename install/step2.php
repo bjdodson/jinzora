@@ -499,7 +499,7 @@ function popuphelp(siteaccess,nodeid){
 							</td>
 							<td width="25%" align="center" class="td">
 								<?php
-									if (ini_get('max_execution_time') > 299){
+			  if (ini_get('max_execution_time') > 299 || ini_get('max_execution_time') <= 0) {
 										echo '<font color="green">';
 									} else {
 										echo '<font color="red">';
