@@ -1310,6 +1310,14 @@ class jzBlockClass {
 		<?php
 	}
   
+	/**
+	 * Transition to blocks/*.php
+	 *
+	 **/
+	function jukeboxBlock() {
+	  jzBlock("jukebox");
+	}
+
 
 	  function trackTable($tracks, $purpose = false){
 	    global $media_dir, $jinzora_skin, $hierarchy, $album_name_truncate, $row_colors, 

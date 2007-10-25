@@ -154,7 +154,6 @@
 	  }	
 	  
 	  $blocks->jukeboxBlock();
-
 	}
 
 	/** 
