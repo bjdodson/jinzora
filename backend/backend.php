@@ -1171,7 +1171,7 @@ function fixAMGUrls($text){
  * @since 6/9/04
  */
 function jzCreateLink($path, $type, $arr = array()) {
-  global $media_dirs,$web_dirs,$include_path,$this_site, $root_dir;
+  global $media_dirs,$web_dirs,$include_path,$this_site, $root_dir,$jzUSER;
   
   if ($type == "image" && !($path[0] == '/' || stristr($path,":\\") || stristr($path,":/"))) {
     // the link is relative; return it.
@@ -1216,7 +1216,7 @@ function jzCreateLink($path, $type, $arr = array()) {
   case "image":
     $arr['action'] = "image";
     $arr['jz_path'] = $path;
-    
+    $arr['jz_user'] = $jzUSER->getId();
     return urlize($arr);
     break;
   case "track":
