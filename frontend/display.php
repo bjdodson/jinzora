@@ -1525,7 +1525,7 @@
 		* @since 12/01/04
 		*/
 		function downloadButton($node, $return = false, $returnImage = false, $showSize = false, $linkOnly = false) {			
-			global $img_download, $img_download_dis, $raw_img_download, $jzUSER, $jzSERVICES, $allow_resample_downloads, $allow_resample, $display_downloads;
+			global $img_download, $img_download_dis, $jzUSER, $jzSERVICES, $allow_resample_downloads, $allow_resample, $display_downloads;
 
 			if ($display_downloads == "false") {
 				return;
@@ -1602,14 +1602,14 @@
 					$message .= " : ". $size;
 				}
 				if ($returnImage) {
-					return '<a title="'. $message. '" href="'. urlize($arr) . '" '. $popupAddon. '><img src="'. $raw_img_download. '" border="0"></a>';   
+					return '<a title="'. $message. '" href="'. urlize($arr) . '" '. $popupAddon. '>' . $img_download .  '</a>';   
 				}
 				echo '<a title="'. $message. '" href="'. urlize($arr). '"'. $popupAddon. '>';
 				echo $img_download;
 				echo "</a>";
 			} else {
 				if ($returnImage) {
-					return '<a title="'. $message. '" href="'. urlize($arr) . '" '. $popupAddon. '><img src="'. $raw_img_download. '" border="0"></a>';   
+					return '<a title="'. $message. '" href="'. urlize($arr) . '" '. $popupAddon. '>'. $img_download. '</a>';   
 				} else {
 					return urlize($arr);
 				}
@@ -1986,11 +1986,20 @@
 		 **/
 		function addListButton($return = false){
 			global $root_dir, $skin,$this_page;
-			
-			$retVar  = '<input type="image" value="true" name="' . jz_encode("addList") . '"';
-			$retVar .=  ' onClick="return submitPlaybackForm(this, \'' . htmlentities($this_page)  . '\')"';
-			$retVar .=  ' src="'. $root_dir. '/style/'. $skin. '/add.gif" title="'. word("Add to"). '">';
-			
+			static $my_id = 0;
+
+			$label = 'addbutton'.++$my_id;
+			$retVar  = '<input type="button" style="display:none;" id="'.$label.'" value="true" name="' . jz_encode("addList") . '"/>';
+						
+			$onclick = 'submitPlaybackForm(document.getElementById(\''.$label.'\'), \'' . htmlentities($this_page)  . '\')';
+
+			$retVar .= icon('add',array( 'title'=> word('Add to'),
+						     'onclick'=> $onclick,
+						     'style'=> 'cursor:pointer;'
+						     )
+					);
+
+
 			if ($return){
 				return $retVar;
 			} else {
@@ -2043,22 +2052,30 @@
 		 **/
 		function sendListButton($random = false, $return = true) {
 			global $root_dir, $skin,$this_page;
+			static $my_id = 0;
 			
-			$retVal = '<input type="image" value="true" name="';
+			$label = 'playnowbutton'.++$my_id;
+			$retVal = '<input type="button" style="display:none;" id="'.$label.'" value="true" name="';
 			if ($random){
-
 				$retVal .= jz_encode("sendListRandom");
+				$title = word("Randomize selected");
+				$icon = 'random';
 			} else {
 				$retVal .= jz_encode("sendList");
+				$title = word("Play selected");
+				$icon = 'play';
 			} 
 			$retVal .= '"';
-			$retVal .= ' onClick="return submitPlaybackForm(this, \'' . htmlentities($this_page)  . '\')"';
-			$retVal .= ' src="'. $root_dir. '/style/'. $skin;
-			if ($random){
-				$retVal .= '/random.gif" title="'. word("Randomize selected"). '">';
-			} else {
-				$retVal .= '/play.gif" title="'. word("Play selected"). '">';
-			} 
+
+			$onclick = 'submitPlaybackForm(document.getElementById(\''.$label.'\'), \'' . htmlentities($this_page)  . '\')';
+
+                        $retVal .= icon($icon,array( 'title'=> word($title),
+                                                     'onclick'=> $onclick,
+                                                     'style'=> 'cursor:pointer;'
+                                                     )
+                                        );
+
+
 			if ($return) {
 			  return $retVal;
 			} else {
@@ -2073,21 +2090,27 @@
 		 * @since 4/23/05
 		 **/
 		function playListButton($return = false) {
-			global $raw_img_play,$jzSERVICES,$this_page;
+			global $jzSERVICES,$this_page;
+			static $my_id = 0;
 			
-			$retVal = '<input type="image" name="'.jz_encode("playplaylist").'" value="'.jz_encode('normal').'" src="'.$raw_img_play.'" title="'.word("Play").'" ';
+			$label = "playlistbutton" . ++$my_id;
+			$retVal = '<input id="'.$label.'" style="display:none;" type="submit" name="'.jz_encode("playplaylist").'" value="'.jz_encode('normal').'">';
 			if (!defined('NO_AJAX_JUKEBOX')) {
-			  $retVal .= ' onClick="return submitPlaybackForm(this, \'' . htmlentities($this_page)  . '\')"';
+			  $onclick = 'submitPlaybackForm(document.getElementById(\''.$label.'\'), \'' . htmlentities($this_page)  . '\')';
 			} else if (checkPlayback() == "embedded"){
 			  // Ok, let's put the popup in the href
-			  $retVal .= ' onClick="' . $this->embeddedFormHandler('playlistForm') . '"';
+			  $onclick = $this->embeddedFormHandler('playlistForm');
 			}
-			$retVal .= '>';
 			
+			$retVal .= icon('play',array( 'title'=> word('Play'),
+						      'onclick'=> $onclick,
+						      'style'=> 'cursor:pointer;'
+						      )
+					);
 			if ($return){
-				return $retVal;
+			  return $retVal;
 			} else {
-				echo $retVal;
+			  echo $retVal;
 			}
 		}
 
@@ -2098,18 +2121,25 @@
 		 * @since 4/23/05
 		 **/
 		function randomListButton($return = false) {
-		  	global $raw_img_random_play,$this_page;
-			
-			$retVal = '<input type="image" name="'.jz_encode("playplaylist").'" value="'.jz_encode('random').'" src="'.$raw_img_random_play.'" title="'.word("Play").'" ';
+		  	global $this_page;
+			static $my_id = 0;
+
+                        $label = "randomizebutton" . ++$my_id;
+			$retVal = '<input type="submit" style="display:none;" name="'.jz_encode("playplaylist").'" value="'.jz_encode('random').'">';
 			
 			if (!defined('NO_AJAX_JUKEBOX')) {
-			   $retVal .= ' onClick="return submitPlaybackForm(this, \'' . htmlentities($this_page)  . '\')"';
+			   $onclick = 'submitPlaybackForm(document.getElementById(\''.$label.'\'), \'' . htmlentities($this_page)  . '\')';
 			} else if (checkPlayback() == "embedded"){
-				// Ok, let's put the popup in the href
-				 $retVal .= ' onClick="' . $this->embeddedFormHandler('playlistForm') . '"';
+			  // Ok, let's put the popup in the href
+			  $onclick = $this->embeddedFormHandler('playlistForm');
 			}
-			 $retVal .= '>';
 			 
+			$retVal .= icon('random',array( 'title'=> word('Play Random'),
+                                                      'onclick'=> $onclick,
+                                                      'style'=> 'cursor:pointer;'
+                                                      )
+                                        );
+
 			if ($return){
 				return $retVal;
 			} else {
@@ -2124,15 +2154,25 @@
 		 * @since 4/23/05
 		 **/
 		function downloadListButton($return = false) {
-		  global $raw_img_download;
+		  global $this_page;
+		  static $my_id = 0;
+
+		  $label = "downloadbutton" . ++$my_id;
+		  $retVal = '<input type="submit" style="display:none;" id="'.$label.'" name="'.jz_encode("downloadlist").'" value="'.jz_encode('true').'">';
 		  
-			$retVal = '<input type="image" name="'.jz_encode("downloadlist").'" value="'.jz_encode('true').'" src="'.$raw_img_download.'" title="'.word("Download").'">';
-			
-			if ($return){
-				return $retVal;
-			} else {
-				echo $retVal;
-			}
+		  $onclick = 'submitPlaybackForm(document.getElementById(\''.$label.'\'), \'' . htmlentities($this_page)  . '\')';
+		  
+		  $retVal .= icon('download',array( 'title'=> word('Play Random'),
+						  'onclick'=> $onclick,
+						  'style'=> 'cursor:pointer;'
+						  )
+				  );
+
+		  if ($return){
+		    return $retVal;
+		  } else {
+		    echo $retVal;
+		  }
 		}
 
 		/**
@@ -2142,16 +2182,26 @@
 		 * @since 4/23/05
 		 **/
 		function createListButton($return = false) {
-		  global $raw_img_add;
+		  global $this_page;
+		  static $my_id = 0;
 
-		  $retVal  = '<input type="image" name="'.jz_encode("createlist").'" value="'.jz_encode('true').'" src="'.$raw_img_add.'" title="'.word("Create Playlist").'"';
+		  $label = "createbutton" . ++$my_id;
+		  $retVal  = '<input type="submit" style="display:none;" id="'.$label.'" name="'.jz_encode("createlist").'" value="'.jz_encode('true').'"';
 		  $retVal .= " onclick=\"variablePrompt('playlistForm','playlistname','".word('Please enter a name for your playlist.')."')\">";
-			
-			if ($return){
-				return $retVal;
-			} else {
-				echo $retVal;
-			}
+		  
+		  $onclick = 'submitPlaybackForm(document.getElementById(\''.$label.'\'), \'' . htmlentities($this_page)  . '\')';
+
+		  $retVal .= icon('add',array( 'title'=> word('Play Random'),
+						  'onclick'=> $onclick,
+						  'style'=> 'cursor:pointer;'
+						  )
+				  );
+
+		  if ($return){
+		    return $retVal;
+		  } else {
+		    echo $retVal;
+		  }
 		}
 
 

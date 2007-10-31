@@ -51,21 +51,29 @@ function submitPlaybackForm(button,url) {
     return false;
   }
 
+  if (button.name == '<?php echo jz_encode('downloadlist');?>' ||
+      button.name == '<?php echo jz_encode('createlist');?>'
+      ){
+    button.click();
+    return false;
+  }
+
   if (playback == 'stream') {
-    return true;
+    form.submit();
+    return false;
   } else if (playback == 'jukebox') {
     <?php if (!defined('NO_AJAX_JUKEBOX')) { ?> 
     ajax_submit_form(form,url,sendJukeboxRequest_cb);
     return false;
     <?php } else { ?>
-    return true; 
+      form.submit();
     <?php } ?>
   }
   <?php if (checkPlayback(true) == 'embedded') { ?>
   else if (playback == 'embedded') {
     win = openMediaPlayer('',<?php echo $jzSERVICES->returnPlayerWidth(); ?>,<?php echo $jzSERVICES->returnPlayerHeight(); ?>);
     form.target='embeddedPlayer';
-    return true;
+    form.submit();
   }
   <?php } ?>
 }
