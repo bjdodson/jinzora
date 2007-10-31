@@ -69,7 +69,7 @@ var myMenu =
 				if (($art = $child->getMainArt("20x20")) !== false) {
 					$image = $display->returnImage($art,$child->getName(),30,false,"fit");
 				} else {
-					$image = '<img src="'. $image_dir. "browse.gif". '">';
+				  $image = icon('browse');
 				}
 				$albumDispName = $child->getName(). $dispYear;
 				$brws_link = $display->link($child,false, false, false, false, true, false);
