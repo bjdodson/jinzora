@@ -1,6 +1,6 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
 	// Let's set the image directory
-        global $image_dir,$node,$jzUSER;
+global $node,$jzUSER,$img_play,$img_random_play,$img_download;
 	// Let's clean up the variables
 	$albumDispName = str_replace("'","",getInformation($node,"album")); 
 	$genreDispName = str_replace("'","",getInformation($node,"genre")); 
@@ -50,14 +50,14 @@ var jzMenu =
 			// Let's see if they only wanted track plays
 			if ($track_play_only <> "true"){
 		?>
-		['<img src="<?php echo $image_dir; ?>play.gif" />','<?php echo $word_play_album. ' <em>'. $albumDispName. '</em>'; ?>','<?php echo $display->link($node, false, false, false, true, true, false, true); ?>',null,''],
+		['<?php echo $img_play; ?>','<?php echo $word_play_album. ' <em>'. $albumDispName. '</em>'; ?>','<?php echo $display->link($node, false, false, false, true, true, false, true); ?>',null,''],
 		<?php
 			}
 		?>
 		<?php
 			if ($disable_random != "true"){
 		?>
-			['<img src="<?php echo $image_dir; ?>random.gif" />','<?php echo $word_play_random. ' <em>'. $albumDispName. '</em>'; ?>','<?php echo $display->link($node, false, false, false, true, true, true, true); ?>',null,''],
+			['<?php echo $img_random_play; ?>','<?php echo $word_play_random. ' <em>'. $albumDispName. '</em>'; ?>','<?php echo $display->link($node, false, false, false, true, true, true, true); ?>',null,''],
 		<?php
 			}
 		?>
@@ -69,14 +69,14 @@ var jzMenu =
 			// Now we need to make sure they are NOT in 1 level mode
 			if (($anode = $node->getAncestor("artist")) !== false){
 		?>
-			['<img src="<?php echo $image_dir; ?>play.gif" />','<?php echo $word_play_all_albums_from. ' <em>'. $artistDispName. '</em>'; ?>','<?php echo $display->link($anode, false, false, false, true, true, false, true); ?>',null,''],
+		['<?php echo $img_play; ?>','<?php echo $word_play_all_albums_from. ' <em>'. $artistDispName. '</em>'; ?>','<?php echo $display->link($anode, false, false, false, true, true, false, true); ?>',null,''],
 		<?php
 			}
 		?>
 		<?php
 			if ($disable_random != "true"){
 		?>
-			['<img src="<?php echo $image_dir; ?>random.gif" />','<?php echo $word_randomize_all_albums_from. ' <em>'. $artistDispName. '</em>'; ?>','<?php echo $display->link($anode, false, false, false, true, true, true, true); ?>',null,''],
+			['<?php echo $img_random_play; ?>','<?php echo $word_randomize_all_albums_from. ' <em>'. $artistDispName. '</em>'; ?>','<?php echo $display->link($anode, false, false, false, true, true, true, true); ?>',null,''],
 		<?php
 			}
 		?>
@@ -96,7 +96,7 @@ var jzMenu =
 				$dnl_url = $display->downloadButton($node, true);
 				
 				?>
-				['<img src="<?php echo $image_dir; ?>download.gif" />','<?php echo $word_download_album. ' <em>'. $albumDispName. ' ('. $album_size. ')</em>'; ?>','<?php echo $dnl_url; ?>',null,''],
+				['<?php echo $img_download; ?>','<?php echo $word_download_album. ' <em>'. $albumDispName. ' ('. $album_size. ')</em>'; ?>','<?php echo $dnl_url; ?>',null,''],
 				
 				<?php
 			}
