@@ -40,9 +40,9 @@
 	$smarty->assign('searchFields', $searchFields);			
 	$smarty->assign('word_tracks', word('Tracks'));
 	$smarty->assign('word_lyrics', word('Lyrics'));
-	$smarty->assign('login_link', $display->loginLink($img_login, $img_login, true, false, true));
+	$smarty->assign('login_link', $display->loginLink(false, false, true, false, true));
 	if ($jzUSER->getSetting('edit_prefs') !== false) {
-		$smarty->assign('prefs_link', $display->popupLink("preferences", $img_prefs, true));
+	  $smarty->assign('prefs_link', $display->popupLink("preferences", word('Preferences'), true));
 	} else {
 		$smarty->assign('prefs_link', "");
 	}
