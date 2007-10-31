@@ -1,4 +1,4 @@
-<?php
+<?php   define('JZ_SECURE_ACCESS','true');
 	header('Content-type: text/css');
 	if (!defined(jz_font_size)){
 		define("jz_font_size","11px");	
@@ -6,7 +6,7 @@
 	if (isset($_REQUEST['root_dir']) || isset($_REQUEST['skin'])) {
 		die();
 	}
-	require_once(basedir(__FILE__).'/../system.php');
+	require_once(dirname(__FILE__).'/../system.php');
 ?>
 
 #jz_images img.icon{
@@ -54,8 +54,8 @@
 #jz_images img.icon-star-r{background-position: -559px 0px; width: 3px; height: 16px; vertical-align: bottom;}
 #jz_images img.icon-star-l{background-position: -563px 0px; width: 3px; height: 16px; vertical-align: bottom;}
 #jz_images img.icon-star-f{background-position: -567px 0px; width: 9px; height: 16px; vertical-align: bottom;}
-#jz_images img.icon-up{background-position: -576px 0px; width: 15px;}
-#jz_images img.icon-down{background-position: -591px 0px; width: 15px;}
+#jz_images img.icon-up{background-position: -577px 0px;}
+#jz_images img.icon-down{background-position: -593px 0px;}
 
 .jz_main_block_topl {
 	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;
