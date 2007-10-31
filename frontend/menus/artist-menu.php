@@ -337,7 +337,7 @@ var myMenu =
 				<?php
 					if ($amg_search == "true"){
 				?>
-				['<img src="<?php echo $image_dir; ?>more.gif" />','<?php echo $word_search. " AMG"; ?>',null,null,'',
+				['<?php echo icon('more');?>','<?php echo $word_search. " AMG"; ?>',null,null,'',
 					<?php
 						// Let's loop through
 						foreach ($nodes as $child) {
