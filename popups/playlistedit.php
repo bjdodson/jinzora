@@ -8,7 +8,7 @@ if (isset ($_POST['deletePlaylist'])) {
 		$jzUSER->storePlaylist($pl);
 	} else {
 		$jzUSER->removePlaylist($_SESSION['jz_playlist']);
-		unset ($_SESSION['jz_playlist']);
+		$_SESSION['jz_playlist'] = "session";
 	}
 	//$this->closeWindow(true);
 	//exit();
