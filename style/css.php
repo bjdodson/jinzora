@@ -6,10 +6,11 @@
 	if (isset($_REQUEST['root_dir']) || isset($_REQUEST['skin'])) {
 		die();
 	}
+	require_once(basedir(__FILE__).'/../system.php');
 ?>
 
 #jz_images img.icon{
-	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;
+	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif?v=<?php echo $version; ?>') no-repeat;
 	width: 17px;
 	margin: 0px;
 	vertical-align: bottom;
