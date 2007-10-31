@@ -96,4 +96,44 @@
 	$img_move_dis 		= '<img src="'. $dis_dir. 'move-disabled.gif" border=0 alt="'. word("Move Item"). '" title="'. word("Move Item"). '">';
 	$img_up_arrow_dis 	= '<img src="'. $dis_dir. 'up-arrow-disabled.gif" border=0 alt="'. word("Up level"). '" title="'. word("Up level"). '">';
 	$img_playlist_dis 	= '<img src="'. $dis_dir. 'playlist-disabled.gif" border=0 alt="'. word("Playlist"). '" title="'. word("Playlist"). '">';
+
+/**
+ * Returns an icon with the given arguments.
+ * Arguments is an array. Valid keys include:
+ * title
+ * alt
+ * onclick
+ * id
+ *
+ * @author Ben Dodson
+ * @since 10/31/2007
+ **/
+function icon($type, $args = array()) {
+  global $img_begin;
+
+  $str = $img_begin;
+  $str .= 'icon-' . $type . '"';
+
+  if (isset($args['title'])) {
+    $str .= ' title="'.htmlentities($args['title']).'"';
+  }
+
+  if (isset($args['alt'])) {
+    $str .= ' alt="'.htmlentities($args['alt']).'"';
+  }
+
+  if (isset($args['id'])) {
+    $str .= ' id="'.htmlentities($args['id']).'"';
+  }
+
+  if (isset($args['onclick'])) {
+    $str .= ' onclick="'.$args['onclick'].'"';
+  }
+
+  if (isset($args['style'])) {
+    $str .= ' style="'.$args['style'].'"';
+  }
+
+  return $str . '></span>';
+}
 ?>
