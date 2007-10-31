@@ -56,7 +56,7 @@
 #jz_images img.icon-star-f{background-position: -567px 0px; width: 9px; height: 16px; vertical-align: bottom;}
 #jz_images img.icon-up{background-position: -577px 0px;}
 #jz_images img.icon-down{background-position: -593px 0px;}
-#jz_images img.icon-browse{background-position: -607px 0px;}
+#jz_images img.icon-browse{background-position: -609px 0px;}
 
 .jz_main_block_topl {
 	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;
