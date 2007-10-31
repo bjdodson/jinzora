@@ -48,19 +48,19 @@ var myMenu =
 			// Let's see if they only wanted track plays
 			if ($track_play_only <> "true"){
 		?>
-		['<img src="<?php echo $image_dir; ?>play.gif" />','<?php echo $word_play_all_albums_from. ' <em>'. $artistDispName. '</em>'; ?>','<?php echo $display->link($node, false, false, false, true, true, false, true); ?>',null,''],
+		['<?php echo icon('play');?>','<?php echo $word_play_all_albums_from. ' <em>'. $artistDispName. '</em>'; ?>','<?php echo $display->link($node, false, false, false, true, true, false, true); ?>',null,''],
 		<?php
 			}
 		?>
 		<?php
 			if ($disable_random == "false"){
 		?>
-			['<img src="<?php echo $image_dir; ?>random.gif" />','<?php echo $word_randomize_all_albums_from. ' <em>'. $artistDispName. '</em>'; ?>','<?php echo $display->link($node, false, false, false, true, true, true, true); ?>',null,''],
+			['<?php echo icon('random');?>','<?php echo $word_randomize_all_albums_from. ' <em>'. $artistDispName. '</em>'; ?>','<?php echo $display->link($node, false, false, false, true, true, true, true); ?>',null,''],
 		<?php
 			}
 		?>
 		
-		['<img src="<?php echo $image_dir; ?>browse.gif" />','<?php echo $word_browse_album; ?>',null,null,'',
+		['<?php echo icon('browse');?>','<?php echo $word_browse_album; ?>',null,null,'',
 		<?php
 			// Let's loop through
 			foreach ($nodes as $child) {
@@ -81,7 +81,7 @@ var myMenu =
 			// Let's see if they only wanted track plays
 			if ($track_play_only <> "true"){
 		?>
-		['<img src="<?php echo $image_dir; ?>play.gif" />','<?php echo $word_play_album; ?>',null,null,'',
+		['<?php echo icon('play');?>','<?php echo $word_play_album; ?>',null,null,'',
 		<?php
 			// Let's loop through
 			foreach ($nodes as $child) {
@@ -104,7 +104,7 @@ var myMenu =
 		<?php
 			if ($disable_random == "false"){
 		?>
-		['<img src="<?php echo $image_dir; ?>random.gif" />','<?php echo $word_play_random; ?>',null,null,'',
+		['<?php echo icon('random');?>','<?php echo $word_play_random; ?>',null,null,'',
 	
 		<?php
 			// Let's loop through
@@ -129,7 +129,7 @@ var myMenu =
 		<?php
 			if (checkPermission($jzUSER,"download")){				
 				?>
-				['<img src="<?php echo $image_dir; ?>download.gif" />','<?php echo $word_download_album; ?>',null,null,'',
+				['<?php echo icon('download');?>','<?php echo $word_download_album; ?>',null,null,'',
 				<?php
 					// Let's loop through
 					foreach ($nodes as $child) {
