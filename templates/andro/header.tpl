@@ -2,10 +2,6 @@
 	<tr class="and_head2">
 		<td width="50%" nowrap>
 			<a href="{$this_page}">{$img_home}</a>
-			{if $cms_mode == "false"}
-				{$login_link}
-				{$prefs_link}
-			{/if}
 		</td>
 		<td width="50%" align="right" nowrap>
 			{$word_search}
@@ -24,7 +20,12 @@
 		</td>
 	</tr>
 	<tr class="and_head2">
-		<td>&nbsp;</td>
+		<td>
+		{if $cms_mode == "false"}
+			{$login_link}
+			{$prefs_link}
+		{/if}
+		</td>
 		<td valign="middle" align="right" nowrap>
 			{$randomizer}
 		</td>

@@ -1,4 +1,5 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+global $img_more;
 	if ($cms_mode == "true"){
 		$mode = "POST";
 	} else {
@@ -49,6 +50,7 @@
 		$smarty->assign('resample_box',$display->displayResampleDropdown($node, word("Resample") . ": ",true));
 	}
 	$smarty->assign('help_access',$help_access);
-	
+$smarty->assign('img_info',$img_more);
+
 	jzTemplate($smarty, "breadcrumbs");
 ?>

@@ -7,7 +7,7 @@
 				{$play_button}
 				{$random_button}
 				{if $help_access == "true" or $help_access == "all" or ($help_access == "admin" and $is_admin == true)}
-					<a onclick="openPopup(this, 450, 450); return false;" href="{$info_button}"><img src="{$image_dir}more.gif" border="0"></a>
+					<a onclick="openPopup(this, 450, 450); return false;" href="{$info_button}">{$img_info}</a>
 				{/if}
 			</td>
 			{if $allow_resample == "true"}
