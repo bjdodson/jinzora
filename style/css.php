@@ -53,6 +53,8 @@
 #jz_images img.icon-star-r{background-position: -559px 0px; width: 3px; height: 16px; vertical-align: bottom;}
 #jz_images img.icon-star-l{background-position: -563px 0px; width: 3px; height: 16px; vertical-align: bottom;}
 #jz_images img.icon-star-f{background-position: -567px 0px; width: 9px; height: 16px; vertical-align: bottom;}
+#jz_images img.icon-up{background-position: -576px 0px; width: 15px;}
+#jz_images img.icon-down{background-position: -591px 0px; width: 15px;}
 
 .jz_main_block_topl {
 	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;

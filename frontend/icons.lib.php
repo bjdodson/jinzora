@@ -54,6 +54,8 @@
 	$img_jb_clear 		.= $img_begin. 'icon-clear" alt="'. word("Clear"). '" title="'. word("Clear"). '"></span>';
 	$img_jb_repeat 		.= $img_begin. 'icon-repeat" alt="'. word("Repeat"). '" title="'. word("Repeat"). '"></span>';
 	$img_jb_no_repeat 	.= $img_begin. 'icon-norepeat" alt="'. word("No Repeat"). '" title="'. word("No Repeat"). '"></span>';
+	$img_arrow_up 		.= $img_begin. 'icon-up" alt="'. word("Move Up"). '" title="'. word("Move Up"). '"></span>';
+	$img_arrow_down 	.= $img_begin. 'icon-down" alt="'. word("Move Down"). '" title="'. word("Move Down"). '"></span>';
 	
 	// These are for the stars	
 	$img_star_half_empty .= $img_begin. 'icon-star-h-e" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
@@ -75,8 +77,6 @@
 	$img_sm_logo 		= '<img src="'. $root_dir. '/style/images/powered-by-small.gif" border=0 alt="'. $this_pgm. $version. '" title="'. $this_pgm. $version. '">';	
 	$img_slimzora 		= '<img src="'. $root_dir. '/style/images/slimzora.gif" border=0 alt="'. $this_pgm. $version. '" title="'. $this_pgm. $version. '">';	
 	$img_add_fav 		= '<img src="'. $image_dir. 'add-fav.gif" border=0 alt="'. word("Add to Favorites"). '" title="'. word("Add to Favorites"). '">';
-	$img_arrow_up 		= '<img src="'. $image_dir. 'arrow-up.gif" border=0 alt="'. word("Move Up"). '" title="'. word("Move Up"). '">';
-	$img_arrow_down 	= '<img src="'. $image_dir. 'arrow-down.gif" border=0 alt="'. word("Move Down"). '" title="'. word("Move Down"). '">';
 	$img_pause 			= '<img src="'. $image_dir. 'pause.gif" border=0 alt="'. word("Pause"). '" title="'. word("Pause"). '">';
 	$img_stop 			= '<img src="'. $image_dir. 'stop.gif" border=0 alt="'. word("Stop"). '" title="'. word("Stop"). '">';
 	$img_previous 		= '<img src="'. $image_dir. 'previous.gif" border=0 alt="'. word("Previous"). '" title="'. word("Previous"). '">';
