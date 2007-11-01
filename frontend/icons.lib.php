@@ -73,6 +73,7 @@
 	$img_star_full 		 .= $img_begin. 'icon-star-f" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
 
 	// This are various random icons
+        $img_folder 		= '<img src="'. $root_dir. '/style/images/folder.gif" border=0"/>';	
 	$img_blank 			= '<img src="'. $image_dir. 'blank.gif" border=0>';
 	$img_login 			= '<img src="'. $image_dir. 'login.gif" border=0 alt="'. word("Login in/out"). '" title="'. word("Login in/out"). '">';
 	$img_delete 		= '<img src="'. $image_dir. 'delete.gif" border=0 alt="'. word("Delete"). '" title="'. word("Delete"). '">';

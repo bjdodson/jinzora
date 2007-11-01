@@ -1,5 +1,6 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
 	// Now let's get the sub nodes to where we are
+global $img_folder;
 	if (isset($_GET['jz_letter'])) {
 		$root = new jzMediaNode();
 		$nodes = $root->getAlphabetical($_GET['jz_letter'],"nodes",distanceTo("artist"));
@@ -25,7 +26,7 @@
 	foreach($nodes as $item){
 		$array[$i]['name'] = $item->getName();
 		$array[$i]['path'] = $item->getPath('string');
-		$array[$i]['link'] = $display->link($item,'<img src="'. $image_dir. 'folder.gif" border="0">', false, false, true);
+		$array[$i]['link'] = $display->link($item,$img_folder, false, false, true);
 		$name = $item->getName();
 		if (!isNothing($item->getYear()) and $item->getPType() == "album"){
 			$name .= " (". $item->getYear(). ")";
