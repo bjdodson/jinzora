@@ -503,50 +503,6 @@ class jzBlockClass {
 			}
 
 	}
-
-	/**
-	 * Draws the opening of the small rounded inner blocks
-	 * 
-	 * @author Ross Carlson
-	 * @version 01/21/05
-	 * @since 01/21/05
-	 */
-	function openInnerBlock(){
-  ?>
- 	<table width="100%" cellpadding="3" cellspacing="0" border="0">
-    <tr>
-    <td width="6" height="6" class="jz_left_iblock_topl"></td>
-    <td width="99%" height="6" class="jz_left_iblock_topm"></td>
-    <td width="6" height="6" class="jz_left_iblock_topr"></td>
-    </tr>
-    <tr>
-    <td width="6" class="jz_left_iblock_left"></td>
-    <td width="99%" class="jz_left_iblock_inner">
-    <?php
-    }
-	
-	/**
-	 * Draws the closing of the small rounded inner blocks
-	 * 
-	 * @author Ross Carlson
-	 * @version 01/21/05
-	 * @since 01/21/05
-	 */
-	function closeInnerBlock(){
-  ?>
- </td>
-     <td width="6" class="jz_left_iblock_right"></td>
-     </tr>
-     <tr>
-     <td width="6" height="6" class="jz_left_iblock_botl"></td>
-     <td width="99%" height="6" class="jz_left_iblock_botm"></td>
-     <td width="6" height="6" class="jz_left_iblock_botr"></td>
-     </tr>
-     </table>
-     <?php
-     }
-
-
 	
 	/**
 	* Draws the playlist bar
@@ -568,37 +524,6 @@ class jzBlockClass {
 		$smarty->display(SMARTY_ROOT. 'templates/general/playlist-bar.tpl');
 		
 		return;
-		
-		$display = new jzDisplay();
-		$this->openInnerBlock();
-		?>
-		<table width="95%" cellpadding="0" cellspacing="0" border="0">
-			<tr>
-				<td width="50%" valign="middle">
-					<nobr>
-					<a style="cursor:pointer" onClick="CheckBoxes('albumForm',true); return false;" href="javascript:;"><?php echo $img_check; ?></a>
-					<a style="cursor:pointer" onClick="CheckBoxes('albumForm',false); return false;" href="javascript:;"><?php echo $img_check_none; ?></a>
-					<?php
-						$display->sendListButton();
-						echo "&nbsp;";
-						$display->sendListButton(true);
-					?>
-					</nobr>
-				</td>
-				<td width="50%" valign="middle" align="right">
-					<nobr>
-					&nbsp; &nbsp;
-					<?php
-						$display->addListButton(); 
-						echo "&nbsp;";
-						$display->playlistSelect(115,false,"all");
-					?>
-					</nobr>
-				</td>
-			</tr>
-		</table>
-		<?php
-	  $this->closeInnerBlock();
 	}
 	
 	/**

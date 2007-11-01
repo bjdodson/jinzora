@@ -162,48 +162,6 @@
 	padding: 5px 0px 0px 16px;
 }
 
-#j_pref_b {
-	background:url(<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/prefs.gif) no-repeat left;
-	width:16px;
-	height:14px;
-	padding: 5px 0px 0px 16px;
-	border:0px;
-}
-#j_login_b {
-	background:url(<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/login.gif) no-repeat left;
-	width:16px;
-	height:14px;
-	padding: 5px 0px 0px 16px;
-	border:0px;
-}
-#j_p_b {
-	background:url(<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/play.gif) no-repeat left;
-	width:16px;
-	height:14px;
-	padding: 5px 0px 0px 16px;
-	border:0px;
-}
-#j_p_r_b {
-	background:url(<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/random.gif) no-repeat left;
-	width:16px;
-	height:14px;
-	padding: 5px 0px 0px 16px;
-	border:0px;
-}
-#j_d_b {
-	background:url(<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/download.gif) no-repeat left;
-	width:16px;
-	height:14px;
-	padding: 5px 0px 0px 16px;
-	border:0px;
-}
-#j_p_b_t {
-	background:url(<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/tiny-play.gif) no-repeat left;
-	width:10px;
-	height:9px;
-	padding: 0px 0px 0px 10px;
-	border:0px;
-}
 body {
 	background: <?php echo jz_pg_bg_color; ?>;
 	margin: 0px; 0px; 0px; 1px;
@@ -215,39 +173,7 @@ body {
 .headertext { position: absolute; left: -1px; top: -1px; color: <?php echo jz_link_color; ?>;}
 .and_head1 { background-color:<?php echo jz_bg_color; ?>; }
 .and_head2 { background-color:<?php echo jz_pg_bg_color; ?>; }
-.jz_left_iblock_topl {
-	background: url("<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/inner-block-top-left.gif"); 
-	background-repeat:no-repeat;
-}
-.jz_left_iblock_topm {
-	background: url("<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/inner-block-top-middle.gif"); 
-}
-.jz_left_iblock_topr {
-	background: url("<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/inner-block-top-right.gif"); 
-	background-repeat:no-repeat;
-}
-.jz_left_iblock_left {
-	background: url("<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/inner-block-left.gif"); 
-	background-repeat:repeat;
-}
-.jz_left_iblock_inner {
-	background: <?php echo jz_bg_color; ?>
-}
-.jz_left_iblock_right {
-	background: url("<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/inner-block-right.gif"); 
-	background-repeat:repeat;
-}
-.jz_left_iblock_botl {
-	background: url("<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/inner-block-bottom-left.gif"); 
-	background-repeat:no-repeat;
-}
-.jz_left_iblock_botm {
-	background: url("<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/inner-block-bottom-middle.gif"); 
-}
-.jz_left_iblock_botr {
-	background: url("<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/inner-block-bottom-right.gif"); 
-	background-repeat:no-repeat;
-}
+
 .jz_block_td {
 	border: 1px solid #474747; 
 	background-color: <?php echo jz_bg_color; ?>;

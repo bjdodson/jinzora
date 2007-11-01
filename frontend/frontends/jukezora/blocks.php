@@ -400,48 +400,6 @@
 		}
 		
 		/**
-		* Draws the opening of the small rounded inner blocks
-		* 
-		* @author Ross Carlson
-		* @version 01/21/05
-		* @since 01/21/05
-		*/
-		function openInnerBlock(){
-			?>
-			<table width="100%" cellpadding="3" cellspacing="0" border="0">
-				<tr>
-					<td width="6" height="6" class="jz_left_iblock_topl"></td>
-					<td width="99%" height="6" class="jz_left_iblock_topm"></td>
-					<td width="6" height="6" class="jz_left_iblock_topr"></td>
-				</tr>
-				<tr>
-					<td width="6" class="jz_left_iblock_left"></td>
-					<td width="99%" class="jz_left_iblock_inner">
-			<?php
-		}
-		
-		/**
-		* Draws the closing of the small rounded inner blocks
-		* 
-		* @author Ross Carlson
-		* @version 01/21/05
-		* @since 01/21/05
-		*/
-		function closeInnerBlock(){
-			?>
-					</td>
-					<td width="6" class="jz_left_iblock_right"></td>
-				</tr>
-				<tr>
-					<td width="6" height="6" class="jz_left_iblock_botl"></td>
-					<td width="99%" height="6" class="jz_left_iblock_botm"></td>
-					<td width="6" height="6" class="jz_left_iblock_botr"></td>
-				</tr>
-			</table>
-			<?php
-		}
-				
-		/**
 		* Draws the block that displays all tracks from an artist on the artist page
 		* 
 		* @author Ross Carlson
