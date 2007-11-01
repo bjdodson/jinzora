@@ -60,7 +60,7 @@
 
 #jz_images img.icon-art{background-position: -16px -27px;}
 #jz_images img.icon-media{background-position: -32px -27px;}
-#jz_images img.icon-new{background-position: -48px -27px;}
+#jz_images img.icon-new{background-position: -48px -27px; height:14px;}
 #jz_images img.icon-user{background-position: -64px -27px;}
 
 .jz_main_block_topl {
