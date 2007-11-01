@@ -1,11 +1,9 @@
-<?php   define('JZ_SECURE_ACCESS','true');
+<?php
 	header('Content-type: text/css');
 	if (!defined(jz_font_size)){
 		define("jz_font_size","11px");	
 	}
-	if (isset($_REQUEST['root_dir']) || isset($_REQUEST['skin'])) {
-		die();
-	}
+	
 	require_once(dirname(__FILE__).'/../system.php');
 ?>
 
