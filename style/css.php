@@ -65,7 +65,6 @@
 
 .jz_main_block_topl {
 	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;
-	background-position: left;
 	width: 5px;
 	margin: 0px;
 	vertical-align: bottom;
@@ -73,17 +72,11 @@
 }
 
 .jz_main_block_topm {
-	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;
-	background-position: left;
-	width: 2px;
-	margin: 0px;
-	vertical-align: bottom;
-	background-position: -5px -27px;
+	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/sect-header-middle.gif') repeat;
 }
 
 .jz_main_block_topr {
 	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;
-	background-position: left;
 	width: 5px;
 	margin: 0px;
 	vertical-align: bottom;
