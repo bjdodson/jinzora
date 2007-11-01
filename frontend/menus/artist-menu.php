@@ -380,7 +380,7 @@ var myMenu =
 						  $ecArray = $simArr['matches'];
 							if (count($ecArray) >= 1){
 								?>
-									['<img src="<?php echo $image_dir; ?>more.gif" />','<?php echo $word_echocloud; ?>',null,null,'',
+									['<?php echo icon('more');?>','<?php echo $word_echocloud; ?>',null,null,'',
 								<?php
 							}
 							$ctr=0;
@@ -392,7 +392,7 @@ var myMenu =
 							    $urla['jz_path'] = $ecArray[$i]->getPath("String");
 							    $dnl_url = urlize($urla);
 										?>
-											['<img src="<?php echo $image_dir; ?>more.gif" />','<em><?php echo $ecArtist; ?></em>','<?php echo $dnl_url; ?>',null,''],
+											['<?php echo icon('more'); ?>','<em><?php echo $ecArtist; ?></em>','<?php echo $dnl_url; ?>',null,''],
 										<?php
 										$ctr++;
 									}
