@@ -16,6 +16,13 @@
 	}	
 	$img_begin = '<span id="jz_images"><img src="'. $image_dir. 'blank.gif" border=0 class="icon ';
 	
+	
+	/**
+	 * Use of these constants is not recommended.
+	 * Instead, use the icon function:
+	 * icon('play', array('option' => 'value', ...) )
+	 */
+	 
 	$img_play 			= $img_begin. 'icon-play" alt="'. word("Play"). '" title="'. word("Play"). '"></span>'; 
 	$img_random_play 	= $img_begin. 'icon-random" alt="'. word("Play Random"). '" title="'. word("Play Random"). '"></span>';
 	$img_download 		= $img_begin. 'icon-download" alt="'. word("Download"). '" title="'. word("Download"). '"></span>';

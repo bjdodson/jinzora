@@ -58,6 +58,11 @@
 #jz_images img.icon-down{background-position: -593px 0px;}
 #jz_images img.icon-browse{background-position: -609px 0px;}
 
+#jz_images img.icon-art{background-position: -16px -27px;}
+#jz_images img.icon-media{background-position: -32px -27px;}
+#jz_images img.icon-new{background-position: -48px -27px;}
+#jz_images img.icon-user{background-position: -64px -27px;}
+
 .jz_main_block_topl {
 	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;
 	background-position: left;
@@ -66,6 +71,16 @@
 	vertical-align: bottom;
 	background-position: 0px -27px;
 }
+
+.jz_main_block_topm {
+	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;
+	background-position: left;
+	width: 2px;
+	margin: 0px;
+	vertical-align: bottom;
+	background-position: -5px -27px;
+}
+
 .jz_main_block_topr {
 	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;
 	background-position: left;
@@ -243,10 +258,6 @@ body {
 .jz_block_td {
 	border: 1px solid #474747; 
 	background-color: <?php echo jz_bg_color; ?>;
-}
-.jz_main_block_topm {
-	background: url("<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/sect-header-middle.gif"); 
-	background-repeat: repeat;
 }
 td {
 	font-family: Verdana, Sans;
