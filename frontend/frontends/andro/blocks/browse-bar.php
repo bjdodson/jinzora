@@ -19,6 +19,7 @@
 	$url = array();			
 	$smarty->assign('home_link',urlize($url));
 	$smarty->assign('word_home',word("Home"));
+$smarty->assign('open_folder',$include_path. 'style/images/folder.gif'); // open-folder is ugly
 	
 	// Now let's see if we need the breadcrumbs
 	unset($bcArray[count($bcArray)-1]);
