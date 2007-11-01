@@ -51,7 +51,7 @@
 	$img_podcast 		= $img_begin. 'icon-podcast" alt="'. word("Subscribe to Podcast"). '" title="'. word("Subscribe to Podcast"). '"></span>';
 	$img_up_arrow 		= $img_begin. 'icon-uparrow" alt="'. word("Up level"). '" title="'. word("Up level"). '"></span>';
 	$img_browse 		= $img_begin. 'icon-browse" alt="'. word("Browse"). '" title="'. word("Browse"). '"></span>';
-	
+
 	// These are the jukebox images
 	$img_jb_play 		= $img_begin. 'icon-play" alt="'. word("Play"). '" title="'. word("Play"). '"></span>';
 	$img_jb_pause 		= $img_begin. 'icon-pause" alt="'. word("Pause"). '" title="'. word("Pause"). '"></span>';
@@ -81,8 +81,7 @@
 	$img_clear 			= '<img src="'. $image_dir. 'clear.gif" border=0 alt="'. word("Clear"). '" title="'. word("Clear"). '">';
 	$img_fav_track 		= '<img src="'. $image_dir. 'rate.gif" border=0 alt="'. word("Add to favorites"). '" title="'. word("Add to favorites"). '">';
 	$img_lofi 			= '<img src="'. $image_dir. 'play-lofi.gif" border=0 alt="'. word("Play Lofi"). '" title="'. word("Play Lofi"). '">';
-	$img_new 			= '<img src="'. $image_dir. 'new.gif" border=0 alt="'. word("New"). '" title="'. word("New"). '">';
-	$img_sm_logo 		= '<img src="'. $root_dir. '/style/images/powered-by-small.gif" border=0 alt="'. $this_pgm. $version. '" title="'. $this_pgm. $version. '">';	
+        $img_sm_logo 		= '<img src="'. $root_dir. '/style/images/powered-by-small.gif" border=0 alt="'. $this_pgm. $version. '" title="'. $this_pgm. $version. '">';	
 	$img_slimzora 		= '<img src="'. $root_dir. '/style/images/slimzora.gif" border=0 alt="'. $this_pgm. $version. '" title="'. $this_pgm. $version. '">';	
 	$img_add_fav 		= '<img src="'. $image_dir. 'add-fav.gif" border=0 alt="'. word("Add to Favorites"). '" title="'. word("Add to Favorites"). '">';
 	$img_pause 			= '<img src="'. $image_dir. 'pause.gif" border=0 alt="'. word("Pause"). '" title="'. word("Pause"). '">';
@@ -107,11 +106,10 @@
 
 /**
  * Returns an icon with the given arguments.
- * Arguments is an array. Valid keys include:
- * title
- * alt
- * onclick
- * id
+ * Arguments is an array. Valid keys include
+ * anything that can be put in an <img> tag.
+ * the key 'literal' means paste the exact content
+ * of the value.
  *
  * @author Ben Dodson
  * @since 10/31/2007
@@ -122,24 +120,12 @@ function icon($type, $args = array()) {
   $str = $img_begin;
   $str .= 'icon-' . $type . '"';
 
-  if (isset($args['title'])) {
-    $str .= ' title="'.htmlentities($args['title']).'"';
-  }
-
-  if (isset($args['alt'])) {
-    $str .= ' alt="'.htmlentities($args['alt']).'"';
-  }
-
-  if (isset($args['id'])) {
-    $str .= ' id="'.htmlentities($args['id']).'"';
-  }
-
-  if (isset($args['onclick'])) {
-    $str .= ' onclick="'.$args['onclick'].'"';
-  }
-
-  if (isset($args['style'])) {
-    $str .= ' style="'.$args['style'].'"';
+  foreach ($args as $opt => $val) {
+    if ($opt == 'literal') {
+      $str .= $val;
+    } else {
+      $str .= ' ' . $opt . '= "' . htmlentities($val) . '"';
+    }
   }
 
   return $str . '></span>';

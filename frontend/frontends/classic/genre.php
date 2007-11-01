@@ -185,7 +185,7 @@
 			$display->link($retArray[$i]);
 					
 			// Let's see if this is new or not
-			if ($new_from <> ""){ echo ' <img src="'. $root_dir. '/style/'. $jinzora_skin. '/new.gif" border=0 '. $new_data. '>'; }
+			if ($new_from <> ""){ echo icon('new') . $new_data. '>'; }
 						
 			// Now let's see if they wanted ratings
 			if ($enable_ratings == "true"){

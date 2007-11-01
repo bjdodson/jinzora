@@ -116,7 +116,8 @@
 								
 								// Let's see if this is new or not
 								if ($days = $retArray[$e]->newSince($days_for_new)){
-									echo ' <img src="'. $raw_img_new. '" border="0" '. $display->returnToolTip($days. " ". word("days ago"), word("New Since")). '>';
+									echo icon('new', 
+									          array('literal' => $display->returnToolTip($days. " ". word("days ago"), word("New Since"))));
 								}
 	
 								//if ($new_from <> ""){ echo ' <img src="'. $root_dir. '/style/'. $skin. '/new.gif" border=0 '. $new_data. '>'; }
