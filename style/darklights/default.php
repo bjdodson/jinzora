@@ -29,5 +29,6 @@
 	// Do they want the whole stylesheet
 	if (isset($define_only)){if ($define_only){return;}}
 	
-	include_once("../css.php");
+	include_once(dirname(__FILE__)."../css.php");
+	include_once(dirname(__FILE__)."../icon_css.php");
 ?>
