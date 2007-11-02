@@ -32,61 +32,204 @@
 	include_once(dirname(__FILE__)."/../css.php");
 	
 	// custom-sized icons below.
+        // this skin uses individual .gifs for each icon,
+        // but the preferred method is to use a common icons.gif file, which improves load times.
+        $icon_base = $root_dir . '/style/' . $skin;
 ?>
 
 #jz_images img.icon{
-	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif?v=<?php echo $version; ?>') no-repeat;
-	width: 17px;
+	background: url('<?php echo $icon_base; ?>/icons.gif?v=<?php echo $version; ?>') no-repeat;
+	width: 18px;
 	margin: 0px;
 	vertical-align: bottom;
 }       
-#jz_images img.icon-play{background-position: 0px 0px;}
-#jz_images img.icon-random{background-position: -16px 0px;}
-#jz_images img.icon-download{background-position: -32px 0px;}
-#jz_images img.icon-prefs{background-position: -48px 0px;}
-#jz_images img.icon-home{background-position: -64px 0px;}
-#jz_images img.icon-clip{background-position: -80px 0px;}
-#jz_images img.icon-check{background-position: -96px 0px;}
-#jz_images img.icon-nocheck{background-position: -112px 0px;}
-#jz_images img.icon-add{background-position: -128px 0px;}
-#jz_images img.icon-more{background-position: -144px 0px;}
-#jz_images img.icon-tools{background-position: -160px 0px;}
-#jz_images img.icon-slimpop{background-position: -176px 0px;}
-#jz_images img.icon-play-disabled{background-position: -192px 0px;}
-#jz_images img.icon-random-disabled{background-position: -208px 0px;}
-#jz_images img.icon-download-disabled{background-position: -224px 0px;}
-#jz_images img.icon-tiny-play{background-position: -240px 0px; width: 11px; height: 12px; vertical-align: top;}
-#jz_images img.icon-tiny-play-dis{background-position: -250px 0px; width: 11px; height: 12px; vertical-align: top;}
-#jz_images img.icon-tiny-info{background-position: -260px 0px; width: 11px; height: 12px; vertical-align: top;}
-#jz_images img.icon-playlist{background-position: -272px 0px;}
-#jz_images img.icon-rate{background-position: -288px 0px;}
-#jz_images img.icon-discuss{background-position: -304px 0px;}
-#jz_images img.icon-discuss-disabled{background-position: -320px 0px;}
-#jz_images img.icon-email{background-position: -336px 0px;}
-#jz_images img.icon-pause{background-position: -352px 0px;}
-#jz_images img.icon-stop{background-position: -368px 0px;}
-#jz_images img.icon-previous{background-position: -384px 0px;}
-#jz_images img.icon-next{background-position: -400px 0px;}
-#jz_images img.icon-clear{background-position: -416px 0px;}
-#jz_images img.icon-repeat{background-position: -432px 0px;}
-#jz_images img.icon-norepeat{background-position: -448px 0px;}
-#jz_images img.icon-rss{background-position: -464px 0px; width: 23px; height: 12px; vertical-align: top;}
-#jz_images img.icon-purchase{background-position: -490px 0px;}
-#jz_images img.icon-podcast{background-position: -506px 0px;}
-#jz_images img.icon-uparrow{background-position: -522px 0px; width: 15px;}
-#jz_images img.icon-star-h-e{background-position: -538px 0px; width: 9px; height: 16px; vertical-align: bottom;}
-#jz_images img.icon-star-f-e{background-position: -548px 0px; width: 9px; height: 16px; vertical-align: bottom;}
-#jz_images img.icon-star-r{background-position: -559px 0px; width: 3px; height: 16px; vertical-align: bottom;}
-#jz_images img.icon-star-l{background-position: -563px 0px; width: 3px; height: 16px; vertical-align: bottom;}
-#jz_images img.icon-star-f{background-position: -567px 0px; width: 9px; height: 16px; vertical-align: bottom;}
-#jz_images img.icon-up{background-position: -577px 0px;}
-#jz_images img.icon-down{background-position: -593px 0px;}
-#jz_images img.icon-browse{background-position: -609px 0px;}
 
-#jz_images img.icon-art{background-position: -16px -27px;}
-#jz_images img.icon-media{background-position: -32px -27px;}
-#jz_images img.icon-new{background-position: -48px -27px; height:12px;}
-#jz_images img.icon-user{background-position: -64px -27px;}
+#jz_images img.icon-play{
+  background: url('<?php echo $icon_base; ?>/play.gif') no-repeat;
+}
+
+#jz_images img.icon-random{
+  background: url('<?php echo $icon_base; ?>/random.gif') no-repeat;
+}
+
+#jz_images img.icon-download{
+  background: url('<?php echo $icon_base; ?>/download.gif') no-repeat;
+}
+
+#jz_images img.icon-prefs{
+  background: url('<?php echo $icon_base ?>/edit.gif') no-repeat;
+}
+
+#jz_images img.icon-home{
+  background: url('<?php echo $icon_base; ?>/home.gif') no-repeat;
+}
+
+#jz_images img.icon-clip{
+  background: url('<?php echo $icon_base; ?>/play-clip.gif') no-repeat;
+}
+
+#jz_images img.icon-check{
+  background: url('<?php echo $icon_base; ?>/check.gif') no-repeat;
+}
+
+#jz_images img.icon-nocheck{
+  background: url('<?php echo $icon_base; ?>/check-none.gif') no-repeat;
+}
+
+#jz_images img.icon-add{
+  background: url('<?php echo $icon_base; ?>/add.gif') no-repeat;
+}
+
+#jz_images img.icon-more{
+  background: url('<?php echo $icon_base; ?>/more.gif') no-repeat;
+}
+
+#jz_images img.icon-tools{
+  background: url('<?php echo $icon_base; ?>/edit.gif') no-repeat;
+}
+
+#jz_images img.icon-slimpop{
+  background: url('<?php echo $icon_base; ?>/slim-pop.gif') no-repeat;
+}
+
+#jz_images img.icon-play-disabled{
+  background: url('<?php echo $icon_base; ?>/play-disabled.gif') no-repeat;
+}
+
+#jz_images img.icon-random-disabled{
+  background: url('<?php echo $icon_base; ?>/random-disabled.gif') no-repeat;
+}
+
+#jz_images img.icon-download-disabled{
+  background: url('<?php echo $icon_base; ?>/download-disabled.gif') no-repeat;
+}
+
+#jz_images img.icon-tiny-play{
+  background: url('<?php echo $icon_base; ?>/tiny-play.gif') no-repeat;
+}
+
+#jz_images img.icon-tiny-play-dis{
+  background: url('<?php echo $icon_base; ?>/tiny-play-disabled.gif') no-repeat;
+}
+
+#jz_images img.icon-tiny-info{
+  background: url('<?php echo $icon_base; ?>/tiny-info.gif') no-repeat;
+}
+
+#jz_images img.icon-playlist{
+  background: url('<?php echo $icon_base; ?>/playlist.gif') no-repeat;
+}
+
+#jz_images img.icon-rate{
+  background: url('<?php echo $icon_base; ?>/rate.gif') no-repeat;
+}
+
+#jz_images img.icon-discuss{
+  background: url('<?php echo $icon_base; ?>/discuss.gif') no-repeat;
+}
+
+#jz_images img.icon-discuss-disabled{
+  background: url('<?php echo $icon_base; ?>/discuss-disabled.gif') no-repeat;
+}
+
+#jz_images img.icon-email{
+  background: url('<?php echo $icon_base; ?>/email.gif') no-repeat;
+}
+
+#jz_images img.icon-pause{
+  background: url('<?php echo $icon_base; ?>/pause.gif') no-repeat;
+}
+
+#jz_images img.icon-stop{
+  background: url('<?php echo $icon_base; ?>/stop.gif') no-repeat;
+}
+
+#jz_images img.icon-previous{
+  background: url('<?php echo $icon_base; ?>/previous.gif') no-repeat;
+}
+
+#jz_images img.icon-next{
+  background: url('<?php echo $icon_base; ?>/next.gif') no-repeat;
+}
+
+#jz_images img.icon-clear{
+  background: url('<?php echo $icon_base; ?>/clear.gif') no-repeat;
+}
+
+#jz_images img.icon-repeat{
+  background: url('<?php echo $icon_base; ?>/jb_repeat.gif') no-repeat;
+}
+
+#jz_images img.icon-norepeat{
+  background: url('<?php echo $icon_base; ?>/jb_no_repeat.gif') no-repeat;
+}
+
+#jz_images img.icon-rss{
+  background: url('<?php echo $icon_base; ?>/rss.gif') no-repeat;
+  width:23px;
+}
+
+#jz_images img.icon-purchase{
+  background: url('<?php echo $icon_base; ?>/dollar.gif') no-repeat;
+}
+
+#jz_images img.icon-podcast{
+  background: url('<?php echo $icon_base; ?>/podcast.gif') no-repeat;
+}
+
+#jz_images img.icon-uparrow{
+  background: url('<?php echo $icon_base; ?>/up-arrow.gif') no-repeat;
+}
+
+#jz_images img.icon-star-h-e{
+  background: url('<?php echo $icon_base; ?>/star-half-empty.gif') no-repeat;
+}
+
+#jz_images img.icon-star-f-e{
+  background: url('<?php echo $icon_base; ?>/atar-full-empty.gif') no-repeat;
+}
+
+#jz_images img.icon-star-r{
+  background: url('<?php echo $icon_base; ?>/star-right.gif') no-repeat;
+}
+
+#jz_images img.icon-star-l{
+  background: url('<?php echo $icon_base; ?>/star-left.gif') no-repeat;
+}
+
+#jz_images img.icon-star-f{
+  background: url('<?php echo $icon_base; ?>/star-full.gif') no-repeat;
+}
+
+#jz_images img.icon-up{
+  background: url('<?php echo $icon_base; ?>/arrow-up.gif') no-repeat;
+}
+
+#jz_images img.icon-down{
+  background: url('<?php echo $icon_base; ?>/arrow-down.gif') no-repeat;
+}
+
+#jz_images img.icon-browse{
+  background: url('<?php echo $icon_base; ?>/browse.gif') no-repeat;
+}
+
+#jz_images img.icon-art{
+  background: url('<?php echo $icon_base; ?>/art.gif') no-repeat;
+}
+
+#jz_images img.icon-media{
+  background: url('<?php echo $icon_base; ?>/addmedia.gif') no-repeat;
+}
+
+#jz_images img.icon-new{
+  background: url('<?php echo $icon_base; ?>/new.gif') no-repeat;
+  position: absolute;
+  margin-left: 4px; 
+}
+
+#jz_images img.icon-user{
+  background: url('<?php echo $icon_base; ?>/user.gif') no-repeat;
+}
 
 .jz_main_block_topl {
 	background: url('<?php echo $root_dir; ?>/style/<?php echo $skin; ?>/icons.gif') no-repeat;
