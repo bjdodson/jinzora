@@ -69,7 +69,7 @@
 		if (isset($_GET['user'])) {
 			$store_cookie = true;
 			// Are they ok?
-			if ($jzUSER->login($_GET['user'],$_GET['pass'],$store_cookie) === false) {
+			if ($jzUSER->login($_GET['user'],$_GET['pass'],$store_cookie, false) === false) {
 				echoXMLHeader();
 				echo "<login>false</login>";
 				echoXMLFooter();
