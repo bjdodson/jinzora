@@ -64,7 +64,7 @@
 			$disable_random, $jz_lang_file, $show_slimzora, $img_slim_pop, $allow_resample, $resampleRates, $default_random_type, 
 			$default_random_count, $display_previous, $echocloud, $display_recommended, $enable_requests, $enable_ratings, 
 			$enable_search, $enable_meta_search, $user_tracking_display, $user_tracking_admin_only, $site_title, $node, $jzUSER, $img_play, 
-			$img_playlist, $jinzora_skin, $include_path, $raw_img_play,$raw_img_random_play,$raw_img_download,$raw_img_add,
+			$img_playlist, $jinzora_skin, $include_path,
 			$img_play_dis, $img_random_play_dis, $img_download_dis, $img_add_dis, $img_playlist_dis, $allow_filesystem_modify, $disable_leftbar,
 			$allow_interface_choice, $allow_style_choice, $allow_language_choice, $show_now_streaming, $show_who_is_where, $show_user_browsing, 
 			$jukebox_height, $backend, $config_version, $allow_resample,$jukebox_display;
@@ -106,7 +106,7 @@
 			  $this_page, $web_root, $root_dir, $allow_theme_change, $cms_mode, $jinzora_skin, $show_loggedin_level, $allow_interface_choice,
 			$jz_lang_file, $shoutcast, $sc_refresh, $sc_host, $sc_port, $sc_password, $url_seperator, $jukebox, $show_jinzora_footer, 
 			$hide_pgm_name, $media_dir, $img_sm_logo, $show_page_load_time, $allow_speed_choice, $img_play, $img_random_play, $img_playlist,
-			$raw_img_play, $raw_img_random_play, $raw_img_download, $config_version, $jzUSER,$allow_style_choice, $jzSERVICES; 
+			$config_version, $jzUSER,$allow_style_choice, $jzSERVICES; 
 			
 			$display = new jzDisplay();
 /*

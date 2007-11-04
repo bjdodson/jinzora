@@ -28,7 +28,7 @@
 		global  $album_name_truncate, $web_root, $root_dir,						
 						$disable_random, $allow_download, $allow_send_email, $amg_search, $echocloud, $include_path, $enable_ratings,
 						$img_play, $img_random_play, $this_page, $img_check, $img_check_none, $jzUSER, $img_play_dis, $img_random_play_dis,
-						$show_sampler, $show_similar, $show_radio, $show_album_art, $days_for_new, $raw_img_new, $sort_by_year, $jzSERVICES;			
+						$show_sampler, $show_similar, $show_radio, $show_album_art, $days_for_new, $sort_by_year, $jzSERVICES;			
 		
 		// Let's setup our objects
 		$display = &new jzDisplay();

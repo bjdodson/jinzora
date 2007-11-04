@@ -4,7 +4,7 @@
 		$img_more_dis, $img_play_dis, $img_random_play_dis, $url_seperator, $days_for_new, $img_rate, $enable_ratings,
 		$enable_discussion, $img_discuss, $show_sub_numbers, $disable_random, $info_level, 
 		$enable_playlist, $track_play_only, $skin, $bg_c, $text_c, $img_discuss_dis, $hierarchy, $random_albums, $frontend, $include_path,
-		$cols_in_genre,$alphabet_depth, $days_for_new, $raw_img_new, $jz_path;
+		$cols_in_genre,$alphabet_depth, $days_for_new, $jz_path;
 		
 	$node = new jzMediaNode($jz_path);
 	$display = new jzDisplay();

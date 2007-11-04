@@ -579,7 +579,7 @@
 			$this_page, $web_root, $root_dir, $allow_theme_change, $cms_mode, $skin, $show_loggedin_level, 
 			$jz_lang_file, $shoutcast, $sc_refresh, $sc_host, $sc_port, $sc_password, $url_seperator, $jukebox, $show_jinzora_footer, 
 			$hide_pgm_name, $media_dir, $img_sm_logo, $show_page_load_time, $allow_speed_choice, $img_play, $img_random_play, $img_playlist,
-			$raw_img_play, $raw_img_random_play, $raw_img_download, $show_page_load_time,$allow_interface_choice,$allow_style_choice,
+			$show_page_load_time,$allow_interface_choice,$allow_style_choice,
 			$jzUSER,$jzSERVICES, $cms_mode; 
 
 			$display = &new jzDisplay();
