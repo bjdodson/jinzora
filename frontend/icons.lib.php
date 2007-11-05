@@ -73,7 +73,7 @@
 	$img_star_full 		 .= $img_begin. 'icon-star-f" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
 
 	// This are various random icons
-        $img_folder 		= '<img src="'. $root_dir. '/style/images/folder.gif" border=0"/>';	
+    $img_folder 		= '<img src="'. $root_dir. '/style/images/folder.gif" border=0"/>';	
 	$img_blank 			= '<img src="'. $main_img_dir. 'blank.gif" border=0>';
 	$img_login 			= '<img src="'. $image_dir. 'login.gif" border=0 alt="'. word("Login in/out"). '" title="'. word("Login in/out"). '">';
 	$img_delete 		= '<img src="'. $image_dir. 'delete.gif" border=0 alt="'. word("Delete"). '" title="'. word("Delete"). '">';
@@ -82,18 +82,13 @@
 	$img_clear 			= '<img src="'. $image_dir. 'clear.gif" border=0 alt="'. word("Clear"). '" title="'. word("Clear"). '">';
 	$img_fav_track 		= '<img src="'. $image_dir. 'rate.gif" border=0 alt="'. word("Add to favorites"). '" title="'. word("Add to favorites"). '">';
 	$img_lofi 			= '<img src="'. $image_dir. 'play-lofi.gif" border=0 alt="'. word("Play Lofi"). '" title="'. word("Play Lofi"). '">';
-        $img_sm_logo 		= '<img src="'. $root_dir. '/style/images/powered-by-small.gif" border=0 alt="'. $this_pgm. $version. '" title="'. $this_pgm. $version. '">';	
+    $img_sm_logo 		= '<img src="'. $root_dir. '/style/images/powered-by-small.gif" border=0 alt="'. $this_pgm. $version. '" title="'. $this_pgm. $version. '">';	
 	$img_slimzora 		= '<img src="'. $root_dir. '/style/images/slimzora.gif" border=0 alt="'. $this_pgm. $version. '" title="'. $this_pgm. $version. '">';	
 	$img_add_fav 		= '<img src="'. $image_dir. 'add-fav.gif" border=0 alt="'. word("Add to Favorites"). '" title="'. word("Add to Favorites"). '">';
 	$img_pause 			= '<img src="'. $image_dir. 'pause.gif" border=0 alt="'. word("Pause"). '" title="'. word("Pause"). '">';
 	$img_stop 			= '<img src="'. $image_dir. 'stop.gif" border=0 alt="'. word("Stop"). '" title="'. word("Stop"). '">';
 	$img_previous 		= '<img src="'. $image_dir. 'previous.gif" border=0 alt="'. word("Previous"). '" title="'. word("Previous"). '">';
 	$img_next 			= '<img src="'. $image_dir. 'next.gif" border=0 alt="'. word("Next"). '" title="'. word("Next"). '">';
-
-	// Set up some raw images:;
-	$raw_img_add 		= $image_dir.'newplaylist.gif';
-	$raw_img_play_clear = $image_dir.'clear.gif';
-	$raw_img_new 		= $image_dir.'new.gif';
 
 	$img_add_dis 		= '<img src="'. $dis_dir. 'add-disabled.gif" border=0 alt="'. word("Add to"). '" title="'. word("Add to"). '">';
 	$img_delete_dis 	= '<img src="'. $dis_dir. 'delete-disabled.gif" border=0 alt="'. word("Delete"). '" title="'. word("Delete"). '">';
