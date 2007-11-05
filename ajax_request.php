@@ -38,6 +38,7 @@
     if ((false !== strpos($my_frontend,'..')) || (false !== strpos($my_frontend,'/'))) {
       die();
     }
+    
 	include_once('frontend/ajax.php');
 	@include_once("frontend/frontends/${my_frontend}/ajax.php");
     @include_once("frontend/frontends/${my_frontend}/settings.php");
