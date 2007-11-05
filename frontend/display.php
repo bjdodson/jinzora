@@ -1994,8 +1994,7 @@
 			$onclick = 'submitPlaybackForm(document.getElementById(\''.$label.'\'), \'' . htmlentities($this_page)  . '\')';
 
 			$retVar .= icon('add',array( 'title'=> word('Add to'),
-						     'onclick'=> $onclick,
-						     'style'=> 'cursor:pointer;'
+						     'onclick'=> $onclick
 						     )
 					);
 
@@ -2070,8 +2069,7 @@
 			$onclick = 'submitPlaybackForm(document.getElementById(\''.$label.'\'), \'' . htmlentities($this_page)  . '\')';
 
                         $retVal .= icon($icon,array( 'title'=> word($title),
-                                                     'onclick'=> $onclick,
-                                                     'style'=> 'cursor:pointer;'
+                                                     'onclick'=> $onclick
                                                      )
                                         );
 
@@ -2103,8 +2101,7 @@
 			}
 			
 			$retVal .= icon('play',array( 'title'=> word('Play'),
-						      'onclick'=> $onclick,
-						      'style'=> 'cursor:pointer;'
+						      'onclick'=> $onclick
 						      )
 					);
 			if ($return){
@@ -2135,8 +2132,7 @@
 			}
 			 
 			$retVal .= icon('random',array( 'title'=> word('Play Random'),
-                                                      'onclick'=> $onclick,
-                                                      'style'=> 'cursor:pointer;'
+                                                      'onclick'=> $onclick
                                                       )
                                         );
 
@@ -2163,8 +2159,7 @@
 		  $onclick = 'submitPlaybackForm(document.getElementById(\''.$label.'\'), \'' . htmlentities($this_page)  . '\')';
 		  
 		  $retVal .= icon('download',array( 'title'=> word('Play Random'),
-						  'onclick'=> $onclick,
-						  'style'=> 'cursor:pointer;'
+						  'onclick'=> $onclick
 						  )
 				  );
 
@@ -2192,8 +2187,7 @@
 		  $onclick = 'submitPlaybackForm(document.getElementById(\''.$label.'\'), \'' . htmlentities($this_page)  . '\')';
 
 		  $retVal .= icon('add',array( 'title'=> word('Play Random'),
-						  'onclick'=> $onclick,
-						  'style'=> 'cursor:pointer;'
+						  'onclick'=> $onclick
 						  )
 				  );
 

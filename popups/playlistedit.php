@@ -1,5 +1,5 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
-global $jzUSER, $row_colors, $raw_img_play_clear, $random_play_amounts, $default_random_count, $jzSERVICES;
+global $jzUSER, $row_colors, $random_play_amounts, $default_random_count, $jzSERVICES;
 // First we need to know if they deleted a list or not
 if (isset ($_POST['deletePlaylist'])) {
 	if ($_SESSION['jz_playlist'] == "session") {
@@ -180,14 +180,16 @@ if (getListType($_SESSION['jz_playlist']) == "dynamic") {
 	echo '<form method="POST" action="' . urlize($arr) . '">';
 	$rules = $pl->getRules();
 
+	$cur_id = 0;
 	foreach ($rules as $rule) {
 		if (isset ($_POST['plRuleDel-' . $e]) && !$remove) {
 			// Ok, now let's delete that location
 			$pl->removeRule($e);
 			$remove = true;
 		} else {
+		  $buttonlabel = 'delbutton'.++$cur_id;
 			echo '<tr class="' . $row_colors[$i] . '">';
-			echo '<td><input type="image" value="' . $e . '" name="' . jz_encode('plRuleDel-' . $e) . '" src="' . $raw_img_play_clear . '" title="' . word("Delete") . '"></td>';
+			echo '<td><input type="submit" style="display:none;" id="'.$buttonlabel.'" value="' . $e . '" name="' . jz_encode('plRuleDel-' . $e) . '"/>'.icon('clear',array('title'=>word('Delete'), 'onclick'=>'document.getElementById(\''.$buttonlabel.'\').click()')). '</td>';
 			echo '<td>&nbsp;' . $rule['amount'] . '</td>';
 			echo '<td>' . $functions[$rule['function']] . '</td>';
 			echo '<td>' . $rule['type'] . '</td>';
@@ -407,6 +409,7 @@ $i = 1;
 			<?php
 
 $e = 0;
+$cur_id = 0;
 foreach ($list as $item) {
 	// Now let's setup or names for below
 	$track = $item->getName();
@@ -416,14 +419,16 @@ foreach ($list as $item) {
 	$artist = $artItem->getName();
 	$gItem = $artItem->getParent();
 	$genre = $gItem->getName();
+	$buttonlabel = 'delbutton'.++$cur_id;
 ?>
+
 					<input type="hidden" name="plItemPath" value="<?php echo $item->getPath("String"); ?>"
 					<tr class="<?php echo $row_colors[$i]; $i = 1 - $i;?>">
 						<td width="1%">
 							<input type="text" name="plTrackPos-<?php echo $e; ?>" size="2" class="jz_input" value="<?php echo $e; ?>">
 						</td>
 						<td width="1%">
-							<input type="image" value="<?php echo $e; ?>" name="plTrackDel-<?php echo $e; ?>" src="<?php echo $raw_img_play_clear; ?>" title="<?php echo word("Delete"); ?>">
+					   <input type="submit" style="display:none;" id="<?php echo $buttonlabel; ?>" value="<?php echo $e; ?>" name="plTrackDel-<?php echo $e; ?>"/><?php echo icon('clear',array('title'=>word('Delete'), 'onclick'=> "document.getElementById('$buttonlabel').click()")); ?>
 						</td>
 						<td width="1%">
 							<nobr>

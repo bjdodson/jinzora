@@ -5,6 +5,7 @@
 	width: 17px;
 	margin: 0px;
 	vertical-align: bottom;
+        cursor: pointer;
 }       
 #jz_images img.icon-play{background-position: 0px 0px;}
 #jz_images img.icon-random{background-position: -16px 0px;}

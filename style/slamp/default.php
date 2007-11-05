@@ -42,6 +42,7 @@
 	width: 18px;
 	margin: 0px;
 	vertical-align: bottom;
+        cursor:pointer;
 }       
 
 #jz_images img.icon-play{
