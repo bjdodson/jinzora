@@ -90,10 +90,7 @@
 	$img_previous 		= '<img src="'. $image_dir. 'previous.gif" border=0 alt="'. word("Previous"). '" title="'. word("Previous"). '">';
 	$img_next 			= '<img src="'. $image_dir. 'next.gif" border=0 alt="'. word("Next"). '" title="'. word("Next"). '">';
 
-	// Set up some raw images:
-	$raw_img_play 		= $image_dir.'play.gif';
-	$raw_img_random_play = $image_dir.'random.gif';
-	$raw_img_download 	= $image_dir.'download.gif';
+	// Set up some raw images:;
 	$raw_img_add 		= $image_dir.'newplaylist.gif';
 	$raw_img_play_clear = $image_dir.'clear.gif';
 	$raw_img_new 		= $image_dir.'new.gif';
