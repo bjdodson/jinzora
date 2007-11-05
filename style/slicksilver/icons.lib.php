@@ -36,7 +36,7 @@
 	$img_more = '<img src="'. $image_dir. 'more.gif" border=0 alt="'. word("More"). '" title="'. word("More"). '">';
 	$img_play = '<img src="'. $image_dir. 'play.gif" border=0 alt="'. word("Play"). '" title="'. word("Play"). '">';
 	$img_tiny_play = '<img src="'. $image_dir. 'tiny-play.gif" border=0 alt="'. word("Play"). '" title="'. word("Play"). '">';
-	$img_blank = '<img src="'. $image_dir. 'blank.gif" border=0>';
+	$img_blank = '<img src="'. $main_img_dir. 'blank.gif" border=0>';
 	$img_random_play = '<img src="'. $image_dir. 'random.gif" border=0 alt="'. word("Play Random"). '" title="'. word("Play Random"). '">';
 	$img_move = '<img src="'. $image_dir. 'move.gif" border=0 alt="'. word("Move Item"). '" title="'. word("Move Item"). '">';
 	$img_up_arrow = '<img src="'. $image_dir. 'up-arrow.gif" border=0 alt="'. word("Up level"). '" title="'. word("Up level"). '">';

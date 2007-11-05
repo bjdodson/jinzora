@@ -14,7 +14,7 @@
 	} else {
 		$dis_dir = $image_dir;
 	}	
-	$img_begin = '<span id="jz_images"><img src="'. $image_dir. 'blank.gif" border=0 class="icon ';
+	$img_begin = '<span id="jz_images"><img src="'. $main_img_dir. 'blank.gif" border=0 class="icon ';
 	
 	
 	/**
@@ -74,7 +74,7 @@
 
 	// This are various random icons
         $img_folder 		= '<img src="'. $root_dir. '/style/images/folder.gif" border=0"/>';	
-	$img_blank 			= '<img src="'. $image_dir. 'blank.gif" border=0>';
+	$img_blank 			= '<img src="'. $main_img_dir. 'blank.gif" border=0>';
 	$img_login 			= '<img src="'. $image_dir. 'login.gif" border=0 alt="'. word("Login in/out"). '" title="'. word("Login in/out"). '">';
 	$img_delete 		= '<img src="'. $image_dir. 'delete.gif" border=0 alt="'. word("Delete"). '" title="'. word("Delete"). '">';
 	$img_move 			= '<img src="'. $image_dir. 'move.gif" border=0 alt="'. word("Move Item"). '" title="'. word("Move Item"). '">';
