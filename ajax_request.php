@@ -22,6 +22,7 @@
 	* Created: 9.24.03 by Ross Carlson
 	*
 	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
 	$include_path = '';
 	$var = explode("/",$_SERVER['PHP_SELF']);
 	unset($var[sizeof($var)-1]);
