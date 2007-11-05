@@ -113,6 +113,7 @@
  * @author Ben Dodson
  * @since 10/31/2007
  **/
+ 
 function icon($type, $args = array()) {
   global $img_begin;
 
