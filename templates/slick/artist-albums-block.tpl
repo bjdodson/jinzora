@@ -64,7 +64,8 @@
 						$display->link($child, $display->returnShortName($child->getName(),$album_name_truncate) . $dispYear, word("View album"). ": ". $child->getName() . $dispYear);
 						// Now should we show new data?
 						if ($days = $child->newSince($days_for_new)){
-							echo ' <img src="'. $raw_img_new. '" border="0" '. $display->returnToolTip($days. " ". word("days ago"), word("New Since")). '>';
+							echo icon('new', 
+									  array('literal' => $display->returnToolTip($days. " ". word("days ago"), word("New Since"))));
 						}
 						
 						echo " &nbsp; ";
