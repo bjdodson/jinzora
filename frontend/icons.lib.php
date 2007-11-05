@@ -102,6 +102,7 @@
 	$img_up_arrow_dis 	= '<img src="'. $dis_dir. 'up-arrow-disabled.gif" border=0 alt="'. word("Up level"). '" title="'. word("Up level"). '">';
 	$img_playlist_dis 	= '<img src="'. $dis_dir. 'playlist-disabled.gif" border=0 alt="'. word("Playlist"). '" title="'. word("Playlist"). '">';
 
+
 /**
  * Returns an icon with the given arguments.
  * Arguments is an array. Valid keys include
