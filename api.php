@@ -262,10 +262,10 @@
 					echo "      <node>\n";
 					echo "        <name>". $node->getName(). "</name>\n";
 					echo "        <type>". $node->getPType(). "</type>\n";
-					echo "        <link>". $this_site. $root_dir. "/". xmlUrlClean($display->link($node,false,false,false,true,true)). "</link>\n";
+					echo "        <link>". $this_site. xmlUrlClean($display->link($node,false,false,false,true,true)). "</link>\n";
 					echo "        <image>";
 					if ($art){
-						$this_site. $root_dir. "/". xmlUrlClean($display->returnImage($artist->getMainArt(),false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+						$this_site. xmlUrlClean($display->returnImage($artist->getMainArt(),false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
 					}
 					echo "        </image>\n"; 
 					
@@ -277,7 +277,7 @@
 			break;
 			case "display":
 				// Ok, let's redirect them to the search page
-				header("Location: ". $this_site. $root_dir. "/index.php?doSearch=true&search_query=jam&search_type=ALL");
+				header("Location: ". $this_site. "/index.php?doSearch=true&search_query=jam&search_type=ALL");
 			break;
 		}
 	}
@@ -351,14 +351,14 @@
 					switch ($type){
 						case "xml":
 							echo "  <item>\n";
-							echo "    <title>". $this_site. $root_dir. "/". xmlUrlClean($meta['title']). "</title>\n";
+							echo "    <title>". $this_site. xmlUrlClean($meta['title']). "</title>\n";
 							echo "    <album>\n";
-							echo "      <name>". $this_site. $root_dir. "/". xmlUrlClean($album->getName()). "</name>\n";
-							echo "      <image>". $this_site. $root_dir. "/". xmlUrlClean($display->returnImage($album->getMainArt(),$album->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true)). "</image>\n";
+							echo "      <name>". $this_site. xmlUrlClean($album->getName()). "</name>\n";
+							echo "      <image>". $this_site. xmlUrlClean($display->returnImage($album->getMainArt(),$album->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true)). "</image>\n";
 							echo "    </album>\n";					
 							echo "    <artist>\n";
-							echo "      <name>". $this_site. $root_dir. "/". xmlUrlClean($artist->getName()). "</name>\n";
-							echo "      <image>". $this_site. $root_dir. "/". xmlUrlClean($display->returnImage($artist->getMainArt(),$artist->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true)). "</image>\n";
+							echo "      <name>". $this_site. xmlUrlClean($artist->getName()). "</name>\n";
+							echo "      <image>". $this_site. xmlUrlClean($display->returnImage($artist->getMainArt(),$artist->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true)). "</image>\n";
 							echo "    </artist>\n";
 							echo "  </item>\n";
 						break;
@@ -370,7 +370,7 @@
 							}
 							echo $meta['title']. "<br>";
 							echo $album->getName(). "<br>";
-							echo $this_site. $root_dir. "/". $display->returnImage($album->getMainArt(),$album->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true). "<br>";
+							echo $this_site. $display->returnImage($album->getMainArt(),$album->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true). "<br>";
 							echo $artist->getName(). "<br>";
 							echo $display->returnImage($artist->getMainArt(),$artist->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true). "<br>";
 						break;
@@ -425,14 +425,14 @@
 			switch ($type){
 				case "xml":
 					echo "  <item>\n";
-					echo "    <title>". $this_site. $root_dir. "/". xmlUrlClean($meta['title']). "</title>\n";
+					echo "    <title>". $this_site. xmlUrlClean($meta['title']). "</title>\n";
 					echo "    <album>\n";
-					echo "      <name>". $this_site. $root_dir. "/". xmlUrlClean($album->getName()). "</name>\n";
-					echo "      <image>". $this_site. $root_dir. "/". xmlUrlClean($display->returnImage($album->getMainArt(),$album->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true)). "</image>\n";
+					echo "      <name>". $this_site. xmlUrlClean($album->getName()). "</name>\n";
+					echo "      <image>". $this_site. xmlUrlClean($display->returnImage($album->getMainArt(),$album->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true)). "</image>\n";
 					echo "    </album>\n";					
 					echo "    <artist>\n";
-					echo "      <name>". $this_site. $root_dir. "/". xmlUrlClean($artist->getName()). "</name>\n";
-					echo "      <image>". $this_site. $root_dir. "/". xmlUrlClean($display->returnImage($artist->getMainArt(),$artist->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true)). "</image>\n";
+					echo "      <name>". $this_site. xmlUrlClean($artist->getName()). "</name>\n";
+					echo "      <image>". $this_site. xmlUrlClean($display->returnImage($artist->getMainArt(),$artist->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true)). "</image>\n";
 					echo "    </artist>\n";
 					echo "  </item>\n";
 				break;
@@ -444,7 +444,7 @@
 					}
 					echo $meta['title']. "<br>";
 					echo $album->getName(). "<br>";
-					echo $this_site. $root_dir. "/". $display->returnImage($album->getMainArt(),$album->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true). "<br>";
+					echo $this_site. $display->returnImage($album->getMainArt(),$album->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true). "<br>";
 					echo $artist->getName(). "<br>";
 					echo $display->returnImage($artist->getMainArt(),$artist->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true). "<br>";
 				break;
@@ -576,7 +576,7 @@
 		$nodes = $node->getSubNodes("nodes",false,false,$limit);
 		foreach ($nodes as $item){
 			echo '  <genre name="'. xmlUrlClean($item->getName()). '">'. "\n";
-			echo '    <link>'. $this_site. $root_dir. "/". xmlUrlClean($display->link($item,false,false,false,true,true)). '</link>'. "\n";
+			echo '    <link>'. $this_site. xmlUrlClean($display->link($item,false,false,false,true,true)). '</link>'. "\n";
 			echo "  </genre>\n";
 		}
 		
@@ -612,7 +612,7 @@
 		sortElements($nodes,"name");
 		foreach ($nodes as $item){
 			echo '  <'. $type. ' name="'. xmlUrlClean($item->getName()). '">'. "\n";
-			echo '    <link>'. $this_site. $root_dir. "/". xmlUrlClean($display->link($item,false,false,false,true,true)). '</link>'. "\n";
+			echo '    <link>'. $this_site. xmlUrlClean($display->link($item,false,false,false,true,true)). '</link>'. "\n";
 			// Now did they want full details?
 			if (isset($_GET['full']) && $_GET['full'] == "true"){
 				if (($art = $item->getMainArt()) !== false){
