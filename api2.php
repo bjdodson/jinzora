@@ -168,6 +168,6 @@
 	
 	
 	function E($display_name, $playlink, $method = null, $args = null) {
-		
+		return array($display_name,$playlink,$method,$args);
 	}
 ?>
