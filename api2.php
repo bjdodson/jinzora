@@ -93,7 +93,7 @@
 	print_r($func($args));
 	
 	
-	
+	// make playlists work; handle login
 	
 	
 	
