@@ -1417,6 +1417,7 @@
 		* @param $class String the class for the link
 		* @param $return Bolean Return or not (defalt to false)
 		*/
+		function getPlayURL($node) { return $this->playLink($node,false,false,false,true,false,true); }
 		function playLink($node, $text = false, $title = false, $class = false, $return = false, $random = false, $linkOnly = false, $clips = false) {		
 			global $jzUSER, $jzSERVICES,$jukebox;
 

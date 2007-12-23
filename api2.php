@@ -42,7 +42,7 @@
 	include_once('lib/general.lib.php');
 	include_once('lib/jzcomp.lib.php');
 	include_once('services/class.php');
-		
+	include_once('frontend/display.php');		
 	
 	$this_page = setThisPage();
 	
@@ -69,9 +69,9 @@
 	// This object lets us do things like get metadata, resize images, get lyrics, etc
 	$jzSERVICES = new jzServices();
 	$jzSERVICES->loadStandardServices();
-	
+$display = new jzDisplay();
 
-	if (isset ($_GET['page']) {
+if (isset ($_GET['page'])) {
 	   $args = $_GET;
 	   unset($args['page']);
 	   $func = 'jzApi_' . $_GET['page'];
@@ -83,7 +83,7 @@
 	// todo: make this a function; use Smarty
 	// makes API flexible for various formats (json,xml,etc.)
 	$res = $func($args);
-	foreach ($res as $e) {
+        foreach ($res as $e) {
 		echo $e['name'] . ': ';
 		echo $e['link'] . '<br/>';
 		echo $e['play'] . '<br/>';
@@ -152,6 +152,7 @@
 	
 	/* todo: make me better */
 	function jzApi_nodes($argv) {
+	  global $display;
 		$ret = array();
 		if (isset($argv["id"])) {
 			$root = new jzMediaNode($argv["id"], "id");
@@ -161,7 +162,7 @@
 		
 		foreach ($root->getSubNodes("both") as $node) {
 			if ($node instanceof jzMediaNode) {
-				$ret[] = E($node->getName(),$node->getPlayLink(),"nodes",array("id" => $node->getID()));
+				$ret[] = E($node->getName(),$display->getPlayURL($node),"nodes",array("id" => $node->getID()));
 			} else {
 				$ret[] = E($node->getName(),$node->getPlayLink());
 			}
@@ -171,12 +172,13 @@
 	}
 	
 	
-	function E($display_name, $playlink, $method = null, $args = null) {
+        function E($display_name, $playlink, $method = null, $args = array()) {
 		$a = array('name'=>$display_name,'play'=>$playlink,'method'=>$method,'args'=>$args);
 		$link = '?' . 'page=' . $method;
 		foreach ($args as $key=>$val) {
 			$link .= '&' . urlencode($key) . '=' . urlencode($val);
 		}
 		$a['link']=$link;
+		return $a;
 	}
 ?>
