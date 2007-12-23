@@ -1408,7 +1408,9 @@ function sendID3Image($path,$name,$id3) {
 	  } else if ($cms_mode === false || $cms_mode == "false" || $link_root == "") {
             //$a = explode("/",$_SERVER['PHP_SELF']);
             //$link = $a[sizeof($a)-1] . '?';
-	    $link = $_SERVER['PHP_SELF'] . '?';
+	    $link = $_SERVER['PHP_SELF'];
+
+	    $link = substr($link,0,strrpos($link,'/')).'/index.php?';
 	    $link = str_replace("popup.php","index.php",$link);
 	  }
 	  else {
