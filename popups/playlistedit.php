@@ -22,7 +22,11 @@ if (!isset($_SESSION['jz_playlist'])){
     break;
   }
 }
-        */
+*/
+if (!isset($_SESSION['jz_playlist'])) {
+  $_SESSION['jz_playlist'] = "session";
+ }
+
 // Did they want to edit a different playlist?
 if (isset ($_POST['plToEdit'])) {
 	$_SESSION['jz_playlist'] = $_POST['plToEdit'];
