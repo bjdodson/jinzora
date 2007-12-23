@@ -349,7 +349,7 @@ $_SESSION['jz_load_time'] = microtime();
 		  if ($jzUSER->getSetting('stream') === false && $jzUSER->getSetting('lofi') === false && $jzUSER->getSetting('jukebox_queue') === false) {
 		    exit();
 		  }
-			if (isset($_GET['type']) && $_GET['type'] == "playlist") {
+		  if (isset($_GET['type']) && $_GET['type'] == "playlist") {
 			  // TODO: could pass the ID as a paramater and not automatically update the session variable.
 			  $pid = false;
 			  if (isset($_GET['jz_pl_id'])) {
