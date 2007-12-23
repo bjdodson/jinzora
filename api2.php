@@ -42,41 +42,27 @@
 	include_once('lib/general.lib.php');
 	include_once('lib/jzcomp.lib.php');
 	include_once('services/class.php');
-	
-	$skin = "slick";
-	$image_dir = $root_dir. "/style/$skin/";
-	include_once('frontend/display.php');
-	include_once('frontend/blocks.php');
-	include_once('frontend/icons.lib.php');
-	include_once('frontend/frontends/slick/blocks.php');
-	include_once('frontend/frontends/slick/settings.php');
-	
+		
 	
 	$this_page = setThisPage();
-	$enable_page_caching = "false";
 	
 	
 	// Let's create our user object for later
 	$jzUSER = new jzUser();
 	
-	// Let's make sure this user has the right permissions
-	if ($jzUSER->getSetting("view") === false || isset($_GET['user'])) {
-		if (isset($_GET['user'])) {
-			$store_cookie = true;
-			// Are they ok?
-			if ($jzUSER->login($_GET['user'],$_GET['pass'],$store_cookie, false) === false) {
-				echoXMLHeader();
-				echo "<login>false</login>";
-				echoXMLFooter();
-				exit();
-			}
-		} else {
-			// Nope, error...
-			echoXMLHeader();
-			echo "<login>false</login>";
-			echoXMLFooter();
+	if (isset($_GET['user']) && isset($_GET['pass'])) {
+		$store_cookie = true;
+		// Are they ok?
+		if ($jzUSER->login($_GET['user'],$_GET['pass'],$store_cookie, false) === false) {
+			echo "login failed";
 			exit();
 		}
+	}
+
+	// Let's make sure this user has the right permissions
+	if ($jzUSER->getSetting("view") === false) {
+		echo "must log in (user=x&pass=y)";
+		exit();
 	}
 	
 	// Let's create our services object
@@ -84,16 +70,25 @@
 	$jzSERVICES = new jzServices();
 	$jzSERVICES->loadStandardServices();
 	
-	// if isset GET['page']
-	// $func = 'jzApi_' . GET['page']
-	// else
-	$args = array();
-	$func = 'jzApi_main';
-	
-	print_r($func($args));
-	
-	
-	// make playlists work; handle login
+
+	if (isset ($_GET['page']) {
+	   $args = $_GET;
+	   unset($args['page']);
+	   $func = 'jzApi_' . $_GET['page'];
+	} else {
+	  $args = array();
+	  $func = 'jzApi_main';
+	}
+
+	// todo: make this a function; use Smarty
+	// makes API flexible for various formats (json,xml,etc.)
+	$res = $func($args);
+	foreach ($res as $e) {
+		echo $e['name'] . ': ';
+		echo $e['link'] . '<br/>';
+		echo $e['play'] . '<br/>';
+		echo '<br/>';
+	}
 	
 	
 	
@@ -120,6 +115,10 @@
 	 *   Party
 	 * Genres
 	 *   Alternative
+	 *     Random Playlist
+	 *     311
+	 *     Alice in Chains
+	 *     ....
 	 *   Rock
 	 *   Punk
 	 *   Soft
@@ -127,6 +126,10 @@
 	 *   New Album
 	 *   Played Album
 	 *   Random Album
+	 * Options
+	 *   Play on Chumby
+	 *   Play on MPD Player
+	 *   Build playlist
 	 */
 	function jzApi_main($argv) {
 		$ret = array();
@@ -147,6 +150,7 @@
 		
 	}
 	
+	/* todo: make me better */
 	function jzApi_nodes($argv) {
 		$ret = array();
 		if (isset($argv["id"])) {
@@ -168,6 +172,11 @@
 	
 	
 	function E($display_name, $playlink, $method = null, $args = null) {
-		return array($display_name,$playlink,$method,$args);
+		$a = array('name'=>$display_name,'play'=>$playlink,'method'=>$method,'args'=>$args);
+		$link = '?' . 'page=' . $method;
+		foreach ($args as $key=>$val) {
+			$link .= '&' . urlencode($key) . '=' . urlencode($val);
+		}
+		$a['link']=$link;
 	}
 ?>
