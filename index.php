@@ -222,10 +222,13 @@ $_SESSION['jz_load_time'] = microtime();
 
 
      if (isset($_GET['user']) && isset($_GET['pass'])) {
+       $store_cookie = true;
        $prehashed = false;
-       $_POST['action'] = "login";
-       $_POST['field1'] = $_GET['user'];
-       $_POST['field2'] = $_GET['pass'];
+       // Are they ok?
+       if ($jzUSER->login($_GET['user'],$_GET['pass'],$store_cookie, $prehashed) === false) {
+	 //echo "login failed";
+	 //exit();
+       }
      } else {
        $prehashed = true;
      }
