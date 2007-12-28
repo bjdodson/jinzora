@@ -83,17 +83,25 @@ if (isset ($_GET['page'])) {
 	// todo: make this a function; use Smarty
 	// makes API flexible for various formats (json,xml,etc.)
 	$res = $func($args);
+header('Content-Type: application/xml');
+echo "<mediaXML>\n";
         foreach ($res as $e) {
-		echo $e['name'] . ': ';
-		echo $e['link'] . '<br/>';
-		echo $e['play'] . '<br/>';
-		echo '<br/>';
+	  echo '<node name="'.xmlentities($e['name']) .'" ';
+	  if (isset ($e['link'])) {
+	    echo 'browse="'.xmlentities($e['link']).'" ';
+	  }
+	  if (isset($e['play'])) {
+	    echo 'play="'.xmlentities($e['play']).'" ';
+	  }
+	  echo "/>\n";
 	}
+echo '</mediaXML>';
+     
 	
 	
-	
-	
-	
+function xmlentities($string) {
+  return str_replace ( array ( '&', '"', "'", '<', '>', '�' ), array ( '&amp;' , '&quot;', '&apos;' , '&lt;' , '&gt;', '&apos;' ), $string );
+}	
 	
 	
 	
@@ -134,8 +142,8 @@ if (isset ($_GET['page'])) {
 	function jzApi_main($argv) {
 		$ret = array();
 		
-		$ret[] = E("Playlists", null, "playlists");
-		$ret[] = E("Charts & Random", null, "random");
+		//$ret[] = E("Playlists", null, "playlists");
+		//$ret[] = E("Charts & Random", null, "random");
 		$ret[] = E("Genres", null, "nodes");
 		
 		return $ret;
@@ -174,7 +182,12 @@ if (isset ($_GET['page'])) {
 	
         function E($display_name, $playlink, $method = null, $args = array()) {
 		$a = array('name'=>$display_name,'play'=>$playlink,'method'=>$method,'args'=>$args);
-		$link = '?' . 'page=' . $method;
+		if (isset($_REQUEST['user']) && isset($_REQUEST['pass'])) {
+		  $link = '?user='.urlencode($_REQUEST['user']).'&pass='.urlencode($_REQUEST['pass']).'&';
+		} else {
+		  $link = '?';
+		}
+		$link .= 'page=' . $method;
 		foreach ($args as $key=>$val) {
 			$link .= '&' . urlencode($key) . '=' . urlencode($val);
 		}
