@@ -183,9 +183,9 @@ function xmlentities($string) {
         function E($display_name, $playlink, $method = null, $args = array()) {
 		$a = array('name'=>$display_name,'play'=>$playlink,'method'=>$method,'args'=>$args);
 		if (isset($_REQUEST['user']) && isset($_REQUEST['pass'])) {
-		  $link = '?user='.urlencode($_REQUEST['user']).'&pass='.urlencode($_REQUEST['pass']).'&';
+		  $link = 'api2.php?user='.urlencode($_REQUEST['user']).'&pass='.urlencode($_REQUEST['pass']).'&';
 		} else {
-		  $link = '?';
+		  $link = 'api2.php?';
 		}
 		$link .= 'page=' . $method;
 		foreach ($args as $key=>$val) {
