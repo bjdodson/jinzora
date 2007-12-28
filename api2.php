@@ -170,7 +170,9 @@ function xmlentities($string) {
 		
 		foreach ($root->getSubNodes("both") as $node) {
 			if ($node instanceof jzMediaNode) {
-				$ret[] = E($node->getName(),$display->getPlayURL($node),"nodes",array("id" => $node->getID()));
+				$ret[] = E($node->getName(),
+					   ($node->getLevel() > 2) ? $display->getPlayURL($node) : null,
+					   "nodes",array("id" => $node->getID()));
 			} else {
 				$ret[] = E($node->getName(),$node->getPlayLink());
 			}
