@@ -59,7 +59,10 @@
 			die("Security breach detected (jzTemplate)");
 		}
 		
-		if (file_exists($file = SMARTY_ROOT. 'templates/'.$fe->name.'/'. $template. '.tpl')) {
+		if (file_exists($file = dirname(__FILE__).'/frontends/'.$fe->name.'/templates/'.$template.'.tpl')) {
+		  $smarty->display($file);
+		}
+		else if (file_exists($file = SMARTY_ROOT. 'templates/'.$fe->name.'/'. $template. '.tpl')) {
 			$smarty->display($file);
 		} else {
 			$smarty->display(SMARTY_ROOT. 'templates/blocks/'. $template. '.tpl');
