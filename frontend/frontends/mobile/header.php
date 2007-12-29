@@ -79,6 +79,12 @@
 
 			$display = &new jzDisplay();
 
+			// TODO:
+			// (1) get rid of tables. they make anchors funny.
+			// (2) put html in smarty template.
+			//     delete old templates.
+			// (3) features:
+			//     "Playback" and "Lists" tabs
 
 			if (sizeof($nodes) == 0) return;
 
@@ -107,21 +113,31 @@
 			?>
 			<table class="jz_track_table" width="100%" cellpadding="3" cellspacing="0" border="0">
 			<?php
+			   $next_letter = 'A';
 			foreach ($nodes as $child) {
 				$year = $child->getYear();
 				$dispYear = "";
 				if ($year <> "-" and $year <> "" and $album == true){
 					$dispYear = " (". $year. ")";
 				}
+				$name = $display->returnShortName($child->getName(),$item_truncate);
 				?>
 				<tr class="<?php echo $row_colors[$i]; ?>">
+				   <?php
+				   $compareName = strtoupper($name);
+				if (substr($compareName,0,4) == 'THE ') {
+				  $compareName = substr($compareName,4);
+				}
+				while ($next_letter <= 'Z' && $next_letter < $compareName) {
+				  echo '<a name="anchor_'.$next_letter++.'">';
+				}
+				?>
 					<td nowrap valign="top" colspan="2">
 					<?php 
 						$display->playButton($child,false,false);
 						echo "&nbsp;";
 						$display->randomPlayButton($child,false,false);
-						echo "&nbsp;";
-						$name = $display->returnShortName($child->getName(),$item_truncate);
+				                echo "&nbsp;";
 						$display->link($child, $name);
 						echo $dispYear;
 					?>
