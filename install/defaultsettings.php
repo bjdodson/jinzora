@@ -165,6 +165,8 @@ $jukebox = $_POST['jukebox'];
 $jukebox_display = "default";
 $jukebox_default_addtype = "current";
 $default_jukebox = "stream";
+$home_jukebox_subnets = "(192.168..*..*)|(127..*..*..*)";
+$home_jukebox_id = "stream";
 $jb_volumes = "100|90|80|70|60|50|40|30|20|10|0";		
 		
 // Keyword Settings

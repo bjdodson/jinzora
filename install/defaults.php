@@ -182,6 +182,8 @@ $content .= '     $jukebox = "'. $jukebox. '";' . "\n";
 $content .= '     $jukebox_display = "'. $jukebox_display. '";' . "\n";
 $content .= '     $jukebox_default_addtype = "'. $jukebox_default_addtype. '";' . "\n";
 $content .= '     $default_jukebox = "'. $default_jukebox. '";' . "\n";
+$content .= '     $home_jukebox_subnets = "'. $home_jukebox_subnets. '";' . "\n";
+$content .= '     $home_jukebox_id = "' . $home_jukebox_id. '";' . "\n";
 $content .= '     $jb_volumes = "'. $jb_volumes. '";' . "\n";
 $content .= "\n";
 
