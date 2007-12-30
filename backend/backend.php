@@ -492,7 +492,8 @@ function handleSetLanguage() {
  * @version 4/29/05
  **/
 function handleJukeboxVars() {
-  global $jukebox,$jukebox_default_addtype,$default_jukebox,$jzUSER;
+  global $jukebox,$jukebox_default_addtype,$default_jukebox,$jzUSER,
+    $home_jukebox_subnets,$home_jukebox_id;
 
   //  if (checkPermission($jzUSER,"jukebox_queue")) {
     if (!isset($_SESSION['jb-addtype']) || isNothing($_SESSION['jb-addtype'])){ // set all the variables.
@@ -503,7 +504,10 @@ function handleJukeboxVars() {
       }
     }      
     if (!isset($_SESSION['jb_playwhere']) || isNothing($_SESSION['jb_playwhere'])) {
-      if (!isNothing($default_jukebox)) {
+      if (preg_match("/^${home_jukebox_subnets}$/", $_SERVER['REMOTE_ADDR'])) {
+	$_SESSION['jb_playwhere'] = $home_jukebox_id;
+      }
+      else if (!isNothing($default_jukebox)) {
 	$_SESSION['jb_playwhere'] = $default_jukebox;
       } else {
 	$_SESSION['jb_playwhere'] = "stream";
