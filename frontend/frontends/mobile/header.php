@@ -128,7 +128,7 @@
 				if (substr($compareName,0,4) == 'THE ') {
 				  $compareName = substr($compareName,4);
 				}
-				while ($next_letter <= 'Z' && $next_letter < $compareName) {
+				while (strlen($next_letter) == 1 && $next_letter < $compareName) {
 				  echo '<a name="anchor_'.$next_letter++.'">';
 				}
 				?>
@@ -300,122 +300,50 @@
 			//this->footer();
 		}
 			
-		function pageTop($title) {
-			global $img_up_arrow, $row_colors;
-			
-			$display = new jzDisplay();
-			
-			if (isset($_GET['jz_path']) || isset($_POST['jz_path'])) {
-				if (isset($_POST['jz_path'])){
-					$bcArray = explode("/",$_POST['jz_path']);
-					$me = new jzMediaNode($_POST['jz_path']);
-				} else {
-					$bcArray = explode("/",$_GET['jz_path']);
-					$me = new jzMediaNode($_GET['jz_path']);
-				}
-			
-				// Now we need to cut the last item off the list
-				$bcArray = array_slice($bcArray,0,count($bcArray)-1);
-				// Now let's display the crumbs
-				$path = "";
-				$arr = array();
-				if (isset($_GET['frame'])){
-					$arr['frame'] = $_GET['frame'];
-				}
-				
-				?>
-				<table class="jz_track_table" width="100%" cellpadding="3">
-					<tr class="<?php echo $row_colors[1]; ?>">
-						<td>
-							<?php
-								$link = urlize($arr);
-								echo $img_up_arrow. "&nbsp;";
-								jzHREF($link,"","","","Home");
-								echo "&nbsp;";
-								
-								for ($i=0; $i < count($bcArray); $i++){
-									echo $img_up_arrow. "&nbsp;";
-									$path .= $bcArray[$i] ."/";
-									$curPath = substr($path,0,strlen($path)-1);
-									
-									$arr = array();
-									$arr['jz_path'] = $curPath;
-									if (isset($_GET['frame'])){
-										$arr['frame'] = $_GET['frame'];
-									}
-									
-									$link = urlize($arr);
-									jzHREF($link,"","","",$bcArray[$i]);
-									echo "&nbsp;";
-								}
-								if (sizeof($bcArray) > 0) {
-									echo "<br>";
-								}
-							?>
-						</td>
-					</tr>
-				<?php
-				
-				if ($_GET['jz_path'] <> ""){
-					?>
-						<tr class="<?php echo $row_colors[1]; ?>">
-							<td>
-								<?php
-									$display->playButton($me,false,false);
-									echo "&nbsp;";
-									$display->randomPlayButton($me,false,false);
-									echo "&nbsp;";
-									echo $title; 
-								?>
-							</td>
-						</tr>
-					<?php
-				}
-				echo '</table>';
-				
-				
-			} else {
-				echo $title;
-			}
-		}
-
-		function footer() {
-			global $root_dir, $jinzora_url, $jzSERVICES, $cms_mode, $jzUSER; 
-			
-			$display = new jzDisplay();		
-			
-			echo "<center>";
-			
-			if ($cms_mode == "false"){
-				$display->loginLink();
-			}
-			if ($jzUSER->getSetting('edit_prefs') !== false) {
-					if ($cms_mode == "false"){echo " | ";}
-					$display->popupLink("preferences");
-			}
-			echo '<br><a href="'. $jinzora_url. '" target="_blank"><img src="'. $root_dir. '/style/images/slimzora.gif" border="0"></a><br><br>';
-			echo '</td></tr></table>';
-			
-			$jzSERVICES->cmsClose();
-		}
-		
 		function standardPage(&$node) {
-			global $include_path;
+		  global $include_path, $img_up_arrow,$jinzora_url,$root_dir,$cms_mode;
+		  
+		  /* header */
+		  $display = new jzDisplay();
+		  $smarty = smartySetup();
+		  
+		  $smarty->assign('up_arrow',$img_up_arrow);
+		  $breadcrumbs = array();
+		  if (isset($_REQUEST['jz_path'])) {
+		    $me = new jzMediaNode($_REQUEST['jz_path']);
+		    while ($me->getLevel() > 0) {
+		      $breadcrumbs[] = array("name" => $me->getName(),"link" => urlize(array('jz_path'=>$me->getPath("String"))));
+		      $me = $me->getParent();
+		    }
+		  }
+		  $breadcrumbs[] = array("name"=>word("Home"),"link"=>urlize(array()));
+		  $smarty->assign('breadcrumbs',$breadcrumbs);
+		  
+		  
+		  $smarty->assign('cms', $cms_mode == "false" ? false : true);
+		  $smarty->assign('login_link',$display->loginLink(false,false,true,false,true));
+
+		  $smarty->assign('jinzora_url',$jinzora_url);
+		  $smarty->assign('jinzora_img',$root_dir.'/style/images/slimzora.gif');
 			
-			$blocks = &new jzBlocks();
-			$display = &new jzDisplay();
-			
-			$display->preheader($node->getName(),$this->width,$this->align,true,true,true,true);
-			include_once($include_path. "frontend/frontends/slimzora/css.php");
-			$this->pageTop($node->getName());
-			
-			$nodes = $node->getSubNodes('nodes');
-			$tracks = $node->getSubNodes('tracks');
-			
-			$blocks->trackTable($tracks, false, false);
-			$blocks->nodeTable($nodes);
-			
-			$this->footer();
+		  $blocks = &new jzBlocks();
+		  $display = &new jzDisplay();
+		  
+		  $display->preheader($node->getName(),$this->width,$this->align,true,true,true,true);
+		  include_once($include_path. "frontend/frontends/slimzora/css.php");
+
+		  jzTemplate($smarty,'header');
+		  
+		  $nodes = $node->getSubNodes('nodes');
+		  $tracks = $node->getSubNodes('tracks');
+		  
+		  $blocks->trackTable($tracks, false, false);
+		  $blocks->nodeTable($nodes);
+		  
+
+
+		  jzTemplate($smarty,'footer');
+
 		}
 	}
 ?>
