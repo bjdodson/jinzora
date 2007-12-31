@@ -25,155 +25,10 @@
 	* @author Ross Carlson <ross@jinzora.org>
 	* @author Ben Dodson <ben@jinzora.org>
 	*/
-	require_once($include_path. 'frontend/class.php');
-	require_once($include_path. 'frontend/blocks.php');		
+require_once(dirname(__FILE__).'/../../class.php');
+require_once(dirname(__FILE__).'/../../blocks.php');		
 	
-	// override the blocks and frontend to be slim:
-	class jzBlocks extends jzBlockClass {
-	
-		function trackTable($tracks, $showNumbers = true, $showArtist = false) {
-			global $media_dir, $jinzora_skin, $hierarchy, $album_name_truncate, $row_colors, 
-			$img_more, $img_email, $img_rate, $img_discuss, $num_other_albums, $show_images, $jzUSER;					
-			
-			if (sizeof($tracks) == 0) return;
-			
-			// Let's setup the new display object
-			$display = &new jzDisplay();
-			
-			// Now let's setup the big table to display everything
-			$i=0;
-			?>
-			<table class="jz_track_table" width="100%" cellpadding="3">
-			<?php
-			foreach ($tracks as $child) {
-				// First let's grab all the tracks meta data
-				$metaData = $child->getMeta();
-				?>
-				<tr class="<?php echo $row_colors[$i]; ?>">				
-					<td width="99%" valign="top" nowrap>
-						<?php
-						$display->downloadButton($child);
-						echo "&nbsp;";
-						$display->playButton($child,false,false);
-						echo "&nbsp;";
-						if ($jzUSER->getSetting('stream')){
-							$display->link($child);
-						} else {
-							echo $child->getName();
-						}
-						echo " (". convertSecMins($metaData['length']). ")";
-						?>
-					</td>
-				</tr>
-				<?php
-				$i = 1 - $i;
-			}
-			// Now let's set a field with the number of checkboxes that were here
-			echo "</table>";
-		}
-		
-		function nodeTable($nodes){
-			global $media_dir, $jinzora_skin, $hierarchy, $album_name_truncate, $row_colors, 
-			$img_more, $img_email, $img_rate, $img_discuss, $num_other_albums, $show_images, 
-			$sort_by_year, $show_descriptions, $item_truncate;					
-
-			$display = &new jzDisplay();
-
-			// TODO:
-			// (1) get rid of tables. they make anchors funny.
-			// (2) put html in smarty template.
-			//     delete old templates.
-			// (3) features:
-			//     "Playback" and "Lists" tabs
-
-			if (sizeof($nodes) == 0) return;
-
-			$album = false;
-
-			if ($nodes[0]->getPType() == "artist") {
-			  jzTemplate(smartySetup(),"letters");
-			}
-
-			if ($nodes[0]->getPType() == "album"){
-				$album = true;
-			}
-			
-			if ($sort_by_year == "true" and $album){
-				sortElements($nodes,"year");
-			} else {
-				sortElements($nodes,"name");
-			}
-			
-			if ($item_truncate == ""){
-				$item_truncate = "25";
-			}
-			
-			// Now let's setup the big table to display everything
-			$i=0;
-			?>
-			<table class="jz_track_table" width="100%" cellpadding="3" cellspacing="0" border="0">
-			<?php
-			   $next_letter = 'A';
-			foreach ($nodes as $child) {
-				$year = $child->getYear();
-				$dispYear = "";
-				if ($year <> "-" and $year <> "" and $album == true){
-					$dispYear = " (". $year. ")";
-				}
-				$name = $display->returnShortName($child->getName(),$item_truncate);
-				?>
-				<tr class="<?php echo $row_colors[$i]; ?>">
-				   <?php
-				   $compareName = strtoupper($name);
-				if (substr($compareName,0,4) == 'THE ') {
-				  $compareName = substr($compareName,4);
-				}
-				while (strlen($next_letter) == 1 && $next_letter < $compareName) {
-				  echo '<a name="anchor_'.$next_letter++.'">';
-				}
-				?>
-					<td nowrap valign="top" colspan="2">
-					<?php 
-						$display->playButton($child,false,false);
-						echo "&nbsp;";
-						$display->randomPlayButton($child,false,false);
-				                echo "&nbsp;";
-						$display->link($child, $name);
-						echo $dispYear;
-					?>
-					</td>
-				</tr>
-				<?php
-					// Let's see if we need the next row
-					$art = $child->getMainArt("75x75");
-					$desc = $display->returnShortName($child->getDescription(),200);
-					if (($art <> "" or $desc <> "") and $show_images == "true"){
-						?>
-						<tr class="<?php echo $row_colors[$i]; ?>" nowrap>
-							<td valign="top">
-							<?php
-								if ($show_images == "true" && (($art = $child->getMainArt("40x40")) !== false)) {
-									$display->link($child,$display->returnImage($art,$child->getName(),40,40,"limit",false,false));
-								}
-							?>
-							</td>
-							<td valign="top" >
-								<?php
-									if ($desc <> "" and $show_descriptions == "true"){
-										echo '<span class="jz_artistDesc">'. $desc. '</span>';
-									}
-								?>
-							</td>
-						</tr>
-						<?php
-					}
-				?>
-				<?php
-				$i = 1 - $i; // cool trick ;)
-			}
-			echo "</table>";
-		}
-	}
+        class jzBlocks extends jzBlockClass {}
 
 	class jzFrontend extends jzFrontendClass {
 		function jzFrontend() {
@@ -301,9 +156,12 @@
 		}
 			
 		function standardPage(&$node) {
-		  global $include_path, $img_up_arrow,$jinzora_url,$root_dir,$cms_mode;
+		  global $img_up_arrow,$jinzora_url,$root_dir,$cms_mode;
 		  
 		  /* header */
+		  /* use one smarty object so we can use variables in
+		     both header and footer
+		  */
 		  $display = new jzDisplay();
 		  $smarty = smartySetup();
 		  
@@ -316,34 +174,41 @@
 		      $me = $me->getParent();
 		    }
 		  }
+
 		  $breadcrumbs[] = array("name"=>word("Home"),"link"=>urlize(array()));
 		  $smarty->assign('breadcrumbs',$breadcrumbs);
-		  
-		  
 		  $smarty->assign('cms', $cms_mode == "false" ? false : true);
 		  $smarty->assign('login_link',$display->loginLink(false,false,true,false,true));
-
 		  $smarty->assign('jinzora_url',$jinzora_url);
 		  $smarty->assign('jinzora_img',$root_dir.'/style/images/slimzora.gif');
-			
-		  $blocks = &new jzBlocks();
-		  $display = &new jzDisplay();
-		  
+		  $smarty->assign('mydir',dirname(__FILE__).'/templates');
+
 		  $display->preheader($node->getName(),$this->width,$this->align,true,true,true,true);
-		  include_once($include_path. "frontend/frontends/slimzora/css.php");
+		  include_once(dirname(__FILE__). "/css.php");
 
 		  jzTemplate($smarty,'header');
-		  
-		  $nodes = $node->getSubNodes('nodes');
-		  $tracks = $node->getSubNodes('tracks');
-		  
-		  $blocks->trackTable($tracks, false, false);
-		  $blocks->nodeTable($nodes);
-		  
-
-
+		  showMedia($node);
 		  jzTemplate($smarty,'footer');
-
 		}
 	}
+
+function showMedia($node) {
+  $blocks = &new jzBlocks();
+  $display = &new jzDisplay();
+  $smarty = smartySetup();
+
+  /*
+  $nodes = $node->getSubNodes('nodes');
+  $tracks = $node->getSubNodes('tracks');
+  
+  $blocks->trackTable($tracks, false, false);
+  $blocks->nodeTable($nodes);
+  */
+
+  $items = $node->getSubNodes("nodes");
+
+  jzTemplate($smarty,'media');
+}
+
+
 ?>

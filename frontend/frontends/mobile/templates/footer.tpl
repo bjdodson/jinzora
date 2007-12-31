@@ -1,3 +1,4 @@
+<div id="footer">
 <center>
   {if not $cms}
       {$login_link}
@@ -7,3 +8,4 @@
   <br/>
   </td></tr></table>
 </center>
+</div>
