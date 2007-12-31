@@ -19,6 +19,7 @@ global $jzSERVICES,$USER_SETTINGS_OVERRIDE;
 		define('JZ_STYLE_OVERRIDE','sandstone');
 		global $jzSERVICES;
 		//$jzSERVICES->loadService('players','ptunes');
-		$USER_SETTINGS_OVERRIDE['playlist_type'] = 'asx';
+		//$USER_SETTINGS_OVERRIDE['playlist_type'] = 'asx';
+		// using TCPMP + m3us
 	}
 ?>
