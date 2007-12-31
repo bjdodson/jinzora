@@ -7,12 +7,12 @@ body {
 	background-color: <?php echo jz_pg_bg_color; ?>;
 	margin: 0 0 0 0;
 	font-family: Verdana, Sans;
-	font-size: 14px;
+	font-size: 13px;
 	color: <?php echo jz_font_color; ?>;
 }
 a {
 	text-decoration: none;
-	font-size: 14px;
+	font-size: 13px;
 }
 a:link { 
 	color: <?php echo jz_link_color; ?>;
@@ -32,7 +32,7 @@ a:hover {
         padding: 8 8 8 8;
 }
 .jz_track_table {
-	font-size: 14px;
+	font-size: 13px;
 	color: black;
 	border-collapse: collapse;
 }

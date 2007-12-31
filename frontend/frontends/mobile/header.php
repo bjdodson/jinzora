@@ -205,7 +205,8 @@ function showMedia($node) {
   $blocks->nodeTable($nodes);
   */
 
-  $items = $node->getSubNodes("nodes");
+  // TODO: split tracks out into different table.
+  $items = $node->getSubNodes("both");
 
   $anchor = 'A';
   $nodes = array();
@@ -216,11 +217,22 @@ function showMedia($node) {
     $arr['name'] = $e->getName();
     $arr['link'] = urlize(array('jz_path'=>$e->getPath("String")));
     
-    // play link
-    if ($e->getPType() == "album" || $e->getPType == "disk") {
+    if ($e->isLeaf()) {
+      $arr['isTrack'] = true;
       $arr['openPlayTag'] = $display->getOpenPlayTag($e);
+      // meta
+
+      $meta = $e->getMeta();
+      $arr['number'] = $meta['number'];
+      $arr['length'] = $meta['length'];
+
     } else {
-      $arr['openPlayTag'] = $display->getOpenPlayTag($e,true,50);
+      $arr['isTrack'] = false;
+      if ($e->getPType() == "album" || $e->getPType == "disk") {
+	$arr['openPlayTag'] = $display->getOpenPlayTag($e);
+      } else {
+	$arr['openPlayTag'] = $display->getOpenPlayTag($e,true,50);
+      }
     }
 
     $compName = $arr['name'];
@@ -242,17 +254,6 @@ function showMedia($node) {
   }
   $smarty->assign('nodes',$nodes);
 
-  $items = $node->getSubNodes("tracks");
-  $tracks = array();
-  foreach ($items as $i) {
-    $arr = array();
-    $meta = $i->getMeta();
-    $arr['name'] = $i->getName();
-    $arr['number'] = $meta['number'];
-    
-    $tracks[] = $arr;
-  }
-  $smarty->assign('tracks',$tracks);
 
   jzTemplate($smarty,'media');
 }
