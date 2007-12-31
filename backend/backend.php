@@ -318,9 +318,12 @@ function getMediaDir($element) {
 }
 
 function handleUserInit() {
-  global $jzSERVICES,$jzUSER,$jz_language,$node,$skin,$include_path,$css,$image_dir,$my_frontend,$fe,$jz_path,$web_path;
+  global $jzSERVICES,$jzUSER,$jz_language,$node,$skin,$include_path,
+    $css,$image_dir,$my_frontend,$fe,$jz_path,$web_path,$USER_SETTINGS_OVERRIDE;
   writeLogData("messages","Index: Testing the language file for security and including");
   
+  $USER_SETTINGS_OVERRIDE = array(); // for use by user agents
+
   checkUserAgent();
   handleSetLanguage();
   handleSetFrontend();

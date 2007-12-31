@@ -5,7 +5,7 @@
 	// JZ_LANGUAGE_OVERRIDE
 	
 	// todo: jukebox
-	
+global $jzSERVICES,$USER_SETTINGS_OVERRIDE;
 	$useragent = $_SERVER['HTTP_USER_AGENT'];
 	
 	// This is for the Nintendo Wii
@@ -18,7 +18,7 @@
 		define('JZ_FRONTEND_OVERRIDE','slimzora');
 		define('JZ_STYLE_OVERRIDE','sandstone');
 		global $jzSERVICES;
-		$jzSERVICES->loadService('players','ptunes');
+		//$jzSERVICES->loadService('players','ptunes');
+		$USER_SETTINGS_OVERRIDE['playlist_type'] = 'asx';
 	}
-		
 ?>

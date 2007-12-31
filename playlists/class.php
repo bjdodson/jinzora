@@ -1077,10 +1077,15 @@
 			// Now let's set the proper header IF we don't need to redirect
 			if (!$redirect){
 			  //$playlist = $this->createPlaylist(false, true, $fileExt);
+			  if (false !== stristr($_SERVER['HTTP_USER_AGENT'],'Windows CE')) {
+			      $disposition = 'attachment';
+			  } else {
+			    $disposition = 'inline';
+			  }
 			  if (checkPlayback() != "embedded") {
 			    header("Accept-Range: bytes");
 			    header("Content-Type: ". $con_type);
-			    header("Content-Disposition: inline; filename=playlist.". $fileExt);
+			    header('Content-Disposition: '.$disposition.'; filename="playlist.'.$fileExt.'"');
 			    header("Cache-control: private"); //IE seems to need this.
 			  }
 			    $this->createPlaylist(false, true, $fileExt);
