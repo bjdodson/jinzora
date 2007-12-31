@@ -181,7 +181,7 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		  $smarty->assign('login_link',$display->loginLink(false,false,true,false,true));
 		  $smarty->assign('jinzora_url',$jinzora_url);
 		  $smarty->assign('jinzora_img',$root_dir.'/style/images/slimzora.gif');
-		  $smarty->assign('mydir',dirname(__FILE__).'/templates');
+		  $smarty->assign('templates',dirname(__FILE__).'/templates');
 
 		  $display->preheader($node->getName(),$this->width,$this->align,true,true,true,true);
 		  include_once(dirname(__FILE__). "/css.php");
@@ -206,6 +206,53 @@ function showMedia($node) {
   */
 
   $items = $node->getSubNodes("nodes");
+
+  $anchor = 'A';
+  $nodes = array();
+
+  for ($i = 0; $i < sizeof($items); $i++) {
+    $e = $items[$i];
+    $arr = array();
+    $arr['name'] = $e->getName();
+    $arr['link'] = urlize(array('jz_path'=>$e->getPath("String")));
+    
+    // play link
+    if ($e->getPType() == "album" || $e->getPType == "disk") {
+      $arr['openPlayTag'] = $display->getOpenPlayTag($e);
+    } else {
+      $arr['openPlayTag'] = $display->getOpenPlayTag($e,true,50);
+    }
+
+    $compName = $arr['name'];
+    if (substr($compName,0,4) == 'The ') {
+      $compName = substr($compName,4);
+    }
+    
+    $anchors = array();
+    if ($i == 0) {
+      $anchors[]='anchor_NUM';
+      $first = false;
+    }
+    while (strlen($anchor) == 1 && ($anchor < $compName || $i == sizeof($items)-1)) {
+      $anchors[] = 'anchor_'.$anchor++;
+    }
+    $arr['anchors'] = $anchors;
+
+    $nodes[] = $arr;
+  }
+  $smarty->assign('nodes',$nodes);
+
+  $items = $node->getSubNodes("tracks");
+  $tracks = array();
+  foreach ($items as $i) {
+    $arr = array();
+    $meta = $i->getMeta();
+    $arr['name'] = $i->getName();
+    $arr['number'] = $meta['number'];
+    
+    $tracks[] = $arr;
+  }
+  $smarty->assign('tracks',$tracks);
 
   jzTemplate($smarty,'media');
 }

@@ -6,4 +6,5 @@
 </a>
 </span>
 {/section}
+{include file="$templates/letters.tpl"}
 </div>

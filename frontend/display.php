@@ -1420,59 +1420,55 @@
 		* @param $class String the class for the link
 		* @param $return Bolean Return or not (defalt to false)
 		*/
-		function getPlayURL($node) { return $this->playLink($node,false,false,false,true,false,true); }
-		function playLink($node, $text = false, $title = false, $class = false, $return = false, $random = false, $linkOnly = false, $clips = false) {		
+
+		// returns an assoc array with keys 'href' and 'onclick'
+		function getOpenPlayTag($node, $random = false, $limit = 0) { 
+		  global $jzUSER, $jzSERVICES,$jukebox;
+		  if (!is_object($node)){return;}
+		  
+		  // do they have permissions or should we just do text?
+		  if (!checkPermission($jzUSER,"play",$node->getPath("String"))) {
+		    return null;
+		  } 
+		  
+		  $arr = array();
+		  $arr['jz_path'] = $node->getPath("String");
+		  $arr['action'] = "playlist";
+		  if ($limit != 0) { $arr['limit'] = $limit; }
+		  if ($random){ $arr['mode'] = "random"; }
+		  if ($clips){ $arr['clips'] = "true"; }
+		  if ($node->isLeaf()) {
+		    $arr['type'] = "track";
+		  }
+		  if (isset($_GET['frame'])){
+		    $arr['frame'] = $_GET['frame'];
+		  }
+
+		  
+		  // Let's start the link
+		  if (defined('NO_AJAX_JUKEBOX') || $jukebox == "false") {
+		    $linkText = '<a href="' . urlize($arr). '"';
+		    // Now are they using a popup player?
+		    if (checkPlayback() == "embedded"){
+		      // Ok, let's put the popup in the href
+		      // We need to get this from the embedded player
+		      $linkText .= $jzSERVICES->returnPlayerHref();
+		    }
+		  } else {
+		    $linkText = '<a href="'. htmlentities(urlize($arr)) . '"';
+		    $linkText .= "onclick=\"return playbackLink('".htmlentities(urlize($arr))."')\"";
+		  }
+
+		  return $linkText;
+		}
+		  
+		  
+
+		function playLink($node, $text = false, $title = false, $class = false, $return = false, $random = false, $linkOnly = false, $clips = false, $limit = 0) {		
 			global $jzUSER, $jzSERVICES,$jukebox;
 
-			if (!is_object($node)){return;}
-			
-			// Did they pass text or do we need to figure it out?
-			if (!$text) {
-				$text = $node->getName();
-				if (!$node->isLeaf())
-					$text .= " (" . $node->getSubNodeCount() . ")";
-			}
-			
-			// do they have permissions or should we just do text?
-			if (!checkPermission($jzUSER,"play",$node->getPath("String"))) {
-				if ($return) {
-					return $text;
-				} else {
-					echo $text;
-					return;
-				}
-			} 
-
-			$arr = array();
-			$arr['jz_path'] = $node->getPath("String");
-			$arr['action'] = "playlist";
-			if ($random){ $arr['mode'] = "random"; }
-			if ($clips){ $arr['clips'] = "true"; }
-			if ($node->isLeaf()) {
-				$arr['type'] = "track";
-			}
-			if (isset($_GET['frame'])){
-				$arr['frame'] = $_GET['frame'];
-			}
-			
-			if ($linkOnly){
-				return urlize($arr);
-			}
-			
-			// Let's start the link
-			if (defined('NO_AJAX_JUKEBOX') || $jukebox == "false") {
-			  $linkText = '<a href="' . urlize($arr). '"';
-			  // Now are they using a popup player?
-			  if (checkPlayback() == "embedded"){
-			    // Ok, let's put the popup in the href
-			    // We need to get this from the embedded player
-			    $linkText .= $jzSERVICES->returnPlayerHref();
-			  }
-			} else {
-			  $linkText = '<a href="'. htmlentities(urlize($arr)) . '"';
-			  $linkText .= " onClick=\"return playbackLink('".htmlentities(urlize($arr))."')\"";
-			}
-			
+			$linkText = $this->getOpenPlayTag($node,$random,$limit);
+			if ($linkText == null) return null;
 
 			// Did they pass a title?
 			if ($title){

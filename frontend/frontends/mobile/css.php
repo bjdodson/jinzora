@@ -7,12 +7,12 @@ body {
 	background-color: <?php echo jz_pg_bg_color; ?>;
 	margin: 0 0 0 0;
 	font-family: Verdana, Sans;
-	font-size: 10px;
+	font-size: 14px;
 	color: <?php echo jz_font_color; ?>;
 }
 a {
 	text-decoration: none;
-	font-size: 11px;
+	font-size: 14px;
 }
 a:link { 
 	color: <?php echo jz_link_color; ?>;
@@ -25,16 +25,14 @@ a:hover {
 }
 .jz_row1 { 
 	background-color: <?php echo jz_row1; ?>;
-	border-left: 1px solid black;
-	border-right: 1px solid black;
+        padding: 8 8 8 8;
 }
 .jz_row2 { 
 	background-color: <?php echo jz_row2; ?>; 
-	border-left: 1px solid black;
-	border-right: 1px solid black;
+        padding: 8 8 8 8;
 }
 .jz_track_table {
-	font-size: 11px;
+	font-size: 14px;
 	color: black;
 	border-collapse: collapse;
 }
