@@ -511,9 +511,14 @@
 		 * @param $setting the setting to retrieve.
 		 */
 		function getSetting($setting) {
+		  global $USER_SETTINGS_OVERRIDE;
 		  // some overrides:
 		  if ($setting == "theme" && isset($_SESSION['theme'])) {
 		    return $_SESSION['theme'];
+		  }
+
+		  if (isset($USER_SETTINGS_OVERRIDE) && isset($USER_SETTINGS_OVERRIDE[$setting])) {
+		    return $USER_SETTINGS_OVERRIDE[$setting];
 		  }
 
 		  if ($this->settings !== false) {
