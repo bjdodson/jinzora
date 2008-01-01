@@ -155,7 +155,8 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		}
 			
 		function standardPage(&$node) {
-		  global $jinzora_url,$root_dir,$cms_mode,$jzUSER,$jbArr;
+		  global $jinzora_url,$root_dir,$cms_mode,$jzUSER,
+		    $jbArr,$compare_ignores_the;
 		  
 		  /* header */
 		  /* use one smarty object so we can use variables in
@@ -371,7 +372,7 @@ function smartyNode($e) {
   }
   
   $compName = $arr['name'];
-  if (strtoupper(substr($compName,0,4)) == 'THE ') {
+  if ($compare_ignores_the == "true" && strtoupper(substr($compName,0,4)) == 'THE ') {
     $compName = substr($compName,4);
   }
   $compName = trim($compName);
