@@ -371,8 +371,11 @@ function smartyTrack($e) {
 
   $arr['length'] = convertSecMins($arr['length']);
   $arr['name'] = $e->getName();
-  $arr['openPlayTag'] = $display->getOpenPlayTag($e);
-  
+  if (isset($_SESSION['jz_playlist_queue'])) {
+    $arr['openPlayTag'] = $display->getOpenAddToListTag($e);
+  } else {
+    $arr['openPlayTag'] = $display->getOpenPlayTag($e);
+  }
   return $arr;
 }
 

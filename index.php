@@ -520,8 +520,22 @@ $_SESSION['jz_load_time'] = microtime();
 			break;
 
 			**/
-		}
 		
+
+		case "addToPlaylist":
+		  if (!isset($_REQUEST['jz_path']) || !isset($_REQUEST['type'])) exit();
+		  
+		  if ($_REQUEST['type'] == 'track') {
+		    $el = new jzMediaTrack($_REQUEST['jz_path']);
+		  } else {
+		    $el = new jzMediaNode($_REQUEST['jz_path']);
+		  }
+		  $pl = $jzUSER->loadPlaylist();
+		  $pl->add($el);
+		  $jzUSER->storePlaylist($pl);
+		  exit();
+		  break;
+		}		
 	}
 	/* * * * * * * * * */
 	// // // // // // / / 
@@ -733,9 +747,9 @@ $_SESSION['jz_load_time'] = microtime();
 			$pl->play();
 			exit();
 			break;
+			
 		}
 	}
-
 	// Last thing: we want to draw a standard page, since we did not previously exit.
 	// TODO: check for specialty pages (search,playlistmanager,etc)
 
