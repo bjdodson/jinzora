@@ -1,5 +1,6 @@
 <?php 
 	if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+$fontsize = '13px';
 ?>
 <style>
 /* This affects just about everything... */
@@ -7,12 +8,12 @@ body {
 	background-color: <?php echo jz_pg_bg_color; ?>;
 	margin: 0 0 0 0;
 	font-family: Verdana, Sans;
-	font-size: 13px;
+	font-size: <?php echo $fontsize; ?>
 	color: <?php echo jz_font_color; ?>;
 }
 a {
 	text-decoration: none;
-	font-size: 13px;
+        font-size: <?php echo $fontsize; ?>
 }
 a:link { 
 	color: <?php echo jz_link_color; ?>;
@@ -32,7 +33,7 @@ a:hover {
         padding: 8 8 8 8;
 }
 .jz_track_table {
-	font-size: 13px;
+        font-size: <?php echo $fontsize; ?>
 	color: black;
 	border-collapse: collapse;
 }

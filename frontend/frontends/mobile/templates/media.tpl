@@ -1,4 +1,3 @@
-{php}$anchor = 'A'{/php}
 <div id="media">
   {section name=node loop=$nodes}
   {if $smarty.section.node.index is even}

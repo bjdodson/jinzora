@@ -156,7 +156,7 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		}
 			
 		function standardPage(&$node) {
-		  global $img_up_arrow,$jinzora_url,$root_dir,$cms_mode;
+		  global $jinzora_url,$root_dir,$cms_mode;
 		  
 		  /* header */
 		  /* use one smarty object so we can use variables in
@@ -165,7 +165,6 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		  $display = new jzDisplay();
 		  $smarty = smartySetup();
 		  
-		  $smarty->assign('up_arrow',$img_up_arrow);
 		  $breadcrumbs = array();
 		  if (isset($_REQUEST['jz_path'])) {
 		    $me = new jzMediaNode($_REQUEST['jz_path']);
