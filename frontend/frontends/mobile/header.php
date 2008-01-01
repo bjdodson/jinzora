@@ -174,6 +174,11 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		  $display->preheader($node->getName(),$this->width,$this->align,true,true,true,true);
 		  include_once(dirname(__FILE__). "/css.php");
 
+		  /* check for playlist queue as action.
+		   * jukebox/stream action handled in handleJukeboxVars().
+		   */
+		  handlePlaylistAction();
+
 		  if (isset($_REQUEST['page'])) {
 		    $page = $_REQUEST['page'];
 		  } else {
@@ -215,12 +220,64 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		}
 	}
 
+/* playback handled in backend.php :: handleJukeboxVars() */
 function showPagePlayback() {
+  global $jbArr,$jzUSER;
+
   $display = &new jzDisplay();
   $smarty = smartySetup();
   $smarty->assign('templates',dirname(__FILE__).'/templates');
 
-    jzTemplate($smarty,'playback');
+  if (isset($_REQUEST['jz_path'])) {
+    $path = $_REQUEST['jz_path'];
+  } else {
+    $path = '';
+  }
+
+  $url = array('jz_path'=>$path,'page'=>'browse');
+  $pbt = array();
+
+  $url['jz_player'] = 'stream';
+  $url['jz_player_type'] = 'stream';
+  $pbt[] = array('label' => word('Stream media'), 'url'=>urlize($url));
+
+  $url['jz_player_type'] = 'jukebox';
+  if (isset($jbArr) && is_array($jbArr)) {
+    for ($i = 0; $i < sizeof($jbArr); $i++) {
+      $url['jz_player'] = $i;
+      $url['jz_player_type'] = 'jukebox';
+      $pbt[] = array('label' => word('Send to %s', $jbArr[$i]['description']), 'url' => urlize($url));
+    }
+  }
+
+  $url['jz_player_type'] = 'playlist';
+  $url['jz_player'] = 'session';
+  $pbt[] = array('label' => word('Add to Quick List'), 'url' => urlize($url));
+  
+
+  $lists = $jzUSER->listPlaylists("static");
+  foreach ($lists as $id => $plName) {
+    $url['player'] = $lists[$i][$id];
+    $pbt[] = array('label'=> word('Add to playlist "%s"', $plName)); 
+  }// session['jz_playlist'] == id
+
+  $smarty->assign('players',$pbt);
+  $smarty->assign('newList',array('href'=>'link',
+				  'onclick'=>'action',
+				  'name'=>word('My Playlist'),
+				  'label'=>word('Add to new list:')));
+  jzTemplate($smarty,'playback');
+}
+
+function handlePlaylistAction() {
+  if (isset($_REQUEST['jz_player_type']) && 
+      $_REQUEST['jz_player_type'] == 'playlist' &&
+      isset($_REQUEST['jz_player'])) {
+
+    $_SESSION['jz_playlist_queue'] = $_REQUEST['jz_player'];
+  } else if (isset($_REQUEST['jz_player_type'])) {
+    unset($_SESSION['jz_playlist_queue']);
+  }
 }
 
 function showPageLists() {

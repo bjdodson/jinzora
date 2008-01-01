@@ -1,3 +1,11 @@
+{literal}
+<style type="text/css">
+#footer {
+  clear:both;
+  border-top: 1px solid;
+}
+</style>
+{/literal}
 <div id="footer">
 <center>
   {if not $cms}
