@@ -155,7 +155,7 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		}
 			
 		function standardPage(&$node) {
-		  global $jinzora_url,$root_dir,$cms_mode;
+		  global $jinzora_url,$root_dir,$cms_mode,$jzUSER,$jbArr;
 		  
 		  /* header */
 		  /* use one smarty object so we can use variables in
@@ -201,6 +201,25 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 				  'link' => urlize(array('page'=>'lists', 
 							 'jz_path'=>$path)),
 				  'selected' => ($page == 'lists') ? true : false);
+
+		  // tab for media target:
+		  if (isset($_SESSION['jz_playlist_queue'])) {
+		    if ($_SESSION['jz_playlist_queue'] == 'session') {
+		      $plName = word('Quick List');
+		    } else {
+		      $plName = $jzUSER->loadPlaylist()->getName();
+		    }
+		    $tabs[] = array('name'=>$plName, 
+				    'link' => urlize(array('page'=>'playlist', 
+							   'jz_path'=>$path)),
+				    'selected' => ($page == 'playlist') ? true : false);
+		  } else if (checkPlayback() == 'jukebox') {
+		    $name = $jbArr[$_SESSION['jb_id']]['description'];
+		    $tabs[] = array('name'=>$name, 
+				    'link' => urlize(array('page'=>'jukebox', 
+							   'jz_path'=>$path)),
+				    'selected' => ($page == 'jukebox') ? true : false);
+		  }
 
 		  $smarty->assign('tabs',$tabs);
 		  jzTemplate($smarty,'header');
@@ -338,9 +357,17 @@ function smartyNode($e) {
   $arr['link'] = urlize(array('jz_path'=>$e->getPath("String")));
     
   if ($e->getPType() == "album" || $e->getPType == "disk") {
-    $arr['openPlayTag'] = $display->getOpenPlayTag($e);
+    if (isset($_SESSION['jz_playlist_queue'])) {
+      $arr['openPlayTag'] = $display->getOpenAddToListTag($e);
+    } else {
+      $arr['openPlayTag'] = $display->getOpenPlayTag($e);
+    }
   } else {
-    $arr['openPlayTag'] = $display->getOpenPlayTag($e,true,50);
+    if (isset($_SESSION['jz_playlist_queue'])) {
+      $arr['openPlayTag'] = $display->getOpenAddToListTag($e);
+    } else {
+      $arr['openPlayTag'] = $display->getOpenPlayTag($e,true,50);
+    }
   }
   
   $compName = $arr['name'];
