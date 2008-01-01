@@ -165,11 +165,6 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		  $smarty = smartySetup();
 		  
 		  $path = $node->getPath("String");
-		  $tabs = array();
-		  $tabs[] = array('name'=>word('Browse'), 'link' => urlize(array('page'=>'browse', 'jz_path'=>$path)));
-		  $tabs[] = array('name'=>word('Playback'), 'link' => urlize(array('page'=>'playback', 'jz_path'=>$path)));
-		  $tabs[] = array('name'=>word('Lists'), 'link' => urlize(array('page'=>'lists', 'jz_path'=>$path)));
-		  $smarty->assign('tabs',$tabs);
 
 		  $smarty->assign('cms', $cms_mode == "false" ? false : true);
 		  $smarty->assign('login_link',$display->loginLink(false,false,true,false,true));
@@ -179,12 +174,31 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		  $display->preheader($node->getName(),$this->width,$this->align,true,true,true,true);
 		  include_once(dirname(__FILE__). "/css.php");
 
-		  jzTemplate($smarty,'header');
 		  if (isset($_REQUEST['page'])) {
 		    $page = $_REQUEST['page'];
 		  } else {
 		    $page = "browse";
 		  }
+
+		  $tabs = array();
+		  $tabs[] = array('name'=>word('Browse'), 
+				  'link' => urlize(array('page'=>'browse', 
+							 'jz_path'=>$path)),
+				  'selected' => ($page == 'browse') ? true : false);
+		  
+
+		  $tabs[] = array('name'=>word('Playback'),
+				  'link' => urlize(array('page'=>'playback', 
+							 'jz_path'=>$path)),
+				  'selected' => ($page == 'playback') ? true : false);
+
+		  $tabs[] = array('name'=>word('Lists'), 
+				  'link' => urlize(array('page'=>'lists', 
+							 'jz_path'=>$path)),
+				  'selected' => ($page == 'lists') ? true : false);
+
+		  $smarty->assign('tabs',$tabs);
+		  jzTemplate($smarty,'header');
 
 		  switch ($page) {
 		  case "browse":

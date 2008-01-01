@@ -21,6 +21,10 @@
   border-bottom: 1px solid;
   text-align: center;
 }
+
+.selected {
+  font-weight:bold;
+}
 </style>
 {/literal}
 
@@ -28,7 +32,7 @@
   <div id="tabs">
     <ul>
       {section name=tab loop=$tabs}
-      <li>
+      <li {if $tabs[tab].selected}class="selected"{/if}>
         <a href="{$tabs[tab].link}">{$tabs[tab].name}</a>
       </li>
       {/section}
