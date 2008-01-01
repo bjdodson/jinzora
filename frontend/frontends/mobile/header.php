@@ -257,9 +257,9 @@ function showPagePlayback() {
 
   $lists = $jzUSER->listPlaylists("static");
   foreach ($lists as $id => $plName) {
-    $url['player'] = $lists[$i][$id];
-    $pbt[] = array('label'=> word('Add to playlist "%s"', $plName)); 
-  }// session['jz_playlist'] == id
+    $url['jz_player'] = $id;
+    $pbt[] = array('label'=> word('Add to playlist "%s"', $plName), 'url' => urlize($url));
+  }
 
   $smarty->assign('players',$pbt);
   $smarty->assign('newList',array('href'=>'link',
@@ -269,12 +269,13 @@ function showPagePlayback() {
   jzTemplate($smarty,'playback');
 }
 
-function handlePlaylistAction() {
+function handlePlaylistAction() {;
   if (isset($_REQUEST['jz_player_type']) && 
       $_REQUEST['jz_player_type'] == 'playlist' &&
       isset($_REQUEST['jz_player'])) {
 
     $_SESSION['jz_playlist_queue'] = $_REQUEST['jz_player'];
+    $_SESSION['jz_playlist'] = $_REQUEST['jz_player'];
   } else if (isset($_REQUEST['jz_player_type'])) {
     unset($_SESSION['jz_playlist_queue']);
   }
@@ -346,13 +347,14 @@ function smartyNode($e) {
   if (substr($compName,0,4) == 'The ') {
     $compName = substr($compName,4);
   }
-  
+  $compName = trim($compName);
+
   $anchors = array();
   if ($i == 0) {
     $anchors[]='anchor_NUM';
     $first = false;
   }
-  while (strlen($anchor) == 1 && ($anchor < $compName || $i == sizeof($items)-1)) {
+  while (strlen($anchor) == 1 && ($anchor < strtoupper($compName) || $i == sizeof($items)-1)) {
     $anchors[] = 'anchor_'.$anchor++;
   }
   $arr['anchors'] = $anchors;
