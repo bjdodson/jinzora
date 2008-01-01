@@ -2815,15 +2815,14 @@
 
 			// Required for overlibs / wherever colors are needed in raw HTML.
 			$define_only = true;
-			include($css);
-			unset($define_only);
-
-			// This can't possibly do anything and I don't know what it's for.
-			// -- BJD
-			// style
 			if ($minimal_theme){
 				$define_only = true;
 			}
+
+
+			include($css);
+			unset($define_only);
+
 			
 			//!! Stuff that requires database is safe beyond this point. !!//
 			if ($live_update == "true" && !(isset($_GET['action']) && $_GET['action'] == "search")){
