@@ -196,66 +196,71 @@ function showMedia($node) {
   $display = &new jzDisplay();
   $smarty = smartySetup();
 
-  /*
-  $nodes = $node->getSubNodes('nodes');
-  $tracks = $node->getSubNodes('tracks');
   
-  $blocks->trackTable($tracks, false, false);
-  $blocks->nodeTable($nodes);
-  */
-
-  // TODO: split tracks out into different table.
-  $items = $node->getSubNodes("both");
-
-  $anchor = 'A';
+  $myNodes = $node->getSubNodes('nodes');
+  $myTracks = $node->getSubNodes('tracks');
+  
   $nodes = array();
-
-  for ($i = 0; $i < sizeof($items); $i++) {
-    $e = $items[$i];
-    $arr = array();
-    $arr['name'] = $e->getName();
-    $arr['link'] = urlize(array('jz_path'=>$e->getPath("String")));
-    
-    if ($e->isLeaf()) {
-      $arr['isTrack'] = true;
-      $arr['openPlayTag'] = $display->getOpenPlayTag($e);
-      // meta
-
-      $meta = $e->getMeta();
-      $arr['number'] = $meta['number'];
-      $arr['length'] = $meta['length'];
-
-    } else {
-      $arr['isTrack'] = false;
-      if ($e->getPType() == "album" || $e->getPType == "disk") {
-	$arr['openPlayTag'] = $display->getOpenPlayTag($e);
-      } else {
-	$arr['openPlayTag'] = $display->getOpenPlayTag($e,true,50);
-      }
-    }
-
-    $compName = $arr['name'];
-    if (substr($compName,0,4) == 'The ') {
-      $compName = substr($compName,4);
-    }
-    
-    $anchors = array();
-    if ($i == 0) {
-      $anchors[]='anchor_NUM';
-      $first = false;
-    }
-    while (strlen($anchor) == 1 && ($anchor < $compName || $i == sizeof($items)-1)) {
-      $anchors[] = 'anchor_'.$anchor++;
-    }
-    $arr['anchors'] = $anchors;
-
-    $nodes[] = $arr;
+  for ($i = 0; $i < sizeof($myNodes); $i++) {
+    $e = $myNodes[$i];
+    $nodes[] = smartyNode($myNodes[$i]);
   }
   $smarty->assign('nodes',$nodes);
 
-
+  $tracks = array();
+  for ($i = 0; $i < sizeof($myTracks); $i++) {
+    $e = $myNodes[$i];
+    $tracks[] = smartyTrack($myTracks[$i]);
+  }
+  $smarty->assign('tracks',$tracks);
+  
   jzTemplate($smarty,'media');
 }
 
+function smartyNode($e) {
+  static  $anchor = 'A';
+
+  $display = new jzDisplay();
+  $arr = array();
+  $arr['name'] = $e->getName();
+  $arr['link'] = urlize(array('jz_path'=>$e->getPath("String")));
+    
+  if ($e->getPType() == "album" || $e->getPType == "disk") {
+    $arr['openPlayTag'] = $display->getOpenPlayTag($e);
+  } else {
+    $arr['openPlayTag'] = $display->getOpenPlayTag($e,true,50);
+  }
+  
+  $compName = $arr['name'];
+  if (substr($compName,0,4) == 'The ') {
+    $compName = substr($compName,4);
+  }
+  
+  $anchors = array();
+  if ($i == 0) {
+    $anchors[]='anchor_NUM';
+    $first = false;
+  }
+  while (strlen($anchor) == 1 && ($anchor < $compName || $i == sizeof($items)-1)) {
+    $anchors[] = 'anchor_'.$anchor++;
+  }
+  $arr['anchors'] = $anchors;
+
+  return $arr;
+}
+
+function smartyTrack($e) {
+  $display = new jzDisplay();
+
+  // meta  
+  $arr = $e->getMeta();
+  if (!is_array($arr)) $arr = array();
+
+  $arr['length'] = convertSecMins($arr['length']);
+  $arr['name'] = $e->getName();
+  $arr['openPlayTag'] = $display->getOpenPlayTag($e);
+  
+  return $arr;
+}
 
 ?>

@@ -2,12 +2,15 @@
 <style type="text/css">
 table.letters {
   width:100%;
+  cell-spacing:0;
+# boader-collapse: collapse;
 }
 
 table.letters td {
   border: 1px solid;
   border-spacing:0px;
   text-align: center;
+  margin:0;
 }
 
 table.letters td a {

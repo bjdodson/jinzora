@@ -1,6 +1,5 @@
-<?php 
-	if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
-$fontsize = '13px';
+<?php  if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+$fontsize = '12px';
 ?>
 <style>
 /* This affects just about everything... */
