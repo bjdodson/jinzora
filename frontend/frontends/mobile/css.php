@@ -25,11 +25,9 @@ a:hover {
 }
 .jz_row1 { 
 	background-color: <?php echo jz_row1; ?>;
-        padding: 8 8 8 8;
 }
 .jz_row2 { 
 	background-color: <?php echo jz_row2; ?>; 
-        padding: 8 8 8 8;
 }
 .jz_track_table {
         font-size: <?php echo $fontsize; ?>

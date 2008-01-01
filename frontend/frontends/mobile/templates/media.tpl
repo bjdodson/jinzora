@@ -1,3 +1,26 @@
+{literal}
+<style type="text/css">
+#media div {
+  width:100%;
+  height:100%;
+  padding: 8 8 8 8;
+}
+
+#media div table {
+height:100%;
+width:100%;
+margin:0;
+}
+
+/* big links for easy clicking */
+#media div table tr td a {
+  width:100%;
+  height:100%;
+  display:block;
+}
+</style>
+{/literal}
+
 <div id="media">
 
   {section name=node loop=$nodes}

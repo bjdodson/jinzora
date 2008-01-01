@@ -19,12 +19,6 @@ table.letters td a {
   display:block;
 }
 
-table.letters td a:hover{
-  width:100%;
-  height:100%;
-  display:block;
-}
-
 </style>
 {/literal}
 
