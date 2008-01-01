@@ -25,6 +25,7 @@
 
 #newListName {
   margin: 2px 2px 2px 2px;
+  width:80px;
 }
 
 </style>
