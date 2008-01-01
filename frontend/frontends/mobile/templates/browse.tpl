@@ -1,5 +1,21 @@
 {literal}
 <style type="text/css">
+#crumbs ul {
+  margin-left: 0;
+  padding-left: 0;
+  display: inline;
+  border: none;
+} 
+
+#crumbs ul li {
+  margin-left: 0;
+  padding-left: 2px;
+  border: none;
+  list-style: none;
+  display: inline;
+}
+
+
 #media div {
   width:100%;
   height:100%;
@@ -13,7 +29,7 @@
 }
 
 #media table tr td {
-  padding:8 8 8 8;
+  padding:0 8 0 8;
 }
 
 /* big links for easy clicking */
@@ -21,10 +37,27 @@
   width:100%;
   height:100%;
   display:block;
-
+  padding:8 0 8 0;
 }
 </style>
 {/literal}
+
+  <div id="crumbs">
+    <ul>
+     {section name=crumb loop=$breadcrumbs start=-1 step=-1}
+     <li><span style="white-space:nowrap;">
+     {if not $smarty.section.crumb.first}
+     &#187; 
+     {/if}
+       <a href="{$breadcrumbs[crumb].link}"> 
+         {$breadcrumbs[crumb].name|truncate:15}
+       </a>
+     </span></li>
+    {/section}
+    </ul>
+  </div>
+  {include file="$templates/letters.tpl"}
+
 
 <div id="media">
 

@@ -1,41 +1,37 @@
 {literal}
 <style type="text/css">
-#crumbs {
-
+#tabs {
+  padding-bottom:8px;
 }
+#tabs ul {
+  width:100%;
+  margin-left: 0;
+  padding-left: 0;
+  display: inline;
+} 
 
-#crumbs ul {
-       margin-left: 0;
-       padding-left: 0;
-       display: inline;
-       border: none;
-       } 
-
-#crumbs ul li {
-       margin-left: 0;
-       padding-left: 2px;
-       border: none;
-       list-style: none;
-       display: inline;
-       }
-
+#tabs ul li {
+  margin-left: 2px;
+  margin-top: 0px;
+  padding: 2px 2px 2px 2px;
+  list-style: none;
+  display: inline;
+  border-left: 1px solid;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  text-align: center;
+}
 </style>
 {/literal}
 
 <div id="header">
-  <div id="crumbs">
+  <div id="tabs">
     <ul>
-     {section name=crumb loop=$breadcrumbs start=-1 step=-1}
-     <li><span style="white-space:nowrap;">
-     {if not $smarty.section.crumb.first}
-     &#187; 
-     {/if}
-       <a href="{$breadcrumbs[crumb].link}"> 
-         {$breadcrumbs[crumb].name|truncate:15}
-       </a>
-     </span></li>
-    {/section}
-    </ul>
+      {section name=tab loop=$tabs}
+      <li>
+        <a href="{$tabs[tab].link}">{$tabs[tab].name}</a>
+      </li>
+      {/section}
+    </ul>    
   </div>
-  {include file="$templates/letters.tpl"}
 </div>

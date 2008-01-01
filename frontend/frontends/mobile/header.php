@@ -45,7 +45,6 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		function loginPage($failed = false) {
 		
 			$display = &new jzDisplay();
-			//$display->preHeader('Login',$this->width,$this->align);
 			
 			echo '<body onLoad="document.getElementById(\'loginform\').field1.focus();"></body>';
 			
@@ -165,37 +164,78 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		  $display = new jzDisplay();
 		  $smarty = smartySetup();
 		  
-		  $breadcrumbs = array();
-		  if (isset($_REQUEST['jz_path'])) {
-		    $me = new jzMediaNode($_REQUEST['jz_path']);
-		    while ($me->getLevel() > 0) {
-		      $breadcrumbs[] = array("name" => $me->getName(),"link" => urlize(array('jz_path'=>$me->getPath("String"))));
-		      $me = $me->getParent();
-		    }
-		  }
+		  $path = $node->getPath("String");
+		  $tabs = array();
+		  $tabs[] = array('name'=>word('Browse'), 'link' => urlize(array('page'=>'browse', 'jz_path'=>$path)));
+		  $tabs[] = array('name'=>word('Playback'), 'link' => urlize(array('page'=>'playback', 'jz_path'=>$path)));
+		  $tabs[] = array('name'=>word('Lists'), 'link' => urlize(array('page'=>'lists', 'jz_path'=>$path)));
+		  $smarty->assign('tabs',$tabs);
 
-		  $breadcrumbs[] = array("name"=>word("Home"),"link"=>urlize(array()));
-		  $smarty->assign('breadcrumbs',$breadcrumbs);
 		  $smarty->assign('cms', $cms_mode == "false" ? false : true);
 		  $smarty->assign('login_link',$display->loginLink(false,false,true,false,true));
 		  $smarty->assign('jinzora_url',$jinzora_url);
 		  $smarty->assign('jinzora_img',$root_dir.'/style/images/slimzora.gif');
-		  $smarty->assign('templates',dirname(__FILE__).'/templates');
 
 		  $display->preheader($node->getName(),$this->width,$this->align,true,true,true,true);
 		  include_once(dirname(__FILE__). "/css.php");
 
 		  jzTemplate($smarty,'header');
-		  showMedia($node);
+		  if (isset($_REQUEST['page'])) {
+		    $page = $_REQUEST['page'];
+		  } else {
+		    $page = "browse";
+		  }
+
+		  switch ($page) {
+		  case "browse":
+		    showPageBrowse($node);
+		    break;
+		  case "playback":
+		    showPagePlayback();
+		    break;
+		  case "lists";
+		  showPageLists();
+		  }
+
 		  jzTemplate($smarty,'footer');
 		}
 	}
 
-function showMedia($node) {
-  $blocks = &new jzBlocks();
+function showPagePlayback() {
   $display = &new jzDisplay();
   $smarty = smartySetup();
+  $smarty->assign('templates',dirname(__FILE__).'/templates');
 
+    jzTemplate($smarty,'playback');
+}
+
+function showPageLists() {
+  $display = &new jzDisplay();
+  $smarty = smartySetup();
+  $smarty->assign('templates',dirname(__FILE__).'/templates');
+ 
+  jzTemplate($smarty,'lists');
+}
+
+
+function showPageBrowse($node) {
+  $display = &new jzDisplay();
+  $smarty = smartySetup();
+  $smarty->assign('templates',dirname(__FILE__).'/templates');
+
+  $breadcrumbs = array();
+  if (isset($_REQUEST['jz_path'])) {
+    $me = $node;
+    while ($me->getLevel() > 0) {
+      $breadcrumbs[] = array("name" => $me->getName(),"link" => urlize(array('jz_path'=>$me->getPath("String"))));
+      $me = $me->getParent();
+    }
+  }
+  
+  $breadcrumbs[] = array("name"=>word("Home"),"link"=>urlize(array()));
+  $smarty->assign('breadcrumbs',$breadcrumbs);
+  $smarty->assign('templates',dirname(__FILE__).'/templates');
+  
   
   $myNodes = $node->getSubNodes('nodes');
   $myTracks = $node->getSubNodes('tracks');
@@ -214,7 +254,7 @@ function showMedia($node) {
   }
   $smarty->assign('tracks',$tracks);
   
-  jzTemplate($smarty,'media');
+  jzTemplate($smarty,'browse');
 }
 
 function smartyNode($e) {
