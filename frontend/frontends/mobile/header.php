@@ -344,7 +344,7 @@ function smartyNode($e) {
   }
   
   $compName = $arr['name'];
-  if (substr($compName,0,4) == 'The ') {
+  if (strtoupper(substr($compName,0,4)) == 'THE ') {
     $compName = substr($compName,4);
   }
   $compName = trim($compName);
