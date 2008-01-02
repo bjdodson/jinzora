@@ -230,10 +230,10 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		    showPageBrowse($node);
 		    break;
 		  case "playback":
-		    showPagePlayback();
+		    showPagePlayback($node);
 		    break;
 		  case "lists";
-		  showPageLists();
+		  showPageLists($node);
 		  }
 
 		  jzTemplate($smarty,'footer');
@@ -241,18 +241,14 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 	}
 
 /* playback handled in backend.php :: handleJukeboxVars() */
-function showPagePlayback() {
+function showPagePlayback($node) {
   global $jbArr,$jzUSER;
 
   $display = &new jzDisplay();
   $smarty = smartySetup();
   $smarty->assign('templates',dirname(__FILE__).'/templates');
 
-  if (isset($_REQUEST['jz_path'])) {
-    $path = $_REQUEST['jz_path'];
-  } else {
-    $path = '';
-  }
+  $path = $node->getPath("String");
 
   $url = array('jz_path'=>$path,'page'=>'browse');
   $pbt = array();
@@ -312,7 +308,7 @@ function handlePlaylistAction() {
   }
 }
 
-function showPageLists() {
+function showPageLists($node) {
   $display = &new jzDisplay();
   $smarty = smartySetup();
   $smarty->assign('templates',dirname(__FILE__).'/templates');
