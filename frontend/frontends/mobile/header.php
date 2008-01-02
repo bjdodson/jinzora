@@ -156,7 +156,7 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 			
 		function standardPage(&$node) {
 		  global $jinzora_url,$root_dir,$cms_mode,$jzUSER,
-		    $jbArr,$compare_ignores_the;
+		    $jbArr;
 		  
 		  /* header */
 		  /* use one smarty object so we can use variables in
@@ -337,6 +337,7 @@ function showPageBrowse($node) {
   
   
   $myNodes = $node->getSubNodes('nodes');
+  sortElements($myNodes);
   $myTracks = $node->getSubNodes('tracks');
   
   $nodes = array();
@@ -357,6 +358,7 @@ function showPageBrowse($node) {
 }
 
 function smartyNode($e) {
+  global $compare_ignores_the;
   static  $anchor = 'A';
 
   $display = new jzDisplay();
