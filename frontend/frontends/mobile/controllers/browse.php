@@ -2,8 +2,7 @@
 
 function controller($node) {
   $display = &new jzDisplay();
-  $smarty = smartySetup();
-  $smarty->assign('templates',dirname(__FILE__).'/../templates');
+  $smarty = mobileSmarty();
 
   $breadcrumbs = array();
   if (isset($_REQUEST['jz_path'])) {

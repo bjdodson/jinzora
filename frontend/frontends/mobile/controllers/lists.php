@@ -1,23 +1,22 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
 
 function controller($node) {
-  global $jzUSER,$display;
+  global $jzUSER,$display,$chart_size;
   $display = &new jzDisplay();
-  $smarty = smartySetup();
-  $smarty->assign('templates',dirname(__FILE__).'/../templates');
-  $smarty->assign('play',word('Play'));
-  $smarty->assign('shuffle',word('Shuffle'));
+  $smarty = mobileSmarty();
+  $smarty->assign('Play',word('Play'));
+  $smarty->assign('Shuffle',word('Shuffle'));
+  
+  /** Playlists **/
+  $smarty->assign('Playlists',word('Playlists'));
 
   $sm_lists = array();
-
   $l = $jzUSER->loadPlaylist("session");
   if ($l->length() > 0) {
-    
     $sm_lists[] = array('name'=>word("Quick List"),
 			'openPlayTag'=>$display->getOpenPlayTag($l),
 			'isStatic'=>true,
 			'openShuffleTag'=>$display->getOpenPlayTag($l,true));
-    
   }
 
   $lists = $jzUSER->listPlaylists("static") + $jzUSER->listPlaylists("dynamic"); // use "all" to mix ordering
@@ -31,7 +30,31 @@ function controller($node) {
 			'openShuffleTag'=>$display->getOpenPlayTag($l,true));
   }
   $smarty->assign('playlists',$sm_lists);
- 
+
+
+
+  /** Charts **/
+  /**
+   * array of titles and lists */
+  $root = new jzMediaNode();
+  $charts = array();
+
+  $chart = array();
+  $chart['title'] = word('Recently Played Albums');
+
+  $entries = array();
+  $list = $root->getRecentlyPlayed('nodes',distanceTo('album'),$chart_size);
+  for ($i = 0; $i < sizeof($list); $i++) {
+    $entries[] = array('name'=>$list[$i]->getName(),
+		       'link'=>urlize(array('jz_path'=>$list[$i]->getPath("String"))),
+		       'openPlayTag'=>$display->getOpenPlayTag($list[$i]));
+  }
+  $chart['entries'] = $entries;
+  $charts[] = $chart;
+  
+  $smarty->assign('charts',$charts);
+
+
   jzTemplate($smarty,'lists');
 }
 

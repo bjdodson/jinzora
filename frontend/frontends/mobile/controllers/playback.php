@@ -5,8 +5,7 @@ function controller($node) {
   global $jbArr,$jzUSER;
 
   $display = &new jzDisplay();
-  $smarty = smartySetup();
-  $smarty->assign('templates',dirname(__FILE__).'/../templates');
+  $smarty = mobileSmarty();
 
   $path = $node->getPath("String");
 

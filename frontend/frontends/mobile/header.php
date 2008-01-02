@@ -262,4 +262,14 @@ function actionIsQueue() {
   return false;
 }
 
+function mobileSmarty() {
+  global $main_truncate_length,$chars_per_line;
+  $smarty = smartySetup();
+  $smarty->assign('templates',dirname(__FILE__).'/templates');
+  $smarty->assign('main_truncate_length',$main_truncate_length); 
+  $smarty->assign('chars_per_line',$chars_per_line);
+
+  return $smarty;
+}
+
 ?>

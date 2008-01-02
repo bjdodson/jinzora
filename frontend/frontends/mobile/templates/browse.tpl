@@ -72,7 +72,7 @@
   {/section}
   <tr>
     <td align="left">
-      <a href="{$nodes[node].link}"> {$nodes[node].name|truncate:35} </a>
+      <a href="{$nodes[node].link}"> {$nodes[node].name|truncate:$main_truncate_length} </a>
     </td><td align="right">
       {$nodes[node].openPlayTag}>{$Play}</a>
     </td>
@@ -91,7 +91,7 @@
   <tr>
     <td align="left">
     {$tracks[track].openPlayTag}>
-      {$tracks[track].number}. {$tracks[track].name|truncate:35}
+      {$tracks[track].number}. {$tracks[track].name|truncate:$main_truncate_length}
       &nbsp;({$tracks[track].length})
     </a>
     </td><td align="right">
