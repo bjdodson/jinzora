@@ -1426,31 +1426,18 @@
 		  return "<a href=\"\" onclick=\"ajax_direct_call('".urlize(array('action'=>'addToPlaylist','jz_path'=>$e->getPath('String'),'type'=>'track'))."',updatePlaylist_cb); return false;\" ";
 		}
 		function getOpenPlayTag($node, $random = false, $limit = 0) { 
-		  global $jzUSER, $jzSERVICES,$jukebox;
+		  global $jzUSER,$jzSERVICES,$jukebox;
 		  if (!is_object($node)){return;}
 		  
 		  // do they have permissions or should we just do text?
 		  if (!checkPermission($jzUSER,"play",$node->getPath("String"))) {
 		    return null;
 		  } 
-		  
-		  $arr = array();
-		  $arr['jz_path'] = $node->getPath("String");
-		  $arr['action'] = "playlist";
-		  if ($limit != 0) { $arr['limit'] = $limit; }
-		  if ($random){ $arr['mode'] = "random"; }
-		  if ($clips){ $arr['clips'] = "true"; }
-		  if ($node->isLeaf()) {
-		    $arr['type'] = "track";
-		  }
-		  if (isset($_GET['frame'])){
-		    $arr['frame'] = $_GET['frame'];
-		  }
 
-		  
+		  $href = $node->getPlayHREF($random,$limit);
 		  // Let's start the link
 		  if (defined('NO_AJAX_JUKEBOX') || $jukebox == "false") {
-		    $linkText = '<a href="' . urlize($arr). '"';
+		    $linkText = '<a href="' . $href. '"';
 		    // Now are they using a popup player?
 		    if (checkPlayback() == "embedded"){
 		      // Ok, let's put the popup in the href
@@ -1458,8 +1445,8 @@
 		      $linkText .= $jzSERVICES->returnPlayerHref();
 		    }
 		  } else {
-		    $linkText = '<a href="'. htmlentities(urlize($arr)) . '"';
-		    $linkText .= "onclick=\"return playbackLink('".htmlentities(urlize($arr))."')\"";
+		    $linkText = '<a href="'. htmlentities($href) . '"';
+		    $linkText .= "onclick=\"return playbackLink('".htmlentities($href)."')\"";
 		  }
 
 		  return $linkText;
