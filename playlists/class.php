@@ -58,6 +58,31 @@
 				$this->name = $myname;
 			}
 		}
+
+		/**
+		 * Gets a playable link for this playlist.
+		 * @author Ben Dodson
+		 * @since 1/3/08
+		 **/
+		function getPlayHREF($random=false,$limit=0) {
+		  global $jzUSER;
+		  // do they have permissions or should we just do text?
+		  // return null otherwise 
+		  
+		  $arr = array();
+		  $arr['type'] = 'playlist';
+		  $arr['jz_pl_id'] = $this->getID();
+		  $arr['action'] = "playlist";
+		  if ($limit != 0) { $arr['limit'] = $limit; }
+		  if ($random){ $arr['mode'] = "random"; }
+		  if ($clips){ $arr['clips'] = "true"; }
+		  
+		  if (isset($_GET['frame'])){
+		    $arr['frame'] = $_GET['frame'];
+		  }
+
+		  return urlize($arr);
+		}
 		
 		/**
 		* Gets the playlist's name.

@@ -34,8 +34,10 @@ width:auto;
         {$playlists[playlist].name|truncate:25}
       </td>
       <td align="right">
-        <a href="{$playlists[playlist].play}">{$play}</a> | 
-        <a href="{$playlists[playlist].shuffle}">{$shuffle}</a>
+        {$playlists[playlist].openPlayTag}>{$play}</a>
+	{if $playlists[playlist].isStatic } 
+        | {$playlists[playlist].openShuffleTag}>{$shuffle}</a>
+	{/if}
       </td>
     </tr>
   </table>

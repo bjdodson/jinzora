@@ -1,7 +1,7 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
 
 function controller($node) {
-  global $jzUSER;
+  global $jzUSER,$display;
   $display = &new jzDisplay();
   $smarty = smartySetup();
   $smarty->assign('templates',dirname(__FILE__).'/../templates');
@@ -10,18 +10,25 @@ function controller($node) {
 
   $sm_lists = array();
 
-  $pl = $jzUSER->loadPlaylist("session");
-  if ($pl->length() > 0) {
+  $l = $jzUSER->loadPlaylist("session");
+  if ($l->length() > 0) {
+    
     $sm_lists[] = array('name'=>word("Quick List"),
-			'play'=>'blank',
-			'shuffle'=>'blank');
+			'openPlayTag'=>$display->getOpenPlayTag($l),
+			'isStatic'=>true,
+			'openShuffleTag'=>$display->getOpenPlayTag($l,true));
+    
   }
 
-  $lists = $jzUSER->listPlaylists("all");
+  $lists = $jzUSER->listPlaylists("static") + $jzUSER->listPlaylists("dynamic"); // use "all" to mix ordering
   foreach ($lists as $id => $plName) {
+    $l = $jzUSER->loadPlaylist($id);
+    $static = ($l->getPLType() == 'static') ? true : false;
+
     $sm_lists[] = array('name'=>$plName,
-			'play'=>'blank',
-			'shuffle'=>'blank');
+			'openPlayTag'=>$display->getOpenPlayTag($l),
+			'isStatic'=>$static,
+			'openShuffleTag'=>$display->getOpenPlayTag($l,true));
   }
   $smarty->assign('playlists',$sm_lists);
  

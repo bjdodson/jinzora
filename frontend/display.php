@@ -1430,7 +1430,7 @@
 		  if (!is_object($node)){return;}
 		  
 		  // do they have permissions or should we just do text?
-		  if (!checkPermission($jzUSER,"play",$node->getPath("String"))) {
+		  if ($node instanceof jzMediaElement && !checkPermission($jzUSER,"play",$node->getPath("String"))) {
 		    return null;
 		  } 
 
