@@ -498,6 +498,15 @@ function handleJukeboxVars() {
   global $jukebox,$jukebox_default_addtype,$default_jukebox,$jzUSER,
     $home_jukebox_subnets,$home_jukebox_id;
 
+  if (isset($_REQUEST['jz_player_type'])) {
+    if ($_REQUEST['jz_player_type'] == 'stream') {
+      $_SESSION['jb_playwhere'] = 'stream';
+    } else if ($_REQUEST['jz_player_type'] == 'jukebox') {
+      $_SESSION['jb_id'] = $_REQUEST['jz_player'];
+      $_SESSION['jb_playwhere'] = 'jukebox';
+    }
+  }
+
   //  if (checkPermission($jzUSER,"jukebox_queue")) {
     if (!isset($_SESSION['jb-addtype']) || isNothing($_SESSION['jb-addtype'])){ // set all the variables.
       if (!isNothing($jukebox_default_addtype)) {

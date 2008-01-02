@@ -1104,5 +1104,34 @@
 			// unlink($filename);
 		}
 
+		/**
+		 * Returns a playable HREF for this element
+		 * @author Ben Dodson
+		 * @since 1/3/08
+		 */
+		function getPlayHREF($random=false,$limit=0) {
+		  global $jzUSER;
+		  // do they have permissions or should we just do text?
+		  if (!checkPermission($jzUSER,"play",$this->getPath("String"))) {
+		    return null;
+		  } 
+		  
+		  $arr = array();
+		  $arr['jz_path'] = $this->getPath("String");
+		  $arr['action'] = "playlist";
+		  if ($limit != 0) { $arr['limit'] = $limit; }
+		  if ($random){ $arr['mode'] = "random"; }
+		  if ($clips){ $arr['clips'] = "true"; }
+		  if ($this->isLeaf()) {
+		    $arr['type'] = "track";
+		  }
+		  if (isset($_GET['frame'])){
+		    $arr['frame'] = $_GET['frame'];
+		  }
+
+		  return urlize($arr);
+		}
+		
+
 	}
 ?>

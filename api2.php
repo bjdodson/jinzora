@@ -171,10 +171,10 @@ function xmlentities($string) {
 		foreach ($root->getSubNodes("both") as $node) {
 			if ($node instanceof jzMediaNode) {
 				$ret[] = E($node->getName(),
-					   ($node->getLevel() > 2) ? $display->getPlayURL($node) : null,
+					   ($node->getLevel() > 2) ? $node->getPlayHREF() : null,
 					   "nodes",array("id" => $node->getID()));
 			} else {
-				$ret[] = E($node->getName(),$node->getPlayLink());
+			  $ret[] = E($node->getName(),$node->getPlayHREF());
 			}
 		}
 		
@@ -183,12 +183,12 @@ function xmlentities($string) {
 	
 	
         function E($display_name, $playlink, $method = null, $args = array()) {
+	  $link = $_SERVER['PHP_SELF'];
 		$a = array('name'=>$display_name,'play'=>$playlink,'method'=>$method,'args'=>$args);
 		if (isset($_REQUEST['user']) && isset($_REQUEST['pass'])) {
-		  $link = 'api2.php?user='.urlencode($_REQUEST['user']).'&pass='.urlencode($_REQUEST['pass']).'&';
-		} else {
-		  $link = 'api2.php?';
+		  $link .= '?user='.urlencode($_REQUEST['user']).'&pass='.urlencode($_REQUEST['pass']).'&';
 		}
+
 		$link .= 'page=' . $method;
 		foreach ($args as $key=>$val) {
 			$link .= '&' . urlencode($key) . '=' . urlencode($val);
