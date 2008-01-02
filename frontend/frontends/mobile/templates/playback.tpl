@@ -1,23 +1,16 @@
 {literal}
 <style type="text/css">
-#bodyDiv div {
-  width:100%;
-  height:100%;
-}
 
 #bodyDiv div {
-  height:100%;
-  width:100%;
   margin:0;
-  padding: 0 8 0 8;
+  padding: 0;
 }
 
 /* big links for easy clicking */
 #bodyDiv div a {
-  width:100%;
   height:100%;
   display:block;
-  padding:8 0 8 0;
+padding: 8px 8px 8px 8px;  
 }
 
 #newListName {
@@ -34,7 +27,7 @@
   {else}
   <div class="jz_row2">
   {/if}
-      <a href="{$players[player].url}"> {$players[player].label|truncate:35} </a>
+    <a href="{$players[player].url}"> {$players[player].label|truncate:35} </a>
   </div>
   {/section}
   
@@ -43,7 +36,7 @@
   {else}
   <div class="jz_row2">
   {/if}
-      <a style="display:inline;" href="$newList.href" onclick="{$newList.onclick}">{$newList.label}</a>
-      <input id="newListName" value="{$newList.name}"/>
+    <a style="display:inline;" href="$newList.href" onclick="{$newList.onclick}">{$newList.label}</a>
+    <input id="newListName" value="{$newList.name}"/>
   </div>
 </div>
