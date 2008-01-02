@@ -46,5 +46,24 @@ td {
 h1 {
   font-size: <?php echo$fontsize+2; ?>px;
   text-align:center;
+  margin-top:20px;
+  text-decoration:underline;
+}
+
+div.headerLinks {
+  width:auto;
+  text-align:center;
+  margin:4px 0px 4px 0px;
+}
+
+div.headerLinks a {
+  padding: 1px;
+  border: 1px solid;
+  margin: 0px 1px 0px 1px;
+  text-align: center;
+}
+
+div.headerLinks span {
+  white-space:nowrap;border:1px solid yellow;
 }
 </style>

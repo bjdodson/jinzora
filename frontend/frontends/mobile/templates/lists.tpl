@@ -18,12 +18,12 @@ width:auto;
 #bodyDiv table tr td {
   padding:8 8 8 8;
 }
-
-.headerLink {
-  border:1px solid red;
-}
 </style>
 {/literal}
+<div>
+  <ul><li><a href="#playlists">{$Playlists}</a></li>
+  {section name="header" loop=$charts}<li><a href="#chart_{$smarty.section.header.index}">{$charts[header].title}</a></li>{/section}
+</div>
 <div id="bodyDiv">
   <a name="playlists"/>
   <h1>{$Playlists}</h1>
