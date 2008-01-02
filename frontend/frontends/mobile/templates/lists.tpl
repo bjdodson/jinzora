@@ -19,10 +19,13 @@ width:auto;
   padding:8 8 8 8;
 }
 
+.headerLink {
+  border:1px solid red;
+}
 </style>
 {/literal}
-
 <div id="bodyDiv">
+  <a name="playlists"/>
   <h1>{$Playlists}</h1>
   {section name=playlist loop=$playlists}
   {if $smarty.section.playlist.index is even}
@@ -45,10 +48,10 @@ width:auto;
   {/section}
 
   {section name=chart loop=$charts}
+  <a name="chart_{$smarty.section.chart.index}"/>	
   <h1>{$charts[chart].title}</h1>
-
     {section name=entry loop=$charts[chart].entries}
-    {if $smarty.section.entries.index is even}
+    {if $smarty.section.entry.index is even}
     <table class="jz_row1">
     {else}
     <table class="jz_row2">
