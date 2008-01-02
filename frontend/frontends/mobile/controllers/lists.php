@@ -39,9 +39,24 @@ function controller($node) {
   $root = new jzMediaNode();
   $charts = array();
 
+
+  /* recently added albums */
+  $chart = array();
+  $chart['title'] = word('New Albums');
+  $entries = array();
+  $list = $root->getRecentlyAdded('nodes',distanceTo('album'),$chart_size);
+  for ($i = 0; $i < sizeof($list); $i++) {
+    $entries[] = array('name'=>$list[$i]->getName(),
+		       'link'=>urlize(array('jz_path'=>$list[$i]->getPath("String"))),
+		       'openPlayTag'=>$display->getOpenPlayTag($list[$i]));
+  }
+  $chart['entries'] = $entries;
+  $charts[] = $chart;
+
+
+  /* recently played albums */
   $chart = array();
   $chart['title'] = word('Recently Played Albums');
-
   $entries = array();
   $list = $root->getRecentlyPlayed('nodes',distanceTo('album'),$chart_size);
   for ($i = 0; $i < sizeof($list); $i++) {
@@ -51,6 +66,9 @@ function controller($node) {
   }
   $chart['entries'] = $entries;
   $charts[] = $chart;
+
+  
+
   
   $smarty->assign('charts',$charts);
 
