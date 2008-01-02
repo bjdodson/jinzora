@@ -183,17 +183,22 @@ function xmlentities($string) {
 	
 	
         function E($display_name, $playlink, $method = null, $args = array()) {
-	  $link = $_SERVER['PHP_SELF'];
-		$a = array('name'=>$display_name,'play'=>$playlink,'method'=>$method,'args'=>$args);
-		if (isset($_REQUEST['user']) && isset($_REQUEST['pass'])) {
-		  $link .= '?user='.urlencode($_REQUEST['user']).'&pass='.urlencode($_REQUEST['pass']).'&';
-		}
 
-		$link .= 'page=' . $method;
-		foreach ($args as $key=>$val) {
-			$link .= '&' . urlencode($key) . '=' . urlencode($val);
+		$a = array('name'=>$display_name,'play'=>$playlink,'method'=>$method,'args'=>$args);
+		
+		if ($method != null) {
+		  $link = $_SERVER['PHP_SELF'];
+		  if (isset($_REQUEST['user']) && isset($_REQUEST['pass'])) {
+		    $link .= '?user='.urlencode($_REQUEST['user']).'&pass='.urlencode($_REQUEST['pass']).'&';
+		  }
+		  
+		  $link .= 'page=' . $method;
+		  foreach ($args as $key=>$val) {
+		    $link .= '&' . urlencode($key) . '=' . urlencode($val);
+		  }
+		  $a['link']=$link;
 		}
-		$a['link']=$link;
+		
 		return $a;
 	}
 ?>
