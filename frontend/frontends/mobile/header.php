@@ -225,68 +225,14 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		  $smarty->assign('tabs',$tabs);
 		  jzTemplate($smarty,'header');
 
-		  switch ($page) {
-		  case "browse":
-		    showPageBrowse($node);
-		    break;
-		  case "playback":
-		    showPagePlayback($node);
-		    break;
-		  case "lists";
-		  showPageLists($node);
+		  if (file_exists($cfile = dirname(__FILE__).'/controllers/'.$page.'.php')) {
+		    require_once($cfile);
+		    controller($node);
 		  }
 
 		  jzTemplate($smarty,'footer');
 		}
 	}
-
-/* playback handled in backend.php :: handleJukeboxVars() */
-function showPagePlayback($node) {
-  global $jbArr,$jzUSER;
-
-  $display = &new jzDisplay();
-  $smarty = smartySetup();
-  $smarty->assign('templates',dirname(__FILE__).'/templates');
-
-  $path = $node->getPath("String");
-
-  $url = array('jz_path'=>$path,'page'=>'browse');
-  $pbt = array();
-
-  $url['jz_player'] = 'stream';
-  $url['jz_player_type'] = 'stream';
-  $pbt[] = array('label' => word('Stream media'), 'url'=>urlize($url));
-
-  $url['jz_player_type'] = 'jukebox';
-  if (isset($jbArr) && is_array($jbArr)) {
-    for ($i = 0; $i < sizeof($jbArr); $i++) {
-      $url['jz_player'] = $i;
-      $url['jz_player_type'] = 'jukebox';
-      $pbt[] = array('label' => word('Send to %s', $jbArr[$i]['description']), 'url' => urlize($url));
-    }
-  }
-
-  $url['jz_player_type'] = 'playlist';
-  $url['jz_player'] = 'session';
-  $pbt[] = array('label' => word('Add to Quick List'), 'url' => urlize($url));
-  
-
-  $lists = $jzUSER->listPlaylists("static");
-  foreach ($lists as $id => $plName) {
-    $url['jz_player'] = $id;
-    $pbt[] = array('label'=> word('Add to playlist "%s"', $plName), 'url' => urlize($url));
-  }
-
-  $smarty->assign('players',$pbt);
-  
-  $url['jz_player'] = 'new';
-  $smarty->assign('newList',array('href'=>'#',
-				  'onclick'=>"window.location='".urlize($url)."'.concat('&playlistname='.concat(document.getElementById('playlistname').value)); return true;",
-				  'name'=>word('My Playlist'),
-				  'inputID'=>word('playlistname'),
-				  'label'=>word('Add to new list:')));
-  jzTemplate($smarty,'playback');
-}
 
 function handlePlaylistAction() {
   global $jzUSER;
@@ -306,114 +252,6 @@ function handlePlaylistAction() {
       unset($_SESSION['jz_playlist_queue']);
     }
   }
-}
-
-function showPageLists($node) {
-  $display = &new jzDisplay();
-  $smarty = smartySetup();
-  $smarty->assign('templates',dirname(__FILE__).'/templates');
- 
-  jzTemplate($smarty,'lists');
-}
-
-
-function showPageBrowse($node) {
-  $display = &new jzDisplay();
-  $smarty = smartySetup();
-  $smarty->assign('templates',dirname(__FILE__).'/templates');
-
-  $breadcrumbs = array();
-  if (isset($_REQUEST['jz_path'])) {
-    $me = $node;
-    while ($me->getLevel() > 0) {
-      $breadcrumbs[] = array("name" => $me->getName(),"link" => urlize(array('jz_path'=>$me->getPath("String"))));
-      $me = $me->getParent();
-    }
-  }
-  
-  $breadcrumbs[] = array("name"=>word("Home"),"link"=>urlize(array()));
-  $smarty->assign('breadcrumbs',$breadcrumbs);
-  $smarty->assign('templates',dirname(__FILE__).'/templates');
-  
-  
-  $myNodes = $node->getSubNodes('nodes');
-  sortElements($myNodes);
-  $myTracks = $node->getSubNodes('tracks');
-  
-  $nodes = array();
-  for ($i = 0; $i < sizeof($myNodes); $i++) {
-    $e = $myNodes[$i];
-    $nodes[] = smartyNode($myNodes[$i]);
-  }
-  $smarty->assign('nodes',$nodes);
-
-  $tracks = array();
-  for ($i = 0; $i < sizeof($myTracks); $i++) {
-    $e = $myNodes[$i];
-    $tracks[] = smartyTrack($myTracks[$i]);
-  }
-  $smarty->assign('tracks',$tracks);
-  
-  jzTemplate($smarty,'browse');
-}
-
-function smartyNode($e) {
-  global $compare_ignores_the;
-  static  $anchor = 'A';
-
-  $display = new jzDisplay();
-  $arr = array();
-  $arr['name'] = $e->getName();
-  $arr['link'] = urlize(array('jz_path'=>$e->getPath("String")));
-    
-  if ($e->getPType() == "album" || $e->getPType == "disk") {
-    if (isset($_SESSION['jz_playlist_queue'])) {
-      $arr['openPlayTag'] = $display->getOpenAddToListTag($e);
-    } else {
-      $arr['openPlayTag'] = $display->getOpenPlayTag($e);
-    }
-  } else {
-    if (isset($_SESSION['jz_playlist_queue'])) {
-      $arr['openPlayTag'] = $display->getOpenAddToListTag($e);
-    } else {
-      $arr['openPlayTag'] = $display->getOpenPlayTag($e,true,50);
-    }
-  }
-  
-  $compName = $arr['name'];
-  if ($compare_ignores_the == "true" && strtoupper(substr($compName,0,4)) == 'THE ') {
-    $compName = substr($compName,4);
-  }
-  $compName = trim($compName);
-
-  $anchors = array();
-  if ($i == 0) {
-    $anchors[]='anchor_NUM';
-    $first = false;
-  }
-  while (strlen($anchor) == 1 && ($anchor < strtoupper($compName) || $i == sizeof($items)-1)) {
-    $anchors[] = 'anchor_'.$anchor++;
-  }
-  $arr['anchors'] = $anchors;
-
-  return $arr;
-}
-
-function smartyTrack($e) {
-  $display = new jzDisplay();
-
-  // meta  
-  $arr = $e->getMeta();
-  if (!is_array($arr)) $arr = array();
-
-  $arr['length'] = convertSecMins($arr['length']);
-  $arr['name'] = $e->getName();
-  if (isset($_SESSION['jz_playlist_queue'])) {
-    $arr['openPlayTag'] = $display->getOpenAddToListTag($e);
-  } else {
-    $arr['openPlayTag'] = $display->getOpenPlayTag($e);
-  }
-  return $arr;
 }
 
 ?>
