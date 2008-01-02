@@ -14,7 +14,9 @@
   padding: 8px 8px 8px 8px;  
 }
 
-#newListName {
+{/literal}
+#{$newList.inputID}
+	{literal} {
   margin: 4px 2px 4px 2px;
   width:80px;
 }
