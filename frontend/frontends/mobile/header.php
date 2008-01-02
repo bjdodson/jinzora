@@ -172,7 +172,8 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		  $smarty->assign('jinzora_url',$jinzora_url);
 		  $smarty->assign('jinzora_img',$root_dir.'/style/images/slimzora.gif');
 
-		  $display->preheader($node->getName(),$this->width,$this->align,true,true,true,true);
+		  $skip_global_css = true;
+		  $display->preheader($node->getName(),$this->width,$this->align,true,true,true,$skip_global_css);
 		  include_once(dirname(__FILE__). "/css.php");
 
 		  /* check for playlist queue as action.

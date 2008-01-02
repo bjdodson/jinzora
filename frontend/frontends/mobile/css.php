@@ -26,14 +26,20 @@ a:hover {
 .jz_row1 { 
 	background-color: <?php echo jz_row1; ?>;
         border:0;
+	font-size:<?php echo $fontsize; ?>
 }
 .jz_row2 { 
 	background-color: <?php echo jz_row2; ?>; 
         border:0;
+	font-size:<?php echo $fontsize; ?>
 }
 .jz_track_table {
         font-size: <?php echo $fontsize; ?>
 	color: black;
 	border-collapse: collapse;
+}
+
+td {
+ color: <?php echo jz_headers; ?>;
 }
 </style>
