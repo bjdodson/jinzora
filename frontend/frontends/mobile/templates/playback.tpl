@@ -4,22 +4,23 @@
 #bodyDiv div {
   margin:0;
   padding: 0;
+  vertical-align:middle;
 }
 
 /* big links for easy clicking */
 #bodyDiv div a {
   height:100%;
   display:block;
-padding: 8px 8px 8px 8px;  
+  padding: 8px 8px 8px 8px;  
 }
 
 #newListName {
-  margin: 2px 2px 2px 2px;
+  margin: 4px 2px 4px 2px;
   width:80px;
 }
-
 </style>
 {/literal}
+
 <div id="bodyDiv">
   {section name=player loop=$players}
   {if $smarty.section.player.index is even}
@@ -36,7 +37,7 @@ padding: 8px 8px 8px 8px;
   {else}
   <div class="jz_row2">
   {/if}
-    <a style="display:inline;" href="$newList.href" onclick="{$newList.onclick}">{$newList.label}</a>
-    <input id="newListName" value="{$newList.name}"/>
+    <a style="display:inline;padding:0 4 0 8; vertical-align:middle;" href="{$newList.href}" onclick="{$newList.onclick}">{$newList.label}</a>
+    <input id="{$newList.inputID}" value="{$newList.name}"/>
   </div>
 </div>

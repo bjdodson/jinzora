@@ -49,7 +49,7 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 			echo '<body onLoad="document.getElementById(\'loginform\').field1.focus();"></body>';
 			
 			$urla = array();			
-			$urla['jz_path'] = isset($_GET['jz_path']) ? $_GET['jz_path'] : '';
+			$urla['jz_path'] = isset($_GET['jz_path']) ? stripSlashes($_GET['jz_path']) : '';
 			?>
 				<style>
 					body {
@@ -282,22 +282,33 @@ function showPagePlayback() {
   }
 
   $smarty->assign('players',$pbt);
-  $smarty->assign('newList',array('href'=>'link',
-				  'onclick'=>'action',
+  
+  $url['jz_player'] = 'new';
+  $smarty->assign('newList',array('href'=>'#',
+				  'onclick'=>"window.location='".urlize($url)."'.concat('&playlistname='.concat(document.getElementById('playlistname').value)); return true;",
 				  'name'=>word('My Playlist'),
+				  'inputID'=>word('playlistname'),
 				  'label'=>word('Add to new list:')));
   jzTemplate($smarty,'playback');
 }
 
-function handlePlaylistAction() {;
-  if (isset($_REQUEST['jz_player_type']) && 
-      $_REQUEST['jz_player_type'] == 'playlist' &&
-      isset($_REQUEST['jz_player'])) {
-
-    $_SESSION['jz_playlist_queue'] = $_REQUEST['jz_player'];
-    $_SESSION['jz_playlist'] = $_REQUEST['jz_player'];
-  } else if (isset($_REQUEST['jz_player_type'])) {
-    unset($_SESSION['jz_playlist_queue']);
+function handlePlaylistAction() {
+  global $jzUSER;
+  if (isset($_REQUEST['jz_player_type'])) {
+    if ($_REQUEST['jz_player_type'] == 'playlist' &&
+	isset($_REQUEST['jz_player'])) {
+      if ($_REQUEST['jz_player'] == 'new') {
+	$pl = new jzPlaylist();
+	$jzUSER->storePlaylist($pl,stripSlashes($_REQUEST['playlistname']));
+	$_SESSION['jz_playlist'] = $pl->getID();
+	$_SESSION['jz_playlist_queue'] = $_REQUEST['jz_player'];
+      } else {
+	$_SESSION['jz_playlist_queue'] = $_REQUEST['jz_player'];
+	$_SESSION['jz_playlist'] = $_REQUEST['jz_player'];
+      }
+    } else {
+      unset($_SESSION['jz_playlist_queue']);
+    }
   }
 }
 

@@ -535,7 +535,8 @@ $_SESSION['jz_load_time'] = microtime();
 		  $jzUSER->storePlaylist($pl);
 		  exit();
 		  break;
-		}		
+		  
+		} /* case */
 	}
 	/* * * * * * * * * */
 	// // // // // // / / 

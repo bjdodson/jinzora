@@ -1193,6 +1193,7 @@ function sendID3Image($path,$name,$id3) {
 	  case "style":
 	  case "user":
 	  case "pass":
+	  case "playlistname":
 		//case "file":
 		return true;
 	  }
