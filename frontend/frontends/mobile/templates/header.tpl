@@ -33,7 +33,7 @@
     <ul>
       {section name=tab loop=$tabs}
       <li {if $tabs[tab].selected}class="selected"{/if}>
-        <a href="{$tabs[tab].link}">{$tabs[tab].name}</a>
+        <a href="{$tabs[tab].link}">{$tabs[tab].name|truncate:12:"..":true}</a>
       </li>
       {/section}
     </ul>    

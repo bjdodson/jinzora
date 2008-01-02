@@ -30,7 +30,7 @@
   {else}
   <div class="jz_row2">
   {/if}
-    <a href="{$players[player].url}"> {$players[player].label|truncate:35} </a>
+    <a href="{$players[player].url}"> {$players[player].label|truncate:35:"...":true} </a>
   </div>
   {/section}
   

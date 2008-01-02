@@ -31,7 +31,7 @@ width:auto;
   {/if}
     <tr>
       <td align="left">
-        {$playlists[playlist].name|truncate:25}
+        {$playlists[playlist].name|truncate:15:"...":true}
       </td>
       <td align="right">
         {$playlists[playlist].openPlayTag}>{$play}</a>
