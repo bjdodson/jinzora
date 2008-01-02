@@ -2790,7 +2790,9 @@
 				$smarty->assign('rss_link', $include_path. 'rss.php?type=most-played');	
 			}	
 			$smarty->assign('root_dir', $root_dir);	
-			$smarty->assign('css', $css);	
+			if (!$minimal_theme) {
+			  $smarty->assign('css', $css);	
+			}
 			$smarty->assign('skin', $skin);	
 			$smarty->assign('secure_links', $secure_links);				
 			$smarty->assign('fav_icon', $root_dir . '/style/favicon.ico');	
