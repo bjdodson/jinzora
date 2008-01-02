@@ -533,7 +533,11 @@ $_SESSION['jz_load_time'] = microtime();
 		  $pl = $jzUSER->loadPlaylist();
 		  $pl->add($el);
 		  $jzUSER->storePlaylist($pl);
-		  exit();
+
+		  if (!defined('NO_AJAX_JUKEBOX')) {
+		    $blocks = new jzBlocks();
+		    $blocks->playlistDisplay();
+		  }
 		  break;
 		  
 		} /* case */

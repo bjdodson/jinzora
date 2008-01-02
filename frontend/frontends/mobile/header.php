@@ -255,4 +255,11 @@ function handlePlaylistAction() {
   }
 }
 
+function actionIsQueue() {
+  if (isset($_SESSION['jz_playlist_queue'])) {
+    return true;
+  }
+  return false;
+}
+
 ?>

@@ -1423,7 +1423,12 @@
 
 		// returns an assoc array with keys 'href' and 'onclick'
 		function getOpenAddToListTag($e) {
-		  return "<a href=\"\" onclick=\"ajax_direct_call('".urlize(array('action'=>'addToPlaylist','jz_path'=>$e->getPath('String'),'type'=>'track'))."',updatePlaylist_cb); return false;\" ";
+		  if ($e->isLeaf()) {
+		    $type = 'track';
+		  } else {
+		    $type = 'node';
+		  }
+		  return "<a href=\"\" onclick=\"ajax_direct_call('".urlize(array('action'=>'addToPlaylist','jz_path'=>$e->getPath('String'),'type'=>$type))."',updatePlaylist_cb); return false;\" ";
 		}
 		function getOpenPlayTag($node, $random = false, $limit = 0) { 
 		  global $jzUSER,$jzSERVICES,$jukebox;

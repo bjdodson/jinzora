@@ -1115,7 +1115,7 @@
 		  if (!checkPermission($jzUSER,"play",$this->getPath("String"))) {
 		    return null;
 		  } 
-		  
+
 		  $arr = array();
 		  $arr['jz_path'] = $this->getPath("String");
 		  $arr['action'] = "playlist";
@@ -1123,7 +1123,9 @@
 		  if ($random){ $arr['mode'] = "random"; }
 		  if ($clips){ $arr['clips'] = "true"; }
 		  if ($this->isLeaf()) {
-		    $arr['type'] = "track";
+		    $arr['type'] = 'track';
+		  } else {
+		    $arr['type'] == 'node';
 		  }
 		  if (isset($_GET['frame'])){
 		    $arr['frame'] = $_GET['frame'];

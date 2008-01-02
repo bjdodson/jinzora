@@ -16,7 +16,12 @@ function controller($node) {
   
   $breadcrumbs[] = array("name"=>word("Home"),"link"=>urlize(array()));
   $smarty->assign('breadcrumbs',$breadcrumbs);
-  
+
+  if (actionIsQueue()) {
+    $smarty->assign('Play',word('Add'));    
+  } else {
+    $smarty->assign('Play',word('Play'));
+  }
   
   $myNodes = $node->getSubNodes('nodes');
   sortElements($myNodes);
@@ -55,7 +60,7 @@ function smartyNode($e) {
       $arr['openPlayTag'] = $display->getOpenPlayTag($e);
     }
   } else {
-    if (isset($_SESSION['jz_playlist_queue'])) {
+    if (actionIsQueue()) {
       $arr['openPlayTag'] = $display->getOpenAddToListTag($e);
     } else {
       $arr['openPlayTag'] = $display->getOpenPlayTag($e,true,50);
@@ -90,7 +95,7 @@ function smartyTrack($e) {
 
   $arr['length'] = convertSecMins($arr['length']);
   $arr['name'] = $e->getName();
-  if (isset($_SESSION['jz_playlist_queue'])) {
+  if (actionIsQueue()) {
     $arr['openPlayTag'] = $display->getOpenAddToListTag($e);
   } else {
     $arr['openPlayTag'] = $display->getOpenPlayTag($e);

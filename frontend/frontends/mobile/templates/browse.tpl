@@ -74,7 +74,7 @@
     <td align="left">
       <a href="{$nodes[node].link}"> {$nodes[node].name|truncate:35} </a>
     </td><td align="right">
-      {$nodes[node].openPlayTag}>Play</a>
+      {$nodes[node].openPlayTag}>{$Play}</a>
     </td>
   </tr>
   </table>
@@ -95,7 +95,7 @@
       &nbsp;({$tracks[track].length})
     </a>
     </td><td align="right">
-      {$tracks[track].openPlayTag}>Play</a>
+      {$tracks[track].openPlayTag}>{$Play}</a>
     </td>
   </tr>
   </table>  
