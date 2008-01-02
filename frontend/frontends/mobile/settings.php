@@ -1,7 +1,4 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
-$show_images = "false";
-$show_descriptions = "true";
-$force_resample = "false";
+$force_resample = $force_resample; // just a reminder that these can be set per-frontend.
 $default_resample = "48";
-$item_truncate = "25";
 ?>
