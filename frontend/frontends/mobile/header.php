@@ -194,10 +194,10 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 				  'selected' => ($page == 'browse') ? true : false);
 		  
 
-		  $tabs[] = array('name'=>word('Playback'),
-				  'link' => urlize(array('page'=>'playback', 
+		  $tabs[] = array('name'=>word('Settings'),
+				  'link' => urlize(array('page'=>'settings', 
 							 'jz_path'=>$path)),
-				  'selected' => ($page == 'playback') ? true : false);
+				  'selected' => ($page == 'settings') ? true : false);
 
 		  $tabs[] = array('name'=>word('Lists'), 
 				  'link' => urlize(array('page'=>'lists', 
@@ -226,9 +226,9 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		  $smarty->assign('tabs',$tabs);
 		  jzTemplate($smarty,'header');
 
-		  if (file_exists($cfile = dirname(__FILE__).'/controllers/'.$page.'.php')) {
+		  if (file_exists($cfile = dirname(__FILE__).'/models/'.$page.'.php')) {
 		    require_once($cfile);
-		    controller($node);
+		    doTemplate($node);
 		  }
 
 		  jzTemplate($smarty,'footer');

@@ -1,7 +1,7 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
 
 /* playback handled in backend.php :: handleJukeboxVars() */
-function controller($node) {
+function doTemplate($node) {
   global $jbArr,$jzUSER;
 
   $display = &new jzDisplay();
@@ -44,7 +44,7 @@ function controller($node) {
 				  'name'=>word('My Playlist'),
 				  'inputID'=>word('playlistname'),
 				  'label'=>word('Add to new list:')));
-  jzTemplate($smarty,'playback');
+  jzTemplate($smarty,'settings');
 }
 
 ?>
