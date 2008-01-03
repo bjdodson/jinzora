@@ -516,7 +516,7 @@ function handleJukeboxVars() {
       }
     }      
     if (!isset($_SESSION['jb_playwhere']) || isNothing($_SESSION['jb_playwhere'])) {
-      if (isset($_SESSION['action']) && $_SESSION['action'] == 'playlist') {
+      if (isset($_GET['action']) && $_GET['action'] == 'playlist') {
 	// hack.. stream these.
 	$_SESSION['jb_playwhere'] = 'stream';
       }
