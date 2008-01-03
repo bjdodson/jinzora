@@ -134,12 +134,17 @@
 								}
 							}
 
+                                                        include_once(dirname(__FILE__).'/../lib/languageDetect.php');
+                                                        $defaultLanguage = getDefaultLanguage();
+                                                        if (!isset($languages[$defaultLanguage])) {
+                                                          $defaultLanguage = 'english';
+                                                        }
 							$languages = array_keys($languages);
 
 							echo '<select name="jz_lang_file">';
 							foreach ($languages as $entry) {
 								echo '<option ';
-								if ($entry == "english"){echo 'selected'; }
+								if ($entry == $defaultLanguage){echo 'selected'; }
 								echo ' value="'. $entry. '">'. $entry. '</option>'. "\n";
 							}
 						?>
