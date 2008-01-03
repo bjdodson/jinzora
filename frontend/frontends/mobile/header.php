@@ -193,16 +193,18 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 							 'jz_path'=>$path)),
 				  'selected' => ($page == 'browse') ? true : false);
 		  
+	     
+		  $tabs[] = array('name'=>word('Lists'), 
+				  'link' => urlize(array('page'=>'lists', 
+							 'jz_path'=>$path)),
+				  'selected' => ($page == 'lists') ? true : false);
+
 
 		  $tabs[] = array('name'=>word('Settings'),
 				  'link' => urlize(array('page'=>'settings', 
 							 'jz_path'=>$path)),
 				  'selected' => ($page == 'settings') ? true : false);
 
-		  $tabs[] = array('name'=>word('Lists'), 
-				  'link' => urlize(array('page'=>'lists', 
-							 'jz_path'=>$path)),
-				  'selected' => ($page == 'lists') ? true : false);
 
 		  // tab for media target:
 		  if (isset($_SESSION['jz_playlist_queue'])) {
