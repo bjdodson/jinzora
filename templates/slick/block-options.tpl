@@ -4,7 +4,7 @@
 		<br />
 		{if $show_group_options == true}
 			<form name="groupform" action="{$this_page}" method="POST">
-				<select class="jz_select" name="action" style="width:125px" onChange="openPopup(this.form.action.options, 400, 400, false, MediaManagement)">
+				<select class="jz_select" name="action" style="width:125px" onChange="openPopup(this.form.action.options[this.selectedIndex].value, 400, 400, false, MediaManagement)">
 					<option value="">Group Features</option>
 					<option value="{$rate_popup_link}">{$word_rate_item}</option>
 					<option value="{$discuss_popup_link}">{$word_discuss_item}</option>
