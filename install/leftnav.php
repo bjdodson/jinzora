@@ -7,11 +7,14 @@
 	}
 	
 	// Now let's include the language file
-	include_once($include_path. 'install/lang/english/lang.php');
-	$lang = "english";
+        include_once(dirname(__FILE__).'/../lib/languageDetect.php');
+        include_once(dirname(__FILE__). '/lang/english/lang.php');
+        $lang = getDefaultLanguage();
 	if (isset($_POST['jz_lang_file'])){
-		include_once($include_path. 'install/lang/'. $_POST['jz_lang_file']. '/lang.php');
-		$lang = $_POST['jz_lang_file'];
+	  include_once(dirname(__FILE__).'/lang/'. $_POST['jz_lang_file']. '/lang.php');
+	  $lang = $_POST['jz_lang_file'];
+	} else if ($lang != 'english') {
+	  include_once(dirname(__FILE__).'/lang/'. $lang. '/lang.php');
 	}
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $include_path; ?>install/style.css">
