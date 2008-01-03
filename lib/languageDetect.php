@@ -6,7 +6,7 @@
  * utilities files. **/
 function getDefaultLanguage() {
   if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-    $locale = substr($_SERVER['HTT_ACCEPT_LANGUAGE'],0,2);
+    $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
   } else {
     return getFallbackLanguage();
   }
