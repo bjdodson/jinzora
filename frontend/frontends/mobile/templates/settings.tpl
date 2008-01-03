@@ -32,7 +32,7 @@
   {else}
   <div class="jz_row2">
   {/if}
-  {if $devices[player].selected}<span style="font-weight:bold;">{/if}
+  {if $devices[player].selected}<span style="font-weight:bold;font-style:italic;">{/if}
     <a href="{$devices[player].url}"> {$devices[player].label|truncate:$chars_per_line:"...":true} </a>
   {if $devices[player].selected}</span>{/if}
   </div>
