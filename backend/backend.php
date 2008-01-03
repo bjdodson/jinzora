@@ -516,7 +516,11 @@ function handleJukeboxVars() {
       }
     }      
     if (!isset($_SESSION['jb_playwhere']) || isNothing($_SESSION['jb_playwhere'])) {
-      if (preg_match("/^${home_jukebox_subnets}$/", $_SERVER['REMOTE_ADDR'])) {
+      if (isset($_SESSION['action']) && $_SESSION['action'] == 'playlist') {
+	// hack.. stream these.
+	$_SESSION['jb_playwhere'] = 'stream';
+      }
+      else if (preg_match("/^${home_jukebox_subnets}$/", $_SERVER['REMOTE_ADDR'])) {
 	$_SESSION['jb_playwhere'] = $home_jukebox_id;
       }
       else if (!isNothing($default_jukebox)) {
