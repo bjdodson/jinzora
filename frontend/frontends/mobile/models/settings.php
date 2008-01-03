@@ -12,7 +12,7 @@ function doTemplate($node) {
 
   $path = $node->getPath("String");
 
-  $url = array('jz_path'=>$path,'page'=>'browse');
+  $url = array('jz_path'=>$path,'page'=>'settings');
   $pbt = array();
   $playlists = array();
 
