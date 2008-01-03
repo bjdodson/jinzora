@@ -197,7 +197,7 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		  $tabs[] = array('name'=>word('Lists'), 
 				  'link' => urlize(array('page'=>'lists', 
 							 'jz_path'=>$path)),
-				  'selected' => ($page == 'lists') ? true : false);
+				  'selected' => ($page == 'lists' || ($page == 'playlist' && isset($_REQUEST['playlist']))));
 
 
 		  $tabs[] = array('name'=>word('Settings'),
@@ -216,13 +216,13 @@ require_once(dirname(__FILE__).'/../../blocks.php');
 		    $tabs[] = array('name'=>$plName, 
 				    'link' => urlize(array('page'=>'playlist', 
 							   'jz_path'=>$path)),
-				    'selected' => ($page == 'playlist') ? true : false);
+				    'selected' => ($page == 'playlist'));
 		  } else if (checkPlayback() == 'jukebox') {
 		    $name = $jbArr[$_SESSION['jb_id']]['description'];
 		    $tabs[] = array('name'=>$name, 
 				    'link' => urlize(array('page'=>'jukebox', 
 							   'jz_path'=>$path)),
-				    'selected' => ($page == 'jukebox') ? true : false);
+				    'selected' => ($page == 'jukebox'));
 		  }
 
 		  $smarty->assign('tabs',$tabs);

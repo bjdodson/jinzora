@@ -35,7 +35,9 @@ width:auto;
   {/if}
     <tr>
       <td align="left">
+        <a href="{$playlists[playlist].editHREF}">
         {$playlists[playlist].name|truncate:15:"...":true}
+        </a>
       </td>
       <td align="right">
         {$playlists[playlist].openPlayTag}>{$Play}</a>

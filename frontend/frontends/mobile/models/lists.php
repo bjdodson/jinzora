@@ -10,11 +10,13 @@ function doTemplate($node) {
   /** Playlists **/
   $smarty->assign('Playlists',word('Playlists'));
 
+  $editPage = array('page'=>'playlist');
   $sm_lists = array();
   $l = $jzUSER->loadPlaylist("session");
   if ($l->length() > 0) {
     $sm_lists[] = array('name'=>word("Quick List"),
 			'openPlayTag'=>$display->getOpenPlayTag($l),
+			'editHREF'=>urlize($editPage, array('playlist'=>'session')),
 			'isStatic'=>true,
 			'openShuffleTag'=>$display->getOpenPlayTag($l,true));
   }
@@ -26,6 +28,7 @@ function doTemplate($node) {
 
     $sm_lists[] = array('name'=>$plName,
 			'openPlayTag'=>$display->getOpenPlayTag($l),
+			'editHREF'=>urlize($editPage, array('playlist'=>$id)),
 			'isStatic'=>$static,
 			'openShuffleTag'=>$display->getOpenPlayTag($l,true));
   }
