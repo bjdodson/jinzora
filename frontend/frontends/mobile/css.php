@@ -50,6 +50,13 @@ h1 {
   text-decoration:underline;
 }
 
+h2 {
+  font-size: <?php echo$fontsize+1; ?>px;
+  text-align:left;
+  margin: 10px 0px 5px 10px;
+  text-decoration:underline;
+}
+
 div.headerLinks {
   width:auto;
   text-align:center;

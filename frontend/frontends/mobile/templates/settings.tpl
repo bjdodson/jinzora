@@ -24,17 +24,34 @@
 {/literal}
 
 <div id="bodyDiv">
-  {section name=player loop=$players}
+  <h1>{$Playback}</h1>
+  <h2>{$SendToDevice}</h2>
+  {section name=player loop=$devices}
   {if $smarty.section.player.index is even}
   <div class="jz_row1">
   {else}
   <div class="jz_row2">
   {/if}
-    <a href="{$players[player].url}"> {$players[player].label|truncate:$chars_per_line:"...":true} </a>
+  {if $devices[player].selected}<span style="font-weight:bold;">{/if}
+    <a href="{$devices[player].url}"> {$devices[player].label|truncate:$chars_per_line:"...":true} </a>
+  {if $devices[player].selected}</span>{/if}
   </div>
+
   {/section}
   
-  {if $smarty.section.player.index is even}
+  <h2>{$AddToPlaylist}</h2>
+  {section name=playlist loop=$playlists}
+  {if $smarty.section.playlist.index is even}
+  <div class="jz_row1">
+  {else}
+  <div class="jz_row2">
+  {/if}
+  {if $playlists[playlist].selected}<span style="font-weight:bold;">{/if}
+    <a href="{$playlists[playlist].url}"> {$playlists[playlist].label|truncate:$chars_per_line:"...":true} </a>
+  {if $playlists[playlist].selected}</span> {/if}
+  </div>
+  {/section}
+  {if $smarty.section.playlist.index is even}
   <div class="jz_row1">
   {else}
   <div class="jz_row2">
