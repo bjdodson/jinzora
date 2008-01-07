@@ -105,10 +105,10 @@ if ($jb_playwhere <> "stream" && checkPermission($jzUSER, "jukebox_admin")) {
 	if ($func['stopbutton']) {
 		$display->displayJukeboxButton("stop");
 	}
-	if ($func['nextbutton']) {
+	if ($func['prevbutton']) {
 		$display->displayJukeboxButton("previous");
 	}
-	if ($func['prevbutton']) {
+	if ($func['nextbutton']) {
 		$display->displayJukeboxButton("next");
 	}
 	if ($func['shufflebutton']) {
