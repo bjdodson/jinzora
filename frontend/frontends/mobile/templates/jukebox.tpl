@@ -15,6 +15,10 @@
 
 }
 
+
+#jbAddTypes {
+  margin-bottom: 15px;
+}
 </style>
 <script type="text/javascript">
 // would be better to use jquery, but
