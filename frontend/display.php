@@ -826,19 +826,16 @@
 
 
 		/**
-		* Displays the Jukebox play button
-		* 
-		* 
-		* @author Ross Carlson
-		* @version 2/9/05
-		* @since 2/9/05
-		* @param $node the Node we are looking at
-		* @param $type The type of button to display
-		*/
-		function displayJukeboxButton($type){
-			global $img_jb_play, $img_jb_pause, $img_jb_stop, $img_jb_previous, $img_jb_next, $img_jb_random_play, $img_jb_clear,$img_jb_repeat,$img_jb_no_repeat; 
-
-			if (defined('NO_AJAX_JUKEBOX')) {
+		 * Ugly PHP Scripty way to get a link
+		 * for a jukebox action. Returns an open
+		 * tag that performs a jukebox action
+		 * (play/pause/etc.).
+		 *
+		 * @author Ben Dodson
+		 * @since 1/7/08
+		 **/
+		function getOpenJukeboxActionTag($type) {
+		  if (defined('NO_AJAX_JUKEBOX')) {
 			  $arr = array();
 			  $arr['action'] = "jukebox";
 			  $arr['subaction'] = "jukebox-command";
@@ -849,23 +846,32 @@
 			  if (isset($_GET['frame'])){
 			    $arr['frame'] = $_GET['frame'];
 			  }			
-			  $image = "img_jb_". $type;							
-			  $retVal = '<a href="'. urlize($arr). '">';
-			  $retVal .= $$image;
-			  $retVal .= "</a> ";
-			  
-			  echo $retVal;
-			  return;
-			} else {
 
+			  return '<a href="'. urlize($arr). '"';
+			} else {
 			  // AJAX:
-			  $image = "img_jb_". $type;
-			  $retVal = '<a href="javascript:;" onClick="sendJukeboxRequest(\''.$type.'\'); return false;">';
-			  $retVal .= $$image;
-			  $retVal .= "</a> ";
-			  
-			  echo $retVal;
+			  return '<a href="javascript:;" onClick="sendJukeboxRequest(\''.$type.'\'); return false;"';
 			}
+		}
+
+		/**
+		* Displays the Jukebox play button
+		* 
+		* 
+		* @author Ross Carlson
+		* @version 2/9/05
+		* @since 2/9/05
+		* @param $node the Node we are looking at
+		* @param $type The type of button to display
+		*/
+		function displayJukeboxButton($type){
+			global $img_jb_play, $img_jb_pause, $img_jb_stop, 
+			  $img_jb_previous, $img_jb_next, $img_jb_random_play, 
+			  $img_jb_clear,$img_jb_repeat,$img_jb_no_repeat; 
+
+			$image = 'img_jb_'.$type;
+			$aTag = $this->getOpenJukeboxActionTag($type);
+			echo $aTag . '>'.$$image.'</a>';
 		}
 		
 		/*
