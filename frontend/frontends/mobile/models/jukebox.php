@@ -21,6 +21,8 @@ function doTemplate($node) {
   $smarty->assign('Shuffle',word('Shuffle'));
   $smarty->assign('Clear',word('Clear'));  
 
+
+  /* buttons */
   if (checkPermission($jzUSER, "jukebox_admin")) {
     $func = $jb->jbAbilities();
 
@@ -44,6 +46,23 @@ function doTemplate($node) {
     }
     if ($func['clearbutton']) {
       $smarty->assign('openClearTag',$display->getOpenJukeboxActionTag('clear'));
+    }
+
+    if ($func['addtype']) {
+      /* how to add media */
+      $smarty->assign('whereAdd',word('Add media:'));
+
+      function jbHREF($type) {
+	return "javascript:sendJukeboxRequest('addwhere','$type');";
+      }
+
+      $set = array();
+      $set[] = array('href'=>jbHREF('current'),'label'=>'After current track','selected'=>($_SESSION['jb-addtype'] == "current"));
+      $set[] = array('href'=>jbHREF('begin'),'label'=>'At beginning of playlist','selected'=>($_SESSION['jb-addtype'] == "begin"));
+      $set[] = array('href'=>jbHREF('end'),'label'=>'At end of playlist','selected'=>($_SESSION['jb-addtype'] == "end"));
+      $set[] = array('href'=>jbHREF('replace'),'label'=>'Replace current playlist','selected'=>($_SESSION['jb-addtype'] == "replace"));
+
+      $smarty->assign('addTypes',$set);
     }
   }
 

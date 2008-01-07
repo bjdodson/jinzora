@@ -3,7 +3,7 @@ $fontsize = '12';
 ?>
 <style>
 /* This affects just about everything... */
-body {
+body,div {
 	background-color: <?php echo jz_pg_bg_color; ?>;
 	margin: 0 0 0 0;
 	font-family: Verdana, Sans;
