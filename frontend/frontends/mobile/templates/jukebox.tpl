@@ -23,20 +23,19 @@
 
 #volume {
   cursor:pointer;
-  width:480px;
-  text-align:justify;
+  display:block;
+  float:none;
 }
 
 #volume div a {
   background-color:gray;
-}
-
-#volume div a img {
   border:0;
   width:10px;
   height:20px;
   margin:0;
   padding:0;
+  display:block;
+  float:left;
 }
 
 </style>
@@ -95,13 +94,14 @@ function setAddTypeStyle(cur) {
   }
 </script>
 {/literal}
+<br/>
 <div id="volume">
-{$Volume}<div id="volume">{section name=volumeStep loop=$volumeSteps start=1}<a id="vol{$smarty.section.volumeStep.index}" onclick="changeVolume({$smarty.section.volumeStep.index},{$volumeSteps[volumeStep]})" style="background-color:{if $volumeSteps[volumeStep] <= $currentVolume}{$volFilled}{else}{$volNotFilled}{/if};">{$blankImage}</a>{/section}</div>
+{$Volume}<div id="knob">{section name=volumeStep loop=$volumeSteps start=1}<a id="vol{$smarty.section.volumeStep.index}" onclick="changeVolume({$smarty.section.volumeStep.index},{$volumeSteps[volumeStep]})" style="background-color:{if $volumeSteps[volumeStep] <= $currentVolume}{$volFilled}{else}{$volNotFilled}{/if};"></a>{/section}</div>
 {/if}
 </div>
-
 {if $whereAdd}
 <div id="jbAddTypes">
+<br/>
 <h2>{$whereAdd}</h2>
 {section name=addType loop=$addTypes}  
   <a id="addType{$smarty.section.addType.index}" href="{$addTypes[addType].href}" onclick="setAddTypeStyle('addType{$smarty.section.addType.index}')" {if $addTypes[addType].selected}style="font-weight:bold;"{/if}>{$addTypes[addType].label}</a><br/>
