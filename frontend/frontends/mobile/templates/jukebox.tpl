@@ -1,3 +1,5 @@
+{assign var=volFilled value='blue'}
+{assign var=volNotFilled value='red'}
 {literal}
 <style type="text/css">
 #jbButtons {
@@ -83,9 +85,9 @@ function setAddTypeStyle(cur) {
     var el = null, name = null;
     while (null != (el = document.getElementById(name = 'vol'+j))) {
       if (j <= i) {
-        el.style.backgroundColor='blue';    
+        el.style.backgroundColor='{/literal}{$volFilled}{literal}';
       } else {
-        el.style.backgroundColor='green';    
+        el.style.backgroundColor='{/literal}{$volNotFilled}{literal}';    
       }
       j++;
     }
@@ -94,7 +96,7 @@ function setAddTypeStyle(cur) {
 </script>
 {/literal}
 <div id="volume">
-{$Volume} <div id="volume">{section name=volumeStep loop=$volumeSteps start=1}<a id="vol{$smarty.section.volumeStep.index}" onclick="changeVolume({$smarty.section.volumeStep.index},{$volumeSteps[volumeStep]})">{$blankImage}</a>{/section}</div>
+{$Volume}<div id="volume">{section name=volumeStep loop=$volumeSteps start=1}<a id="vol{$smarty.section.volumeStep.index}" onclick="changeVolume({$smarty.section.volumeStep.index},{$volumeSteps[volumeStep]})" style="background-color:{if $volumeSteps[volumeStep] <= $currentVolume}{$volFilled}{else}{$volNotFilled}{/if};">{$blankImage}</a>{/section}</div>
 {/if}
 </div>
 

@@ -51,6 +51,9 @@ function doTemplate($node) {
     if ($func['volume']) {
       $smarty->assign('Volume',word('Volume:'));
       $smarty->assign('volumeSteps',range(0,100,5));
+      $vol = $_SESSION['jz_jbvol-' . $_SESSION['jb_id']];
+      if (!isset($vol) || !is_numeric($vol)) $vol = 0;
+      $smarty->assign('currentVolume',$vol);
     }
 
     if ($func['addtype']) {
