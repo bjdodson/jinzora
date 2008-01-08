@@ -48,6 +48,11 @@ function doTemplate($node) {
       $smarty->assign('openClearTag',$display->getOpenJukeboxActionTag('clear'));
     }
 
+    if ($func['volume']) {
+      $smarty->assign('Volume',word('Volume:'));
+      $smarty->assign('volumeSteps',range(0,100,5));
+    }
+
     if ($func['addtype']) {
       /* how to add media */
       $smarty->assign('whereAdd',word('Add media:'));

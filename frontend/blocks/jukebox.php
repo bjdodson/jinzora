@@ -165,10 +165,12 @@ if ($jb_playwhere <> "stream" && checkPermission($jzUSER, "jukebox_admin")) {
 		}
 
 		$c = 100;
+		$vselected = false;
 		while ($c > 0) {
 			echo '<option ';
-			if ($c == $vol) {
+			if ($c <= $vol && !$vselected) {
 				echo ' selected ';
+				$vselected = true;
 			}
 			echo 'value="' . $c . '">Volume ' . $c . '%</option>';
 			$c = $c -10;

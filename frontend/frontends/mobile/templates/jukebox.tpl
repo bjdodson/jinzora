@@ -15,10 +15,28 @@
 
 }
 
-
 #jbAddTypes {
   margin-bottom: 15px;
 }
+
+#volume {
+  cursor:pointer;
+  width:480px;
+  text-align:justify;
+}
+
+#volume div a {
+  background-color:gray;
+}
+
+#volume div a img {
+  border:0;
+  width:10px;
+  height:20px;
+  margin:0;
+  padding:0;
+}
+
 </style>
 <script type="text/javascript">
 // would be better to use jquery, but
@@ -52,6 +70,31 @@ function setAddTypeStyle(cur) {
 {/if}
 {if $openNextTag}
 {$openNextTag}>{$Next}</a>
+{/if}
+</div>
+
+{if $volumeSteps}
+{literal}
+<script type="text/javascript">
+  function changeVolume(i,vol) {
+    sendJukeboxRequest('volume',vol);
+
+    var j = 1; // must be same as section volumeStep's start
+    var el = null, name = null;
+    while (null != (el = document.getElementById(name = 'vol'+j))) {
+      if (j <= i) {
+        el.style.backgroundColor='blue';    
+      } else {
+        el.style.backgroundColor='green';    
+      }
+      j++;
+    }
+    
+  }
+</script>
+{/literal}
+<div id="volume">
+{$Volume} <div id="volume">{section name=volumeStep loop=$volumeSteps start=1}<a id="vol{$smarty.section.volumeStep.index}" onclick="changeVolume({$smarty.section.volumeStep.index},{$volumeSteps[volumeStep]})">{$blankImage}</a>{/section}</div>
 {/if}
 </div>
 

@@ -265,12 +265,12 @@ function actionIsQueue() {
 }
 
 function mobileSmarty() {
-  global $main_truncate_length,$chars_per_line;
+  global $main_truncate_length,$chars_per_line,$img_blank;
   $smarty = smartySetup();
   $smarty->assign('templates',dirname(__FILE__).'/templates');
   $smarty->assign('main_truncate_length',$main_truncate_length); 
   $smarty->assign('chars_per_line',$chars_per_line);
-
+  $smarty->assign('blankImage',$img_blank);
   return $smarty;
 }
 
