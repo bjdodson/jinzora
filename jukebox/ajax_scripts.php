@@ -50,8 +50,12 @@ function updateSmallJukebox_cb(a) {
   document.getElementById("smallJukebox").innerHTML = a;
 }
 
-function sendJukeboxRequest(cmd) {
+function sendJukeboxRequest(cmd, param) {
+  if (param == null) {
     x_ajaxJukeboxRequest(cmd, sendJukeboxRequest_cb);
+  } else {
+    x_ajaxJukeboxRequest(cmd, param, sendJukeboxRequest_cb);
+  }
 }
 
 function sendJukeboxVol() {
