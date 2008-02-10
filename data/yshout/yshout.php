@@ -1,4 +1,4 @@
-<?
+<?php
 
 // YShout: A PHP + AJAX Shoutbox
 // By: Yuri Vishnevsky [http://yurivish.com/yshout/]
