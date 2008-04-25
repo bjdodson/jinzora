@@ -5,7 +5,7 @@
 	
 	global $jzSERVICES;
 {/php}
-<table width="100%" cellpadding="1" height="100%">
+<table width="100%" cellpadding="1">
 	<tr>
 		<td>
 			<table width="100%" cellpadding="0" cellspacing="0">
