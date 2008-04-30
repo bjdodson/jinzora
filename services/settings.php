@@ -1,5 +1,5 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
-$service_lyrics = "jinzora";
+$service_lyrics = "lyricwiki";
 $service_similar = "echocloud";
 $service_link = "google";
 $service_metadata = "jinzora";
