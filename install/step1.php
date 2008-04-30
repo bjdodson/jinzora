@@ -1,5 +1,5 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
-	// Let's figure out the path stuff so we'll know how/where to include from TEST
+	// Let's figure out the path stuff so we'll know how/where to include from
 	$form_action = setThisPage() . "install=step2";
 
 	// Now let's include the left
