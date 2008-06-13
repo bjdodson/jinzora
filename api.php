@@ -247,6 +247,7 @@
 					echo "        <album>". $album->getName(). "</album>\n";
 					echo "        <artist>". $artist->getName(). "</artist>\n";
 					echo "        <genre>". $genre->getName(). "</genre>\n";
+					echo "        <playlink>". $track->getPlayHREF(). "</playlink>\n";
 					echo "      </track>\n";
 				}
 				echo "    </tracks>\n";
@@ -259,16 +260,27 @@
 					// This works on ALL objects if they have art
 					$art = $node->getMainArt();
 					
+					$album = $node->getAncestor("album");
+					if ($album) {
+						$artist = $album->getAncestor("artist");
+					}
+					
 					echo "      <node>\n";
 					echo "        <name>". $node->getName(). "</name>\n";
 					echo "        <type>". $node->getPType(). "</type>\n";
 					echo "        <link>". $this_site. xmlUrlClean($display->link($node,false,false,false,true,true)). "</link>\n";
+					if (!empty($album)) {
+						echo "        <album>". $album->getName(). "</album>\n";
+					}
+					if (!empty($artist)) {
+						echo "        <artist>". $artist->getName(). "</artist>\n";
+					}
 					echo "        <image>";
 					if ($art){
-						$this_site. xmlUrlClean($display->returnImage($artist->getMainArt(),false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+						$this_site. xmlUrlClean($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
 					}
 					echo "        </image>\n"; 
-					
+					echo "        <playlink>". $node->getPlayHREF(). "</playlink>\n";
 					echo "      </node>\n";
 				}
 				echo "    </nodes>\n";
