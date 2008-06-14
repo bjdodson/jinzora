@@ -56,7 +56,7 @@
 	
 	
 	$this_page = setThisPage();
-	$enable_page_caching = "false";
+        $enable_page_caching = "false";
 
 	
 	
@@ -184,7 +184,9 @@
 		
 		// Let's search
 		// This will search the API and return an array of objects
-		$results = handleSearch($_GET['search'], $_GET['searchtype']);
+		$st = isset($_GET['search_type']) ? $_GET['search_type'] : false;
+		$query = $_GET['search'];
+		$results = handleSearch($query, $st);
 		
 		// Now let's make sure we had results
 		if (count($results) == 0){
@@ -219,6 +221,7 @@
 				echo "  <search>\n";
 				echo "    <tracks>\n";
 				// Now let's display the tracks
+				if (sizeof($tracks) > 0)
 				foreach($tracks as $track){
 					// Let's get all the data for display
 					// The getMeta function lets us get all the metadata (length, bitrate, etc) from a tack
@@ -235,24 +238,25 @@
 					
 					// Now let's display
 					echo "      <track>\n";
-					echo "        <name>". $meta['title']. "</name>\n";
+					echo "        <name>". xmlentities($meta['title']). "</name>\n";
 					echo "        <metadata>\n";
-					echo "          <filename>". $meta['filename']. "</filename>\n";
-					echo "          <tracknumber>". $meta['number']. "</tracknumber>\n";
-					echo "          <length>". $meta['length']. "</length>\n";
-					echo "          <bitrate>". $meta['bitrate']. "</bitrate>\n";
-					echo "          <samplerate>". $meta['frequency']. "</samplerate>\n";
-					echo "          <filesize>". $meta['size']. "</filesize>\n";
+					echo "          <filename>". xmlentities($meta['filename']). "</filename>\n";
+					echo "          <tracknumber>". xmlentities($meta['number']). "</tracknumber>\n";
+					echo "          <length>". xmlentities($meta['length']). "</length>\n";
+					echo "          <bitrate>". xmlentities($meta['bitrate']). "</bitrate>\n";
+					echo "          <samplerate>". xmlentities($meta['frequency']). "</samplerate>\n";
+					echo "          <filesize>". xmlentities($meta['size']). "</filesize>\n";
 					echo "        </metadata>\n";
-					echo "        <album>". $album->getName(). "</album>\n";
-					echo "        <artist>". $artist->getName(). "</artist>\n";
-					echo "        <genre>". $genre->getName(). "</genre>\n";
-					echo "        <playlink>". $track->getPlayHREF(). "</playlink>\n";
+					echo "        <album>". xmlentities($album->getName()). "</album>\n";
+					echo "        <artist>". xmlentities($artist->getName()). "</artist>\n";
+					echo "        <genre>". xmlentities($genre->getName()). "</genre>\n";
+					echo "        <playlink>". xmlentities($track->getPlayHREF()). "</playlink>\n";
 					echo "      </track>\n";
 				}
 				echo "    </tracks>\n";
 				echo "    <nodes>\n";
 				// Now let's display the nodes
+				if (sizeof($nodes) > 0)
 				foreach($nodes as $node){
 					// We do the same things here by getting item off the node
 					// $art would be the image for the item we're looking at
@@ -266,21 +270,21 @@
 					}
 					
 					echo "      <node>\n";
-					echo "        <name>". $node->getName(). "</name>\n";
-					echo "        <type>". $node->getPType(). "</type>\n";
-					echo "        <link>". $this_site. xmlUrlClean($display->link($node,false,false,false,true,true)). "</link>\n";
+					echo "        <name>". xmlentities($node->getName()). "</name>\n";
+					echo "        <type>". xmlentities($node->getPType()). "</type>\n";
+					echo "        <link>". xmlentities($this_site.$display->link($node,false,false,false,true,true)). "</link>\n";
 					if (!empty($album)) {
-						echo "        <album>". $album->getName(). "</album>\n";
+					  echo "        <album>". xmlentities($album->getName()). "</album>\n";
 					}
 					if (!empty($artist)) {
-						echo "        <artist>". $artist->getName(). "</artist>\n";
+					  echo "        <artist>". xmlentities($artist->getName()). "</artist>\n";
 					}
 					echo "        <image>";
 					if ($art){
-						$this_site. xmlUrlClean($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+						xmlentities($this_site.$display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
 					}
 					echo "        </image>\n"; 
-					echo "        <playlink>". $node->getPlayHREF(). "</playlink>\n";
+					echo "        <playlink>". xmlentities($this_site.$node->getPlayHREF()). "</playlink>\n";
 					echo "      </node>\n";
 				}
 				echo "    </nodes>\n";

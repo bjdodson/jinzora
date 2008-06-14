@@ -1804,8 +1804,11 @@ function handleSearch($search_string = false, $search_type = false) {
     $stype = "lyrics";
     $distance = -1;
     break;
+  case "BEST":
   default:
-    die("incorrect search type.");
+    $stype = "both";
+    $distance = -1;
+    $keywords['best'] = true;
   }
   if ($distance === false) {
     die("Could not search for ${search_type}.");
@@ -1846,7 +1849,7 @@ function handleSearch($search_string = false, $search_type = false) {
   }
 
   // Exact matches if using keywords:
-  else if (isset($keywords['play']) || isset($keywords['radio'])) {
+  else if (isset($keywords['play']) || isset($keywords['radio']) || isset($keywords['best'])) {
     $results = $root->search($string,$stype,$distance,1,'exact');
     if (sizeof($results) == 0) {
       $results = $root->search($string,$stype,$distance,1); // better to limit 1 or $max_res?

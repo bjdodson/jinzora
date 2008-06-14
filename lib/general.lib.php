@@ -415,6 +415,10 @@
 	function htmlnumericentities($str){
 		return preg_replace('/[^!-%\x27-;=?-~ ]/e', '"&#".ord("$0").chr(59)', $str);
 	}
+
+        function xmlentities($string) {
+	  return str_replace ( array ( '&', '"', "'", '<', '>', '�' ), array ( '&amp;' , '&quot;', '&apos;' , '&lt;' , '&gt;', '&apos;' ), $string );
+        }
 	
 	/**
 	 * @author Ben Dodson
