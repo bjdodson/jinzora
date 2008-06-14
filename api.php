@@ -96,6 +96,9 @@
 	$params = array();
 	$params['limit'] = $limit;
 	
+        if (empty($_REQUEST['request']) && (isset($_REQUEST['query']) || isset($_REQUEST['search'])))  {
+	  $_GET['request'] = 'search';
+	}
 	
 	// Now let's see what they want
 	switch($_GET['request']){
@@ -185,7 +188,13 @@
 		// Let's search
 		// This will search the API and return an array of objects
 		$st = isset($_GET['search_type']) ? $_GET['search_type'] : false;
-		$query = $_GET['search'];
+		$query = '';
+		if (!empty($_GET['search'])) {
+		  $query = $_GET['search'];
+		} else if (!empty($_GET['query'])) {
+		  $query = $_GET['query'];
+		}
+		
 		$results = handleSearch($query, $st);
 		
 		// Now let's make sure we had results
