@@ -174,8 +174,10 @@
 		global $jzUSER, $this_site, $root_dir;
 		
 		// What kind of output?
-		if (isset($_GET['type'])){
-			$type = $_GET['type'];
+		if (isset($_REQUEST['type'])){
+			$type = $_REQUEST['type'];
+		} else if (isset($_REQUEST['output'])) {
+		        $type = $_GET['output'];
 		} else {
 			$type = "xml";
 		}
@@ -196,7 +198,7 @@
 		}
 		
 		$results = handleSearch($query, $st);
-		
+		/*
 		// Now let's make sure we had results
 		if (count($results) == 0){
 			// Now let's output
@@ -205,10 +207,13 @@
 					echoXMLHeader();
 					echo "  <search>false</search>\n";
 					echoXMLFooter();
+					return;
 				break;
 			}
 		}
-		
+		*/
+		$tracks = array();
+		$nodes = array();
 		// Now let's break our nodes and tracks out
 		foreach ($results as $val) {
 			// We look at objects as leafs or nodes
@@ -259,7 +264,7 @@
 					echo "        <album>". xmlentities($album->getName()). "</album>\n";
 					echo "        <artist>". xmlentities($artist->getName()). "</artist>\n";
 					echo "        <genre>". xmlentities($genre->getName()). "</genre>\n";
-					echo "        <playlink>". xmlentities($track->getPlayHREF()). "</playlink>\n";
+					echo "        <playlink>". xmlentities($this_site.$track->getPlayHREF()). "</playlink>\n";
 					echo "      </track>\n";
 				}
 				echo "    </tracks>\n";
@@ -304,9 +309,59 @@
 				// Ok, let's redirect them to the search page
 				header("Location: ". $this_site. "/index.php?doSearch=true&search_query=jam&search_type=ALL");
 			break;
+		case "json":
+		  $jt = array(); $jn = array();
+		  foreach ($tracks as $t) {
+		    $n = array();
+
+		    $meta = $t->getMeta();
+		    
+		    $album = $artist = $genre = false;
+		    $album = $t->getAncestor("album");
+		    if ($album) $artist = $album->getAncestor("artist");
+		    if ($artist) $genre = $artist->getParent();
+		    
+		    // Now let's display
+		    $n['name'] = $meta['title'];
+		    $n['album'] = ($album) ? $album->getName() : '';
+		    $n['artist'] = ($artist) ? $artist->getName() : '';
+		    $n['genre'] = ($genre) ? $genre->getName() : '';
+		    $n['playlink'] = $this_site.$t->getPlayHREF();
+		    $n['metadata'] = $meta;
+
+		    $jt[] = $n;
+		  }
+
+		  foreach ($nodes as $n) {
+		    $a = array();
+		    $art = $n->getMainArt();
+
+		    $a['name']=$n->getName();
+		    $a['type']=$n->getPType();
+		    $a['link']=$this_site.$display->link($node,false,false,false,true,true);
+		    $a['album']=(empty($album)) ? '' : $album->getName();
+		    $a['artist']=(empty($artist))?'':$artist->getName();
+		    $a['image']=($art) ? $this_site.$display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true) : '';
+		    $a['playlink'] = $this_site.$n->getPlayHREF();
+
+		    $jn[] = $a;
+		  }
+
+
+		  echo json_encode(array('tracks'=>$jt,'nodes'=>$jn));
+		  break;
+
+		case 'plain':
+		case 'text':
+		  foreach ($tracks as $t) {
+		    echo $t->getName() . "\n";
+		  }
+
+		  foreach ($nodes as $n) {
+		    echo $n->getName() . "\n";
+		  }
 		}
 	}
-	
 	
 	/**
 	* 

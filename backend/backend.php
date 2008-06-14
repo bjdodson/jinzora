@@ -1779,32 +1779,37 @@ function handleSearch($search_string = false, $search_type = false) {
     $max_res = 100;
   }
 
-  switch ($search_type) {
-  case "ALL":
+  switch (strtolower($search_type)) {
+  case "all":
     $stype = "both";
     $distance = -1;
     break;
   case "genres":
+  case "genre":
     $stype = "nodes";
     $distance = distanceTo("genre");
     break;
   case "artists":
+  case "artist":
     $stype = "nodes";
     $distance = distanceTo("artist");
     break;
   case "albums":
+  case "album":
     $stype = "nodes";
     $distance = distanceTo("album");
     break;
   case "tracks":
+  case "track":
     $stype = "tracks";
     $distance = -1;
     break;
   case "lyrics":
+  case "lyric":
     $stype = "lyrics";
     $distance = -1;
     break;
-  case "BEST":
+  case "best":
   default:
     $stype = "both";
     $distance = -1;
