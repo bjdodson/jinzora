@@ -295,9 +295,14 @@
 					}
 					echo "        <image>";
 					if ($art){
-						xmlentities($this_site.$display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+						echo xmlentities($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
 					}
 					echo "        </image>\n"; 
+					echo "        <thumbnail>";
+					if ($art){
+						echo xmlentities($display->returnImage($art,false,75,75, "limit", false, false, false, false, false, "0", false, true, true));
+					}
+					echo "        </thumbnail>\n"; 
 					echo "        <playlink>". xmlentities($this_site.$node->getPlayHREF()). "</playlink>\n";
 					echo "      </node>\n";
 				}
@@ -341,7 +346,8 @@
 		    $a['link']=$this_site.$display->link($node,false,false,false,true,true);
 		    $a['album']=(empty($album)) ? '' : $album->getName();
 		    $a['artist']=(empty($artist))?'':$artist->getName();
-		    $a['image']=($art) ? $this_site.$display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true) : '';
+		    $a['image']=($art) ? $display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true) : '';
+		    $a['image']=($art) ? $display->returnImage($art,false,75, 75, "limit", false, false, false, false, false, "0", false, true, true) : '';
 		    $a['playlink'] = $this_site.$n->getPlayHREF();
 
 		    $jn[] = $a;
