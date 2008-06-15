@@ -299,6 +299,7 @@
 					}
 					echo "        </image>\n"; 
 					echo "        <thumbnail>";
+					$art = $node->getMainArt('75x75');
 					if ($art){
 						echo xmlentities($display->returnImage($art,false,75,75, "limit", false, false, false, false, false, "0", false, true, true));
 					}
@@ -347,6 +348,7 @@
 		    $a['album']=(empty($album)) ? '' : $album->getName();
 		    $a['artist']=(empty($artist))?'':$artist->getName();
 		    $a['image']=($art) ? $display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true) : '';
+		    $art = $n->getMainArt('75x75');
 		    $a['image']=($art) ? $display->returnImage($art,false,75, 75, "limit", false, false, false, false, false, "0", false, true, true) : '';
 		    $a['playlink'] = $this_site.$n->getPlayHREF();
 
