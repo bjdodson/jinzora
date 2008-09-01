@@ -1,5 +1,5 @@
 <?php
-	define('JZ_SECURE_ACCESS','true');
+	defined('JZ_SECURE_ACCESS') or define('JZ_SECURE_ACCESS','true');
 		
 	if (!(isset($define_only) && $define_only)) {
 	  include_once('../../system.php');		

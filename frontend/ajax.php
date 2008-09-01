@@ -314,7 +314,7 @@
 	*
 	**/
 	function returnNowStreaming(){
-		global $jzUSER, $img_tiny_play, $im_tiny_play_dis, $css, $img_tiny_info, $skin, $root_dir, $include_path,$jzSERVICES; 
+		global $jzUSER, $img_tiny_play, $im_tiny_play_dis, $css, $img_tiny_info, $skin, $root_dir, $include_path, $jzSERVICES, $who_is_where_height;
 		
 		$define_only = true;
 		//include_once($include_path. $css);
@@ -411,7 +411,7 @@
 		if ($maxHeight < (($count*13)+26)){
 			$style = "<style>#whoiswhere{height: ". $maxHeight. "px;overflow:auto;}</style>";
 		}
-		$return .= $style. $retVal;
+		$return = $style. $retVal;
 		
 		
 		

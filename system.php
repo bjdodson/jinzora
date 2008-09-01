@@ -31,6 +31,15 @@
 	// Edit at your own risk!
 	//  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+    // Make sure we're not overwriting something
+    if ( !isset($_SERVER['DOCUMENT_ROOT']) ) {
+         $localpath=getenv("SCRIPT_NAME");
+         $absolutepath=realpath($localPath);
+
+         $_SERVER['DOCUMENT_ROOT'] = substr($absolutepath, 0,
+                strpos($absolutepath, $localpath));
+    }
+
 	if (!isset($root_dir)) {
 		$root_dir = "";
 	}
