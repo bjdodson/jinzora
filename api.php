@@ -58,24 +58,19 @@
 	$this_page = setThisPage();
         $enable_page_caching = "false";
 
-        $api_page = $this_site.$_SERVER['PHP_SELF'] .'?';
-        if (isset($_REQUEST['user'])) {
-	  $api_page .= 'user='.urlencode($_REQUEST['user']);
-	}
-        if (isset($_REQUEST['pass'])) {
-	  $api_page .= '&pass='.urlencode($_REQUEST['pass']);
-	}
-	
+url_alias();
+// see this method for persistent vars
+$api_page = get_base_url();
 	
 	// Let's create our user object for later
 	$jzUSER = new jzUser();
 	
 	// Let's make sure this user has the right permissions
-	if ($jzUSER->getSetting("view") === false || isset($_GET['user'])) {
-		if (isset($_GET['user'])) {
+	if ($jzUSER->getSetting("view") === false || isset($_REQUEST['user'])) {
+		if (isset($_REQUEST['user'])) {
 			$store_cookie = true;
 			// Are they ok?
-			if ($jzUSER->login($_GET['user'],$_GET['pass'],$store_cookie, false) === false) {
+			if ($jzUSER->login($_REQUEST['user'],$_REQUEST['pass'],$store_cookie, false) === false) {
 				echoXMLHeader();
 				echo "<login>false</login>";
 				echoXMLFooter();
@@ -96,18 +91,18 @@
 	$jzSERVICES->loadStandardServices();
 	$blocks = new jzBlocks();
 	$display = new jzDisplay();
-	$jz_path = $_GET['jz_path'];
-	$limit = isset($_GET['limit']) ? $_GET['limit'] : 0;
+	$jz_path = $_REQUEST['jz_path'];
+	$limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 0;
 	
 	$params = array();
 	$params['limit'] = $limit;
 	
         if (empty($_REQUEST['request']) && (isset($_REQUEST['query']) || isset($_REQUEST['search'])))  {
-	  $_GET['request'] = 'search';
+	  $_REQUEST['request'] = 'search';
 	}
 
 	// Now let's see what they want
-	switch($_GET['request']){
+	switch($_REQUEST['request']){
 		case "genres":
 			//return listAllGenres($limit); // why??? :(
 			return listAllSubNode("genre",$params);
@@ -156,8 +151,8 @@
 		case "blockOptions":
 		case "slickHeaderBlock":
 		case "blockLogo":
-			$node = new jzMediaNode($_GET['jz_path']);
-			$blocks->$_GET['request']($node);
+			$node = new jzMediaNode($_REQUEST['jz_path']);
+			$blocks->$_REQUEST['request']($node);
 		break;
 
 
@@ -182,7 +177,7 @@ function getFormatFromRequest() {
   if (isset($_REQUEST['type'])){
     $type = $_REQUEST['type'];
   } else if (isset($_REQUEST['output'])) {
-    $type = $_GET['output'];
+    $type = $_REQUEST['output'];
   } else {
     $type = "xml";
   }
@@ -214,12 +209,10 @@ function getFormatFromRequest() {
 		
 		// Let's search
 		// This will search the API and return an array of objects
-		$st = isset($_GET['search_type']) ? $_GET['search_type'] : false;
+		$st = isset($_REQUEST['search_type']) ? $_REQUEST['search_type'] : false;
 		$query = '';
-		if (!empty($_GET['search'])) {
-		  $query = $_GET['search'];
-		} else if (!empty($_GET['query'])) {
-		  $query = $_GET['query'];
+		if (!empty($_REQUEST['search'])) {
+		  $query = $_REQUEST['search'];
 		}
 		
 		$results = handleSearch($query, $st);
@@ -257,7 +250,7 @@ function getFormatFromRequest() {
 		}
 
 		$type = getFormatFromRequest();	
-		$root = new JzMediaNode($_GET['jz_path']);
+		$root = new JzMediaNode($_REQUEST['jz_path']);
 		$results = $root->getSubNodes("both");
 		print_results($results,$type);
 	}
@@ -325,22 +318,22 @@ function getFormatFromRequest() {
 		global $jzUSER, $this_site, $root_dir;
 		
 		// What kind of output?
-		if (isset($_GET['type'])){
-			$type = $_GET['type'];
+		if (isset($_REQUEST['type'])){
+			$type = $_REQUEST['type'];
 		} else {
 			$type = "xml";
 		}
 		
 		// Now let's set the width
-		if (isset($_GET['imagesize'])){
-			$imagesize = $_GET['imagesize']. "x". $_GET['imagesize'];
+		if (isset($_REQUEST['imagesize'])){
+			$imagesize = $_REQUEST['imagesize']. "x". $_REQUEST['imagesize'];
 		} else {
 			$imagesize = "150x150";
 		}
 		
 		// Now let's see when to stop
-		if (isset($_GET['count'])){
-			$total = $_GET['count'];
+		if (isset($_REQUEST['count'])){
+			$total = $_REQUEST['count'];
 		} else {
 			$total = 1;
 		}
@@ -393,8 +386,8 @@ function getFormatFromRequest() {
 							echo "  </item>\n";
 						break;
 						case "html":
-							if (isset($_GET['align'])){
-								if ($_GET['align'] == "center"){
+							if (isset($_REQUEST['align'])){
+								if ($_REQUEST['align'] == "center"){
 									echo "<center>";
 								}
 							}
@@ -408,26 +401,26 @@ function getFormatFromRequest() {
 							$art = $album->getMainArt($imagesize);
 							if ($art){					
 								// Now let's try to get the link from the amazon meta data service
-								if ($_GET['amazon_id'] <> ""){
+								if ($_REQUEST['amazon_id'] <> ""){
 									$jzService = new jzServices();		
 									$jzService->loadService("metadata", "amazon");
 									$id = $jzService->getAlbumMetadata($album, false, "id");	
 									
-									echo '<a target="_blank" href="http://www.amazon.com/exec/obidos/tg/detail/-/'. $id. '/'. $_GET['amazon_id']. '/">';
+									echo '<a target="_blank" href="http://www.amazon.com/exec/obidos/tg/detail/-/'. $id. '/'. $_REQUEST['amazon_id']. '/">';
 								}
 								$display->image($art,$album->getName(),150,false,"limit");	
-								if ($_GET['amazon_id'] <> ""){
+								if ($_REQUEST['amazon_id'] <> ""){
 									echo '</a>';
 								}
 								echo "<br>";
 							}
 							echo $meta['title']. "<br>";
-							if ($_GET['amazon_id'] <> ""){
+							if ($_REQUEST['amazon_id'] <> ""){
 								$jzService = new jzServices();		
 								$jzService->loadService("metadata", "amazon");
 								$id = $jzService->getAlbumMetadata($album, false, "id");	
 								
-								echo '<a target="_blank" href="http://www.amazon.com/exec/obidos/tg/detail/-/'. $id. '/'. $_GET['amazon_id']. '/">'. $album->getName(). "</a><br>";
+								echo '<a target="_blank" href="http://www.amazon.com/exec/obidos/tg/detail/-/'. $id. '/'. $_REQUEST['amazon_id']. '/">'. $album->getName(). "</a><br>";
 							} else {
 								echo $album->getName(). "<br>";
 							}
@@ -467,8 +460,8 @@ function getFormatFromRequest() {
 					echo "  </item>\n";
 				break;
 				case "html":
-					if (isset($_GET['align'])){
-						if ($_GET['align'] == "center"){
+					if (isset($_REQUEST['align'])){
+						if ($_REQUEST['align'] == "center"){
 							echo "<center>";
 						}
 					}
@@ -479,34 +472,34 @@ function getFormatFromRequest() {
 					echo $display->returnImage($artist->getMainArt(),$artist->getName(),false, false, "limit", false, false, false, false, false, "0", false, true, true). "<br>";
 				break;
 				case "mt":
-					if (isset($_GET['align'])){
-						if ($_GET['align'] == "center"){
+					if (isset($_REQUEST['align'])){
+						if ($_REQUEST['align'] == "center"){
 							echo "<center>";
 						}
 					}
 					$art = $album->getMainArt($imagesize);
 					if ($art){					
 						// Now let's try to get the link from the amazon meta data service
-						if ($_GET['amazon_id'] <> ""){
+						if ($_REQUEST['amazon_id'] <> ""){
 							$jzService = new jzServices();		
 							$jzService->loadService("metadata", "amazon");
 							$id = $jzService->getAlbumMetadata($album, false, "id");	
 							
-							echo '<a target="_blank" href="http://www.amazon.com/exec/obidos/tg/detail/-/'. $id. '/'. $_GET['amazon_id']. '/">';
+							echo '<a target="_blank" href="http://www.amazon.com/exec/obidos/tg/detail/-/'. $id. '/'. $_REQUEST['amazon_id']. '/">';
 						}
 						$display->image($art,$album->getName(),150,false,"limit");	
-						if ($_GET['amazon_id'] <> ""){
+						if ($_REQUEST['amazon_id'] <> ""){
 							echo '</a>';
 						}
 						echo "<br>";
 					}
 					echo $meta['title']. "<br>";
-					if ($_GET['amazon_id'] <> ""){
+					if ($_REQUEST['amazon_id'] <> ""){
 						$jzService = new jzServices();		
 						$jzService->loadService("metadata", "amazon");
 						$id = $jzService->getAlbumMetadata($album, false, "id");	
 						
-						echo '<a target="_blank" href="http://www.amazon.com/exec/obidos/tg/detail/-/'. $id. '/'. $_GET['amazon_id']. '/">'. $album->getName(). "</a><br>";
+						echo '<a target="_blank" href="http://www.amazon.com/exec/obidos/tg/detail/-/'. $id. '/'. $_REQUEST['amazon_id']. '/">'. $album->getName(). "</a><br>";
 					} else {
 						echo $album->getName(). "<br>";
 					}
@@ -528,8 +521,8 @@ function getFormatFromRequest() {
 			break;
 		}
 		
-		if (isset($_GET['align'])){
-			if ($_GET['align'] == "center"){
+		if (isset($_REQUEST['align'])){
+			if ($_REQUEST['align'] == "center"){
 				echo "</center>";
 			}
 		}
@@ -644,7 +637,7 @@ function getFormatFromRequest() {
 			echo '  <'. $type. ' name="'. xmlUrlClean($item->getName()). '">'. "\n";
 			echo '    <link>'. $this_site. xmlUrlClean($display->link($item,false,false,false,true,true)). '</link>'. "\n";
 			// Now did they want full details?
-			if (isset($_GET['full']) && $_GET['full'] == "true"){
+			if (isset($_REQUEST['full']) && $_REQUEST['full'] == "true"){
 				if (($art = $item->getMainArt()) !== false){
 					$image = xmlUrlClean($display->returnImage($art,false,false,false,"limit",false,false,false,false,false,"0",false,true));
 				} else {
@@ -679,7 +672,7 @@ function print_lists($results, $format='xml') {
       foreach ($r as $key => $val) {
 	echo "    <${key}>".xmlentities($val)."</${key}>";
       }
-      echo '</list>1';
+      echo '</list>';
     }
     echo '  </browse>';
     echoXMLFooter();
@@ -869,4 +862,32 @@ function print_results($results, $format='xml') {
 		  }
 		}
 
+}
+
+function url_alias() {
+  $aliases = array('password'=>'pass',
+		   'username'=>'user',
+		   'query'=>'search');
+
+  foreach ($aliases as $alias => $canonical) {
+    if (isset($_REQUEST[$alias])) {
+      $_REQUEST[$canonical]=$_REQUEST[$alias];
+    }
+  }
+}
+
+function get_base_url() {
+  global $this_site,$api_page;
+  
+  $maintain = array('user','pass');
+        $api_page = $this_site.$_SERVER['PHP_SELF'] .'?';
+	$c = '';
+	foreach ($maintain as $m) {
+	  if (isset($_REQUEST[$m])) {
+	    $api_page .= $c . $m . '=' . urlencode($_REQUEST[$m]);
+	    $c = '&';
+	  }
+	}
+
+	return $api_page;
 }
