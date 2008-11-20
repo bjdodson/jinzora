@@ -908,6 +908,8 @@ function get_base_url() {
   global $this_site,$api_page;
   
   $maintain = array('user','pass');
+
+
         $api_page = $this_site.$_SERVER['PHP_SELF'] .'?';
 	$c = '';
 	foreach ($maintain as $m) {
