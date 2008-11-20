@@ -127,6 +127,9 @@ $api_page = get_base_url();
 	        case "chart":
 		  return chart();
 		break;
+	        case "jukebox":
+  	          return jukebox();
+	        break;
 		case "stylesheet":
 			echo '<link rel="stylesheet" title="slick" type="text/css" media="screen" href="'. $root_dir. '/style/'. $skin. '/default.php">';
 		break;
@@ -305,6 +308,31 @@ function getFormatFromRequest() {
 	   
 	   print_results($results,getFormatFromRequest());
 	 }
+
+         function jukebox() {
+	   global $jzUSER;
+	   // TODO: Get the selected jukebox ID into $_SESSION['jb_id']
+
+	   // Do we need to use the standard jukebox or not?
+	   // Now did they have a subcommand?
+	   if ($jzUSER->getSetting('jukebox_admin') === false && $jzUSER->getSetting('jukebox_queue') === false) {
+	     echo 'insufficient permissions.';
+	     exit();
+	   }
+
+	   // Now let's pass our command
+	   if (isset($_REQUEST['command'])){
+	     $command = $_REQUEST['command'];
+
+	     
+	     // Let's include the Jukebox classes
+	     writeLogData("messages","API: Passing command: ". $command. " to the jukebox");
+	     include_once("jukebox/class.php");
+	     $jb = new jzJukebox();
+	     $jb->passCommand($command);
+	   }
+	 }
+
 
 	/**
 	* 
