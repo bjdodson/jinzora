@@ -507,6 +507,16 @@ function handleJukeboxVars() {
     }
   }
 
+  // easier call for api:
+  if (isset($_REQUEST['jb_id'])) {
+    if ($_REQUEST['jb_id'] == 'stream') {
+      $_SESSION['jb_playwhere'] = 'stream';
+    } else {
+      $_SESSION['jb_playwhere'] = 'jukebox';
+      $_SESSION['jb_id'] = $_REQUEST['jb_id'];
+    }
+  }
+
   //  if (checkPermission($jzUSER,"jukebox_queue")) {
     if (!isset($_SESSION['jb-addtype']) || isNothing($_SESSION['jb-addtype'])){ // set all the variables.
       if (!isNothing($jukebox_default_addtype)) {
