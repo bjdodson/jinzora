@@ -907,7 +907,7 @@ function url_alias() {
 function get_base_url() {
   global $this_site,$api_page;
   
-  $maintain = array('user','pass');
+  $maintain = array('user','pass','jb_id');
 
 
         $api_page = $this_site.$_SERVER['PHP_SELF'] .'?';
