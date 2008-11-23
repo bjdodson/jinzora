@@ -1172,23 +1172,9 @@
 		  if (sizeof($l->list) == 0) {
 		    return;
 		  }
-		  // First we need to know if they are jukeboxing or not
-		  if (checkPermission($jzUSER,"jukebox") === true){
-		    // Ok, now are they really jukeboxing or streaming?
-		    if (isset($_SESSION['jb_playwhere'])){
-		      if ($_SESSION['jb_playwhere'] == "stream"){
-			$l->stream();
-		      } else {
-			// Ok, Jukebox it is...
-			$l->jukebox();
-		      }
-		    } else if (($jzUSER->getSetting('stream') === false && $jzUSER->getSetting('lofi') === false) && checkPermission($jzUSER, 'jukebox_queue') === true) {
-		      $l->jukebox();
-		    } else {
-		      $l->stream();
-		    }
+		  if (checkPlayback() == 'jukebox') {
+		    $l->jukebox();
 		  } else {
-		    // Nope, just stream
 		    $l->stream();
 		  }
 		}
