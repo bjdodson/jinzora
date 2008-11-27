@@ -312,6 +312,21 @@ function getFormatFromRequest() {
          function jukebox() {
 	   global $jzUSER;
 	   // TODO: Get the selected jukebox ID into $_SESSION['jb_id']
+	   
+	   if (isset($_REQUEST['action'])) {
+	     if ($_REQUEST['action']=='list') {
+	       if ($jzUSER->getSetting('jukebox_admin') === false && $jzUSER->getSetting('jukebox_queue') === false) {
+		 echo "";
+		 return;
+	       }
+	       
+	       @include_once('jukebox/settings.php');
+	       foreach ($jbArr as $key => $val) {
+		 echo $key.':'.$val['description']."\n";
+	       }
+	     }
+	   }
+
 
 	   // Do we need to use the standard jukebox or not?
 	   // Now did they have a subcommand?
@@ -320,7 +335,7 @@ function getFormatFromRequest() {
 	     exit();
 	   }
 
-	   // Now let's pass our command
+	   // Jukebox commands:
 	   if (isset($_REQUEST['command'])){
 	     $command = $_REQUEST['command'];
 
