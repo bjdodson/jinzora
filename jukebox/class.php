@@ -25,11 +25,20 @@
 	* @author Ross Carlson <ross@jinzora.org>
 	*/
 
-	// Now let's include the settings for jukebox
-	@include($include_path. "jukebox/settings.php");
-
 	class jzJukebox {
 	  var $id;
+
+
+	  static function getSettings() {
+	    global $jbArr;
+
+	    if  (isset($jbArr)) {
+	      return $jbArr;
+	    }
+	    @include_once($include_path. "jukebox/settings.php");
+	    return $jbArr;
+	  }
+
 		/**
 		* Constructor for the class.
 		* 
@@ -40,11 +49,12 @@
 		function jzJukebox(){
 			global $include_path, $jbArr;
 
+			jzJukebox::getSettings();
 			// Ok, now we need to include the right subclass for this player
 			if (!isset($_SESSION['jb_id'])){ $_SESSION['jb_id'] = 0; }
 			@include($include_path. "jukebox/settings.php");
+			$this->id = $_SESSION['jb_id'];
 
-			$this->id = $_SESSION['jb_id'];			
 			// Now let's make sure they have installed the jukebox
 			if (!isset($jbArr[0]['type'])){ 
 				// Let's take them through the installer
