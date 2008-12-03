@@ -94,9 +94,27 @@
 	function ajaxJukeboxRequest($command, $arg = false){
 	  global $include_path;
 
-		writeLogData("messages","Jukebox: Passing command '". $command. "' to the jukebox");
+	  writeLogData("messages","Jukebox: Passing command '". $command. "' to the jukebox");
+
 
 	  include_once($include_path. "jukebox/class.php");
+	  if ($command == 'playwhere') {
+	    $jbArr = jzJukebox::getJbArr();
+	    // Ok, let's set where they are playing
+	    $_SESSION['jb_playwhere'] = $_POST['jbplaywhere'];
+	    
+	    // Now let's figure out it's ID				
+	    for ($i=0; $i < count($jbArr); $i++){
+	      if ($jbArr[$i]['description'] == $_SESSION['jb_playwhere']){
+		$_SESSION['jb_id'] = $i;
+		break;
+	      }
+	    }
+	    return;
+	  }
+
+
+	  
 	  $jb = new jzJukebox();
 
 	  if ($command == "volume") {
@@ -121,29 +139,25 @@
 	* @param new_jb: the jukebox to change to.
 	**/
         function ajaxJukebox($new_jb = false, $direct_call = false) {
-	  global $include_path,$jbArr;
-	  
+	  global $include_path;
+
 	  writeLogData("messages","Jukebox: Displaying the primary jukebox interface");
-		
 	  $blocks = new jzBlocks();
 
 	  if ($new_jb !== false) {
 	    // Change the jukebox
 	    include_once($include_path."jukebox/class.php");
+	    $jbArr = jzJukebox::getJbArr();
 	    for ($i=0; $i < count($jbArr); $i++){
 	      if ($jbArr[$i]['description'] == $new_jb){
 		$_SESSION['jb_id'] = $i;
 	      }
 	    }
-	    // Hack our POST vars:
-	    $_POST['jbplaywhere'] = $new_jb;
-
-	    $jb = new jzJukebox();
-	    $jb->passCommand("playwhere");
+	    $_POST['jbplaywhere']=$new_jb;
+	    ajaxJukeboxRequest('playwhere');
 	  }
 
 	  $jb = new jzJukebox();
-
 	  $value = $jb->getCurrentTrackName();
 	  $label = "jb-" . $_SESSION['jb_id'] . "curtrack";
 	  if ($direct_call == "false") { $direct_call = false; }
@@ -164,7 +178,7 @@
 	* @param new_jb: the jukebox to change to.
 	**/
 	function ajaxSmallJukebox($new_jb = false, $text = false, $buttons = false, $linebreaks = false){
-	  global $include_path,$jbArr;
+	  global $include_path;
 		
 		writeLogData("messages","Jukebox: Displaying the small jukebox interface");
 		
@@ -173,16 +187,14 @@
 	  if ($new_jb !== false) {
 	    // Change the jukebox
 	    include_once($include_path."jukebox/class.php");
+	    $jbArr = jzJukebox::getJbArr();
 	    for ($i=0; $i < count($jbArr); $i++){
 	      if ($jbArr[$i]['description'] == $new_jb){
 		$_SESSION['jb_id'] = $i;
 	      }
 	    }
-	    // Hack our POST vars:
-	    $_POST['jbplaywhere'] = $new_jb;
-
-	    $jb = new jzJukebox();
-	    $jb->passCommand("playwhere");
+	    $_POST['jbplaywhere']=$new_jb;
+	    ajaxJukeboxRequest('playwhere');
 	  }
 	  $blocks->smallJukebox($text, $buttons, $linebreaks);
 	}
