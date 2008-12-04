@@ -320,7 +320,8 @@ function getFormatFromRequest() {
 		 return;
 	       }
 	       
-	       @include_once('jukebox/settings.php');
+	       @include_once('jukebox/class.php');
+	       $jbArr = jzJukebox::getJbArr();
 	       foreach ($jbArr as $key => $val) {
 		 echo $key.':'.$val['description']."\n";
 	       }
