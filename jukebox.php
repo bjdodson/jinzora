@@ -49,7 +49,5 @@
 	echo '<script type="text/javascript" src="'. $root_dir. '/lib/jinzora.js"></script>';
 	
 	// Now let's include the jukebox settings
-	include_once($include_path. "jukebox/settings.php");
-	
 	$blocks->jukeboxBlock($node);
 ?>

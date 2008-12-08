@@ -6,11 +6,11 @@
 * @version 12/22/04
 * @since 12/22/04
 */
-global $this_page, $media_dirs, $jbArr, $root_dir, $include_path, $jzUSER, $img_delete, $img_jb_clear, $img_arrow_up, $img_arrow_down;
+global $this_page, $media_dirs, $root_dir, $include_path, $jzUSER, $img_delete, $img_jb_clear, $img_arrow_up, $img_arrow_down;
 
 $display = new jzDisplay();
 include_once ($include_path . "jukebox/class.php");
-
+$jbArr = jzJukebox::getJbArr();
 // let's default to stream
 if (!isset ($_SESSION['jb_playwhere'])) {
 	if (checkPermission($jzUSER, "stream")) {
