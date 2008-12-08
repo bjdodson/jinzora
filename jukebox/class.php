@@ -29,13 +29,43 @@
 	  var $id;
 
 
-	  static function getSettings() {
+	  static function getJbArr() {
 	    global $jbArr;
 
 	    if  (isset($jbArr)) {
 	      return $jbArr;
 	    }
+
 	    @include_once($include_path. "jukebox/settings.php");
+
+
+	    /**
+	     * Get names of available 'quickboxes'
+	     */
+	    $backend = new jzBackend();
+	    $boxes = $backend->loadData('quickboxes');
+	    $newboxes = array();
+	    $clear_old = false;
+	    if ($boxes) {
+	      foreach ($boxes as $id=>$box) {
+		if ($box['poll_time']*5 + $box['active_time'] < time()) {
+		  $clear_old  = true;
+		  continue;
+		}
+		$newboxes[$id] = $box;
+		$jb = array('type'=>'quickbox');
+		$jb['description'] = $box['id'];
+		 
+		$jbArr[] = $jb;
+	      }
+
+	      // clear old jukeboxes
+	      if ($clear_old) {
+		$backend->storeData('quickboxes',$newboxes,1);
+	      }
+	    }
+
+
 	    return $jbArr;
 	  }
 
@@ -49,11 +79,11 @@
 		function jzJukebox(){
 			global $include_path, $jbArr;
 
-			jzJukebox::getSettings();
+			jzJukebox::getJbArr();
 			// Ok, now we need to include the right subclass for this player
-			if (!isset($_SESSION['jb_id'])){ $_SESSION['jb_id'] = 0; }
-			@include($include_path. "jukebox/settings.php");
+			if (!isset($_SESSION['jb_id']) || $_SESSION['jb_id']>=sizeof($jbArr)){ $_SESSION['jb_id'] = 0; }
 			$this->id = $_SESSION['jb_id'];
+
 
 			// Now let's make sure they have installed the jukebox
 			if (!isset($jbArr[0]['type'])){ 
@@ -203,7 +233,7 @@
 		* @param $command The command that we passed to the player
 		*/
 		function passCommand($command){
-			control($command);
+		  control($command);
 		}
 		
 		/**
