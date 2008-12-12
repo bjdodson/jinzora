@@ -212,7 +212,7 @@ function getFormatFromRequest() {
 		
 		// Let's search
 		// This will search the API and return an array of objects
-		$st = isset($_REQUEST['search_type']) ? $_REQUEST['search_type'] : false;
+		$st = isset($_REQUEST['search_type']) ? $_REQUEST['search_type'] : 'best';
 		$query = '';
 		if (!empty($_REQUEST['search'])) {
 		  $query = $_REQUEST['search'];
@@ -277,7 +277,11 @@ function getFormatFromRequest() {
 				  ),
 			    array('name' => 'Recently Played Albums',
 				  'description' => 'Albums recently listened to.',
-				  'browse' => $api_page.'&request=chart&chart=recentplayalbum'
+				  'browse' => $api_page.'&request=chart&chart=recentlyplayedalbums'
+				  ),
+			    array('name' => 'Random Albums',
+				  'description' => 'A list of randomly selected albums.',
+				  'browse' => $api_page.'&request=chart&chart=randomalbums'
 				  )
 			    );
 
@@ -301,8 +305,11 @@ function getFormatFromRequest() {
 	   case 'newalbums':
 	     $results = $root->getRecentlyAdded('nodes',distanceTo('album',$root),$limit);
 	     break;
-	   case 'recentplayalbum':
+	   case 'recentlyplayedalbums':
 	     $results = $root->getRecentlyPlayed('nodes',distanceTo('album',$root),$limit);
+	     break;
+	   case 'randomalbums':
+	     $results = $root->getSubnodes('nodes',distanceTo('album',$root),true,$limit);
 	     break;
 	   }
 	   
@@ -311,8 +318,11 @@ function getFormatFromRequest() {
 
          function jukebox() {
 	   global $jzUSER;
-	   // TODO: Get the selected jukebox ID into $_SESSION['jb_id']
-	   
+
+	   if (!isset($_REQUEST['jb_id']) && $_REQUEST['action'] != 'list') {
+	     return;
+	   }
+	   $_SESSION['jb_id'] = $_REQUEST['jb_id'];
 	   if (isset($_REQUEST['action'])) {
 	     if ($_REQUEST['action']=='list') {
 	       if ($jzUSER->getSetting('jukebox_admin') === false && $jzUSER->getSetting('jukebox_queue') === false) {
