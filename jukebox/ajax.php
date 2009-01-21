@@ -93,9 +93,8 @@
 	**/
 	function ajaxJukeboxRequest($command, $arg = false){
 	  global $include_path;
-
+	  
 	  writeLogData("messages","Jukebox: Passing command '". $command. "' to the jukebox");
-
 
 	  include_once($include_path. "jukebox/class.php");
 	  if ($command == 'playwhere') {

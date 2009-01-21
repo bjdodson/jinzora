@@ -26,7 +26,7 @@
 	*/
 
 	class jzJukebox {
-	  var $id;
+	  var $id = false;
 
 
 	  static function getJbArr() {
@@ -54,7 +54,7 @@
 		}
 		$newboxes[$id] = $box;
 		$jb = array('type'=>'quickbox');
-		$jb['description'] = $box['id'];
+		$jb['description'] = $id;
 		 
 		$jbArr[] = $jb;
 	      }
@@ -64,7 +64,6 @@
 		$backend->storeData('quickboxes',$newboxes,1);
 	      }
 	    }
-
 
 	    return $jbArr;
 	  }
@@ -81,9 +80,21 @@
 
 			jzJukebox::getJbArr();
 			// Ok, now we need to include the right subclass for this player
-			if (!isset($_SESSION['jb_id']) || $_SESSION['jb_id']>=sizeof($jbArr)){ $_SESSION['jb_id'] = 0; }
-			$this->id = $_SESSION['jb_id'];
 
+			// TODO: make getting jukebox by description the only available method.
+			if (isset($_SESSION['jb_id']) && !is_numeric($_SESSION['jb_id'])) {
+			  foreach ($jbArr as $id => $jb) {
+			    if ($jb['description'] == $_SESSION['jb_id']) {
+			      $_SESSION['jb_id'] = $id;
+			      $this->id = $id;
+			      break;
+			    }
+			  }
+			}
+			if (!isset($_SESSION['jb_id']) || $_SESSION['jb_id']>=sizeof($jbArr)){ $_SESSION['jb_id'] = 0; }
+			if ($this->id === false) {
+			  $this->id = $_SESSION['jb_id'];
+			}
 
 			// Now let's make sure they have installed the jukebox
 			if (!isset($jbArr[0]['type'])){ 
@@ -221,7 +232,11 @@
 		* @param $playlist The playlist that we are passing
 		*/
 		function passPlaylist($playlist){
-			playlist($playlist);
+		  if (isset($_REQUEST['addwhere'])) {
+		    $_POST['addplat'] = $_REQUEST['addwhere'];
+		    control('addwhere');
+		  }
+		  playlist($playlist);
 		}
 		
 		/**
