@@ -20,6 +20,8 @@ width:auto;
 }
 </style>
 {/literal}
+
+
 <div>
   <ul><li><a href="#playlists">{$Playlists}</a></li>
   {section name="header" loop=$charts}<li><a href="#chart_{$smarty.section.header.index}">{$charts[header].title}</a></li>{/section}

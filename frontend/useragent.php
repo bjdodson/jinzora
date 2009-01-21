@@ -15,7 +15,7 @@ global $jzSERVICES,$USER_SETTINGS_OVERRIDE;
 	
 	// This is for Windows Mobile Devices
 	if (false !== stristr($useragent, 'Windows CE')) {
-		define('JZ_FRONTEND_OVERRIDE','slimzora');
+		define('JZ_FRONTEND_OVERRIDE','mobile');
 		define('JZ_STYLE_OVERRIDE','sandstone');
 		global $jzSERVICES;
 		//$jzSERVICES->loadService('players','ptunes');

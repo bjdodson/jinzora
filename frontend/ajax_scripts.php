@@ -35,6 +35,12 @@ function updatePlaylist_cb(a) {
   }
 }
 
+/* update playlist for one element */
+function addToPlaylist(url) {
+  ajax_direct_call(url, updatePlaylist_cb)
+}
+
+/* update playlist via form */
 function submitPlaybackForm(button,url) {  
   form = button.form;
   document.pressedVal = null;
