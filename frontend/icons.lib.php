@@ -26,7 +26,7 @@
 	$img_play 			= $img_begin. 'icon-play" alt="'. word("Play"). '" title="'. word("Play"). '"></span>'; 
 	$img_random_play 	= $img_begin. 'icon-random" alt="'. word("Play Random"). '" title="'. word("Play Random"). '"></span>';
 	$img_download 		= $img_begin. 'icon-download" alt="'. word("Download"). '" title="'. word("Download"). '"></span>';
-	$img_prefs 			= $img_begin. 'icon-prefs" alt="'. word("Preferences"). '" title="'. word("Prefrences"). '"></span>';
+	$img_prefs 			= $img_begin. 'icon-prefs" alt="'. word("Preferences"). '" title="'. word("Preferences"). '"></span>';
 	$img_home 			= $img_begin. 'icon-home" alt="'. word("Return Home"). '" title="'. word("Return Home"). '"></span>';
 	$img_clip 			= $img_begin. 'icon-clip" alt="'. word("Play clip"). '" title="'. word("Play clip"). '"></span>';
 	$img_check 			= $img_begin. 'icon-check" alt="'. word("Check all"). '" title="'. word("Check all"). '"></span>';
