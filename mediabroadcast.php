@@ -123,6 +123,10 @@
 				$be = new jzBackend();
 				$el = &new jzMediaTrack($_GET['jz_path'],"id");
 
+				if ($jzUSER->getSetting('force_clips')){
+				  $_GET['cl'] = true;
+				}
+
 				if (isset($_GET['cl'])) {
 				  // Send a clip
 				  $meta = $el->getMeta();

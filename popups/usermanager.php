@@ -671,6 +671,12 @@ $this->closeBlock();
     } else {
       $settings['jukebox_queue'] = "false";
     }
+
+    if (isset($_POST['force_clips'])) {
+      $settings['force_clips'] = "true";
+    } else {
+      $settings['force_clips'] = "false";
+    }
     
     
     if (isset($_POST['powersearch'])) {
@@ -873,6 +879,7 @@ $this->closeBlock();
 									$overCode7 = $display->returnToolTip(word("JUKEBOXADMIN_NOTE"), word("User can admin jukebox"));
 									$overCode8 = $display->returnToolTip(word("SITE_NOTE"), word("Site Admin"));
 									$overCode9 = $display->returnToolTip(word("EDIT_NOTE"), word("Edit Preferences"));
+                                                                        $overCode10 = $display->returnToolTip(word("FORCE_CLIPS_NOTE"), word("Force clip mode"));
 								 ?>
 							    <input <?php echo $overCode; ?> type="checkbox" name="view" class="jz_input" <?php if ($settings['view'] == true) { echo 'CHECKED'; } ?>> View
 							    <input <?php echo $overCode2; ?> type="checkbox" name="stream" class="jz_input" <?php if ($settings['stream'] == true) { echo 'CHECKED'; } ?>> Stream
@@ -883,7 +890,8 @@ $this->closeBlock();
 							    <input <?php echo $overCode7; ?> type="checkbox" name="jukebox_admin" class="jz_input" <?php if ($settings['jukebox_admin'] == true) { echo 'CHECKED'; } ?>> Jukebox Admin<br>
 							    <input <?php echo $overCode8; ?> type="checkbox" name="admin" class="jz_input" <?php if ($settings['admin'] == true) { echo 'CHECKED'; } ?>> Site Admin
 						        <input <?php echo $overCode9; ?> type="checkbox" name="edit_prefs" class="jz_input" <?php if ($settings['edit_prefs'] == true) { echo 'CHECKED'; } ?>> Edit Prefs
-							    <br><br>
+                                                        <input <?php echo $overCode10; ?> type="checkbox" name="force_clips" class="jz_input" <?php if ($settings['force_clips'] == true) { echo 'CHECKED'; } ?>> Clips Only
+																										    <br><br>
 							    </td>
 							    </tr>
 							    <tr>
