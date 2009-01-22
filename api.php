@@ -254,7 +254,13 @@ function getFormatFromRequest() {
 
 		$type = getFormatFromRequest();	
 		$root = new JzMediaNode($_REQUEST['jz_path']);
-		$results = $root->getSubNodes("both");
+
+		$distance = false;
+		if (isset($_REQUEST['resulttype']) && $_REQUEST['resulttype'] == 'artist') {
+		  $distance = distanceTo('artist',$root);
+		}
+
+		$results = $root->getSubNodes("both",$distance);
 		print_results($results,$type);
 	}
 	
@@ -270,6 +276,10 @@ function getFormatFromRequest() {
 			    array('name' => 'Browse Genres',
 				  'description' => 'See music by genre.',
 				  'browse' => $api_page.'&request=browse&jz_path='.urlencode('/')
+				  ),
+			    array('name' => 'Browse Artists',
+				  'description' => 'Browse all artists.',
+				  'browse' => $api_page.'&request=browse&resulttype=artist&jz_path='.urlencode('/')
 				  ),
 			    array('name' => 'Recently Added Albums',
 				  'description' => 'Albums recently added to Jinzora.',
@@ -742,7 +752,7 @@ function print_lists($results, $format='xml') {
  * Prints results in a variety of formats.
  */
 function print_results($results, $format='xml') {
-  global $this_site,$api_page;
+  global $this_site,$api_page; 
   $display = new jzDisplay();
 		$tracks = array();
 		$nodes = array();
@@ -804,7 +814,7 @@ function print_results($results, $format='xml') {
 				echo "    <nodes>\n";
 				// Now let's display the nodes
 				if (sizeof($nodes) > 0)
-				foreach($nodes as $node){
+				  foreach($nodes as $node){
 					// We do the same things here by getting item off the node
 					// $art would be the image for the item we're looking at
 					// In this case we want the art for the match we found
