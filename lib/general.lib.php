@@ -774,7 +774,7 @@ function sendID3Image($path,$name,$id3) {
 		$status = false;
 		
 		if ($limit === false)
-			$speed_limit = 10*1024; // from system.php?
+			$speed_limit = 1*1024; // from system.php?
 		else
 			$speed_limit = $limit;
 		// limit is passed as a param because we may want to limit it for downloads
