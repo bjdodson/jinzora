@@ -118,7 +118,10 @@
 	* @param return Returns a link to refresh the MPD database
 	*/
 	function getAllAddOnTools(){
-	  return;
+	  $url = urlize();
+	  $url = substr($url,0,strpos($url,'index.php'));
+	  $url .= 'jukebox/?id='.urlencode(Quickbox::getID());
+	  return ' - <a href="'.htmlentities($url).'" target="_BLANK"> [Click to join]</a>';
 	}
 	
 	
@@ -460,6 +463,11 @@ class Quickbox {
     if ($id === false) $id = Quickbox::$jbid;
     Quickbox::$boxes[$id] = $box;
     Quickbox::$backend->storeData('quickboxes',Quickbox::$boxes);
+  }
+
+  static function getID() {
+    Quickbox::init();
+    return Quickbox::$jbid;
   }
 }
 
