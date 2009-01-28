@@ -272,28 +272,31 @@ function getFormatFromRequest() {
 	 */
          function home() {
 	   global $api_page;
-	   $entries = array(
-			    array('name' => 'Browse Genres',
-				  'description' => 'See music by genre.',
-				  'browse' => $api_page.'&request=browse&jz_path='.urlencode('/')
-				  ),
-			    array('name' => 'Browse Artists',
-				  'description' => 'Browse all artists.',
-				  'browse' => $api_page.'&request=browse&resulttype=artist&jz_path='.urlencode('/')
-				  ),
-			    array('name' => 'Recently Added Albums',
-				  'description' => 'Albums recently added to Jinzora.',
-				  'browse' => $api_page.'&request=chart&chart=newalbums'
-				  ),
-			    array('name' => 'Recently Played Albums',
-				  'description' => 'Albums recently listened to.',
-				  'browse' => $api_page.'&request=chart&chart=recentlyplayedalbums'
-				  ),
-			    array('name' => 'Random Albums',
-				  'description' => 'A list of randomly selected albums.',
-				  'browse' => $api_page.'&request=chart&chart=randomalbums'
-				  )
-			    );
+	   $entries = array();
+	   if (false !== distanceTo('genre')) {
+	     $entries[] = array('name' => 'Browse Genres',
+				'description' => 'See music by genre.',
+				'browse' => $api_page.'&request=browse&jz_path='.urlencode('/')
+				);
+	   }
+	   $entries[] = array('name' => 'Browse Artists',
+			      'description' => 'Browse all artists.',
+			      'browse' => $api_page.'&request=browse&resulttype=artist&jz_path='.urlencode('/')
+			      );
+	   $entries[] = array('name' => 'Recently Added Albums',
+			      'description' => 'Albums recently added to Jinzora.',
+			      'browse' => $api_page.'&request=chart&chart=newalbums'
+			      );
+	   $entries[] = array('name' => 'Recently Played Albums',
+			      'description' => 'Albums recently listened to.',
+			      'browse' => $api_page.'&request=chart&chart=recentlyplayedalbums'
+			      );
+
+
+	   $entries[] = array('name' => 'Random Albums',
+			      'description' => 'A list of randomly selected albums.',
+			      'browse' => $api_page.'&request=chart&chart=randomalbums'
+			      );
 
 	   $type = getFormatFromRequest();
 	   print_lists($entries,$type);
@@ -310,7 +313,11 @@ function getFormatFromRequest() {
 	   $chart = $_REQUEST['chart'];
 	   $limit = 25;
 	   $results = array();
-	   $root = new jzMediaNode();
+	   if (isset($_REQUEST['jz_path'])) {
+	     $root = new jzMediaNode($_REQUEST['jz_path']);
+	   } else {
+	     $root = new jzMediaNode();
+	   }
 	   switch ($chart) {
 	   case 'newalbums':
 	     $results = $root->getRecentlyAdded('nodes',distanceTo('album',$root),$limit);
