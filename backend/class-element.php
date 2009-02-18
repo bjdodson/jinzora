@@ -1119,6 +1119,11 @@
 		  $arr = array();
 		  $arr['jz_path'] = $this->getPath("String");
 		  $arr['action'] = "playlist";
+
+		  if (false !== strpos($_SERVER['PHP_SELF'],'api.php')) {
+			$arr['target']='raw';
+		  }
+
 		  if ($limit != 0) { $arr['limit'] = $limit; }
 		  if ($random){ $arr['mode'] = "random"; }
 		  if ($clips){ $arr['clips'] = "true"; }

@@ -721,7 +721,9 @@ function checkPlayback($check_streammode = false) {
   }
 
   if (checkPermission($jzUSER,"embedded_player") || (!isNothing($embedded_player) && $embedded_player != "false")) {
-    return "embedded";
+    if (!isset($_REQUEST['target']) || $_REQUEST['target'] != 'raw') {
+      return "embedded";
+    }
   }
 
   return "stream";
