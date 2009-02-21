@@ -25,8 +25,6 @@
 	define("jz_input_font_color","#000000");
 	define("jz_default_table_color","#A5B6D5");
 	define("jz_default_border","1px solid black");	
-	define("jz_default_table_color","#000000");
-	define("jz_default_border","1px solid black");
 	
 	// Do they want the whole stylesheet
 	if (isset($define_only)){if ($define_only){return;}}
