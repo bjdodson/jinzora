@@ -66,11 +66,11 @@
 	$img_arrow_down 	= $img_begin. 'icon-down" alt="'. word("Move Down"). '" title="'. word("Move Down"). '"></span>';
 	
 	// These are for the stars	
-	$img_star_half_empty .= $img_begin. 'icon-star-h-e" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
-	$img_star_full_empty .= $img_begin. 'icon-star-f-e" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
-	$img_star_right 	 .= $img_begin. 'icon-star-r" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
-	$img_star_left 		 .= $img_begin. 'icon-star-l" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
-	$img_star_full 		 .= $img_begin. 'icon-star-f" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
+	$img_star_half_empty = $img_begin. 'icon-star-h-e" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
+	$img_star_full_empty = $img_begin. 'icon-star-f-e" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
+	$img_star_right 	 = $img_begin. 'icon-star-r" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
+	$img_star_left 		 = $img_begin. 'icon-star-l" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
+	$img_star_full 		 = $img_begin. 'icon-star-f" alt="'. word("Rate"). '" title="'. word("Rate"). '"></span>';
 
 	// This are various random icons
     $img_folder 		= '<img src="'. $root_dir. '/style/images/folder.gif" border=0"/>';	
