@@ -159,6 +159,7 @@ function loadJukebox() {
 
     qb.np.registerEvent('onSongOver','npNext()');
     qb.loaded = true;
+    qb.paused=false;
   }
   updateJukebox();
 }
@@ -193,7 +194,11 @@ function loadJukebox() {
 	  qb.np.play();
 	  break;
 	case "pause":
-	  qb.np.pause();
+	  if (!qb.paused)
+	    qb.np.pause();
+	  else
+	    qb.np.play();
+	  qb.paused=!qb.paused;
 	  break;
 	case "next":
 	  npNext();
