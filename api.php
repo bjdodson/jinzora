@@ -363,10 +363,24 @@ function getFormatFromRequest() {
 	     exit();
 	   }
 
+
+	   if (isset($_REQUEST['external_playlist'])) {
+		require_once('playlists/class.php');
+
+		$pl = new JzPlaylist();
+		$pl->addFromExternal($_REQUEST['external_player']);
+		$pl->jukebox();
+		
+		// Questions: how to handle addwhere param;
+		// how to bring in media as JzObject (without breaking built-in calls)
+                return;
+	    }
+
 	   // Jukebox commands:
 	   if (isset($_REQUEST['command'])){
 	     $command = $_REQUEST['command'];
 
+	     
 	     
 	     // Let's include the Jukebox classes
 	     writeLogData("messages","API: Passing command: ". $command. " to the jukebox");
@@ -374,6 +388,9 @@ function getFormatFromRequest() {
 	     $jb = new jzJukebox();
 	     $jb->passCommand($command);
 	   }
+
+	   
+
 	 }
 
 

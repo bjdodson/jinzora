@@ -944,7 +944,35 @@
 		    
 		  }
 		}
-		      
+		   
+		/**
+		 * Plays media from a remote playlist
+		 *
+		 * @param url the URL of the playlist
+		 * @author Ben Dodson
+		 * @since 2/4/09
+		 **/
+		 function addFromExternal($url) {
+			// requires stream support in file handlers
+			$list = file($_REQUEST['external_playlist']);
+	
+			for ($i=0; $i<sizeof($list);$i++) {
+				if ($list[$i][0] != '#') {
+					$name = null;
+					if ($i > 0 && false !== strstr($list[$i-1],'#EXTINF')) {
+						$name = substr($list[$i-1],1+strpos($list[$i-1],','));
+					}
+					$track = new JzMediaTrack();
+					$track->name=$name;
+					$track->playpath = $list[$i];
+					$this->add($track);
+				}
+			}
+
+			fclose($stream);
+		 }
+		
+   
 		/**
 		* Truncates a list to the given size
 		* 
@@ -1102,7 +1130,7 @@
 			// Now let's set the proper header IF we don't need to redirect
 			if (!$redirect){
 			  //$playlist = $this->createPlaylist(false, true, $fileExt);
-			  if (false !== stristr($_SERVER['HTTP_USER_AGENT'],'Windows CE')) {
+			  if (isset($_SERVER['HTTP_USER_AGENT']) && false !== stristr($_SERVER['HTTP_USER_AGENT'],'Windows CE')) {
 			      $disposition = 'attachment';
 			  } else {
 			    $disposition = 'inline';
