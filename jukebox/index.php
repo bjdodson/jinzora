@@ -88,6 +88,8 @@ function getMyId() {
   if (isset($_REQUEST['id'])) {
     return $_REQUEST['id'];// preg_replace("/[^a-zA-Z0-9s]/", "",$_REQUEST['id']);
   }
+return uniqid();
+// lame:
   $adjectives = array('broad',
 		      'chubby',
 		      'flat',
@@ -224,6 +226,21 @@ function loadJukebox() {
   <div>
   I am not just a boring webpage. I am a jukebox, and my id is 
   <em><?php echo $id; ?></em>.
+  </div>
+  <div id="qrcode">
+    <?php 
+
+	$host='http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
+	$host = str_replace("/jukebox/index.php","/api.php",$host);
+	//$id=$id;
+	$user="chumby";
+	$pass="chumby";
+	$barcode = '{host:"'.htmlentities($host).'",'.
+		    'jb_id:"'.htmlentities($id).'",'.
+		    'username:"'.htmlentities($user).'",'.
+		    'password:"'.htmlentities($pass).'"}'; 	 
+    ?>
+  <img src="jukeboxes/quickbox/qr/php/qr_img.php?s=5&d=<?php echo urlencode($barcode) ?>"/>
   </div>
 <div id="box" style="position:absolute;top:0px;left:-200px">
 <?php
