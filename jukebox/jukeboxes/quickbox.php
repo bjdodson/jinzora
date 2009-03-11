@@ -110,12 +110,12 @@
 	
 	
 	/**
-	* Returns Addon tools for MPD - namely refresh jukebox database
+	* Returns Addon tools for quickbox
 	* 
 	* @author Ben Dodson
 	* @version 12/04/08
 	* @since 12/04/08
-	* @param return Returns a link to refresh the MPD database
+	* @param return Returns a link to join the playlist
 	*/
 	function getAllAddOnTools(){
 	  $url = urlize();
@@ -350,24 +350,7 @@
 	function getStatus($type = "playback"){
 		global $jbArr;
 		
-		switch ($type) {
-		case "repeat":
-		  return ($myMpd->repeat) ? true : false;
-		  break;
-		case "playback":
-		  switch ($myMpd->state) {
-		  case MPD_STATE_PLAYING: 
-		    return "playing";
-		    break;
-		  case MPD_STATE_PAUSED:
-		    return "paused";
-		    break;
-		  case MPD_STATE_STOPPED:
-		    return "stopped";
-		    break;
-		  }
-		  break;
-		}
+		return "";
 	}
 	
 	/**
