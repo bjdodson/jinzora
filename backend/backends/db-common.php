@@ -11,13 +11,13 @@
 	}
 	
 	
- 
+if (!class_exists("jzUser")) { 
  	class jzUser extends jzRawUser {
   		function jzUser($login = true, $uid = false) {
     		$this->_constructor($login,$uid);
   		}
 	}
-	
+ }
 	
 	
 // TODO: Make this an abstract interface and recode for each DB.
@@ -67,7 +67,7 @@ function resultsToArray(& $results, $type = false) {
 		$arr = array ();
 		$hash = array ();
 		for ($i = 0; $i < $results->rows; $i++) {
-			if ($results->data[$i]['leaf'] == "false") {
+		  if ($results->data[$i]['leaf'] == "false") {
 				$me = & new jzMediaNode(jz_db_unescape($results->data[$i]['path']));
 				$me->leafcount = $results->data[$i]['leafcount'];
 				$me->nodecount = $results->data[$i]['nodecount'];
