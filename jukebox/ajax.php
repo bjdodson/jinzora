@@ -23,7 +23,7 @@
 	*
 	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	if (!is_array($ajax_list)) {
+        if (!isset($ajax_list) ||!is_array($ajax_list)) {
 		$ajax_list = array();
 	}
 
