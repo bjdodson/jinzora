@@ -85,10 +85,43 @@
 		global $root_dir, $this_site, $css;
 		
 		?>
+
+		 <?php
+		     if (!isset($_SERVER['HTTP_REFERER']) || 
+			 (false === strpos($_SERVER['HTTP_REFERER'],$_SERVER['SERVER_NAME'])) &&
+			 (false === strpos($_SERVER['HTTP_REFERER'],$_SERVER['SERVER_ADDR']))
+			 ) {
+		       // the popup is not resizable.		       
+		       $d = new jzDisplay();
+		       $d->displayJavascript();
+		       ?>
+		       <script type="text/javascript">
+			 win=openMediaPlayer(window.location, 300, 150);
+		       if (win) {
+			 //self.close();
+
+		       } else {
+			 // popup fail
+			 this.href=window.location;
+			 document.write('<a href="#" <?php echo SERVICE_RETURN_PLAYER_HREF_xspf(); ?>>Click here to open media player.</a>');
+		       }
+			 </script>
+		       <?php
+			     exit();
+			     
+		     }
+		?>
 		<SCRIPT LANGUAGE=JAVASCRIPT TYPE="TEXT/JAVASCRIPT"><!--\
-			window.resizeTo(<?php echo $width; ?>,<?php echo $height; ?>)
+		   if (window.name == 'embeddedPlayer') {
+		  window.resizeTo(<?php echo $width; ?>,<?php echo $height; ?>)
+		}
+		
 		-->
 		</SCRIPT>
+
+
+
+
 		<?php	
 		
 		// Let's setup the page
@@ -120,6 +153,7 @@
 				type="application/x-shockwave-flash" 
 				pluginspage="http://www.macromedia.com/go/getflashplayer" />
 		</object>
+
 		<?php
 		exit();
 	}
