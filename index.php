@@ -355,11 +355,16 @@ $_SESSION['jz_load_time'] = microtime();
 			  if (isset($_GET['jz_pl_id'])) {
 			    $pid = $_GET['jz_pl_id'];
 			  }
-			  $pl = $jzUSER->loadPlaylist($pid);
-				if ($_GET['mode'] == "random") {
-				  $pl = $pl->getSmartPlaylist();
-				}
-				$pl->play();
+			  if (isset($_GET['plowner'])) {
+			    $u= new jzUser(false,$_GET['plowner']);
+			    $pl=$u->loadPlaylist($pid);
+			  } else {
+			    $pl = $jzUSER->loadPlaylist($pid);
+			  }
+			  if ($_GET['mode'] == "random") {
+			    $pl = $pl->getSmartPlaylist();
+			  }
+			  $pl->play();
 			}
 			else if (isset($_GET['type']) && $_GET['type'] == "track") {
 				// send file directly if method == direct.

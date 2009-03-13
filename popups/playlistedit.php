@@ -141,6 +141,7 @@ if (getListType($_SESSION['jz_playlist']) == "dynamic") {
 	$arr['action'] = "playlist";
 	$arr['type'] = "playlist";
 	$arr['jz_pl_id'] = $pl->getID();
+	$arr['plowner']=$jzUSER->getID();
 	echo '<strong><a href="' . urlize($arr) . '"';
 	if (checkPlayback() == "embedded") {
 		echo ' ' . $jzSERVICES->returnPlayerHref();
@@ -351,6 +352,7 @@ $arr2 = array ();
 $arr2['action'] = "playlist";
 $arr2['type'] = "playlist";
 $arr2['jz_pl_id'] = $plist->getID();
+$arr2['plowner']=$jzUSER->getID();
 echo '<strong><a href="' . urlize($arr2) . '"';
 if (checkPlayback() == "embedded") {
 	echo ' ' . $jzSERVICES->returnPlayerHref();
