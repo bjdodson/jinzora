@@ -112,7 +112,7 @@
 		     }
 		?>
 		<SCRIPT LANGUAGE=JAVASCRIPT TYPE="TEXT/JAVASCRIPT"><!--\
-		   if (window.name == 'embeddedPlayer') {
+		   if (window.name == 'embeddedPlayer' && window.innerWidth != <?php echo $width ?>) {
 		  window.resizeTo(<?php echo $width; ?>,<?php echo $height; ?>)
 		}
 		
