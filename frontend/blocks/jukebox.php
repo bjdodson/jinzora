@@ -16,6 +16,7 @@ if (!isset ($_SESSION['jb_playwhere'])) {
 	if (checkPermission($jzUSER, "stream")) {
 		$_SESSION['jb_playwhere'] = "stream";
 	} else {
+	  if ($_SESSION['jb_playwhere'] != 'quickbox')
 		$_SESSION['jb_playwhere'] = $jbArr[0]['description'];
 	}
 }
@@ -59,6 +60,7 @@ if (!$jb->connect()) {
 }
 // Now let's get a list of all the jukeboxes that are installed
 for ($i = 0; $i < count($jbArr); $i++) {
+  if ($jbArr[$i]['description'] == "quickbox") continue; // reserved.
 	echo '<option ';
 	if ($jb_playwhere == $jbArr[$i]['description']) {
 		echo " selected ";
@@ -201,6 +203,7 @@ $arr['command'] = "playwhere";
 }
 // Now let's get a list of all the jukeboxes that are installed
 for ($i = 0; $i < count($jbArr); $i++) {
+  if ($jbArr[$i]['description'] == "quickbox") continue; // reserved.
 	echo '<option ';
 	if ($jb_playwhere == $jbArr[$i]['description']) {
 		echo " selected ";
