@@ -5,7 +5,7 @@
 		</td>
 		<td width="50%" align="right" nowrap>
 			{$word_search}
-			<form action="{$this_page}" method="{$method}">
+			<form action="{$this_page}" method="{$method}" name="searchForm" {$searchOnSubmit}>
 				{$formFields}
 				<select class="jz_select" name="search_type" style="width:85px">
 					<option value="ALL">{$word_all_media}</option>
