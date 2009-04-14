@@ -1,4 +1,5 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.');
+global $jukebox;
 	// Let's setup our objects
 	$display = new jzDisplay();
 	$blocks = new jzBlocks();
@@ -24,6 +25,13 @@
 	} else {
 		$smarty->assign('method', "POST");
 	}
+
+if ($jukebox == "true" && !defined('NO_AJAX_JUKEBOX')) {
+				$smarty->assign('searchOnSubmit', 'onSubmit="return searchKeywords(this,\'' . htmlentities($this_page) . '\');"');
+			} else {
+			  $smarty->assign('searchOnSubmit', "");
+			}
+
 	$formFields="";	
 	foreach (getURLVars($this_page) as $key => $val) { 
 		$formFields .= '<input type="hidden" name="' . htmlentities($key) . '" value="' . htmlentities($val) . '">'; 
