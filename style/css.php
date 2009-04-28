@@ -85,7 +85,7 @@
 
 body {
 	background: <?php echo jz_pg_bg_color; ?>;
-	margin: 0px; 0px; 0px; 1px;
+	margin: 0px 0px 0px 1px;
 	font-family: Verdana, Sans;
 	font-size: 10px;
 	color: <?php echo jz_font_color; ?>;
