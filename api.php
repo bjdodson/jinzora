@@ -248,6 +248,7 @@ function getFormatFromRequest() {
 	function browse(){
 		global $jzUSER, $this_site, $root_dir;
 		
+		$ntype = 'both';
 		if (!isset($_REQUEST['jz_path'])) {
 		  return home(); // or browse root?
 		}
@@ -256,11 +257,25 @@ function getFormatFromRequest() {
 		$root = new JzMediaNode($_REQUEST['jz_path']);
 
 		$distance = false;
-		if (isset($_REQUEST['resulttype']) && $_REQUEST['resulttype'] == 'artist') {
-		  $distance = distanceTo('artist',$root);
+		if (isset($_REQUEST['resulttype'])) {
+		  $rt = $_REQUEST['resulttype'];
+
+		  if ($rt == 'artist') {
+		    $distance = distanceTo('artist',$root);
+		  }
+		  
+		  if ($rt == 'album') {
+		    $distance = distanceTo('album',$root);
+		  }
+
+		  if ($rt == 'track') {
+		    $distance = -1;
+		    $ntype = 'track';
+		  }
+
 		}
 
-		$results = $root->getSubNodes("both",$distance);
+		$results = $root->getSubNodes($ntype,$distance);
 		print_results($results,$type);
 	}
 	
@@ -283,6 +298,17 @@ function getFormatFromRequest() {
 			      'description' => 'Browse all artists.',
 			      'browse' => $api_page.'&request=browse&resulttype=artist&jz_path='.urlencode('/')
 			      );
+
+	   $entries[] = array('name' => 'Browse Albums',
+			      'description' => 'Browse all albums.',
+			      'browse' => $api_page.'&request=browse&resulttype=album&jz_path='.urlencode('/')
+			      );
+
+	   $entries[] = array('name' => 'Browse Tracks',
+			      'description' => 'Browse all tracks.',
+			      'browse' => $api_page.'&request=browse&resulttype=track&jz_path='.urlencode('/')
+			      );
+
 	   $entries[] = array('name' => 'Recently Added Albums',
 			      'description' => 'Albums recently added to Jinzora.',
 			      'browse' => $api_page.'&request=chart&chart=newalbums'
