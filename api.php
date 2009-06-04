@@ -129,7 +129,19 @@ $api_page = get_base_url();
 		break;
 	        case "jukebox":
   	          return jukebox();
-	        break;
+		  break;
+	        case "adduser":
+		  return adduser();
+		  break;
+	        case "removeuser":
+		  return removeuser();
+		  break;
+	        case "listusers":
+		  return listusers();
+		  break;
+	        case "setpassword":
+		  return setpassword();
+		  break;
 		case "stylesheet":
 			echo '<link rel="stylesheet" title="slick" type="text/css" media="screen" href="'. $root_dir. '/style/'. $skin. '/default.php">';
 		break;
@@ -190,6 +202,146 @@ function getFormatFromRequest() {
 	
 	// These are the functions for the API
 	
+
+/**
+ * User management API
+ */
+function adduser() {
+  global $jzUSER;
+
+  if ($jzUSER->getSetting('admin') === false){
+    echoXMLHeader();
+    echo "  <error>Insufficient permissions.</error>\n";
+    echoXMLFooter();
+    return;
+  }
+
+  if (!isset($_REQUEST['add_user']) || !isset($_REQUEST['add_password'])) {
+    echoXMLHeader();
+    echo "  <error>Please specify a username/password (add_user/add_password).</error>\n";
+    echoXMLFooter();
+    return;
+  }
+
+  $user = $_REQUEST['add_user'];
+  $password = $_REQUEST['add_password'];
+  
+  $uid = $jzUSER->addUser($user,$password);
+
+  if ($uid === false) {
+    echoXMLHeader();
+    echo "  <error>Failed to add username/password.</error>\n";
+    echoXMLFooter();
+    return;
+  }
+
+  // todo: probably read settings from a template.
+  
+  echoXMLHeader();
+  echo "  <userid>${uid}</userid>\n";
+  echoXMLFooter();
+}
+
+function listusers() {
+  global $jzUSER;
+
+  if ($jzUSER->getSetting('admin') === false){
+    echoXMLHeader();
+    echo "  <error>Insufficient permissions.</error>\n";
+    echoXMLFooter();
+    return;
+  }
+
+  $list = $jzUSER->listUsers();
+  
+  echoXMLHeader();
+  echo '<users>';
+  foreach ($list as $id=>$user) {
+    echo "  <user>\n";
+    echo '    <id>'.$id."</id>\n";
+    echo '    <username>'.$user."</username>\n";
+    echo "  </user>\n";
+    
+  }
+  echo "</users>\n";
+  echoXMLFooter();
+}
+
+function removeuser() {
+  global $jzUSER;
+
+  if ($jzUSER->getSetting('admin') === false){
+    echoXMLHeader();
+    echo "  <error>Insufficient permissions.</error>\n";
+    echoXMLFooter();
+    return;
+  }
+
+  if (!isset($_REQUEST['remove_id']) && !isset($_REQUEST['remove_user'])) {
+    echoXMLHeader();
+    echo "  <error>Must specify a userto remove (remove_id or remove_user).</error>\n";
+    echoXMLFooter();
+    return;
+  }
+
+  if (isset($_REQUEST['remove_user'])) {
+    $id = $jzUSER->lookupUID($_REQUEST['remove_user']);
+  } else {
+    $id=$_REQUEST['remove_id'];
+  }
+
+  if ($id === false) {
+    echoXMLHeader();
+    echo "  <error>Bad user specified.</error>\n";
+    echoXMLFooter();
+    return;
+  }
+
+  $jzUSER->removeUser($id);
+
+  echoXMLHeader();
+  echo "  <status>User removed.</status>";
+  echoXMLFooter();
+}
+
+function setpassword() {
+  global $jzUSER;
+
+  if (!isset($_REQUEST['set_password'])) {
+    echoXMLHeader();
+    echo "  <error>Must specify a password to set.</error>\n";
+    echoXMLFooter();
+    return;
+  }
+
+  $pw = $_REQUEST['set_password'];
+
+  if (isset($_REQUEST['modify_user'])) {
+    if ($jzUSER->getSetting('admin') === false){
+      echoXMLHeader();
+      echo "  <error>Insufficient permissions.</error>\n";
+      echoXMLFooter();
+      return;
+    }
+
+    $user = $_REQUEST['modify_user'];
+
+  } else {
+    $user = false;
+  }
+
+  if (!$jzUSER->changePassword($pw,$user)) {
+    echoXMLHeader();
+    echo "  <error>Failed to set password.</error>\n";
+    echoXMLFooter();
+  } else {
+    echoXMLHeader();
+    echo "  <status>Changed password.</status>";
+    echoXMLFooter();
+  }
+}
+
+
 	
 	/**
 	* 
