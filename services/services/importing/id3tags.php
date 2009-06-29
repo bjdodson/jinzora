@@ -186,28 +186,32 @@ function SERVICE_IMPORTMEDIA_id3tags($node, $root_path = false, $flags = array()
 				}
 			} // while reading dir
 			
-			if ($bestImage != "") {
-				$need_albums = true;
-			}
+			$art_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "data" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR;
 			
-			if ($need_albums && sizeof($track_paths) > 0) {
+			if (sizeof($track_paths) > 0) {
 				$results = $root->bulkInject($track_paths,$track_filenames,$track_metas);
 				for ($i = 0; $i < sizeof($results); $i++) {
 					if ($results[$i] !== false) {
 						$album = $results[$i]->getAncestor("album");
 						if ($album !== false) {
 							$albums[$album->getPath("String")] = true;
+							$newalbum = new jzMediaNode($album->getPath("String"));
+							// If we have album art in the tag, add it.
+							if ($track_metas[$i]['pic_data'] <> ""){
+								$artloc = realpath( $art_dir ) . DIRECTORY_SEPARATOR .  "art_" . $newalbum->getID() . ".jpg" ;
+								
+								if($artloc !== false) {
+									$filehandle = fopen($artloc, "wb");
+									fwrite($filehandle,$track_metas[$i]['pic_data']);				
+									fclose($filehandle);
+				
+									$newalbum->addMainArt("data" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "art_" . $newalbum->getID() .  ".jpg");
+								}
+							}
 						}
 					}
 				}
 			}			
-						
-			if ($bestImage != "") {
-				foreach ($albums as $ap => $true) {
-			    	$album = new jzMediaNode($ap);
-			    	$album->addMainArt($bestImage);
-			  	}
-			}
 	 }
 	 if (isset($flags['showstatus']) && is_string($flags['showstatus']) && $flags['showstatus'] == "cli") {
            echo word("Scanning for removed media.") . "\n";

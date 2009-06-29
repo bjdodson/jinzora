@@ -28,20 +28,35 @@ echo '<div id="current"></div>';
 // and see if we can get art for them
 $nodes = $node->getSubNodes("nodes", -1);
 
-foreach ($nodes as $node) {
-	// Ok, let's see if we can get art for this node
-	if ($node->getMainArt() <> "") {
-		// Now let's add art for this node
-		$node->addMainArt($node->getMainArt());
-?>
-				<SCRIPT LANGUAGE=JAVASCRIPT><!--\
-					c.innerHTML = '<?php echo word("Art found for"); ?>: <?php echo $node->getName(); ?>';					
-					-->
-				</SCRIPT>
-				<?php
+$art_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "data" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR;
+global $jzSERVICES;
 
-		flushdisplay();
+// Check all albums.
+foreach ($nodes as $node) {
+	$tracks = $node->getSubNodes("tracks");
+	// For each track in album.
+	foreach ($tracks as $track) {
+		$meta = $jzSERVICES->getTagData($track->getFilePath());
+		// If we have pic data
+		if ($meta['pic_data'] <> ""){
+			$art = realpath( $art_dir ) . DIRECTORY_SEPARATOR ."art_" . $node->getID() . ".jpg" ;
+
+			if($art !== false) {
+				$handle = fopen($art, "wb");
+				fwrite($handle,$meta['pic_data']);				
+				fclose($handle);
+				$node->addMainArt("data" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "art_" . $node->getID() .  ".jpg");
+			}
+		} 
 	}
+?>
+			<SCRIPT LANGUAGE=JAVASCRIPT><!--\
+				c.innerHTML = '<?php echo word("Art found for"); ?>: <?php echo $node->getName();?>';					
+				-->
+			</SCRIPT>
+			<?php
+
+	flushdisplay();
 }
 ?>
 		<SCRIPT LANGUAGE=JAVASCRIPT><!--\
