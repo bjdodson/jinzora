@@ -65,6 +65,32 @@ $api_page = get_base_url();
 	// Let's create our user object for later
 	$jzUSER = new jzUser();
 	
+	// Let's create our services object
+	// This object lets us do things like get metadata, resize images, get lyrics, etc
+	$jzSERVICES = new jzServices();
+	$jzSERVICES->loadStandardServices();
+	$blocks = new jzBlocks();
+	$display = new jzDisplay();
+	$jz_path = $_REQUEST['jz_path'];
+	$limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 0;
+	
+	$params = array();
+	$params['limit'] = $limit;
+	
+        if (empty($_REQUEST['request']) && (isset($_REQUEST['query']) || isset($_REQUEST['search'])))  {
+	  $_REQUEST['request'] = 'search';
+	}
+	
+	// Non authenticated API requests.
+	switch($_REQUEST['request']){
+		case "trackinfo":
+		return trackInfo();
+		break;
+		case "gettrackart":
+		 return getTrackArt();
+		 break;
+	}
+	
 	// Let's make sure this user has the right permissions
 	if ($jzUSER->getSetting("view") === false || isset($_REQUEST['user'])) {
 		if (isset($_REQUEST['user'])) {
@@ -84,22 +110,6 @@ $api_page = get_base_url();
 			exit();
 		}
 	}
-	
-	// Let's create our services object
-	// This object lets us do things like get metadata, resize images, get lyrics, etc
-	$jzSERVICES = new jzServices();
-	$jzSERVICES->loadStandardServices();
-	$blocks = new jzBlocks();
-	$display = new jzDisplay();
-	$jz_path = $_REQUEST['jz_path'];
-	$limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 0;
-	
-	$params = array();
-	$params['limit'] = $limit;
-	
-        if (empty($_REQUEST['request']) && (isset($_REQUEST['query']) || isset($_REQUEST['search'])))  {
-	  $_REQUEST['request'] = 'search';
-	}
 
 	// Now let's see what they want
 	switch($_REQUEST['request']){
@@ -113,6 +123,18 @@ $api_page = get_base_url();
 		case "albums":
 			return listAllSubNode("album",$params);
 		break;
+		case "playlists":
+			return playlists();
+		break;
+		case "playlist":
+			return playlist();
+		break;
+		case "saveplaylist":
+			return savePlaylist();
+			break;
+		case "deleteplaylist":
+			return deletePlaylist();
+			break;
 		case "curtrack":
 			return getCurrentTrack();
 		break;
@@ -431,6 +453,139 @@ function setpassword() {
 		print_results($results,$type);
 	}
 	
+	function getTrackArt(){
+		$display = new jzDisplay();
+		$track = &new jzMediaTrack($_GET['jz_path'],"id");
+		$album = $track->getAncestor("album");
+		$art = $album->getMainArt();
+		
+		if($_GET['type'] == 'xml'){
+			echoXMLHeader();
+			echo "      <track>\n";
+			echo "        <name>". xmlentities($track->getName()). "</name>\n";
+			echo "        <image>";
+			if ($art){
+				echo xmlentities($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+			}
+			echo "        </image>\n"; 
+			echo "        <thumbnail>";
+			$art = $album->getMainArt('75x75');
+			if ($art){
+				echo xmlentities($display->returnImage($art,false,75,75, "limit", false, false, false, false, false, "0", false, true, true));
+			}
+			echo "        </thumbnail>\n";
+			echo "      </track>\n";
+			echoXMLFooter();
+		} else {
+			showImage($art);	
+		}
+		
+	}
+	
+	function trackInfo(){
+		global $this_site;
+		$display = new jzDisplay();
+		$track = &new jzMediaTrack($_GET['jz_path'],"id");
+					
+		$meta = $track->getMeta();
+					
+		$album = $track->getAncestor("album");
+		$art = $album->getMainArt();
+		$artist = $album->getAncestor("artist");
+		$genre = $artist->getParent();
+		echoXMLHeader();
+		echo "  <track>\n";
+		echo "    <name>". xmlentities($meta['title']). "</name>\n";
+		echo "    <metadata>\n";
+		echo "      <filename>". xmlentities($meta['filename']). "</filename>\n";
+		echo "      <tracknumber>". xmlentities($meta['number']). "</tracknumber>\n";
+		echo "      <length>". xmlentities($meta['length']). "</length>\n";
+		echo "      <bitrate>". xmlentities($meta['bitrate']). "</bitrate>\n";
+		echo "      <samplerate>". xmlentities($meta['frequency']). "</samplerate>\n";
+		echo "      <filesize>". xmlentities($meta['size']). "</filesize>\n";
+		echo "    </metadata>\n";
+		echo "    <album>". xmlentities($album->getName()). "</album>\n";
+		echo "    <artist>". xmlentities($artist->getName()). "</artist>\n";
+		echo "    <genre>". xmlentities($genre->getName()). "</genre>\n";
+		echo "    <path>". xmlentities($track->getPath("string")). "</path>\n";
+		echo "    <playlink>". xmlentities($this_site.$track->getPlayHREF()). "</playlink>\n";
+		echo "    <image>";
+		if ($art){
+			echo xmlentities($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+		}
+		echo "    </image>\n"; 
+		echo "    <thumbnail>";
+		$art = $album->getMainArt('75x75');
+		if ($art){
+			echo xmlentities($display->returnImage($art,false,75,75, "limit", false, false, false, false, false, "0", false, true, true));
+		}
+		echo "    </thumbnail>\n"; 
+		echo "  </track>\n";
+		echoXMLFooter();
+			
+		
+	}
+	
+	function playlists() {
+		global $api_page, $this_site, $jzUSER;
+		$lists = $jzUSER->listPlaylists('all');
+		//var_dump($lists);
+		echoXMLHeader();
+		echo "  <search>\n";
+		echo "    <tracks>\n";
+		echo "    </tracks>\n";
+		echo "    <nodes>\n";
+		foreach($lists as $id => $pname){
+			$plist = $jzUSER->loadPlaylist($id);
+			echo "      <node>\n";
+			echo "        <name>" . xmlentities($pname)  . "</name>\n";
+			echo "        <type>". xmlentities(ucwords("Playlist")) . "</type>\n";
+			echo "        <playlink>". xmlentities($this_site .$plist->getPlayHREF()). "</playlink>\n";
+			echo "        <image>";
+			echo "        </image>\n";
+			echo "        <playlistid>". xmlentities($id) . "</playlistid>\n"; 
+			echo "        <thumbnail>";
+			echo "        </thumbnail>\n"; 
+			//echo "        <path>". xmlentities($pname). "</path>\n";
+			echo "        <browse>". xmlentities($api_page.'&request=playlist&jz_playlist_id='. urlencode($id)). "</browse>\n";
+			echo "      </node>\n";
+		}
+		echo "    </nodes>\n";
+		echo "  </search>\n";
+	    echoXMLFooter();
+		
+		
+		//print_lists($results);
+	}
+	
+	function playlist() {
+		global $jzUSER, $this_site, $root_dir;
+		$plist = $jzUSER->loadPlaylist($_REQUEST['jz_playlist_id']);
+		$plist->flatten();
+		$results = $plist->getList();
+		$type = getFormatFromRequest();	
+		print_results($results,$type);
+	}
+	
+	function savePlaylist() {
+		global $jzUSER;
+		$songarr = $_REQUEST["songs"];
+		$tracks = array();
+		foreach($songarr as $song){
+			$track = &new jzMediaTrack($song,"id");
+			$tracks[] = $track;
+		}
+		$pl = new jzPlaylist($tracks, $_REQUEST['name'], "static");
+		$jzUSER->storePlaylist($pl);
+		echo $pl->getID();
+	}
+	
+	function deletePlayList() {
+		global $jzUSER;
+		$jzUSER->removePlaylist($_REQUEST["jz_playlist_id"]);
+		
+	}
+	
         /**
 	 * Get an api-centric 'homepage' for Jinzora
 	 *
@@ -460,6 +615,11 @@ function setpassword() {
 			      'description' => 'Browse all tracks.',
 			      'browse' => $api_page.'&request=browse&resulttype=track&jz_path='.urlencode('/')
 			      );
+			      
+	   $entries[] = array('name' => 'Browse Playlists',
+	   			  'description' => 'Browse all playlists.',
+	   			  'browse' => $api_page.'&request=playlists'
+	   			  );
 
 	   $entries[] = array('name' => 'Recently Added Albums',
 			      'description' => 'Albums recently added to Jinzora.',
@@ -991,6 +1151,7 @@ function print_results($results, $format='xml') {
 					// albums where their parent would be DISC1 not AlbumName
 					// You can do this recursively if you want
 					$album = $track->getAncestor("album");
+					$art = $album->getMainArt();
 					$artist = $album->getAncestor("artist");
 					$genre = $artist->getParent();
 					
@@ -1010,6 +1171,17 @@ function print_results($results, $format='xml') {
 					echo "        <genre>". xmlentities($genre->getName()). "</genre>\n";
 					echo "        <path>". xmlentities($track->getPath("string")). "</path>\n";
 					echo "        <playlink>". xmlentities($this_site.$track->getPlayHREF()). "</playlink>\n";
+					echo "        <image>";
+					if ($art){
+						echo xmlentities($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+					}
+					echo "        </image>\n"; 
+					echo "        <thumbnail>";
+					$art = $album->getMainArt('75x75');
+					if ($art){
+						echo xmlentities($display->returnImage($art,false,75,75, "limit", false, false, false, false, false, "0", false, true, true));
+					}
+					echo "        </thumbnail>\n"; 
 					echo "      </track>\n";
 				}
 				echo "    </tracks>\n";
