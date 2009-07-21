@@ -429,6 +429,8 @@ function setpassword() {
 
 		$type = getFormatFromRequest();	
 		$root = new JzMediaNode($_REQUEST['jz_path']);
+		$trackfields = (isset($_REQUEST['track_fields'])) ? explode(',', $_REQUEST['track_fields']) : false;
+		$nodefields = (isset($_REQUEST['node_fields'])) ? explode(',', $_REQUEST['node_fields']) : false;
 
 		$distance = false;
 		if (isset($_REQUEST['resulttype'])) {
@@ -446,11 +448,12 @@ function setpassword() {
 		    $distance = -1;
 		    $ntype = 'track';
 		  }
-
 		}
-
 		$results = $root->getSubNodes($ntype,$distance);
-		print_results($results,$type);
+		if (isset($_REQUEST['offset']) || isset($REQUEST['length'])){
+			$results = array_slice($results,$_REQUEST['offset'],$_REQUEST['length']);
+		}
+		print_results($results,$type, $trackfields, $nodefields);
 	}
 	
 	function getTrackArt(){
@@ -493,37 +496,12 @@ function setpassword() {
 		$art = $album->getMainArt();
 		$artist = $album->getAncestor("artist");
 		$genre = $artist->getParent();
-		echoXMLHeader();
-		echo "  <track>\n";
-		echo "    <name>". xmlentities($meta['title']). "</name>\n";
-		echo "    <metadata>\n";
-		echo "      <filename>". xmlentities($meta['filename']). "</filename>\n";
-		echo "      <tracknumber>". xmlentities($meta['number']). "</tracknumber>\n";
-		echo "      <length>". xmlentities($meta['length']). "</length>\n";
-		echo "      <bitrate>". xmlentities($meta['bitrate']). "</bitrate>\n";
-		echo "      <samplerate>". xmlentities($meta['frequency']). "</samplerate>\n";
-		echo "      <filesize>". xmlentities($meta['size']). "</filesize>\n";
-		echo "    </metadata>\n";
-		echo "    <album>". xmlentities($album->getName()). "</album>\n";
-		echo "    <artist>". xmlentities($artist->getName()). "</artist>\n";
-		echo "    <genre>". xmlentities($genre->getName()). "</genre>\n";
-		echo "    <path>". xmlentities($track->getPath("string")). "</path>\n";
-		echo "    <playlink>". xmlentities($this_site.$track->getPlayHREF()). "</playlink>\n";
-		echo "    <image>";
-		if ($art){
-			echo xmlentities($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
-		}
-		echo "    </image>\n"; 
-		echo "    <thumbnail>";
-		$art = $album->getMainArt('75x75');
-		if ($art){
-			echo xmlentities($display->returnImage($art,false,75,75, "limit", false, false, false, false, false, "0", false, true, true));
-		}
-		echo "    </thumbnail>\n"; 
-		echo "  </track>\n";
-		echoXMLFooter();
-			
-		
+		$results = array();
+		$results[] = $track;
+		$trackfields = (isset($_REQUEST['track_fields'])) ? explode(',', $_REQUEST['track_fields']) : false;
+		$nodefields = (isset($_REQUEST['node_fields'])) ? explode(',', $_REQUEST['node']) : false;
+		$type = getFormatFromRequest();	
+		print_results($results,$type, $trackfields, $nodefields);
 	}
 	
 	function playlists() {
@@ -554,7 +532,6 @@ function setpassword() {
 		echo "  </search>\n";
 	    echoXMLFooter();
 		
-		
 		//print_lists($results);
 	}
 	
@@ -564,7 +541,9 @@ function setpassword() {
 		$plist->flatten();
 		$results = $plist->getList();
 		$type = getFormatFromRequest();	
-		print_results($results,$type);
+		$trackfields = (isset($_REQUEST['track_fields'])) ? explode(',', $_REQUEST['track_fields']) : false;
+		$nodefields = (isset($_REQUEST['node_fields'])) ? explode(',', $_REQUEST['node']) : false;
+		print_results($results,$type, $trackfields, $nodefields);
 	}
 	
 	function savePlaylist() {
@@ -1113,7 +1092,7 @@ function print_lists($results, $format='xml') {
  * Results is an array of nodes and tracks.
  * Prints results in a variety of formats.
  */
-function print_results($results, $format='xml') {
+function print_results($results, $format='xml', $trackfields=false, $nodefields=false) {
   global $this_site,$api_page; 
   $display = new jzDisplay();
 		$tracks = array();
@@ -1157,31 +1136,38 @@ function print_results($results, $format='xml') {
 					
 					// Now let's display
 					echo "      <track>\n";
-					echo "        <name>". xmlentities($meta['title']). "</name>\n";
-					echo "        <metadata>\n";
-					echo "          <filename>". xmlentities($meta['filename']). "</filename>\n";
-					echo "          <tracknumber>". xmlentities($meta['number']). "</tracknumber>\n";
-					echo "          <length>". xmlentities($meta['length']). "</length>\n";
-					echo "          <bitrate>". xmlentities($meta['bitrate']). "</bitrate>\n";
-					echo "          <samplerate>". xmlentities($meta['frequency']). "</samplerate>\n";
-					echo "          <filesize>". xmlentities($meta['size']). "</filesize>\n";
-					echo "        </metadata>\n";
-					echo "        <album>". xmlentities($album->getName()). "</album>\n";
-					echo "        <artist>". xmlentities($artist->getName()). "</artist>\n";
-					echo "        <genre>". xmlentities($genre->getName()). "</genre>\n";
-					echo "        <path>". xmlentities($track->getPath("string")). "</path>\n";
-					echo "        <playlink>". xmlentities($this_site.$track->getPlayHREF()). "</playlink>\n";
-					echo "        <image>";
-					if ($art){
-						echo xmlentities($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+					if(!is_array($trackfields) || in_array('name', $trackfields)) echo "        <name>". xmlentities($meta['title']). "</name>\n";
+					if(!is_array($trackfields) || in_array('metadata', $trackfields)){
+						echo "        <metadata>\n";
+						echo "          <filename>". xmlentities($meta['filename']). "</filename>\n";
+						echo "          <tracknumber>". xmlentities($meta['number']). "</tracknumber>\n";
+						echo "          <length>". xmlentities($meta['length']). "</length>\n";
+						echo "          <bitrate>". xmlentities($meta['bitrate']). "</bitrate>\n";
+						echo "          <samplerate>". xmlentities($meta['frequency']). "</samplerate>\n";
+						echo "          <filesize>". xmlentities($meta['size']). "</filesize>\n";
+						echo "        </metadata>\n";
 					}
-					echo "        </image>\n"; 
-					echo "        <thumbnail>";
-					$art = $album->getMainArt('75x75');
-					if ($art){
-						echo xmlentities($display->returnImage($art,false,75,75, "limit", false, false, false, false, false, "0", false, true, true));
+					if(!is_array($trackfields) || in_array('album', $trackfields)) echo "        <album>". xmlentities($album->getName()). "</album>\n";
+					if(!is_array($trackfields) || in_array('artist', $trackfields)) echo "        <artist>". xmlentities($artist->getName()). "</artist>\n";
+					if(!is_array($trackfields) || in_array('genre', $trackfields)) echo "        <genre>". xmlentities($genre->getName()). "</genre>\n";
+					if(!is_array($trackfields) || in_array('path', $trackfields)) echo "        <path>". xmlentities($track->getPath("string")). "</path>\n";
+					if(!is_array($trackfields) || in_array('playlink', $trackfields)) echo "        <playlink>". xmlentities($this_site.$track->getPlayHREF()). "</playlink>\n";
+					if(!is_array($trackfields) || in_array('image', $trackfields)){
+						echo "        <image>";
+						if ($art){
+							echo xmlentities($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+						}
+						echo "        </image>\n"; 
 					}
-					echo "        </thumbnail>\n"; 
+					if(!is_array($trackfields) || in_array('thumbnail', $trackfields)){
+						echo "        <thumbnail>";
+						$art = $album->getMainArt('75x75');
+						if ($art){
+							echo xmlentities($display->returnImage($art,false,75,75, "limit", false, false, false, false, false, "0", false, true, true));
+						}
+						echo "        </thumbnail>\n"; 
+					}
+					if(!is_array($trackfields) || in_array('type', $trackfields)) echo "        <type>" . xmlentities("Track"). "</type>\n";
 					echo "      </track>\n";
 				}
 				echo "    </tracks>\n";
@@ -1201,33 +1187,39 @@ function print_results($results, $format='xml') {
 					}
 					
 					echo "      <node>\n";
-					echo "        <name>". xmlentities($node->getName()). "</name>\n";
-					echo "        <type>". xmlentities(ucwords($node->getPType())). "</type>\n";
-					echo "        <link>". xmlentities($this_site.$display->link($node,false,false,false,true,true)). "</link>\n";
-					if (!empty($album)) {
-					  echo "        <album>". xmlentities($album->getName()). "</album>\n";
+					if(!is_array($nodefields) || in_array('name', $nodefields)) echo "        <name>". xmlentities($node->getName()). "</name>\n";
+					if(!is_array($nodefields) || in_array('type', $nodefields)) echo "        <type>". xmlentities(ucwords($node->getPType())). "</type>\n";
+					if(!is_array($nodefields) || in_array('link', $nodefields)) echo "        <link>". xmlentities($this_site.$display->link($node,false,false,false,true,true)). "</link>\n";
+					if((!is_array($nodefields) || in_array('album', $nodefields)) && !empty($album)) {
+						  echo "        <album>". xmlentities($album->getName()). "</album>\n";
 					}
-					if (!empty($artist)) {
+					if ((!is_array($nodefields) || in_array('artist', $nodefields)) && !empty($artist)) {
 					  echo "        <artist>". xmlentities($artist->getName()). "</artist>\n";
 					}
-					echo "        <image>";
-					if ($art){
-						echo xmlentities($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+					if(!is_array($nodefields) || in_array('image', $nodefields)) {
+						echo "        <image>";
+						if ($art){
+							echo xmlentities($display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true));
+						}
+						echo "        </image>\n";
 					}
-					echo "        </image>\n"; 
-					echo "        <thumbnail>";
-					$art = $node->getMainArt('75x75');
-					if ($art){
-						echo xmlentities($display->returnImage($art,false,75,75, "limit", false, false, false, false, false, "0", false, true, true));
-					}
-					echo "        </thumbnail>\n"; 
-					if ($node->getPType() == 'artist' || $node->getPType() == 'genre') {
-					  echo "        <playlink>". xmlentities($this_site.$node->getPlayHREF(true,50)). "</playlink>\n";
-					} else {
-					  echo "        <playlink>". xmlentities($this_site.$node->getPlayHREF()). "</playlink>\n";
-					}
-					echo "        <path>". xmlentities($node->getPath("string")). "</path>\n";
-					echo "        <browse>". xmlentities($api_page.'&request=browse&jz_path='.urlencode($node->getPath('string'))). "</browse>\n";
+					if(!is_array($nodefields) || in_array('thumbnail', $nodefields)) {
+						echo "        <thumbnail>";
+						$art = $node->getMainArt('75x75');
+						if ($art){
+							echo xmlentities($display->returnImage($art,false,75,75, "limit", false, false, false, false, false, "0", false, true, true));
+						}
+						echo "        </thumbnail>\n"; 
+				  	}
+				  	if(!is_array($nodefields) || in_array('playlink', $nodefields)) {
+						if ($node->getPType() == 'artist' || $node->getPType() == 'genre') {
+						  echo "        <playlink>". xmlentities($this_site.$node->getPlayHREF(true,50)). "</playlink>\n";
+						} else {
+						  echo "        <playlink>". xmlentities($this_site.$node->getPlayHREF()). "</playlink>\n";
+						}
+				  	}
+					if(!is_array($nodefields) || in_array('path', $nodefields)) echo "        <path>". xmlentities($node->getPath("string")). "</path>\n";
+					if(!is_array($nodefields) || in_array('browse', $nodefields))echo "        <browse>". xmlentities($api_page.'&request=browse&jz_path='.urlencode($node->getPath('string'))). "</browse>\n";
 					echo "      </node>\n";
 				}
 				echo "    </nodes>\n";
@@ -1250,37 +1242,51 @@ function print_results($results, $format='xml') {
 		    if ($album) $artist = $album->getAncestor("artist");
 		    if ($artist) $genre = $artist->getParent();
 		    
+		    if ($album) $art = $album->getMainArt();
+		    
 		    // Now let's display
-		    $n['name'] = $meta['title'];
-		    $n['album'] = ($album) ? $album->getName() : '';
-		    $n['artist'] = ($artist) ? $artist->getName() : '';
-		    $n['genre'] = ($genre) ? $genre->getName() : '';
-		    $n['playlink'] = $this_site.$t->getPlayHREF();
-		    $n['metadata'] = $meta;
-		    $n['path'] = $t->getPath("string");
+		    if(!is_array($trackfields) || in_array('image', $trackfields)) $n['image']=($art) ? $display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true) : '';
+		    if ($album) $art = $album->getMainArt('75x75');
+		    if(!is_array($trackfields) || in_array('thumbnail', $trackfields))  $n['thumbnail']=($art) ? $display->returnImage($art,false,75, 75, "limit", false, false, false, false, false, "0", false, true, true) : '';
+		    if(!is_array($trackfields) || in_array('name', $trackfields)) $n['name'] = $meta['title'];
+		    if(!is_array($trackfields) || in_array('album', $trackfields)) $n['album'] = ($album) ? $album->getName() : '';
+		    if(!is_array($trackfields) || in_array('artist', $trackfields)) $n['artist'] = ($artist) ? $artist->getName() : '';
+		    if(!is_array($trackfields) || in_array('genre', $trackfields)) $n['genre'] = ($genre) ? $genre->getName() : '';
+		    if(!is_array($trackfields) || in_array('playlink', $trackfields)) $n['playlink'] = $this_site.$t->getPlayHREF();
+		    if(!is_array($trackfields) || in_array('metadata', $trackfields)) $n['metadata'] = $meta;
+		    if(!is_array($trackfields) || in_array('path', $trackfields)) $n['path'] = $t->getPath("string");
+		    if(!is_array($trackfields) || in_array('type', $trackfields)) $n['type'] = 'Track';
 
 		    $jt[] = $n;
 		  }
 
 		  foreach ($nodes as $n) {
 		    $a = array();
+		    
+		    $album = $n->getAncestor("album");
+			if ($album) {
+				$artist = $album->getAncestor("artist");
+			}
+			
 		    $art = $n->getMainArt();
 
-		    $a['name']=$n->getName();
-		    $a['type']=ucwords($n->getPType());
-		    $a['link']=$this_site.$display->link($node,false,false,false,true,true);
-		    $a['album']=(empty($album)) ? '' : $album->getName();
-		    $a['artist']=(empty($artist))?'':$artist->getName();
-		    $a['image']=($art) ? $display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true) : '';
+		    if(!is_array($nodefields) || in_array('name', $nodefields)) $a['name']=$n->getName();
+		    if(!is_array($nodefields) || in_array('type', $nodefields))  $a['type']=ucwords($n->getPType());
+		    if(!is_array($nodefields) || in_array('link', $nodefields)) $a['link']=$this_site.$display->link($node,false,false,false,true,true);
+		    if(!is_array($nodefields) || in_array('album', $nodefields)) $a['album']=(empty($album)) ? '' : $album->getName();
+		    if(!is_array($nodefields) || in_array('artist', $nodefields)) $a['artist']=(empty($artist))?'':$artist->getName();
+		    if(!is_array($nodefields) || in_array('image', $nodefields)) $a['image']=($art) ? $display->returnImage($art,false,false, false, "limit", false, false, false, false, false, "0", false, true, true) : '';
 		    $art = $n->getMainArt('75x75');
-		    $a['image']=($art) ? $display->returnImage($art,false,75, 75, "limit", false, false, false, false, false, "0", false, true, true) : '';
-		    if ($a['type']=='Artist' || $a['type'] == 'Genre') {
-		      $a['playlink'] = $this_site.$n->getPlayHREF(true,50);
-		    } else {
-		      $a['playlink'] = $this_site.$n->getPlayHREF();
+		    if(!is_array($nodefields) || in_array('thumbnail', $nodefields)) $a['thumbnail']=($art) ? $display->returnImage($art,false,75, 75, "limit", false, false, false, false, false, "0", false, true, true) : '';
+		    if(!is_array($nodefields) || in_array('playlink', $nodefields)) {
+			    if ($a['type']=='Artist' || $a['type'] == 'Genre') {
+			      $a['playlink'] = $this_site.$n->getPlayHREF(true,50);
+			    } else {
+			      $a['playlink'] = $this_site.$n->getPlayHREF();
+			    }
 		    }
-		    $a['path'] = $n->getPath("string");
-		    $a['browse'] = $api_page.'&request=browse&jz_path='.urlencode($n->getPath('string'));
+		    if(!is_array($nodefields) || in_array('path', $nodefields)) $a['path'] = $n->getPath("string");
+		    if(!is_array($nodefields) || in_array('browse', $nodefields)) $a['browse'] = $api_page.'&request=browse&jz_path='.urlencode($n->getPath('string'));
 
 		    $jn[] = $a;
 		  }
@@ -1299,7 +1305,6 @@ function print_results($results, $format='xml') {
 		    echo $n->getName() . "\n";
 		  }
 		}
-
 }
 
 function url_alias() {
