@@ -28,7 +28,8 @@
 	include_once('jzBackend.php');
 	$_GET = unurlize($_GET);
 	$_POST = unpostize($_POST);
-	$node = new jzMediaNode($_GET['jz_path']);
+	$path = $_GET['jz_path'];
+	$node = new jzMediaNode($path);
 	$popup = new jzPopup();
 	$popup->popupSwitch($_GET['ptype'],$node);
 	exit();
