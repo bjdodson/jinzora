@@ -1085,6 +1085,11 @@ function print_lists($results, $format='xml') {
   case 'json':
     echo json_encode($results);
     break;
+  case 'jsonp':
+    echo $_GET['jsoncallback'] . '({"nodes":';
+    echo json_encode($results);
+    echo '})';
+    break;
   }
 }
 
@@ -1231,6 +1236,7 @@ function print_results($results, $format='xml', $trackfields=false, $nodefields=
 				header("Location: ". $this_site. "/index.php?doSearch=true&search_query=jam&search_type=ALL");
 			break;
 		case "json":
+		case "jsonp":
 		  $jt = array(); $jn = array();
 		  foreach ($tracks as $t) {
 		    $n = array();
@@ -1291,8 +1297,16 @@ function print_results($results, $format='xml', $trackfields=false, $nodefields=
 		    $jn[] = $a;
 		  }
 
+		  if ($format == 'jsonp') {
+		    echo $_GET['jsoncallback'] . '(';
+		    echo json_encode(array('tracks'=>$jt,'nodes'=>$jn));
+		    echo ')';
+		  } else {
+		    echo json_encode(array('tracks'=>$jt,'nodes'=>$jn));
+		  }
+		  
 
-		  echo json_encode(array('tracks'=>$jt,'nodes'=>$jn));
+
 		  break;
 
 		case 'plain':
@@ -1322,7 +1336,7 @@ function url_alias() {
 function get_base_url() {
   global $this_site,$api_page;
   
-  $maintain = array('user','pass','jb_id');
+  $maintain = array('user','pass','jb_id', 'output');
 
 
         $api_page = $this_site.$_SERVER['PHP_SELF'] .'?';
