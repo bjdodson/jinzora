@@ -96,7 +96,8 @@ $api_page = get_base_url();
 		if (isset($_REQUEST['user'])) {
 			$store_cookie = true;
 			// Are they ok?
-			if ($jzUSER->login($_REQUEST['user'],$_REQUEST['pass'],$store_cookie, false) === false) {
+			$prehashed  = (isset($_REQUEST['pw_hashed']) && $_REQUEST['pw_hashed']);
+			if ($jzUSER->login($_REQUEST['user'],$_REQUEST['pass'],$store_cookie, $prehashed) === false) {
 				echoXMLHeader();
 				echo "<login>false</login>";
 				echoXMLFooter();
