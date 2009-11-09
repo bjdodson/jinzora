@@ -603,7 +603,7 @@
 	function sendContentType($ext) {
 	  switch ($ext){
 	  case "mp3":
-	    header("Content-Type: audio/x-mp3");
+	    header("Content-Type: audio/mpeg");
 	    break;
 	  case "wav":
 	    header("Content-Type: audio/x-wav");
