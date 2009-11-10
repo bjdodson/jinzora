@@ -223,7 +223,7 @@ $_SESSION['jz_load_time'] = microtime();
 
      if (isset($_GET['user']) && isset($_GET['pass'])) {
        $store_cookie = true;
-       $prehashed = false;
+       $prehashed = (isset($_REQUEST['pw_hashed']) && $_REQUEST['pw_hashed']=='true');
        // Are they ok?
        if ($jzUSER->login($_GET['user'],$_GET['pass'],$store_cookie, $prehashed) === false) {
 	 //echo "login failed";

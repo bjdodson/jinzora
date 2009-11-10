@@ -96,7 +96,7 @@ $api_page = get_base_url();
 		if (isset($_REQUEST['user'])) {
 			$store_cookie = true;
 			// Are they ok?
-			$prehashed  = (isset($_REQUEST['pw_hashed']) && $_REQUEST['pw_hashed']);
+			$prehashed  = (isset($_REQUEST['pw_hashed']) && $_REQUEST['pw_hashed']=='true');
 			if ($jzUSER->login($_REQUEST['user'],$_REQUEST['pass'],$store_cookie, $prehashed) === false) {
 				echoXMLHeader();
 				echo "<login>false</login>";
@@ -1337,7 +1337,7 @@ function url_alias() {
 function get_base_url() {
   global $this_site,$api_page;
   
-  $maintain = array('user','pass','jb_id', 'output');
+  $maintain = array('user','pass','jb_id', 'output', 'pw_hashed');
 
 
         $api_page = $this_site.$_SERVER['PHP_SELF'] .'?';

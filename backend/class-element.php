@@ -1142,6 +1142,9 @@
 		  if (isset($_REQUEST['pass'])) {
 		    $arr['pass'] = $_REQUEST['pass'];
 		  }
+		  if (isset($_REQUEST['pw_hashed'])) {
+		    $arr['pw_hashed'] = $_REQUEST['pw_hashed'];
+		  }
 		  if (isset($_REQUEST['jb_id'])) {
 		    $arr['jb_id'] = $_REQUEST['jb_id'];
 		  }
