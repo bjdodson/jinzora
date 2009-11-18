@@ -445,9 +445,9 @@ function setpassword() {
 		    $distance = distanceTo('album',$root);
 		  }
 
-		  if ($rt == 'track') {
+		  if ($rt == 'track' || $rt == 'tracks') {
 		    $distance = -1;
-		    $ntype = 'track';
+		    $ntype = 'tracks';
 		  }
 		}
 		$results = $root->getSubNodes($ntype,$distance);
@@ -508,32 +508,51 @@ function setpassword() {
 	function playlists() {
 		global $api_page, $this_site, $jzUSER;
 		$lists = $jzUSER->listPlaylists('all');
-		//var_dump($lists);
-		echoXMLHeader();
-		echo "  <search>\n";
-		echo "    <tracks>\n";
-		echo "    </tracks>\n";
-		echo "    <nodes>\n";
-		foreach($lists as $id => $pname){
-			$plist = $jzUSER->loadPlaylist($id);
-			echo "      <node>\n";
-			echo "        <name>" . xmlentities($pname)  . "</name>\n";
-			echo "        <type>". xmlentities(ucwords("Playlist")) . "</type>\n";
-			echo "        <playlink>". xmlentities($this_site .$plist->getPlayHREF()). "</playlink>\n";
-			echo "        <image>";
-			echo "        </image>\n";
-			echo "        <playlistid>". xmlentities($id) . "</playlistid>\n"; 
-			echo "        <thumbnail>";
-			echo "        </thumbnail>\n"; 
-			//echo "        <path>". xmlentities($pname). "</path>\n";
-			echo "        <browse>". xmlentities($api_page.'&request=playlist&jz_playlist_id='. urlencode($id)). "</browse>\n";
-			echo "      </node>\n";
+		$type = getFormatFromRequest();	
+		switch ($type){
+			case "xml":
+				echoXMLHeader();
+				echo "  <search>\n";
+				echo "    <tracks>\n";
+				echo "    </tracks>\n";
+				echo "    <nodes>\n";
+				foreach($lists as $id => $pname){
+					$plist = $jzUSER->loadPlaylist($id);
+					echo "      <node>\n";
+					echo "        <name>" . xmlentities($pname)  . "</name>\n";
+					echo "        <type>". xmlentities(ucwords("Playlist")) . "</type>\n";
+					echo "        <playlink>". xmlentities($this_site .$plist->getPlayHREF()). "</playlink>\n";
+					echo "        <image>";
+					echo "        </image>\n";
+					echo "        <playlistid>". xmlentities($id) . "</playlistid>\n"; 
+					echo "        <thumbnail>";
+					echo "        </thumbnail>\n"; 
+					//echo "        <path>". xmlentities($pname). "</path>\n";
+					echo "        <browse>". xmlentities($api_page.'&request=playlist&jz_playlist_id='. urlencode($id)). "</browse>\n";
+					echo "      </node>\n";
+				}
+				echo "    </nodes>\n";
+				echo "  </search>\n";
+			    echoXMLFooter();
+			    break;
+			case "json":
+				$jt = array(); $jn = array();
+				foreach($lists as $id => $pname){
+		  			$a = array();
+		  			$plist = $jzUSER->loadPlaylist($id);
+		  			$a['name'] = $pname;
+		  			$a['type'] = ucwords("Playlist");
+		  			$a['playlink'] = $this_site . $plist->getPlayHREF();
+		  			$a['image'] = "";
+		  			$a['playlistid'] = $id;
+		  			$a['thumbnail'] = "";
+		  			$a['browse'] = $api_page.'&request=playlist&jz_playlist_id='. urlencode($id);
+		  			$jn[] = $a;
+				}
+		  		
+		    	echo json_encode(array('tracks'=>$jt,'nodes'=>$jn));
+		  		break;
 		}
-		echo "    </nodes>\n";
-		echo "  </search>\n";
-	    echoXMLFooter();
-		
-		//print_lists($results);
 	}
 	
 	function playlist() {

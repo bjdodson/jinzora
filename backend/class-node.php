@@ -117,7 +117,7 @@
 		  }
 		  
 		  // alias:
-		  if ($type == "tracks") {
+		  if ($type == "tracks" || $type == "track") {
 		    $type = "leaves";
 		  }
 		  
