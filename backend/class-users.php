@@ -473,7 +473,8 @@
 			  return false;
 			}
 			// NO CMS; standard way.
-			if (isset($users[$user]) && $users[$user]['password'] == $password) {
+			// Passwords are hashes.
+			if (isset($users[$user]) && 0== strcasecmp($users[$user]['password'],$password)) {
 				$this->id = $users[$user]['id'];
 				if ($remember) {
 					setcookie('jzUserID',jz_cookie_encode($this->id),time()+60*60*24*30);
