@@ -2111,18 +2111,23 @@ function filenameToPath($fp) {
 		* @since 5/14/2004
 		*/
 		function increasePlayCount() {
-			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
+		  global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db,$jzUSER;
       		
-            $path = jz_db_escape($this->getPath("String"));
+		  $path = jz_db_escape($this->getPath("String"));
 			$sql = "UPDATE jz_nodes SET playcount = playcount+1, lastplayed = " . time();
 
-            jz_db_simple_query("$sql  WHERE path = '$path'");
+			jz_db_simple_query("$sql  WHERE path = '$path'");
+
+			$sql = "INSERT INTO jz_playcounts VALUES ";
+			$sql .= "('" . $jzUSER->getName()."','" .$this->getID(). "',now())";
+			jz_db_simple_query($sql);
+
 			                     	
-            if (sizeof($ar = $this->getPath()) > 0) {
-            	array_pop($ar);
-                $next = &new jzMediaNode($ar);
-				$next->increasePlayCount();
-            }
+			if (sizeof($ar = $this->getPath()) > 0) {
+			  array_pop($ar);
+			  $next = &new jzMediaNode($ar);
+			  $next->increasePlayCount();
+			}
 		}
 	
 		/**
@@ -3101,13 +3106,17 @@ function filenameToPath($fp) {
 		* @since 5/14/2004
 		*/
 		function increasePlayCount() {
-			global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db;
+		  global $sql_type,$sql_pw,$sql_usr,$sql_socket,$sql_db,$jzUSER;
       		
             $path = jz_db_escape($this->getPath("String"));
 			$sql = "UPDATE jz_nodes SET playcount = playcount+1, lastplayed = " . time();
 
             jz_db_simple_query("$sql  WHERE path = '$path'");
 			                     	
+	    $sql = "INSERT INTO jz_playcounts VALUES ";
+	    $sql .= "('" . $jzUSER->getName()."','" .$this->getID(). "',now())";
+	    jz_db_simple_query($sql);
+
             if (sizeof($ar = $this->getPath()) > 0) {
             	array_pop($ar);
                 $next = &new jzMediaNode($ar);
