@@ -123,6 +123,19 @@ CREATE TABLE
 -- In Jinzora, we can use a table key (gr = genre) and the media ID
 -- as a fully qualified element path.
 
+
+--
+-- Table structure for table `jz_playcounts`
+--
+
+CREATE TABLE
+	jz_playcounts
+		(
+			user varchar(20) default NULL,
+			media_id varchar(20)  default NULL,
+			date datetime default NULL
+		);
+
 -- 
 -- Table structure for table `jz_genres`
 -- 
@@ -319,6 +332,7 @@ CREATE INDEX node_rating on jz_nodes(rating_val desc);
 -- not sure if this does anything; could help for random art
 CREATE INDEX node_art on jz_nodes(main_art);
 
+CREATE INDEX user_playcounts on jz_playcounts(user,date);
 
 
 	
