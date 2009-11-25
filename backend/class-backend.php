@@ -434,7 +434,27 @@
 			fclose($handle);
 		}
 
-		
+		/**
+		 * Gets a list of users with a play history
+		 *
+		 * @author Ben Dodson
+		 * @since 11/24/09
+		 */
+		function getUsersWithHistories() {
+		  // no default implementation.
+		  return array();
+		}
+
+		/**
+		 * Get a play history for a user
+		 * @author Ben Dodson
+		 * @since 11/24/09
+		 */
+		function getPlayHistory($for=false) {
+		  return array();
+		}
+
+
 		/**
 		 * Sets the 'currently playing' info for the user.
 		 * Note that this must be called before calling increasePlaycount

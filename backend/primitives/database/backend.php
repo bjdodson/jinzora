@@ -59,6 +59,44 @@ class jzRawBackend extends jzBackendClass {
 
 	}
 
+
+	/**
+	 * Returns a list of users who've played music
+	 *
+	 * @author Ben Dodson
+	 * @since 11/24/09
+	 */
+	function getUsersWithHistories() {
+	  $link = jz_db_connect();
+	  $q = "SELECT DISTINCT user FROM jz_playcounts group by user ORDER BY max(date) desc";
+	  $res = jz_db_query($link,$q);
+	  $ret = array();
+	  
+	  foreach ($res->data as $u) {
+	    $ret[] = $u['user'];
+	  }
+	  return $ret;
+	}
+
+	/**
+	 * Returns a user's play history
+	 *
+	 * @author Ben Dodson
+	 * @since 11/24/09
+	 */
+	function getPlayHistory($for=false) {
+	  $for = jz_db_escape($for);
+	    $q = "SELECT n.*,p.user FROM jz_playcounts p,jz_nodes n WHERE p.media_id=n.my_id";
+	  if ($for){
+	    $q .= " AND p.user='$for'";
+	  }
+	  $q .= " AND n.ptype='track' ORDER BY date desc LIMIT 25";
+	  $res = jz_db_object_query($q);
+
+	  // TODO: include user info in result
+	  return $res;
+	}
+
 	/**
 	 * Checks if the backend has a certain feature.
 	 * 
