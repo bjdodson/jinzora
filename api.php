@@ -150,6 +150,9 @@ $api_page = get_base_url();
 	        case "chart":
 		  return chart();
 		break;
+    	        case "userhistories":
+	          return userHistories();
+	          break;
 	        case "jukebox":
   	          return jukebox();
 		  break;
@@ -604,17 +607,18 @@ function setpassword() {
 			      'description' => 'Browse all artists.',
 			      'browse' => $api_page.'&request=browse&resulttype=artist&jz_path='.urlencode('/')
 			      );
-
+	   /*
 	   $entries[] = array('name' => 'Browse Albums',
 			      'description' => 'Browse all albums.',
 			      'browse' => $api_page.'&request=browse&resulttype=album&jz_path='.urlencode('/')
 			      );
-
+	   */
+	   /*
 	   $entries[] = array('name' => 'Browse Tracks',
 			      'description' => 'Browse all tracks.',
 			      'browse' => $api_page.'&request=browse&resulttype=track&jz_path='.urlencode('/')
 			      );
-			      
+	   */	      
 	   $entries[] = array('name' => 'Browse Playlists',
 	   			  'description' => 'Browse all playlists.',
 	   			  'browse' => $api_page.'&request=playlists'
@@ -628,8 +632,12 @@ function setpassword() {
 			      'description' => 'Albums recently listened to.',
 			      'browse' => $api_page.'&request=chart&chart=recentlyplayedalbums'
 			      );
-
-
+	   
+	   $entries[] = array('name' => 'Recently Played by Friends',
+			      'description' => 'Albums recently listened to.',
+			      'browse' => $api_page.'&request=userhistories'
+			      );
+	   
 	   $entries[] = array('name' => 'Random Albums',
 			      'description' => 'A list of randomly selected albums.',
 			      'browse' => $api_page.'&request=chart&chart=randomalbums'
@@ -639,6 +647,38 @@ function setpassword() {
 	   print_lists($entries,$type);
 
 	 }
+
+
+/**
+ * Play histories for users
+ */
+
+function userHistories() {
+  global $api_page;
+
+  $be = new jzBackend();
+  if (!isset($_REQUEST['forUser'])) {
+    $users = $be->getUsersWithHistories();
+
+    $list = array();
+    foreach ($users as $u) {
+      $arr = array();
+      $arr['name'] = 'Played by ' . $u;
+      $arr['description'] = 'Played by ' . $u;
+      $arr['browse'] = $api_page.'&request=userhistories&forUser='.$u;
+      $list[] = $arr;
+    }
+
+    $type = getFormatFromRequest();
+    print_lists($list,$type);
+    return;
+  } else {
+    $for = $_REQUEST['forUser'];
+    $h = $be->getPlayHistory($for);
+    print_results($h,getFormatFromRequest());
+  }
+  
+}
 
          /**
 	  * Gets the requested chart.
