@@ -90,7 +90,7 @@ class jzRawBackend extends jzBackendClass {
 	  if ($for){
 	    $q .= " AND p.user='$for'";
 	  }
-	  $q .= " AND n.ptype='track' ORDER BY date desc LIMIT 25";
+	  $q .= " AND n.ptype='track' GROUP BY p.media_id ORDER BY max(date) desc LIMIT 25";
 	  $res = jz_db_object_query($q);
 
 	  // TODO: include user info in result
