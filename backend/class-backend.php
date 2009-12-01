@@ -617,7 +617,7 @@
 				}
 			} else {
 				$fs_sync = 'false';
-				$path = "/REG";
+				$path = $this->data_dir . "/REG";
 				$index = $filename;
 				$type = "track";
 			}
