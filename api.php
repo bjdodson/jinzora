@@ -659,18 +659,53 @@ function userHistories() {
   $be = new jzBackend();
   if (!isset($_REQUEST['forUser'])) {
     $users = $be->getUsersWithHistories();
-
-    $list = array();
-    foreach ($users as $u) {
-      $arr = array();
-      $arr['name'] = 'Played by ' . $u;
-      $arr['description'] = 'Played by ' . $u;
-      $arr['browse'] = $api_page.'&request=userhistories&forUser='.$u;
-      $list[] = $arr;
-    }
-
-    $type = getFormatFromRequest();
-    print_lists($list,$type);
+    
+	$type = getFormatFromRequest();	
+	switch ($type){
+		case "xml":
+			echoXMLHeader();
+			echo "  <search>\n";
+			echo "    <tracks>\n";
+			echo "    </tracks>\n";
+			echo "    <nodes>\n";
+			foreach($users as $u){
+				echo "      <node>\n";
+				echo "        <name>" . xmlentities("Played By " . $u)  . "</name>\n";
+				echo "        <type>". xmlentities(ucwords("User-History")) . "</type>\n";
+				echo "        <playlink>";
+				echo "        </playlink>\n";
+				echo "        <image>";
+				echo "        </image>\n";
+				//echo "        <playlistid>"; 
+				//echo "        </playlistid>\n"; 
+				echo "        <thumbnail>";
+				echo "        </thumbnail>\n"; 
+				//echo "        <path>". xmlentities($pname). "</path>\n";
+				echo "        <browse>". xmlentities($api_page.'&request=userhistories&forUser='.$u). "</browse>\n";
+				echo "      </node>\n";
+			}
+			echo "    </nodes>\n";
+			echo "  </search>\n";
+		    echoXMLFooter();
+		    break;
+		case "json":
+			$jt = array(); $jn = array();
+			foreach($users as $u){
+	  			$a = array();
+	  			$a['name'] = "Played By " . $u;
+	  			$a['type'] = ucwords("User-History");
+	  			$a['playlink'] = "";
+	  			$a['image'] = "";
+	  			//$a['playlistid'] = $id;
+	  			$a['thumbnail'] = "";
+	  			$a['browse'] = $api_page.'&request=userhistories&forUser='.$u;
+	  			$jn[] = $a;
+			}
+	  		
+	    	echo json_encode(array('tracks'=>$jt,'nodes'=>$jn));
+	  		break;
+	}
+    
     return;
   } else {
     $for = $_REQUEST['forUser'];
