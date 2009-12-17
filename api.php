@@ -718,7 +718,10 @@ function userHistories() {
       $pl->add($h);
       $pl->stream();
     } else {
-      print_results($h,getFormatFromRequest());
+     
+      $trackfields = (isset($_REQUEST['track_fields'])) ? explode(',', $_REQUEST['track_fields']) : false;
+	  $nodefields = (isset($_REQUEST['node_fields'])) ? explode(',', $_REQUEST['node']) : false;
+	  print_results($h,getFormatFromRequest(), $trackfields, $nodefields);
     }
   }
   
