@@ -52,7 +52,11 @@
 				
 				$smarty->assign('jinzora_url', $jinzora_url);
 				$smarty->assign('link_title', $this_pgm. " ". $version);
-				$smarty->assign('logo', $root_dir. '/style/'. $skin. '/powered-by-small.gif');
+				$poweredby = $root_dir. '/style/'. $skin. '/powered-by-small.gif';
+				if (!file_exists($poweredby)) {
+				  $poweredby = $root_dir. '/style/images/powered-by-small.gif';
+				}
+				$smarty->assign('logo', $poweredby);
 				$smarty->assign('page_load_time', "");
 				if ($show_page_load_time == "true" and $_SESSION['jz_load_time'] <> ""){
 					// Ok, let's get the difference
