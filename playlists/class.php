@@ -561,6 +561,10 @@
 		function flatten($pos = false, $degree = -1) {
 			global $max_playlist_length;
 			
+			if ($this->getPlType()=='dynamic') {
+			  $this->handleRules();
+			}
+
 			$new_list = array();
 			$newsize = 0;
 			if ($pos === false) {
@@ -1204,11 +1208,7 @@
 		    return false;
 		  }
 
-		  $l = $this;
-		  if ($l->getPlType() == "dynamic") {
-		    $l->handleRules();
-		  }
-		  
+		  $l = $this;		  
 		  $l->flatten();
 
 		  if (sizeof($l->list) == 0) {
