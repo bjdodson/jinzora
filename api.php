@@ -669,11 +669,11 @@ function userHistories() {
 			echo "    </tracks>\n";
 			echo "    <nodes>\n";
 			foreach($users as $u){
+			  $playlink = xmlentities($api_page.'&request=userhistories&doplaylist=true&forUser='.$u.'&ext=pl.m3u');
 				echo "      <node>\n";
 				echo "        <name>" . xmlentities("Played By " . $u)  . "</name>\n";
 				echo "        <type>". xmlentities(ucwords("User-History")) . "</type>\n";
-				echo "        <playlink>";
-				echo "        </playlink>\n";
+				echo "        <playlink>" . $playlink  . "</playlink>\n";
 				echo "        <image>";
 				echo "        </image>\n";
 				//echo "        <playlistid>"; 
@@ -691,10 +691,12 @@ function userHistories() {
 		case "json":
 			$jt = array(); $jn = array();
 			foreach($users as $u){
+			  // hack for now. TODO: merge play histories into core.
+			  $playlink = $api_page.'&request=userhistories&doplaylist=true&forUser='.$u.'&ext=pl.m3u';
 	  			$a = array();
 	  			$a['name'] = "Played By " . $u;
 	  			$a['type'] = ucwords("User-History");
-	  			$a['playlink'] = "";
+	  			$a['playlink'] = $playlink;
 	  			$a['image'] = "";
 	  			//$a['playlistid'] = $id;
 	  			$a['thumbnail'] = "";
@@ -710,7 +712,14 @@ function userHistories() {
   } else {
     $for = $_REQUEST['forUser'];
     $h = $be->getPlayHistory($for);
-    print_results($h,getFormatFromRequest());
+
+    if ($_REQUEST['doplaylist']) {
+      $pl = new jzPlaylist();
+      $pl->add($h);
+      $pl->stream();
+    } else {
+      print_results($h,getFormatFromRequest());
+    }
   }
   
 }
