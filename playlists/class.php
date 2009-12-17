@@ -81,6 +81,20 @@
 		    $arr['frame'] = $_GET['frame'];
 		  }
 
+		  if (false !== strpos($_SERVER['PHP_SELF'],'api.php')) {
+			$arr['target']='raw';
+		  }
+
+		  if (isset($_REQUEST['user'])) {
+		    $arr['user'] = $_REQUEST['user'];
+		  }
+		  if (isset($_REQUEST['pass'])) {
+		    $arr['pass'] = $_REQUEST['pass'];
+		  }
+		  if (isset($_REQUEST['pw_hashed'])) {
+		    $arr['pw_hashed'] = $_REQUEST['pw_hashed'];
+		  }
+
 		  return urlize($arr);
 		}
 		
