@@ -1296,7 +1296,9 @@ function print_results($results, $format='xml', $trackfields=false, $nodefields=
 					$album = $node->getAncestor("album");
 					if ($album) {
 						$artist = $album->getAncestor("artist");
-					}
+					} else {
+                                                $artist = "";
+                                        }
 					
 					echo "      <node>\n";
 					if(!is_array($nodefields) || in_array('name', $nodefields)) echo "        <name>". xmlentities($node->getName()). "</name>\n";
