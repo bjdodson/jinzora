@@ -56,7 +56,9 @@
 			$smarty = smartySetup();
 			
 			include(jzBlock('page-header'));
-			include(jzBlock('jukebox'));
+			if ($jukebox == "true"){
+			  include(jzBlock('jukebox'));
+			}
 			include(jzBlock('site-news'));
 			include(jzBlock('album-info-block'));
 			include(jzBlock('browse-bar'));

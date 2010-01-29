@@ -24,6 +24,7 @@ $content .= '     $allow_filesystem_modify = "'. $allow_filesystem_modify. '";' 
 $content .= '     $allow_id3_modify = "'. $allow_id3_modify. '";' . "\n";
 $content .= '     $audio_types = "'. $audio_types. '";' . "\n";
 $content .= '     $video_types = "'. $video_types. '";' . "\n";
+$content .= '     $playlist_types = "'. $playlist_types. '";' . "\n";
 $content .= '     $ext_graphic = "'. $ext_graphic. '";' . "\n";
 $content .= '     $track_num_seperator = "'. $track_num_seperator. '";' . "\n";
 $content .= '     $date_format = "'. $date_format. '";' . "\n";
