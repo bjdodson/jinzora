@@ -33,8 +33,12 @@ $jzSERVICE_INFO['url'] = "http://www.jinzora.org";
 define('SERVICE_IMPORTING_filesystem','true');
 
 function SERVICE_IMPORTMEDIA_filesystem($node, $root_path = false, $flags = array()) {
-	global $ext_graphic,$audio_types,$video_types,$default_art;
+  global $ext_graphic,$audio_types,$video_types,$playlist_types,$default_art;
 	
+  if (!isset($playlist_types)) {
+    $playlist_types = "m3u";
+  }
+
 	global $importerLevel;
 	if (!isset($importerLevel)) {
 		$importerLevel = 0;
@@ -104,6 +108,39 @@ function SERVICE_IMPORTMEDIA_filesystem($node, $root_path = false, $flags = arra
 		  	} else if ($bestImage == "") {
 		   		$bestImage = $fullpath;
 		  	}
+		} else if (preg_match("/\.($playlist_types)$/i",$file)) {
+
+		  $ext = substr($file, strrpos($file, '.') + 1);
+			if (0 == strcasecmp($ext,'m3u')) {
+			  $m3u_lines = file($fullpath);
+			  $is_local_m3u = false;
+			  foreach ($m3u_lines as $line) {
+			    if ($line=='#') {
+				// TODO: get metadata.
+				continue;
+			    } else {
+			      if (false === strpos($line,'://')) {
+			        $is_local_m3u = true;
+				break;
+                              }
+  			      $mediaref = $line;
+			      $medianame = $mediaref;
+			      while ($medianame[strlen($medianame)-1] == '/') {
+				$medianame = substr($medianame,0,strlen($medianame)-1);
+			      }
+			      $medianame = substr($medianame,strrpos($medianame,'/')+1);
+			      $mypath = $flags['path'];
+			      $mypath['track'] = $medianame;
+
+			      $track_paths[] = $mypath;
+			      $track_filenames[] = $mediaref;
+			      $track_metas[] = array();
+			    }
+			  }
+			}
+
+
+		  
 		} else if (preg_match("/\.($audio_types)$/i", $file) || preg_match("/\.($video_types)$/i", $file)) {
 			$entry = $be->lookupFile($fullpath);
 			

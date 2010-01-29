@@ -66,7 +66,7 @@
 		function updateCache($recursive = true, $root = false, $showStatus = false, $force = false, $readTags = true) {
 			global $sql_usr, $sql_type, $sql_pw, $sql_socket, $sql_db,$media_dir, $web_root, $root_dir;
 			$be = &new jzBackend();
-
+			
 			// FAST CASE:
 			// if we are non-recursive and haven't been modified, we are done.
 			$my_dir = $root;
@@ -161,9 +161,15 @@
 		 */
 		function updateCacheHelper(&$be, &$link, $recursive, $root, $showStatus, $force = false, $readTags = true) {
 		  global $sql_usr, $sql_type, $sql_pw, $sql_socket, $sql_db,
-		    $audio_types, $video_types, $ext_graphic, $default_art,
+		    $audio_types, $video_types, $playlist_types, $ext_graphic, $default_art,
 		    $track_num_seperator, $hierarchy,$backend;
 
+	 	  // Make upgrades work.
+		  // This should be a more general routine,
+		  // like getSetting("playlist_types");
+		  if (!isset($playlist_types)) {
+		    $playlist_types = "m3u";
+		  }
 
 		  // The database adaptor builds itself based on the filesystem.
 		  if ($root !== false)
@@ -285,6 +291,39 @@
 				} else if ($bestImage == "") {
 			  		$bestImage = $slashedNextFile;
 				}
+		      } else if (preg_match("/\.($playlist_types)$/i", $file)) {
+			echo 'm3u: ' + $file;
+			$ext = substr($file, strrpos($file, '.') + 1);
+			if (0 == strcasecmp($ext,'m3u')) {
+			  $m3u_lines = file($nextFile);
+			  $is_local_m3u = false;
+			  foreach ($m3u_lines as $line) {
+			    if ($lines[0]=='#') {
+				// TODO: get metadata.
+				continue;
+			    } else {
+			      if (false === strpos($lines[0],'://')) {
+			        $is_local_m3u = true;
+				break;
+                              }
+  			      $mediaref = $lines[0];
+			      
+			      // add to DB
+ 			      $mdate = filemtime($nextFile);
+			      if ($mdate > ($curtime = time())) {
+			        if (@touch($nextFile) === false) {
+			          $mdate = $curtime - ($mdate - $curtime);
+			        } else {
+			          $mdate = filemtime($nextFile);
+			        }
+			      }
+		              $leafcount++;
+			      addWebTrack($mediaref,$nodePath,$mdate,$level,$link);
+			      
+
+			    }
+			  }
+			}
 		      } else if (preg_match("/\.($audio_types)$/i", $file) || preg_match("/\.($video_types)$/i", $file)) {
 			// A media file
 			// add it as an element.
@@ -448,6 +487,90 @@
 		  jz_db_query($link, $sql);
 		}
 		
+
+		/**
+		 * Helper function to add a single web track
+		 * to the database.
+		 * @author Ben Dodson
+		 * @since 1/29/10
+		 */
+		function addWebTrack($mediaref,$parent,$mdate,$level,$link) {
+			$medianame = $mediaref;
+			while ($medianame[strlen($medianame)-1] == '/') {
+				$medianame = substr($medianame,0,strlen($medianame)-1);
+			}
+			$medianame = substr($medianame,strrpos($medianame,'/')+1);
+			$slashedNodePath = jz_db_escape($parent); 
+			$slashedFileName = jz_db_escape($medianame);
+
+			// First, try putting me in the DB.
+			$slashedFileName = jz_db_escape($medianame);
+			$slashedFilePath = ($slashedNodePath == "") ? $slashedFileName : $slashedNodePath . "/" . $slashedFileName;
+			$fullSlashedFilePath = jz_db_escape($mediaref);
+
+			$mid = uniqid("T");
+			$sql = "INSERT INTO jz_nodes(name,path,filepath,ptype,level,date_added,leaf,my_id) ";
+			$sql .= "VALUES('$slashedFileName','$slashedFilePath','$fullSlashedFilePath','track',$level+1,'$mdate','true','".$mid."') ";
+			$updatesql = "UPDATE jz_nodes SET valid = 'true' WHERE path " . jz_db_case_sensitive() . " '$slashedFilePath'";
+			
+			jz_db_query($link,$sql) || jz_db_query($link,$updatesql);
+			
+			  $pname = jz_db_escape($medianame);
+			  $bitrate = "";
+			  $length = "";
+			  $filesize = "";
+			  $name = jz_db_escape($medianame);
+			  $artist = "";
+			  $album = "";
+			  $year = "";
+			  $track = "";
+			  $genre = "";
+			  $frequency = "";
+			  $description = "";
+			  $lyrics = "";
+			  $fileExt = "";
+
+			  $long_description = "";
+			  $thumb_file = "";
+			  
+			  $sql = "INSERT INTO jz_tracks(path,level,my_id,filepath,name,trackname,bitrate,filesize,frequency,length,lyrics,genre,artist,album,year,number,extension)
+			       VALUES('$slashedFilePath',$level+1,'".$mid."','$fullSlashedFilePath','$pname','$name','$bitrate','$filesize','$frequency','$length','$lyrics','$genre','$artist','$album','$year','$track','$fileExt')";
+			  
+			  // Now let's update status and log this
+			  if (isset($_SESSION['jz_import_full_progress'])) {
+			    $_SESSION['jz_import_full_progress']++;
+			  } else {
+			    $_SESSION['jz_import_full_progress'] = 1;
+			  }
+			  writeLogData('importer',"Importing track: ". $fullSlashedFilePath);
+			  
+			  $updatesql = "UPDATE jz_tracks SET valid = 'true',
+					level = $level+1,
+					trackname = '$name',
+					bitrate = '$bitrate',
+					filesize = '$filesize',
+					frequency = '$frequency',
+					length = '$length',";
+			  
+			  $updatesql .= "year = '$year',
+					genre = '$genre',
+					artist = '$artist',
+					album = '$album',
+					number = '$track',
+					extension = '$fileExt'";
+			  
+			  $updatesql .= " WHERE path " . jz_db_case_sensitive() . " '$slashedFilePath'";
+			  	
+			  jz_db_query($link,$sql) || jz_db_query($link,$updatesql);
+		
+			
+			// last thing: add thumb and/or descriptions.
+			$sql = "valid = 'true'";
+			
+			jz_db_query($link,"UPDATE jz_nodes SET $sql WHERE path " . jz_db_case_sensitive() . " '$slashedFilePath'");
+		  
+		}
+
 		
 		/**
 		* Counts the number of subnodes $distance steps down.
@@ -2847,6 +2970,16 @@ function filenameToPath($fp) {
 				if (isNothing($meta['type'])) {
 				  $meta = parent::getMeta("file");
 				  $this->setMeta($meta,"cache");
+				}
+
+				if (isNothing($meta['artist'])) {
+				  $mnode = $this->getAncestor("artist");
+				  if ($mnode !== false) {
+				    $meta['artist'] = $mnode->getName();
+				  }
+				}
+				if (isNothing($meta['length'])) {
+				  $meta['length'] = '';
 				}
 
 				return $meta;
