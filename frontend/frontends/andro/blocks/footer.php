@@ -9,6 +9,11 @@
 		$diff = round(microtime_diff($_SESSION['jz_load_time'],microtime()),3);
 		$smarty->assign('page_load', $diff. " ". word("seconds"). "&nbsp;"); 
 	}
+        if ($jzUSER->getID() == $jzUSER->lookupUID('NOBODY')) {
+	  $smarty->assign("logged_in",false);
+	} else {
+	  $smarty->assign("logged_in",true);
+	}
 	$smarty->assign('username', $jzUSER->getName());
 	$smarty->assign('word_logged_in', word("Logged in as"));
 	
