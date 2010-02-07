@@ -249,9 +249,25 @@ function buildPath($meta) {
   global $hierarchy;
   
   // strip out weird characters.
-  $genre = str_replace("/","-",$meta['genre']);
-  $artist = str_replace("/","-",$meta['artist']);
-  $album = str_replace("/","-",$meta['album']);
+  if (isset($meta['genre'])) {
+    $genre = str_replace("/","-",$meta['genre']);
+  } else {
+    $genre = '';
+  }
+
+  if (isset($meta['artist'])) {
+    $artist = str_replace("/","-",$meta['artist']);
+  } else {
+    $artist = '';
+  }
+
+  if (isset($meta['album'])) {
+    $album = str_replace("/","-",$meta['album']);
+  } else {
+    $album = '';
+  }
+
+
   if (isset($meta['filename'])) {
   	$filename = str_replace("/","-",$meta['filename']);	
   } else if (isset($meta['track'])) {
@@ -1053,7 +1069,7 @@ function compareNumber($a,$b) {
 
   if ((isNothing($am['number']) && isNothing($bm['number']))
       || ($am['number'] == $bm['number'])) {
-    return compareNodes($b,$a);
+    return compareNodes($a,$b);
   }
 
   if (isNothing($am['number'])) {
