@@ -16,6 +16,7 @@ $allow_filesystem_modify = "false";
 $allow_id3_modify = "false";
 $audio_types = "mp3|ogg|wma|wav|midi|mid|flac|aac|mp4|rm|mpc|m4a|wv|shn|ape|ofr";
 $video_types = "avi|wmv|mpeg|mov|mpg|flv";
+$playlist_types = "m3u";
 $ext_graphic = "jpg|gif|png|jpeg";
 $track_num_seperator = " - |.|-";
 $date_format = "n.d.Y g:i a";
