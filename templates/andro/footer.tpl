@@ -30,7 +30,9 @@
 <table width="100%" cellspacing="0" cellpadding="3">
 	<tr class="and_head1">
 		<td width="25%" align="left">
+		        {if $logged_in}
 			{$word_logged_in}: {$username}
+			{/if}
 		</td>
 		<td width="50%" align="center">
 			<br>
