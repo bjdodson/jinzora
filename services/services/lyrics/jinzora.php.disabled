@@ -26,6 +26,10 @@
  * @author Ben Dodson <ben@jinzora.org>
  */
 
+// Quasimodo:
+// This module is deactivated
+// At the moment (2009/02/28) it's not working due to missing server support
+
 $jzSERVICE_INFO = array();
 $jzSERVICE_INFO['name'] = "Jinzora Lyrics";
 $jzSERVICE_INFO['url'] = "http://www.jinzora.com";

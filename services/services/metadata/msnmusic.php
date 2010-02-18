@@ -164,10 +164,30 @@
 		
 		// Ok, now let's see if we got a direct hit or a link
 		if (stristr($contents,$artist)){			
+		
+			// Did we get the wrong page?
+			if (stristr($contents, "Did you mean:")){
+				$link = substr($contents,strpos($contents,"Did you mean:"));
+				$link = substr($link,strpos($link,'href="')+6);
+				$link = substr($link,0,strpos($link,'"'));
+				$artist = substr($contents,strpos($contents,"Did you mean:"));
+				$aritst = substr($artist,strpos($artist,'">')+2);
+				$aritst = substr($aritst,0,strpos($aritst,'</a>'));
+				
+				// Now let's get that page back
+				$snoopy = new Snoopy;
+				$snoopy->fetch("http://music.msn.com". $link);
+				$contents = $snoopy->results;
+				unset($snoopy);
+			}
+
 			// Now let's see if we can get the right link
-			$contents = substr($contents,strpos($contents,$artist. "</a>")-50);
+			$contents = substr($contents,strpos(strtolower($contents),strtolower($artist). "</a>")-50);
 			$link = substr($contents,strpos($contents,"href")+6);
 			$link = substr($link,0,strpos($link,'"'));
+			if ($link == ""){
+				return false;
+			}
 			
 			// Now let's get that page back
 			$snoopy = new Snoopy;

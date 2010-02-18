@@ -43,15 +43,15 @@ define('SERVICE_LYRICS_lyricwiki','true');
 
 function SERVICE_GETLYRICS_lyricwiki($track) {
    global $include_path;
-   
+      
    include_once($include_path. "lib/snoopy.class.php");
    $meta = $track->getMeta();
    $artist = $meta['artist'];
    $name = $meta['title'];
-   
+		     
    // Let's up the max execution time here
    ini_set('max_execution_time','60000');
-   
+
    // Now let's see if we can get close...
    $snoopy = new Snoopy;
    $snoopy->fetch("http://lyricwiki.org/api.php?artist=". urlencode($artist). '&song='. urlencode($name). '&fmt=xml');
@@ -59,21 +59,18 @@ function SERVICE_GETLYRICS_lyricwiki($track) {
    unset($snoopy);
    // Now let's see if we got an exact match
    if  (!stristr($contents,'<lyrics>Not found')
-      //or (strstr($contents,'SUCCESS')
-      and (stristr($contents,iconv("UTF-8","ISO-8859-1",$artist)) and stristr($contents,iconv("UTF-8","ISO-8859-1",$name)))
-      ){
-      $lyrics = "";
-      // Ok, now let's get the ID number
-         $lyrics = substr($contents,strpos($contents,"<lyrics>")+8,999999);
-         $lyrics = stripslashes(substr($lyrics,0,strpos($lyrics,"</lyrics>")));
-      }
-   
-   
+   //or (strstr($contents,'SUCCESS')
+   and (stristr($contents,iconv("UTF-8","ISO-8859-1",$artist)) and stristr($contents,iconv("UTF-8","ISO-8859-1",$name)))
+   ){
+       $lyrics = "";
+       // Ok, now let's get the ID number
+       $lyrics = substr($contents,strpos($contents,"<lyrics>")+8,999999);
+       $lyrics = stripslashes(substr($lyrics,0,strpos($lyrics,"</lyrics>")));
+   }
    if ($lyrics == "") {
-      return false;
+       return false;
    } 
    $lyrics2=iconv("ISO-8859-1","UTF-8",$lyrics);
    return $lyrics2;
 }
-
 ?>
