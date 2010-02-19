@@ -780,6 +780,7 @@ function user_default($setting) {
     break;
   case "edit_prefs":
     return ($jzUSER->lookupUID('NOBODY') != $jzUSER->getID());
+    break;
   case "powersearch":
   case "view":
   case "download":
