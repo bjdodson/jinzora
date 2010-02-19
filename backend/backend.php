@@ -754,7 +754,7 @@ function checkPlayback($check_streammode = false) {
  * @since 11/22/04
  */
 function user_default($setting) {
-  global $frontend,$jz_lang_file,$jinzora_skin,$playlist_ext,$default_resample;
+  global $frontend,$jz_lang_file,$jinzora_skin,$playlist_ext,$default_resample,$jzUSER;
 
   switch ($setting) {
   case "frontend":
@@ -779,6 +779,7 @@ function user_default($setting) {
     return false;
     break;
   case "edit_prefs":
+    return ($jzUSER->lookupUID('NOBODY') != $jzUSER->getID());
   case "powersearch":
   case "view":
   case "download":
