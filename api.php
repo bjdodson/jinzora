@@ -689,6 +689,10 @@ function userHistories() {
 		    echoXMLFooter();
 		    break;
 		case "json":
+	        case "jsonp":
+		  if ($type == "jsonp"){
+		    echo $_GET['jsoncallback'] . '(';
+		  }
 			$jt = array(); $jn = array();
 			foreach($users as $u){
 			  // hack for now. TODO: merge play histories into core.
@@ -705,6 +709,9 @@ function userHistories() {
 			}
 	  		
 	    	echo json_encode(array('tracks'=>$jt,'nodes'=>$jn));
+		if ($type == "jsonp"){
+		  echo ')';
+		}
 	  		break;
 	}
     
