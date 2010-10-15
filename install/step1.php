@@ -63,7 +63,7 @@
 			$host = $url_parsed["host"];
 			$path = $url_parsed["path"];
 			$out = "GET $path HTTP/1.0\r\nHost: $host\r\n\r\n";
-			$fp2 = @fsockopen($host, 80, $errno, $errstr, 30);
+			$fp2 = @fsockopen($host, 80, $errno, $errstr, 10);
 			if ($fp2){
 				fwrite($fp2, $out);
 				$body = false;
