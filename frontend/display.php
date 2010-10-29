@@ -2720,14 +2720,16 @@
 		  global $include_path,$jukebox,$my_frontend;
 		  // AJAX:
 		  $ajax_list = array();
-		  if ($jukebox == "true") {
-		    include_once($include_path."jukebox/ajax.php");
-		    include_once($include_path."jukebox/ajax_scripts.php");
-		  }
+
 		  @include_once($include_path."frontend/frontends/${my_frontend}/ajax.php");
 		  @include_once($include_path."frontend/frontends/${my_frontend}/ajax_scripts.php");
 		  @include_once($include_path."frontend/ajax.php");
 		  @include_once($include_path."frontend/ajax_scripts.php");
+
+		  if ($jukebox == "true") {
+		    include_once($include_path."jukebox/ajax.php");
+		    include_once($include_path."jukebox/ajax_scripts.php");
+		  }
 		  
 		  if (sizeof($ajax_list > 0)) { // This frontend has AJAX functions:
 		    global $sajax_debug_mode, $sajax_export_list, $sajax_request_type, $sajax_remote_uri;

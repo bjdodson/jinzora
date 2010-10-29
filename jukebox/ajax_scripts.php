@@ -1,6 +1,15 @@
 <?php if (!defined(JZ_SECURE_ACCESS)) die ('Security breach detected.'); ?>
+<?php include_once($include_path. "jukebox/class.php"); ?>
 
 <script>
+var jb_types = ["stream"];
+<?php
+$jbArr = jzJukebox::getJbArr();
+for ($i = 0; $i < count($jbArr); $i++) {
+  echo 'jb_types.push("'.$jbArr[$i]['type']."\");\n";
+}
+?>
+
 function setJbFormCommand(cmd) {
 	document.getElementById('jbPlaylistForm').elements['command'].value = cmd;
 }
@@ -12,7 +21,19 @@ function setPlayback(obj) {
   } else {
     playback = streamto;
   }
+
+  // javascript hook for a jukebox
+  if (playback == "jukebox" && jb_types[obj.selectedIndex] == "junction") {
+    junction_jukebox_init();
+    js_jukebox = junction_jukebox;
+  } else {
+    js_jukebox = function() { return true; }
+  }
 }
+
+$(function(){
+  setPlayback(document.getElementById("jukeboxSelect"));
+});
 
 function jukeboxUpdater() {
   updateJukebox(false);
@@ -33,8 +54,10 @@ function updateJukebox_cb(a) {
   if (a != "") {
     document.getElementById("jukebox").innerHTML = a;
     NextTicker_start();
-    CurTicker_start();	
-    displayCountdown();
+    CurTicker_start();
+    if (typeof(displayCountdown) == "function") {
+      displayCountdown();
+    }
   }
 }
 
@@ -206,4 +229,62 @@ function updateJukeboxNextTrack_cb(a) {
     obj.innerHTML = a;
   }
 }
+
+<?php
+  // This code is associated with the JunctionJukebox.
+  // We don't have a general-purpose way of adding javascript
+  // to a jukebox implementation, so it's here for now.
+?>
+var jb_actor = {};
+// jb_actor.onMessageReceived = function(msg) { alert(msg.url); }
+// jb_actor.onActivityJoin = function() { alert("joined."); }
+
+var junction_jukebox_initialized = false;
+function junction_jukebox_init() {
+  if (junction_jukebox_initialized) return;
+  junction_jukebox_initialized = true;
+    
+  var session = Cookie.get("junctionbox_session");
+  if (session == null) {
+    session = "_junctionbox";
+    Cookie.set("junctionbox_session", session);
+  }
+  var config = { host: "openjunction.org" };
+  var activity = { sessionID: session };
+
+  JX.getInstance(config).newJunction(activity,jb_actor);
+}
+
+function junction_jukebox(url) {
+  var msg = {action:"org.jinzora.jukebox.PLAYLIST"};
+  msg.extras = {playlist: url};
+  
+  var where = $("#jukeboxAddTypeSelect").val();
+  if (where == 'replace') {
+    where = 0;
+  } else if (where == 'end') {
+    where = 1;
+  } else if (where == 'current') {
+    where = 2;
+  } else if (where == 'begin') {
+    where = 3;
+  } else {
+    where = 0;
+  }
+  msg.extras.addtype = where;
+  jb_actor.sendMessageToSession(msg);
+  return false;
+}
 </script>
+<?php
+  global $root_dir;
+  foreach($jbArr as $j) {
+    if ($j['type'] == 'junction') {
+      echo '<script type="text/javascript" src="http://openjunction.github.com/JSJunction/json2.js"></script>';
+      echo '<script type="text/javascript" src="http://openjunction.github.com/JSJunction/strophejs/1.0.1/strophe.js"></script>';
+      echo '<script type="text/javascript" src="http://openjunction.github.com/JSJunction/junction/0.6.8/junction.js"></script>';
+      echo '<script type="text/javascript" src="'. $root_dir. '/jukebox/jukeboxes/junctionbox/cookie.js"></script>';
+      break;
+    }
+  }
+?>

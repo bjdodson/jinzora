@@ -8,11 +8,14 @@ global $jzSERVICES;
 <script>
 var playback = '<?php echo checkPlayback(); ?>';
 var streamto = '<?php echo checkPlayback(true); ?>';
+
 function playbackLink(url) {  
   if (playback == 'stream') {
   	return true;
     //window.open(url,'_self');
   } else if (playback == 'jukebox') {
+    if (!js_jukebox(url)) return false;
+
     <?php if (!defined('NO_AJAX_JUKEBOX')) { ?>
     ajax_direct_call(url,sendJukeboxRequest_cb);
     <?php } else { ?>
