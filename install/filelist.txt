@@ -1,6 +1,3 @@
-.htaccess
-.project
-INSTALL.txt
 Version.php
 ajax_request.php
 api.php
@@ -517,11 +514,9 @@ services/services/images/gd2.php
 services/services/importing/filesystem.php
 services/services/importing/id3tags.php
 services/services/link/google.php
-services/services/lyrics/jinzora.php
 services/services/lyrics/leoslyrics.php
 services/services/metadata/amazon.php
 services/services/metadata/google.php
-services/services/metadata/jinzora.php
 services/services/metadata/msnmusic.php
 services/services/metadata/musicbrainz.php
 services/services/metadata/musicbrainz/class_rdf_parser.php
