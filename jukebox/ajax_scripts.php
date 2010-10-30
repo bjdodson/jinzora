@@ -243,10 +243,10 @@ var junction_jukebox_initialized = false;
 function junction_jukebox_init() {
   if (junction_jukebox_initialized) return;
   junction_jukebox_initialized = true;
-    
+
   var session = Cookie.get("junctionbox_session");
   if (session == null) {
-    session = "_junctionbox";
+    session = window.location.hostname + "_junctionbox";
     Cookie.set("junctionbox_session", session);
   }
   var config = { host: "openjunction.org" };
