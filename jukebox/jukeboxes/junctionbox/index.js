@@ -144,18 +144,19 @@ actor.onActivityJoin = function() {
   
 };
 
-//var jm = JunctionMaker.getInstance(window.location.hostname);
+var session = Cookie.get("junctionbox_session");
+if (session == null) {
+  session = window.location.hostname + "_junctionbox";
+  Cookie.set("junctionbox_session", session);
+}
+
 var config = { host: "openjunction.org"};
-activity.sessionID = "test";
+activity.sessionID = session;
 
 var jx = JX.getInstance(config).newJunction(activity,actor);
 
 $('#invitationRemoteURL').attr('href',jx.getInvitationForWeb('remote'));
 $('#remoteQR').attr('src',jx.getInvitationQR('remote'));
-
-alert(Cookie.get("junctionbox_session"));
-
-
 
 /* Helper JS */
 function parsePlaylistMsg(msg,data) {
