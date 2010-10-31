@@ -85,8 +85,8 @@
 		$retArray['progress'] = false;
 		$retArray['volume'] = false;
 		$retArray['addtype'] = true;
-		$retArray['nowplaying'] = true;
-		$retArray['nexttrack'] = true;
+		$retArray['nowplaying'] = false;
+		$retArray['nexttrack'] = false;
 		$retArray['fullplaylist'] = true;
 		$retArray['refreshtime'] = true;
 		$retArray['jump'] = true;
