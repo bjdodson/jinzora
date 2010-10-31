@@ -71,6 +71,14 @@ function submitPlaybackForm(button,url) {
     form.submit();
     return false;
   } else if (playback == 'jukebox') {
+    for (i=0;i<form.elements.length;i++) {
+      if (form.elements[i].name=='jz_playlist') {
+        var pl_id = form.elements[i].value;
+        var pl_url = url + "&action=playlist&type=playlist&jz_pl_id="+pl_id;
+        if (!js_jukebox(pl_url)) return false;
+        break;
+      }
+    }
     <?php if (!defined('NO_AJAX_JUKEBOX')) { ?> 
     ajax_submit_form(form,url,sendJukeboxRequest_cb);
     return false;
