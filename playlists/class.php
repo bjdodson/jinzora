@@ -1150,6 +1150,8 @@
 			  //$playlist = $this->createPlaylist(false, true, $fileExt);
 			  if (isset($_SERVER['HTTP_USER_AGENT']) && false !== stristr($_SERVER['HTTP_USER_AGENT'],'Windows CE')) {
 			      $disposition = 'attachment';
+			  } else if (isset($_SERVER['HTTP_USER_AGENT']) && false !== stristr($_SERVER['HTTP_USER_AGENT'],'Android')) {
+			    $disposition = 'attachment';
 			  } else {
 			    $disposition = 'inline';
 			  }
